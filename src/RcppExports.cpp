@@ -5,13 +5,13 @@
 
 using namespace Rcpp;
 
-// rcpp_hello_world
-List rcpp_hello_world();
-RcppExport SEXP _lazyvec_rcpp_hello_world() {
+// lazy_vec
+List lazy_vec();
+RcppExport SEXP _lazyvec_lazy_vec() {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    rcpp_result_gen = Rcpp::wrap(rcpp_hello_world());
+    rcpp_result_gen = Rcpp::wrap(lazy_vec());
     return rcpp_result_gen;
 END_RCPP
 }

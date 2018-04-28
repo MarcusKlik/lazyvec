@@ -6,10 +6,10 @@
 using namespace Rcpp;
 
 // method forward declarations
-RcppExport SEXP _lazyvec_rcpp_hello_world();
+RcppExport SEXP _lazyvec_lazy_vec();
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_lazyvec_rcpp_hello_world", (DL_FUNC) &_lazyvec_rcpp_hello_world, 0},
+    {"_lazyvec_rcpp_hello_world", (DL_FUNC) &_lazyvec_lazy_vec, 0},
     {NULL, NULL, 0}
 };
 

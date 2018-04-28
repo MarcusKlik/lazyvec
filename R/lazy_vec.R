@@ -7,6 +7,6 @@
 #'
 #' @return Wrapper around a lazy vector
 #' @export
-lazyvec <- function(lazyvec_interface) {
+lazy_vec <- function(lazyvec_interface) {
   
 }
