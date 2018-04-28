@@ -3,17 +3,25 @@
 
 #include <Rcpp.h>
 
+#include "lazy_vec.h"
+
 using namespace Rcpp;
+
 
 // method forward declarations
 RcppExport SEXP _lazyvec_lazy_vec();
 
+
 static const R_CallMethodDef CallEntries[] = {
-    {"_lazyvec_rcpp_hello_world", (DL_FUNC) &_lazyvec_lazy_vec, 0},
-    {NULL, NULL, 0}
+  {"_lazyvec_rcpp_hello_world", (DL_FUNC) &_lazyvec_lazy_vec, 0},
+  {NULL, NULL, 0}
 };
 
+
 RcppExport void R_init_lazyvec(DllInfo *dll) {
-    R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
-    R_useDynamicSymbols(dll, FALSE);
+  
+  register_integer_class(dll);
+  
+  R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
+  R_useDynamicSymbols(dll, FALSE);
 }

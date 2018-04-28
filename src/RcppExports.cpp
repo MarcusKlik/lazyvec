@@ -6,7 +6,7 @@
 using namespace Rcpp;
 
 // lazy_vec
-List lazy_vec();
+SEXP lazy_vec();
 RcppExport SEXP _lazyvec_lazy_vec() {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
