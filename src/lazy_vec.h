@@ -1,5 +1,4 @@
 
 // [[Rcpp::export]]
-SEXP lazy_vec();
+SEXP lazy_vec_();
 
-void register_integer_class(DllInfo *dll);

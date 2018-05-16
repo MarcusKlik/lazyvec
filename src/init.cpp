@@ -2,26 +2,21 @@
 // Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 #include <Rcpp.h>
-
-#include "lazy_vec.h"
+#include "altrep_interface.h"
 
 using namespace Rcpp;
 
-
-// method forward declarations
-RcppExport SEXP _lazyvec_lazy_vec();
+RcppExport SEXP _lazyvec_lazy_vec_();
 
 
 static const R_CallMethodDef CallEntries[] = {
-  {"_lazyvec_rcpp_hello_world", (DL_FUNC) &_lazyvec_lazy_vec, 0},
-  {NULL, NULL, 0}
+    {"_lazyvec_lazy_vec_", (DL_FUNC) &_lazyvec_lazy_vec_, 0},
+    {NULL, NULL, 0}
 };
 
-
 RcppExport void R_init_lazyvec(DllInfo *dll) {
-  
-  register_integer_class(dll);
-  
-  R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
-  R_useDynamicSymbols(dll, FALSE);
+    R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
+    R_useDynamicSymbols(dll, FALSE);
+
+    register_integer_class(dll);
 }
