@@ -1,4 +1,4 @@
 
 // [[Rcpp::export]]
-SEXP lazy_vec_();
+SEXP lazy_vec_construct(SEXP lazyvec_interface);
 

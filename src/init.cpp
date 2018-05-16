@@ -6,11 +6,11 @@
 
 using namespace Rcpp;
 
-RcppExport SEXP _lazyvec_lazy_vec_();
+RcppExport SEXP _lazyvec_lazy_vec_construct();
 
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_lazyvec_lazy_vec_", (DL_FUNC) &_lazyvec_lazy_vec_, 0},
+    {"_lazyvec_lazy_vec_construct", (DL_FUNC) &_lazyvec_lazy_vec_construct, 0},
     {NULL, NULL, 0}
 };
 

@@ -5,13 +5,14 @@
 
 using namespace Rcpp;
 
-// lazy_vec_
-SEXP lazy_vec_();
-RcppExport SEXP _lazyvec_lazy_vec_() {
+// lazy_vec_construct
+SEXP lazy_vec_construct(SEXP lazyvec_interface);
+RcppExport SEXP _lazyvec_lazy_vec_construct(SEXP lazyvec_interfaceSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    rcpp_result_gen = Rcpp::wrap(lazy_vec_());
+    Rcpp::traits::input_parameter< SEXP >::type lazyvec_interface(lazyvec_interfaceSEXP);
+    rcpp_result_gen = Rcpp::wrap(lazy_vec_construct(lazyvec_interface));
     return rcpp_result_gen;
 END_RCPP
 }

@@ -8,5 +8,5 @@
 #' @return Wrapper around a lazy vector
 #' @export
 lazy_vec <- function(lazyvec_interface) {
-  
+  lazy_vec_construct(lazyvec_interface)
 }
