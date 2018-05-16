@@ -11,7 +11,21 @@ static R_altrep_class_t altvec_int_class;
 
 SEXP construct_lazy_vec(SEXP data)
 {
-  return Rf_ScalarLogical(1);
+  SEXP state = Rf_mkString("this is a state object");
+/*
+  int* external_pointer = malloc(20 * * sizeof(int));
+
+  // initialize values
+  for (int count = 0; count < 20; count++)
+  {
+    external_pointer[count] = count;
+  }
+
+  SEXP eptr = PROTECT(R_MakeExternalPtr(external_pointer, R_NilValue, state));
+  register_mmap_eptr(eptr);
+*/
+
+  return R_new_altrep(altvec_int_class, Rf_mkString("data1"), state);
 }
 
 
