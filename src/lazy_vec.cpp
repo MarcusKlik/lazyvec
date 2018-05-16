@@ -5,6 +5,6 @@
 
 SEXP lazy_vec_construct(SEXP lazyvec_interface) {
 
-  return Rf_ScalarLogical(1);
+  return construct_lazy_vec(lazyvec_interface);
 }
 

@@ -9,6 +9,12 @@ static R_altrep_class_t altvec_int_class;
 // static R_altrep_class_t altvec_real_class;
 
 
+SEXP construct_lazy_vec(SEXP data)
+{
+  return Rf_ScalarLogical(1);
+}
+
+
 static SEXP altvec_Unserialize(SEXP altvec_class, SEXP state)
 {
   Rf_PrintValue(Rf_mkString("altvec_Unserialize called"));
@@ -80,4 +86,6 @@ void register_integer_class(DllInfo *dll)
   /* override ALTINTEGER methods */
   R_set_altinteger_Elt_method(int_class, altvec_integer_Elt);
   R_set_altinteger_Get_region_method(int_class, altvec_integer_Get_region);
+
+  Rf_PrintValue(Rf_mkString("altvec_integer class registered"));
 }
