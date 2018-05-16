@@ -2,6 +2,6 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 lazy_vec_construct <- function(lazyvec_interface) {
-    .Call('_lazyvec_lazy_vec_construct', PACKAGE = 'lazyvec', lazyvec_interface)
+    .Call(`_lazyvec_lazy_vec_construct`, lazyvec_interface)
 }
 

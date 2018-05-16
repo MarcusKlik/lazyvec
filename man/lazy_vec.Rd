@@ -2,16 +2,16 @@
 % Please edit documentation in R/lazy_vec.R
 \name{lazy_vec}
 \alias{lazy_vec}
-\title{Create a lazy vector}
+\title{Wrapper around an altrep interface}
 \usage{
-lazy_vec(lazyvec_interface)
+lazy_vec(altrep_interface)
 }
 \arguments{
-\item{lazyvec_interface}{Interface class for the lazy vector}
+\item{altrep_interface}{altrep_interface object}
 }
 \value{
-Wrapper around a lazy vector
+an altrep vector
 }
 \description{
-Create a lazy vector
+Wrapper around an altrep interface
 }

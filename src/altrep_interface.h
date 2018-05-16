@@ -1,2 +1,2 @@
 
-RcppExport void register_integer_class(DllInfo *dll);
+void register_integer_class(DllInfo *dll);

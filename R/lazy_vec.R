@@ -1,12 +1,10 @@
 
-# LICENSE lazyvec
-
-#' Create a lazy vector
+#' Wrapper around an altrep interface
 #'
-#' @param lazyvec_interface Interface class for the lazy vector
+#' @param altrep_interface altrep_interface object
 #'
-#' @return Wrapper around a lazy vector
+#' @return an altrep vector
 #' @export
-lazy_vec <- function(lazyvec_interface) {
-  lazy_vec_construct(lazyvec_interface)
+lazy_vec <- function(altrep_interface) {
+  return(1)
 }
