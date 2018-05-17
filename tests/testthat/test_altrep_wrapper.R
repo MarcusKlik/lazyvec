@@ -12,3 +12,5 @@ test_that("length", {
 
   expect_equal(vec_length, 100)
 })
+
+wrap_vec[1:10]

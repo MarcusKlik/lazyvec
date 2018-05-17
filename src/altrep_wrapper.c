@@ -37,11 +37,11 @@ static SEXP altwrap_Serialized_state(SEXP x)
 Rboolean altwrap_Inspect(SEXP x, int pre, int deep, int pvec,
   void (*inspect_subtree)(SEXP, int, int, int))
 {
-  return TRUE;
+  Rf_PrintValue(Rf_mkString("altwrap_Inspect start"));
+
+  return ALTREP_INSPECT(x, pre, deep, pvec, inspect_subtree);
 }
 
-
-#define MMAP_STATE_LENGTH(x) ((size_t) REAL_ELT(CADR(x), 1))
 
 static R_xlen_t altwrap_Length(SEXP x)
 {
@@ -52,7 +52,7 @@ static R_xlen_t altwrap_Length(SEXP x)
 
   Rf_PrintValue(Rf_mkString("altwrap_Length end"));
 
-  return LENGTH(altrep_payload);
+  return ALTREP_LENGTH(altrep_payload);
 }
 
 
@@ -61,7 +61,7 @@ static void *altwrap_Dataptr(SEXP x, Rboolean writeable)
   Rf_PrintValue(Rf_mkString("altwrap_Dataptr called"));
 
   /* get addr first to get error if the object has been unmapped */
-  return NULL;
+  return DATAPTR(x);
 }
 
 
@@ -69,7 +69,7 @@ static const void *altwrap_Dataptr_or_null(SEXP x)
 {
   Rf_PrintValue(Rf_mkString("altwrap_Dataptr_or_null called"));
 
-  return NULL;
+  return (void*) DATAPTR_OR_NULL(x);
 }
 
 
@@ -77,7 +77,7 @@ static int altwrap_integer_Elt(SEXP x, R_xlen_t i)
 {
   Rf_PrintValue(Rf_mkString("altwrap_integer_Elt called"));
 
-  return 1;
+  return INTEGER_ELT(x, i);
 }
 
 
@@ -85,7 +85,7 @@ static R_xlen_t altwrap_integer_Get_region(SEXP sx, R_xlen_t i, R_xlen_t n, int 
 {
   Rf_PrintValue(Rf_mkString("altwrap_integer_Get_region called"));
 
-  return 1;
+  return INTEGER_GET_REGION(sx, i, n, buf);
 }
 
 
