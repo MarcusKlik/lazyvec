@@ -4,7 +4,6 @@
 
 #include <R.h>
 #include <Rinternals.h>
-#include <R_ext/Rdynload.h>
 
 static R_altrep_class_t altwrap_int_class;
 
@@ -49,23 +48,11 @@ static R_xlen_t altwrap_Length(SEXP x)
   Rf_PrintValue(Rf_mkString("altwrap_Length start"));
 
   SEXP meta_data = R_altrep_data1(x);
-
-  SEXP state = VECTOR_ELT(meta_data, 0);
-  SEXP interface_list = VECTOR_ELT(meta_data, 1);
-  SEXP parent_environment = VECTOR_ELT(meta_data, 2);
-
-  // length interface method
-  SEXP method_length = VECTOR_ELT(interface_list, 0);
-
-  size_t vec_length = (size_t) call_r_interface(method_length, meta_data, parent_environment);
-
-  size_t vec_length1 = (size_t) INTEGER_ELT(state, 2);
-
-  Rf_PrintValue(Rf_ScalarInteger(vec_length1));
+  SEXP altrep_payload = VECTOR_ELT(meta_data, 0);
 
   Rf_PrintValue(Rf_mkString("altwrap_Length end"));
 
-  return vec_length1;
+  return LENGTH(altrep_payload);
 }
 
 

@@ -9,13 +9,12 @@ test_that("constructor", {
 test_that("length", {
   vec_length <- length(lazy_vec(6))
 
-  expect_equal(vec_length, 1)
+  expect_equal(vec_length, 3)
 })
 
 
 test_that("subset", {
   vec <- lazy_vec(6)[1]
 
-  expect_equal(vec_length, 1)
+  expect_equal(vec, 1)
 })
-
