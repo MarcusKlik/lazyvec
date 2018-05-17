@@ -5,6 +5,10 @@ lazy_vec_construct <- function(lazyvec_interface) {
     .Call(`_lazyvec_lazy_vec_construct`, lazyvec_interface)
 }
 
+altrep_wrapper_construct <- function(altrep_vec) {
+    .Call(`_lazyvec_altrep_wrapper_construct`, altrep_vec)
+}
+
 call_r_method <- function(f, x, rho) {
     .Call(`_lazyvec_call_r_method`, f, x, rho)
 }

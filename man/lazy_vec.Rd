@@ -2,7 +2,7 @@
 % Please edit documentation in R/lazy_vec.R
 \name{lazy_vec}
 \alias{lazy_vec}
-\title{Wrapper around an altrep interface}
+\title{Create an altrep vector from an R interface}
 \usage{
 lazy_vec(altrep_interface)
 }
@@ -13,5 +13,5 @@ lazy_vec(altrep_interface)
 an altrep vector
 }
 \description{
-Wrapper around an altrep interface
+Create an altrep vector from an R interface
 }

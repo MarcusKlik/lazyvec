@@ -4,12 +4,19 @@
 #include <Rinternals.h>
 
 #include "altrep_interface.h"
+#include "altrep_wrapper.h"
 
 #define lcons Rf_lcons
 
 SEXP lazy_vec_construct(SEXP lazyvec_interface) {
 
   return construct_lazy_vec(lazyvec_interface);
+}
+
+
+SEXP altrep_wrapper_construct(SEXP altrep_vec) {
+
+  return construct_altrep_wrapper(altrep_vec);
 }
 
 

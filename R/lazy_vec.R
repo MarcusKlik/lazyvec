@@ -1,5 +1,5 @@
 
-#' Wrapper around an altrep interface
+#' Create an altrep vector from an R interface
 #'
 #' @param altrep_interface altrep_interface object
 #'

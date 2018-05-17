@@ -8,13 +8,16 @@ using namespace Rcpp;
 
 // lazy_vec_construct
 RcppExport SEXP _lazyvec_lazy_vec_construct(SEXP lazyvec_interfaceSEXP);
+RcppExport SEXP _lazyvec_altrep_wrapper_construct(SEXP altrep_vecSEXP);
 RcppExport SEXP _lazyvec_call_r_method(SEXP fSEXP, SEXP xSEXP, SEXP rhoSEXP);
+
 RcppExport void register_integer_class(DllInfo *dll);
 RcppExport void register_altwrap_integer_class(DllInfo *dll);
 
 
 static const R_CallMethodDef CallEntries[] = {
     {"_lazyvec_lazy_vec_construct", (DL_FUNC) &_lazyvec_lazy_vec_construct, 1},
+    {"_lazyvec_altrep_wrapper_construct", (DL_FUNC) &_lazyvec_altrep_wrapper_construct, 1},
     {"_lazyvec_call_r_method", (DL_FUNC) &_lazyvec_call_r_method, 3},
     {NULL, NULL, 0}
 };
