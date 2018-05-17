@@ -49,9 +49,16 @@ static R_xlen_t altvec_Length(SEXP x)
 {
   Rf_PrintValue(Rf_mkString("altvec_Length start"));
 
-  SEXP state1 = R_altrep_data1(x);
+  SEXP meta_data = R_altrep_data1(x);
+  SEXP state = VECTOR_ELT(meta_data, 0);
 
-  size_t vec_length1 = (size_t) INTEGER_ELT(state1, 1);
+  SEXP interface_list = VECTOR_ELT(meta_data, 1);
+
+  // length interface method
+  SEXP method_length = VECTOR_ELT(meta_data, 0);
+
+
+  size_t vec_length1 = (size_t) INTEGER_ELT(state, 2);
 
   Rf_PrintValue(Rf_ScalarInteger(vec_length1));
 

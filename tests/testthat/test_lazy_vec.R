@@ -18,3 +18,4 @@ test_that("subset", {
 
   expect_equal(vec_length, 1)
 })
+

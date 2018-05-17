@@ -7,6 +7,17 @@
 #' @export
 lazy_vec <- function(altrep_interface) {
 
-  state <- c(1L, 2L, 3L, 4L)
-  lazy_vec_construct(state)
+  meta_data <- list(
+    c(1L, 2L, 3L, 4L),  # state values
+    list(  # interface methods
+      lazy_vec_length
+    )
+  )
+
+  lazy_vec_construct(meta_data)
+}
+
+
+lazy_vec_length <- function(x) {
+  lazy_length(x)
 }
