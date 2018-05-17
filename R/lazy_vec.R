@@ -11,7 +11,8 @@ lazy_vec <- function(altrep_interface) {
     c(1L, 2L, 3L, 4L),  # state values
     list(  # interface methods
       lazy_vec_length
-    )
+    ),
+    parent.env(environment())
   )
 
   lazy_vec_construct(meta_data)
@@ -19,7 +20,9 @@ lazy_vec <- function(altrep_interface) {
 
 
 lazy_vec_length <- function(x) {
-  lazy_length(x)
+  print("lazy_vec_length called")
+
+  1
 }
 
 

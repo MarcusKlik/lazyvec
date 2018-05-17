@@ -42,6 +42,16 @@ Rboolean altvec_Inspect(SEXP x, int pre, int deep, int pvec,
 }
 
 
+// call a single argument R function from the C API
+SEXP call_r_interface(SEXP f, SEXP x, SEXP rho) {
+
+  SEXP call = PROTECT(LCONS(f, LCONS(x, R_NilValue)));
+  SEXP val = R_forceAndCall(call, 1, rho);
+  UNPROTECT(1);
+  return val;
+}
+
+
 #define MMAP_STATE_LENGTH(x) ((size_t) REAL_ELT(CADR(x), 1))
 
 static R_xlen_t altvec_Length(SEXP x)
@@ -49,19 +59,20 @@ static R_xlen_t altvec_Length(SEXP x)
   Rf_PrintValue(Rf_mkString("altvec_Length start"));
 
   SEXP meta_data = R_altrep_data1(x);
-  SEXP state = VECTOR_ELT(meta_data, 0);
 
+  SEXP state = VECTOR_ELT(meta_data, 0);
   SEXP interface_list = VECTOR_ELT(meta_data, 1);
+  SEXP parent_environment = VECTOR_ELT(meta_data, 2);
 
   // length interface method
-  SEXP method_length = VECTOR_ELT(meta_data, 0);
+  SEXP method_length = VECTOR_ELT(interface_list, 0);
 
+  size_t vec_length = (size_t) call_r_interface(method_length, meta_data, parent_environment);
 
   size_t vec_length1 = (size_t) INTEGER_ELT(state, 2);
 
   Rf_PrintValue(Rf_ScalarInteger(vec_length1));
 
-//  return vec_length;
   Rf_PrintValue(Rf_mkString("altvec_Length end"));
 
   return vec_length1;
