@@ -30,7 +30,6 @@ lazy_vec_length <- function(x) {
 #'
 #' @param f function
 #' @param x argument
-#' @param rho environment in which to evaluate the function
 #'
 #' @return result
 #' @export

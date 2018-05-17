@@ -10,8 +10,6 @@ call_R(f, x)
 \item{f}{function}
 
 \item{x}{argument}
-
-\item{rho}{environment in which to evaluate the function}
 }
 \value{
 result
