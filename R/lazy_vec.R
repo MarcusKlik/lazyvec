@@ -6,5 +6,6 @@
 #' @return an altrep vector
 #' @export
 lazy_vec <- function(altrep_interface) {
-  return(1)
+
+  lazy_vec_construct(altrep_interface)
 }

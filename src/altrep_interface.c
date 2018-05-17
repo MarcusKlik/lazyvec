@@ -12,18 +12,6 @@ static R_altrep_class_t altvec_int_class;
 SEXP construct_lazy_vec(SEXP data)
 {
   SEXP state = Rf_mkString("this is a state object");
-/*
-  int* external_pointer = malloc(20 * * sizeof(int));
-
-  // initialize values
-  for (int count = 0; count < 20; count++)
-  {
-    external_pointer[count] = count;
-  }
-
-  SEXP eptr = PROTECT(R_MakeExternalPtr(external_pointer, R_NilValue, state));
-  register_mmap_eptr(eptr);
-*/
 
   return R_new_altrep(altvec_int_class, Rf_mkString("data1"), state);
 }
@@ -50,14 +38,25 @@ Rboolean altvec_Inspect(SEXP x, int pre, int deep, int pvec,
 }
 
 
+#define MMAP_STATE_LENGTH(x) ((size_t) REAL_ELT(CADR(x), 1))
+
 static R_xlen_t altvec_Length(SEXP x)
 {
+  Rf_PrintValue(Rf_mkString("altvec_Length called"));
+
+  SEXP state = R_altrep_data2(x);
+
+//  size_t vec_length = (size_t) REAL_ELT(CADR(state), 1);
+
+//  return vec_length;
   return 1;
 }
 
 
 static void *altvec_Dataptr(SEXP x, Rboolean writeable)
 {
+  Rf_PrintValue(Rf_mkString("altvec_Dataptr called"));
+
   /* get addr first to get error if the object has been unmapped */
   return NULL;
 }
@@ -65,19 +64,24 @@ static void *altvec_Dataptr(SEXP x, Rboolean writeable)
 
 static const void *altvec_Dataptr_or_null(SEXP x)
 {
+  Rf_PrintValue(Rf_mkString("altvec_Dataptr_or_null called"));
+
   return NULL;
 }
 
 
-
 static int altvec_integer_Elt(SEXP x, R_xlen_t i)
 {
+  Rf_PrintValue(Rf_mkString("altvec_integer_Elt called"));
+
   return 1;
 }
 
 
 static R_xlen_t altvec_integer_Get_region(SEXP sx, R_xlen_t i, R_xlen_t n, int *buf)
 {
+  Rf_PrintValue(Rf_mkString("altvec_integer_Get_region called"));
+
   return 1;
 }
 
