@@ -16,3 +16,16 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// call_r_method
+SEXP call_r_method(SEXP f, SEXP x, SEXP rho);
+RcppExport SEXP _lazyvec_call_r_method(SEXP fSEXP, SEXP xSEXP, SEXP rhoSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type f(fSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type rho(rhoSEXP);
+    rcpp_result_gen = Rcpp::wrap(call_r_method(f, x, rho));
+    return rcpp_result_gen;
+END_RCPP
+}

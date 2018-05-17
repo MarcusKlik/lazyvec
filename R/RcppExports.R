@@ -5,3 +5,7 @@ lazy_vec_construct <- function(lazyvec_interface) {
     .Call(`_lazyvec_lazy_vec_construct`, lazyvec_interface)
 }
 
+call_r_method <- function(f, x, rho) {
+    .Call(`_lazyvec_call_r_method`, f, x, rho)
+}
+

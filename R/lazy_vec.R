@@ -21,3 +21,16 @@ lazy_vec <- function(altrep_interface) {
 lazy_vec_length <- function(x) {
   lazy_length(x)
 }
+
+
+#' Call R method through c
+#'
+#' @param f
+#' @param x
+#' @param rho
+#'
+#' @return
+#' @export
+call_R <- function(f, x) {
+  call_r_method(f, x, parent.env(environment()))
+}
