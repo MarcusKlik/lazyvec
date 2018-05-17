@@ -11,3 +11,10 @@ test_that("length", {
 
   expect_equal(vec_length, 1)
 })
+
+
+test_that("subset", {
+  vec <- lazy_vec(6)[1]
+
+  expect_equal(vec_length, 1)
+})

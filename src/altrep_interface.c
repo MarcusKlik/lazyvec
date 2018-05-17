@@ -11,9 +11,20 @@ static R_altrep_class_t altvec_int_class;
 
 SEXP construct_lazy_vec(SEXP data)
 {
-  SEXP state = Rf_mkString("this is a state object");
+  SEXP state1 = PROTECT(allocVector(INTSXP, 4));
+    INTEGER(state1)[0] = 1;
+    INTEGER(state1)[1] = 2;
+    INTEGER(state1)[2] = 3;
+    INTEGER(state1)[3] = 4;
 
-  return R_new_altrep(altvec_int_class, Rf_mkString("data1"), state);
+  SEXP state2 = Rf_mkString("data1");
+  PROTECT(state2);
+
+  SEXP altrep_vec = R_new_altrep(altvec_int_class, state1, state2);
+
+  UNPROTECT(2);  // state1, state2
+
+  return altrep_vec;
 }
 
 
@@ -42,14 +53,18 @@ Rboolean altvec_Inspect(SEXP x, int pre, int deep, int pvec,
 
 static R_xlen_t altvec_Length(SEXP x)
 {
-  Rf_PrintValue(Rf_mkString("altvec_Length called"));
+  Rf_PrintValue(Rf_mkString("altvec_Length start"));
 
-  SEXP state = R_altrep_data2(x);
+  SEXP state1 = R_altrep_data1(x);
 
-//  size_t vec_length = (size_t) REAL_ELT(CADR(state), 1);
+  size_t vec_length1 = (size_t) INTEGER_ELT(state1, 1);
+
+  Rf_PrintValue(Rf_ScalarInteger(vec_length1));
 
 //  return vec_length;
-  return 1;
+  Rf_PrintValue(Rf_mkString("altvec_Length end"));
+
+  return vec_length1;
 }
 
 
