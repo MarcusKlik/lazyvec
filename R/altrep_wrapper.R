@@ -8,7 +8,6 @@
 altrep_wrapper <- function(altrep_vec) {
 
   meta_data <- list(
-    c(1L, 2L, 3L, 4L),  # state values
     list(  # interface methods
       lazy_vec_length
     ),
