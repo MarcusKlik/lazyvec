@@ -28,11 +28,11 @@ lazy_vec_length <- function(x) {
 
 #' Call R method through c
 #'
-#' @param f
-#' @param x
-#' @param rho
+#' @param f function
+#' @param x argument
+#' @param rho environment in which to evaluate the function
 #'
-#' @return
+#' @return result
 #' @export
 call_R <- function(f, x) {
   call_r_method(f, x, parent.env(environment()))

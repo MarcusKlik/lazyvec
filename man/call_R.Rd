@@ -7,7 +7,14 @@
 call_R(f, x)
 }
 \arguments{
-\item{rho}{}
+\item{f}{function}
+
+\item{x}{argument}
+
+\item{rho}{environment in which to evaluate the function}
+}
+\value{
+result
 }
 \description{
 Call R method through c

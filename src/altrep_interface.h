@@ -1,8 +1,8 @@
 
 extern "C" {
 
-void register_integer_class(DllInfo *dll);
+  void register_integer_class(DllInfo *dll);
 
-SEXP construct_lazy_vec(SEXP data);
+  SEXP construct_lazy_vec(SEXP data);
 
 }

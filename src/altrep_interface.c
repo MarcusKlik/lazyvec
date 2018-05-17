@@ -5,8 +5,6 @@
 #include <R_ext/Altrep.h>
 
 static R_altrep_class_t altvec_int_class;
-// static R_altrep_class_t altvec_real_class;
-
 
 SEXP construct_lazy_vec(SEXP data)
 {
