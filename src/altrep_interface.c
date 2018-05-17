@@ -11,18 +11,12 @@ static R_altrep_class_t altvec_int_class;
 
 SEXP construct_lazy_vec(SEXP data)
 {
-  SEXP state1 = PROTECT(allocVector(INTSXP, 4));
-    INTEGER(state1)[0] = 1;
-    INTEGER(state1)[1] = 2;
-    INTEGER(state1)[2] = 3;
-    INTEGER(state1)[3] = 4;
-
   SEXP state2 = Rf_mkString("data1");
   PROTECT(state2);
 
-  SEXP altrep_vec = R_new_altrep(altvec_int_class, state1, state2);
+  SEXP altrep_vec = R_new_altrep(altvec_int_class, data, state2);
 
-  UNPROTECT(2);  // state1, state2
+  UNPROTECT(1);  // state1, state2
 
   return altrep_vec;
 }

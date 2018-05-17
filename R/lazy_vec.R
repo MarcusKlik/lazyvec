@@ -7,5 +7,6 @@
 #' @export
 lazy_vec <- function(altrep_interface) {
 
-  lazy_vec_construct(altrep_interface)
+  state <- c(1L, 2L, 3L, 4L)
+  lazy_vec_construct(state)
 }
