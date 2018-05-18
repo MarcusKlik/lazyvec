@@ -62,7 +62,8 @@ vec.altrep_inspect.native_vec <- function (x, ...) {
 #' @return integer result of the altrep length method
 #' @export
 altrep_length.native_vec <- function (x, ...) {
-  length(x)
+
+  length(x$native_vec)
 }
 
 

@@ -2,8 +2,15 @@
 context("constructor")
 
 # sample class that wraps a native R vector
-nat_vec <- lazyvec::native_vec(c(1, 5, 7, 2, 6, 10))
+vec <- 1:1e7
+nat_vec <- native_vec(vec)
+interface <- lazy_vec(nat_vec)
 
+length(interface)
+
+sink("out.log")
+y <- interface[1:2e6]
+sink()
 
 test_that("constructor", {
   lazy_vec <- lazy_vec()

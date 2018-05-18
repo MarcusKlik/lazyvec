@@ -20,9 +20,14 @@ lazy_vec <- function(altrep_interface) {
 
 
 lazy_vec_length <- function(x) {
-  print(paste("lazy_vec_length called in R with argument", x))
 
-  altrep_length(x)
+  vec_length <- altrep_length(x)
+
+  if (!is.integer(vec_length) | length(vec_length) != 1) {
+    stop("generic method lazy_vec_length should return a length 1 integer value")
+  }
+
+  vec_length
 }
 
 

@@ -55,15 +55,16 @@ static R_xlen_t altvec_Length(SEXP x)
   // length interface method
   SEXP method_length = VECTOR_ELT(interface_list, 0);
 
+  // method return an integer value
   SEXP vec_lenth_r = call_r_interface(method_length, altrep_interface_class, parent_environment);
 
-  int vec_lenth = *INTEGER(vec_lenth_r);
+  R_xlen_t vec_length = (R_xlen_t)(*INTEGER(vec_lenth_r));
 
   Rf_PrintValue(vec_lenth_r);
 
   Rf_PrintValue(Rf_mkString("altvec_Length end"));
 
-  return (R_xlen_t) (vec_lenth);
+  return (R_xlen_t) (vec_length);
 }
 
 

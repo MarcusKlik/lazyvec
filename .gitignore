@@ -1,3 +1,5 @@
 .Rproj.user
 *.o
 *.dll
+*.txt
+*.log
