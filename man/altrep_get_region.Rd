@@ -4,12 +4,16 @@
 \alias{altrep_get_region}
 \title{Generic function to emulate the altrep get_region method}
 \usage{
-altrep_get_region(x, ...)
+altrep_get_region(x, i, nr_of_elements, ...)
 }
 \arguments{
 \item{x}{a state object}
 
-\item{...}{}
+\item{i}{starting index of the vector region to retrieve}
+
+\item{nr_of_elements}{number of elements to retrieve}
+
+\item{...}{additional arguments, ignored}
 }
 \value{
 result of the altrep get_region method

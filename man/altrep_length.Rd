@@ -9,7 +9,7 @@ altrep_length(x, ...)
 \arguments{
 \item{x}{a state object}
 
-\item{...}{}
+\item{...}{additional arguments, ignored}
 }
 \value{
 result of the altrep length method

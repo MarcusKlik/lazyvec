@@ -1,45 +1,8 @@
 
-
-#' Generic function to emulate the altrep unserialize method
-#'
-#' @param x a state object
-#' @param ...
-#'
-#' @return result of the altrep unserialize method
-#' @export
-altrep_unserialize <- function (x, ...) {
-  UseMethod("altrep_unserialize", x)
-}
-
-
-#' Generic function to emulate the altrep unserialize method
-#'
-#' @param x a state object
-#' @param ...
-#'
-#' @return result of the altrep unserialize method
-#' @export
-altrep_serialized_state <- function (x, ...) {
-  UseMethod("altrep_serialized_state", x)
-}
-
-
-#' Generic function to emulate the altrep inspect method
-#'
-#' @param x a state object
-#' @param ...
-#'
-#' @return result of the altrep inspect method
-#' @export
-altrep_inspect <- function (x, ...) {
-  UseMethod("altrep_inspect", x)
-}
-
-
 #' Generic function to emulate the altrep length method
 #'
 #' @param x a state object
-#' @param ...
+#' @param ... additional arguments, ignored
 #'
 #' @return result of the altrep length method
 #' @export
@@ -48,37 +11,28 @@ altrep_length <- function (x, ...) {
 }
 
 
-#' Generic function to emulate the altrep dataptr method
+#' Retrieve a single element from a vector
 #'
 #' @param x a state object
-#' @param ...
-#'
-#' @return result of the altrep dataptr method
-#' @export
-altrep_dataptr <- function (x, ...) {
-  UseMethod("altrep_dataptr", x)
-}
-
-
-#' Generic function to emulate the altrep element method
-#'
-#' @param x a state object
-#' @param ...
+#' @param i index of the element to retrieve
+#' @param ... additional arguments, ignored
 #'
 #' @return result of the altrep element method
 #' @export
-altrep_element <- function (x, ...) {
-  UseMethod("altrep_element", x)
+altrep_element <- function (x, i, ...) {
+  UseMethod("altrep_element")
 }
 
 
 #' Generic function to emulate the altrep get_region method
 #'
 #' @param x a state object
-#' @param ...
+#' @param i starting index of the vector region to retrieve
+#' @param nr_of_elements number of elements to retrieve
+#' @param ... additional arguments, ignored
 #'
 #' @return result of the altrep get_region method
 #' @export
-altrep_get_region <- function (x, ...) {
+altrep_get_region <- function (x, i, nr_of_elements, ...) {
   UseMethod("altrep_get_region", x)
 }

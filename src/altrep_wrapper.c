@@ -5,6 +5,8 @@
 #include <R.h>
 #include <Rinternals.h>
 
+// forward declaration to fix build failure on OSX
+SEXP ALTREP_SERIALIZED_STATE(SEXP);
 
 static R_altrep_class_t altwrap_int_class;
 
@@ -52,7 +54,12 @@ static R_xlen_t altwrap_Length(SEXP x)
 {
   Rf_PrintValue(Rf_mkString("altwrap_Length called"));
 
-  return ALTREP_LENGTH(ALTREP_PAYLOAD(x));
+  R_xlen_t length_result = ALTREP_LENGTH(ALTREP_PAYLOAD(x));
+
+  // downcasted for the moment
+  Rf_PrintValue(Rf_ScalarInteger((int)length_result));
+
+  return length_result;
 }
 
 
@@ -71,6 +78,15 @@ static const void *altwrap_Dataptr_or_null(SEXP x)
 
   const void* pdata_or_null = DATAPTR_OR_NULL(ALTREP_PAYLOAD(x));
 
+  if (pdata_or_null == NULL)
+  {
+    Rf_PrintValue(Rf_mkString("result value: NULL"));
+  }
+  else
+  {
+    Rf_PrintValue(Rf_mkString("result value: non-NULL pointer value"));
+  }
+
   return pdata_or_null;
 }
 
@@ -87,7 +103,14 @@ static R_xlen_t altwrap_integer_Get_region(SEXP sx, R_xlen_t i, R_xlen_t n, int 
 {
   Rf_PrintValue(Rf_mkString("altwrap_integer_Get_region called"));
 
-  return INTEGER_GET_REGION(ALTREP_PAYLOAD(sx), i, n, buf);
+  R_xlen_t length = INTEGER_GET_REGION(ALTREP_PAYLOAD(sx), i, n, buf);
+
+  // downcast for the moment
+  Rf_PrintValue(Rf_ScalarInteger((int)(i)));
+  Rf_PrintValue(Rf_ScalarInteger((int)(n)));
+  Rf_PrintValue(Rf_ScalarInteger((int)(length)));
+
+  return length;
 }
 
 
@@ -109,6 +132,4 @@ void register_altwrap_integer_class(DllInfo *dll)
   /* override ALTINTEGER methods */
   R_set_altinteger_Elt_method(int_class, altwrap_integer_Elt);
   R_set_altinteger_Get_region_method(int_class, altwrap_integer_Get_region);
-
-  Rf_PrintValue(Rf_mkString("altwrap_integer class registered"));
 }

@@ -2,18 +2,20 @@
 % Please edit documentation in R/lazy_vec_generics.R
 \name{altrep_element}
 \alias{altrep_element}
-\title{Generic function to emulate the altrep element method}
+\title{Retrieve a single element from a vector}
 \usage{
-altrep_element(x, ...)
+altrep_element(x, i, ...)
 }
 \arguments{
 \item{x}{a state object}
 
-\item{...}{}
+\item{i}{index of the element to retrieve}
+
+\item{...}{additional arguments, ignored}
 }
 \value{
 result of the altrep element method
 }
 \description{
-Generic function to emulate the altrep element method
+Retrieve a single element from a vector
 }

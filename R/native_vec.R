@@ -17,43 +17,6 @@ native_vec <- function(vec) {
   native_vec_object
 }
 
-
-#' Generic function to emulate the altrep unserialize method
-#'
-#' @param x a state object
-#' @param ...
-#'
-#' @return result of the altrep unserialize method
-#' @export
-altrep_unserialize.native_vec <- function (x, ...) {
-  NULL
-}
-
-
-#' Generic function to emulate the altrep unserialize method
-#'
-#' @param x a state object
-#' @param ...
-#'
-#' @return result of the altrep unserialize method
-#' @export
-altrep_serialized_state.native_vec <- function (x, ...) {
-  NULL
-}
-
-
-#' Generic function to emulate the altrep inspect method
-#'
-#' @param x a state object
-#' @param ...
-#'
-#' @return result of the altrep inspect method
-#' @export
-vec.altrep_inspect.native_vec <- function (x, ...) {
-  NULL
-}
-
-
 #' Generic function to emulate the altrep length method
 #'
 #' @param x a state object
@@ -64,18 +27,6 @@ vec.altrep_inspect.native_vec <- function (x, ...) {
 altrep_length.native_vec <- function (x, ...) {
 
   length(x$native_vec)
-}
-
-
-#' Generic function to emulate the altrep dataptr method
-#'
-#' @param x a state object
-#' @param ...
-#'
-#' @return result of the altrep dataptr method
-#' @export
-altrep_dataptr.native_vec <- function (x, ...) {
-  NULL
 }
 
 
