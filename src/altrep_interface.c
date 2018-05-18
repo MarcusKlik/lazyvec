@@ -42,15 +42,19 @@ Rboolean altvec_Inspect(SEXP x, int pre, int deep, int pvec,
 }
 
 
+#define ALTREP_INTERFACE(meta_data) VECTOR_ELT(meta_data, 0)
+#define ALTREP_PARENT_ENV(meta_data) VECTOR_ELT(meta_data, 1)
+#define ALTREP_INTERFACE_CLASS(meta_data) VECTOR_ELT(meta_data, 2);
+
 static R_xlen_t altvec_Length(SEXP x)
 {
   Rf_PrintValue(Rf_mkString("altvec_Length start"));
 
   SEXP meta_data = R_altrep_data1(x);
 
-  SEXP interface_list = VECTOR_ELT(meta_data, 0);
-  SEXP parent_environment = VECTOR_ELT(meta_data, 1);
-  SEXP altrep_interface_class = VECTOR_ELT(meta_data, 2);
+  SEXP interface_list         = ALTREP_INTERFACE(meta_data);
+  SEXP parent_environment     = ALTREP_PARENT_ENV(meta_data);
+  SEXP altrep_interface_class = ALTREP_INTERFACE_CLASS(meta_data);
 
   // length interface method
   SEXP method_length = VECTOR_ELT(interface_list, 0);
@@ -89,7 +93,19 @@ static int altvec_integer_Elt(SEXP x, R_xlen_t i)
 {
   Rf_PrintValue(Rf_mkString("altvec_integer_Elt called"));
 
-  return 1;
+  SEXP meta_data = R_altrep_data1(x);
+
+  SEXP interface_list         = ALTREP_INTERFACE(meta_data);
+  SEXP parent_environment     = ALTREP_PARENT_ENV(meta_data);
+  SEXP altrep_interface_class = ALTREP_INTERFACE_CLASS(meta_data);
+
+  // length interface method
+  SEXP method_element = VECTOR_ELT(interface_list, 1);
+
+  // method return an integer value
+  SEXP vec_element_r = call_r_interface(method_element, altrep_interface_class, parent_environment);
+
+  return *INTEGER(vec_element_r);
 }
 
 

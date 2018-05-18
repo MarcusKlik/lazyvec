@@ -8,9 +8,9 @@ interface <- lazy_vec(nat_vec)
 
 length(interface)
 
-sink("out.log")
-y <- interface[1:2e6]
-sink()
+y <- interface[1000:1010]
+
+mean(interface)
 
 test_that("constructor", {
   lazy_vec <- lazy_vec()

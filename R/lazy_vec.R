@@ -9,7 +9,8 @@ lazy_vec <- function(altrep_interface) {
 
   meta_data <- list(
     list(  # interface methods
-      lazy_vec_length
+      lazy_vec_length,
+      lazy_vec_element
     ),
     parent.env(environment()),
     altrep_interface
@@ -18,6 +19,19 @@ lazy_vec <- function(altrep_interface) {
   lazy_vec_construct(meta_data)
 }
 
+
+lazy_vec_element <- function(x) {
+
+  element <- altrep_element(x)
+
+  print(paste("Element returned:", element))
+
+  if (!is.integer(element) | length(element) != 1) {
+    stop("generic method lazy_vec_element should return a length 1 integer value")
+  }
+
+  element
+}
 
 lazy_vec_length <- function(x) {
 

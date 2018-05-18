@@ -87,7 +87,8 @@ altrep_dataptr.native_vec <- function (x, ...) {
 #' @return result of the altrep element method
 #' @export
 altrep_element.native_vec <- function (x, ...) {
-  x
+
+  x$native_vec[5]
 }
 
 
