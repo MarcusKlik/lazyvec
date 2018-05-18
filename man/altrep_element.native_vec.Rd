@@ -9,7 +9,7 @@
 \arguments{
 \item{x}{a state object}
 
-\item{...}{}
+\item{...}{additional arguments, ignored}
 }
 \value{
 result of the altrep element method

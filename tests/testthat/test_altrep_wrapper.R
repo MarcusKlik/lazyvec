@@ -17,5 +17,5 @@ test_that("length", {
 test_that("max", {
   vec_max <- max(wrap_vec)
 
-  expect_equal(vec_length, 10000)
+  expect_equal(vec_max, 10000)
 })

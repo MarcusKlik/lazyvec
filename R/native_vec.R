@@ -20,7 +20,7 @@ native_vec <- function(vec) {
 #' Generic function to emulate the altrep length method
 #'
 #' @param x a state object
-#' @param ...
+#' @param ... additional arguments, ignored
 #'
 #' @return integer result of the altrep length method
 #' @export
@@ -33,7 +33,7 @@ altrep_length.native_vec <- function (x, ...) {
 #' Generic function to emulate the altrep element method
 #'
 #' @param x a state object
-#' @param ...
+#' @param ... additional arguments, ignored
 #'
 #' @return result of the altrep element method
 #' @export
@@ -46,7 +46,7 @@ altrep_element.native_vec <- function (x, ...) {
 #' Generic function to emulate the altrep get_region method
 #'
 #' @param x a state object
-#' @param ...
+#' @param ... additional arguments, ignored
 #'
 #' @return result of the altrep get_region method
 #' @export

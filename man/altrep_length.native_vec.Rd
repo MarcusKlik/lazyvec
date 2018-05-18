@@ -9,7 +9,7 @@
 \arguments{
 \item{x}{a state object}
 
-\item{...}{}
+\item{...}{additional arguments, ignored}
 }
 \value{
 integer result of the altrep length method
