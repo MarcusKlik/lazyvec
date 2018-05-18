@@ -5,7 +5,12 @@
 #include <R.h>
 #include <Rinternals.h>
 
+
 static R_altrep_class_t altwrap_int_class;
+
+
+#define ALTREP_PAYLOAD(x) VECTOR_ELT(R_altrep_data1(x), 0)
+
 
 SEXP construct_altrep_wrapper(SEXP data)
 {
@@ -24,13 +29,13 @@ static SEXP altwrap_Unserialize(SEXP altwrap_class, SEXP state)
 {
   Rf_PrintValue(Rf_mkString("altwrap_Unserialize called"));
 
-  return Rf_ScalarLogical(1);
+  return NULL;
 }
 
 
 static SEXP altwrap_Serialized_state(SEXP x)
 {
-  return NULL;
+  return ALTREP_SERIALIZED_STATE(ALTREP_PAYLOAD(x));
 }
 
 
@@ -39,20 +44,15 @@ Rboolean altwrap_Inspect(SEXP x, int pre, int deep, int pvec,
 {
   Rf_PrintValue(Rf_mkString("altwrap_Inspect start"));
 
-  return ALTREP_INSPECT(x, pre, deep, pvec, inspect_subtree);
+  return ALTREP_INSPECT(ALTREP_PAYLOAD(x), pre, deep, pvec, inspect_subtree);
 }
 
 
 static R_xlen_t altwrap_Length(SEXP x)
 {
-  Rf_PrintValue(Rf_mkString("altwrap_Length start"));
+  Rf_PrintValue(Rf_mkString("altwrap_Length called"));
 
-  SEXP meta_data = R_altrep_data1(x);
-  SEXP altrep_payload = VECTOR_ELT(meta_data, 0);
-
-  Rf_PrintValue(Rf_mkString("altwrap_Length end"));
-
-  return ALTREP_LENGTH(altrep_payload);
+  return ALTREP_LENGTH(ALTREP_PAYLOAD(x));
 }
 
 
@@ -61,7 +61,7 @@ static void *altwrap_Dataptr(SEXP x, Rboolean writeable)
   Rf_PrintValue(Rf_mkString("altwrap_Dataptr called"));
 
   /* get addr first to get error if the object has been unmapped */
-  return DATAPTR(x);
+  return DATAPTR(ALTREP_PAYLOAD(x));
 }
 
 
@@ -69,7 +69,9 @@ static const void *altwrap_Dataptr_or_null(SEXP x)
 {
   Rf_PrintValue(Rf_mkString("altwrap_Dataptr_or_null called"));
 
-  return (void*) DATAPTR_OR_NULL(x);
+  const void* pdata_or_null = DATAPTR_OR_NULL(ALTREP_PAYLOAD(x));
+
+  return pdata_or_null;
 }
 
 
@@ -77,7 +79,7 @@ static int altwrap_integer_Elt(SEXP x, R_xlen_t i)
 {
   Rf_PrintValue(Rf_mkString("altwrap_integer_Elt called"));
 
-  return INTEGER_ELT(x, i);
+  return INTEGER_ELT(ALTREP_PAYLOAD(x), i);
 }
 
 
@@ -85,7 +87,7 @@ static R_xlen_t altwrap_integer_Get_region(SEXP sx, R_xlen_t i, R_xlen_t n, int 
 {
   Rf_PrintValue(Rf_mkString("altwrap_integer_Get_region called"));
 
-  return INTEGER_GET_REGION(sx, i, n, buf);
+  return INTEGER_GET_REGION(ALTREP_PAYLOAD(sx), i, n, buf);
 }
 
 

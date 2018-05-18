@@ -1,10 +1,2 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
-\.o$
-\.dll$
-\.a$
-\.Rmd$
-\.md$
-^docs$
-\.png$
-\.yml$

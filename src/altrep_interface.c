@@ -42,30 +42,28 @@ Rboolean altvec_Inspect(SEXP x, int pre, int deep, int pvec,
 }
 
 
-#define MMAP_STATE_LENGTH(x) ((size_t) REAL_ELT(CADR(x), 1))
-
 static R_xlen_t altvec_Length(SEXP x)
 {
   Rf_PrintValue(Rf_mkString("altvec_Length start"));
 
   SEXP meta_data = R_altrep_data1(x);
 
-  SEXP state = VECTOR_ELT(meta_data, 0);
-  SEXP interface_list = VECTOR_ELT(meta_data, 1);
-  SEXP parent_environment = VECTOR_ELT(meta_data, 2);
+  SEXP interface_list = VECTOR_ELT(meta_data, 0);
+  SEXP parent_environment = VECTOR_ELT(meta_data, 1);
+  SEXP altrep_interface_class = VECTOR_ELT(meta_data, 2);
 
   // length interface method
   SEXP method_length = VECTOR_ELT(interface_list, 0);
 
-  size_t vec_length = (size_t) call_r_interface(method_length, meta_data, parent_environment);
+  SEXP vec_lenth_r = call_r_interface(method_length, altrep_interface_class, parent_environment);
 
-  size_t vec_length1 = (size_t) INTEGER_ELT(state, 2);
+  int vec_lenth = *INTEGER(vec_lenth_r);
 
-  Rf_PrintValue(Rf_ScalarInteger(vec_length1));
+  Rf_PrintValue(vec_lenth_r);
 
   Rf_PrintValue(Rf_mkString("altvec_Length end"));
 
-  return vec_length1;
+  return (R_xlen_t) (vec_lenth);
 }
 
 
