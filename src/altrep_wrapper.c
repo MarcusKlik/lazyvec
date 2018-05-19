@@ -5,8 +5,6 @@
 #include <R.h>
 #include <Rinternals.h>
 
-// forward declaration to fix build failure on OSX
-SEXP ALTREP_SERIALIZED_STATE(SEXP);
 
 static R_altrep_class_t altwrap_int_class;
 
@@ -37,7 +35,12 @@ static SEXP altwrap_Unserialize(SEXP altwrap_class, SEXP state)
 
 static SEXP altwrap_Serialized_state(SEXP x)
 {
-  return ALTREP_SERIALIZED_STATE(ALTREP_PAYLOAD(x));
+  Rf_PrintValue(Rf_mkString("altwrap_Serialized_state called, null returned"));
+
+// currently doesn't run on linux
+//  return ALTREP_SERIALIZED_STATE(ALTREP_PAYLOAD(x));
+
+  return NULL;
 }
 
 
