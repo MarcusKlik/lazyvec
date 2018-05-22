@@ -3,8 +3,9 @@
 #'
 #' @param altrep_vec altrep vector
 #' @param length_method optional override for the length diagnostic method
+#' @param dataptr_or_null_method optional override for the dataptr_or_null diagnostic method
+#' @param get_region_listener optional override for the get_region diagnostic method
 #' @param element_method optional override for the element diagnostic method
-#' @param get_region_method optional override for the get_region diagnostic method
 #'
 #' @return a wrapper around the altrep vector which is an altrep vector itself
 #' @export
