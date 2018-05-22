@@ -4,10 +4,17 @@
 \alias{alt_wrap}
 \title{Wrap an altrep vector}
 \usage{
-alt_wrap(altrep_vec)
+alt_wrap(altrep_vec, length_method = NULL, dataptr_or_null_method = NULL,
+  get_region_listener = NULL, element_method = NULL)
 }
 \arguments{
 \item{altrep_vec}{altrep vector}
+
+\item{length_method}{optional override for the length diagnostic method}
+
+\item{element_method}{optional override for the element diagnostic method}
+
+\item{get_region_method}{optional override for the get_region diagnostic method}
 }
 \value{
 a wrapper around the altrep vector which is an altrep vector itself
