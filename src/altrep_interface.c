@@ -1,6 +1,5 @@
 
 #include "api_helpers.h"
-#include "Altrep.h"
 
 #include <R.h>
 #include <Rinternals.h>

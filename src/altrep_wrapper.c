@@ -1,6 +1,5 @@
 
 #include "api_helpers.h"
-#include "Altrep.h"
 
 #include <R.h>
 #include <Rinternals.h>
@@ -99,8 +98,6 @@ static int altwrap_integer_Elt(SEXP x, R_xlen_t i)
 
 static R_xlen_t altwrap_integer_Get_region(SEXP sx, R_xlen_t i, R_xlen_t n, int *buf)
 {
-  Rf_PrintValue(Rf_mkString("get_region called"));
-
   R_xlen_t length = INTEGER_GET_REGION(ALTWRAP_PAYLOAD(sx), i, n, buf);
 
   SEXP arguments = Rf_allocVector(INTSXP, 3);
