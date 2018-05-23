@@ -73,7 +73,8 @@ listener_dataptr_or_null <- function(is_non_null_pointer) {
 
 listener_get_region <- function(arguments) {
 
-  print(paste0("ALTREP get_region called: [", paste(arguments, collapse = ", "), "]"))
+  print(paste0("ALTREP get_region called: [ start: ",
+    arguments[1], ", length: ", arguments[2], ", length result: ", arguments[3], "]"))
 }
 
 
