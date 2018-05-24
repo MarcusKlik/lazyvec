@@ -35,16 +35,20 @@ static SEXP altwrap_Serialized_state(SEXP x)
 {
   Rf_PrintValue(Rf_mkString("altwrap_Serialized_state called, null returned"));
 
-  return ALTREP_SERIALIZED_STATE(ALTWRAP_PAYLOAD(x));
+  // TODO: ALTREP_SERIALIZED_STATE currently not correctly linked on Linux
+  return NULL;
+  //  return ALTREP_SERIALIZED_STATE(ALTWRAP_PAYLOAD(x));
 }
 
 
 Rboolean altwrap_Inspect(SEXP x, int pre, int deep, int pvec,
-  void (*inspect_subtree)(SEXP, int, int, int))
+                         void (*inspect_subtree)(SEXP, int, int, int))
 {
   Rf_PrintValue(Rf_mkString("altwrap_Inspect start"));
 
-  return ALTREP_INSPECT(ALTWRAP_PAYLOAD(x), pre, deep, pvec, inspect_subtree);
+  // TODO: ALTREP_INSPECT currently not correctly linked on Linux (not exported correctly by R?)
+  return TRUE;
+  //  return ALTREP_INSPECT(ALTWRAP_PAYLOAD(x), pre, deep, pvec, inspect_subtree);
 }
 
 
