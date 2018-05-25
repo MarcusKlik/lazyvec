@@ -5,7 +5,8 @@
 \title{Wrap an altrep vector}
 \usage{
 alt_wrap(altrep_vec, length_method = NULL, dataptr_or_null_method = NULL,
-  get_region_listener = NULL, element_method = NULL)
+  get_region_listener = NULL, element_method = NULL,
+  dataptr_listener = NULL)
 }
 \arguments{
 \item{altrep_vec}{altrep vector}
@@ -17,6 +18,8 @@ alt_wrap(altrep_vec, length_method = NULL, dataptr_or_null_method = NULL,
 \item{get_region_listener}{optional override for the get_region diagnostic method}
 
 \item{element_method}{optional override for the element diagnostic method}
+
+\item{dataptr_listener}{optional override for the dataptr diagnostic method}
 }
 \value{
 a wrapper around the altrep vector which is an altrep vector itself

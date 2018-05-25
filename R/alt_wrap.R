@@ -6,11 +6,12 @@
 #' @param dataptr_or_null_method optional override for the dataptr_or_null diagnostic method
 #' @param get_region_listener optional override for the get_region diagnostic method
 #' @param element_method optional override for the element diagnostic method
+#' @param dataptr_listener optional override for the dataptr diagnostic method
 #'
 #' @return a wrapper around the altrep vector which is an altrep vector itself
 #' @export
 alt_wrap <- function(altrep_vec, length_method = NULL, dataptr_or_null_method = NULL, get_region_listener = NULL,
-  element_method = NULL) {
+  element_method = NULL, dataptr_listener = NULL) {
 
   # package listener methods
   listeners <- list()
@@ -43,6 +44,13 @@ alt_wrap <- function(altrep_vec, length_method = NULL, dataptr_or_null_method = 
     listeners <- c(listeners, listener_element)
   }
 
+  # dataptr method
+  if (!is.null(dataptr_listener)) {
+    listeners <- c(listeners, dataptr_listener)
+  } else {
+    listeners <- c(listeners, listener_dataptr)
+  }
+
   meta_data <- list(
 
     # ALTREP payload
@@ -61,32 +69,34 @@ alt_wrap <- function(altrep_vec, length_method = NULL, dataptr_or_null_method = 
 
 listener_length <- function(x) {
 
-  print(paste("ALTREP length called:", x))
+  cat(crayon::italic(crayon::cyan("ALTREP length called: ")), x, "\n")
 }
 
 
 listener_dataptr_or_null <- function(is_non_null_pointer) {
 
-  print(paste("ALTREP dataptr_or_null called:", is_non_null_pointer))
+  cat(crayon::italic(crayon::cyan("ALTREP dataptr_or_null called: ")), is_non_null_pointer, "\n")
 }
 
 
 listener_get_region <- function(arguments) {
 
-  print(paste0("ALTREP get_region called: [ start: ",
-    arguments[1], ", length: ", arguments[2], ", length result: ", arguments[3], "]"))
+  cat(crayon::italic(crayon::cyan("ALTREP get_region called: ")),
+    "[ start: ", arguments[1],
+    ", length: ", arguments[2],
+    ", length result: ", arguments[3], "]\n")
 }
 
 
 listener_element <- function(x) {
 
-  element <- altrep_element(x)
+  cat(crayon::italic(crayon::cyan("ALTREP element called: ")), x, "\n")
+}
 
-  print(paste("Element returned:", element))
+listener_dataptr <- function(x) {
 
-  if (!is.integer(element) | length(element) != 1) {
-    stop("generic method lazy_vec_element should return a length 1 integer value")
-  }
-
-  element
+  cat(crayon::italic(crayon::cyan("ALTREP dataptr called: ")),
+      format(as.hexmode(x[1]), width = 8),  # high address bytes
+      format(as.hexmode(x[2]), width = 8),  # low bytes of address
+      as.logical(x[3]), "\n")
 }

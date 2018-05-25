@@ -4,6 +4,7 @@
 #include <R.h>
 #include <Rinternals.h>
 
+#include <stdint.h>
 
 // get the payload with the ALTREP vector
 #define ALTWRAP_PAYLOAD(x) VECTOR_ELT(R_altrep_data1(x), 0)
@@ -69,10 +70,31 @@ static R_xlen_t altwrap_Length(SEXP x)
 
 static void *altwrap_Dataptr(SEXP x, Rboolean writeable)
 {
-  Rf_PrintValue(Rf_mkString("altwrap_Dataptr called"));
+  // create structure with info
+  SEXP arguments = Rf_allocVector(INTSXP, 3);
+  PROTECT(arguments);
 
-  /* get addr first to get error if the object has been unmapped */
-  return DATAPTR(ALTWRAP_PAYLOAD(x));
+  int* parguments = INTEGER(arguments);
+
+  void* pdata = DATAPTR(ALTWRAP_PAYLOAD(x));
+
+  intptr_t address = (intptr_t) pdata;
+
+  parguments[0] = (int) ((address >> 32) & 0xffffffff);
+  parguments[1] = (int) (address & 0xffffffff);
+  parguments[2] = (int) writeable;
+
+  // call listener with info
+
+  // dataptr_or_null listener method
+  SEXP dataptr_listener = VECTOR_ELT(ALTWRAP_LISTENERS(x), 4);
+
+  // call listener with integer result
+  call_r_interface(dataptr_listener, arguments, ALTWRAP_PARENT_ENV(x));
+
+  UNPROTECT(1);  // arguments
+
+  return pdata;
 }
 
 

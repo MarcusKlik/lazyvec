@@ -10,7 +10,8 @@ Depends:
     R (>= 3.5.0)
 License: AGPL-3 | file LICENSE
 Imports:
-    Rcpp (>= 0.12.16)
+    Rcpp (>= 0.12.16),
+    crayon
 Suggests:
     testthat,
     lintr
