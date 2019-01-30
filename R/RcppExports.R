@@ -5,7 +5,3 @@ construct_altrep_wrapper <- function(data) {
     .Call(`_lazyvec_construct_altrep_wrapper`, data)
 }
 
-rcpp_hello_world <- function() {
-    .Call(`_lazyvec_rcpp_hello_world`)
-}
-

@@ -16,20 +16,9 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// rcpp_hello_world
-List rcpp_hello_world();
-RcppExport SEXP _lazyvec_rcpp_hello_world() {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    rcpp_result_gen = Rcpp::wrap(rcpp_hello_world());
-    return rcpp_result_gen;
-END_RCPP
-}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_lazyvec_construct_altrep_wrapper", (DL_FUNC) &_lazyvec_construct_altrep_wrapper, 1},
-    {"_lazyvec_rcpp_hello_world", (DL_FUNC) &_lazyvec_rcpp_hello_world, 0},
     {NULL, NULL, 0}
 };
 
