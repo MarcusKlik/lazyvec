@@ -4,9 +4,9 @@
 \alias{alt_wrap}
 \title{Wrap an altrep vector}
 \usage{
-alt_wrap(altrep_vec, length_method = NULL, dataptr_or_null_method = NULL,
-  get_region_listener = NULL, element_method = NULL,
-  dataptr_listener = NULL)
+alt_wrap(altrep_vec, length_method = NULL,
+  dataptr_or_null_method = NULL, get_region_listener = NULL,
+  element_method = NULL, dataptr_listener = NULL)
 }
 \arguments{
 \item{altrep_vec}{altrep vector}

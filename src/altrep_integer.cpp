@@ -3,26 +3,25 @@
 
 #include <R.h>
 #include <Rinternals.h>
+#include <R_ext/Rdynload.h>
+#include "R_ext/Altrep.h"
 
-#include <stdint.h>
 
 // get the payload with the ALTREP vector
 #define ALTWRAP_PAYLOAD(x) VECTOR_ELT(R_altrep_data1(x), 0)
 #define ALTWRAP_LISTENERS(x) VECTOR_ELT(R_altrep_data1(x), 1)
 #define ALTWRAP_PARENT_ENV(x) VECTOR_ELT(R_altrep_data1(x), 2)
 
-
 // altrep integer class definition
 static R_altrep_class_t altwrap_int_class;
 
-
+// [[Rcpp::export]]
 SEXP construct_altrep_wrapper(SEXP data)
 {
   SEXP altrep_vec = R_new_altrep(altwrap_int_class, data, NILSXP);
 
   return altrep_vec;
 }
-
 
 static SEXP altwrap_Unserialize(SEXP altwrap_class, SEXP state)
 {
@@ -147,7 +146,8 @@ static R_xlen_t altwrap_integer_Get_region(SEXP sx, R_xlen_t i, R_xlen_t n, int 
 }
 
 
-void register_altwrap_integer_class(DllInfo *dll)
+// [[Rcpp::init]]
+void register_altrep_integer_class(DllInfo *dll)
 {
   R_altrep_class_t int_class = R_make_altinteger_class("altwrap_integer", "lazyvec", dll);
   altwrap_int_class = int_class;

@@ -1,21 +1,21 @@
 Package: lazyvec
 Type: Package
 Title: Native R interface to the ALTREP framework
-Version: 0.1
+Version: 0.1.0
 Date: 2018-05-17
 Authors@R: c(
     person("Mark", "Klik", email = "markklik@gmail.com", role = c("aut", "cre", "cph")))
 Description: Wrap a common R class as an ALTREP vector.
 Depends:
-    R (>= 3.5.0)
+    R (>= 3.6.0)
 License: AGPL-3 | file LICENSE
 Imports:
-    Rcpp (>= 0.12.16),
+    Rcpp (>=  0.12.18.3),
     crayon
 Suggests:
     testthat,
     lintr
 LinkingTo: Rcpp
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1
 URL: https://fstpackage.github.io/lazyvec
 BugReports: https://github.com/fstpackage/lazyvec/issues

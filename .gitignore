@@ -1,5 +1,7 @@
 .Rproj.user
-*.o
-*.dll
-*.txt
-*.log
+.Rhistory
+.RData
+.Ruserdata
+src/*.o
+src/*.so
+src/*.dll

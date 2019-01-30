@@ -63,7 +63,7 @@ alt_wrap <- function(altrep_vec, length_method = NULL, dataptr_or_null_method = 
     parent.env(environment())
   )
 
-  altrep_wrapper_construct(meta_data)
+  construct_altrep_wrapper(meta_data)
 }
 
 
