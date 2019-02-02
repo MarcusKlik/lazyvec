@@ -17,6 +17,9 @@
 #define LISTENER_IS_SORTED       5
 #define LISTENER_NO_NA           6
 #define LISTENER_SUM             7
+#define LISTENER_MIN             8
+#define LISTENER_MAX             9
+
 
 // get the payload with the ALTREP vector
 #define ALTWRAP_PAYLOAD(x) VECTOR_ELT(R_altrep_data1(x), 0)

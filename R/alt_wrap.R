@@ -21,7 +21,9 @@ alt_wrap <- function(altrep_vec) {
     listener_dataptr,
     listener_is_sorted,
     listener_no_na,
-    listener_sum
+    listener_sum,
+    listener_min,
+    listener_max
   )
   
   meta_data <- list(
@@ -78,6 +80,18 @@ listener_no_na <- function(x) {
 listener_sum <- function(x) {
   cat(crayon::italic(crayon::cyan("ALTREP sum called with na.rm = ")), x[[2]] == 1,
     crayon::italic(crayon::cyan(" result: ")), x[[1]], "\n")
+}
+
+
+listener_min <- function(x) {
+  cat(crayon::italic(crayon::cyan("ALTREP min called with na.rm = ")), x[[2]] == 1,
+      crayon::italic(crayon::cyan(" result: ")), x[[1]], "\n")
+}
+
+
+listener_max <- function(x) {
+  cat(crayon::italic(crayon::cyan("ALTREP max called with na.rm = ")), x[[2]] == 1,
+      crayon::italic(crayon::cyan(" result: ")), x[[1]], "\n")
 }
 
 
