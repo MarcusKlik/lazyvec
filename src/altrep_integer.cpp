@@ -47,7 +47,7 @@ static R_xlen_t altwrap_integer_Length_method(SEXP x)
   R_xlen_t length_result = ALTREP_LENGTH(ALTWRAP_PAYLOAD(x));
 
   // length listener method
-  SEXP length_listener = VECTOR_ELT(ALTWRAP_LISTENERS(x), 0);
+  SEXP length_listener = VECTOR_ELT(ALTWRAP_LISTENERS(x), LISTENER_LENGTH);
 
   // call listener with integer length result
   // TODO: change to int64 result
@@ -76,7 +76,7 @@ static void *altwrap_integer_Dataptr_method(SEXP x, Rboolean writeable)
   // call listener with info
 
   // dataptr_or_null listener method
-  SEXP dataptr_listener = VECTOR_ELT(ALTWRAP_LISTENERS(x), 4);
+  SEXP dataptr_listener = VECTOR_ELT(ALTWRAP_LISTENERS(x), LISTENER_DATAPTR);
 
   // call listener with integer result
   call_r_interface(dataptr_listener, arguments, ALTWRAP_PARENT_ENV(x));
@@ -92,7 +92,7 @@ static const void *altwrap_integer_Dataptr_or_null_method(SEXP x)
   const void* pdata_or_null = DATAPTR_OR_NULL(ALTWRAP_PAYLOAD(x));
 
   // dataptr_or_null listener method
-  SEXP dataptr_or_null_listener = VECTOR_ELT(ALTWRAP_LISTENERS(x), 1);
+  SEXP dataptr_or_null_listener = VECTOR_ELT(ALTWRAP_LISTENERS(x), LISTENER_DATAPTR_OR_NULL);
 
   int is_pointer = pdata_or_null == NULL;
 
@@ -114,7 +114,7 @@ static int altwrap_integer_Elt_method(SEXP sx, R_xlen_t i)
   parguments[0] = (int)(element);
   
   // retrieve is_sorted listener method
-  SEXP is_sorted_listener = VECTOR_ELT(ALTWRAP_LISTENERS(sx), 3);
+  SEXP is_sorted_listener = VECTOR_ELT(ALTWRAP_LISTENERS(sx), LISTENER_ELT);
   
   // call listener with integer result
   call_r_interface(is_sorted_listener, arguments, ALTWRAP_PARENT_ENV(sx));
@@ -139,7 +139,7 @@ static R_xlen_t altwrap_integer_Get_region_method(SEXP sx, R_xlen_t i, R_xlen_t 
   parguments[2] = (int)(length);
 
   // dataptr_or_null listener method
-  SEXP get_region_listener = VECTOR_ELT(ALTWRAP_LISTENERS(sx), 2);
+  SEXP get_region_listener = VECTOR_ELT(ALTWRAP_LISTENERS(sx), LISTENER_GET_REGION);
 
   // call listener with integer result
   call_r_interface(get_region_listener, arguments, ALTWRAP_PARENT_ENV(sx));
@@ -162,7 +162,7 @@ int altwrap_integer_Is_sorted_method(SEXP sx)
   parguments[0] = (int)(is_sorted);
 
   // retrieve is_sorted listener method
-  SEXP is_sorted_listener = VECTOR_ELT(ALTWRAP_LISTENERS(sx), 5);
+  SEXP is_sorted_listener = VECTOR_ELT(ALTWRAP_LISTENERS(sx), LISTENER_IS_SORTED);
   
   // call listener with integer result
   call_r_interface(is_sorted_listener, arguments, ALTWRAP_PARENT_ENV(sx));
@@ -176,7 +176,7 @@ int altwrap_integer_Is_sorted_method(SEXP sx)
 int altwrap_integer_No_NA_method(SEXP sx)
 {
   int no_na = INTEGER_NO_NA(ALTWRAP_PAYLOAD(sx));
-  
+
   SEXP arguments = Rf_allocVector(INTSXP, 1);
   PROTECT(arguments);
   
@@ -185,7 +185,7 @@ int altwrap_integer_No_NA_method(SEXP sx)
   parguments[0] = (int)(no_na);
   
   // retrieve no_na listener method
-  SEXP no_na_listener = VECTOR_ELT(ALTWRAP_LISTENERS(sx), 6);
+  SEXP no_na_listener = VECTOR_ELT(ALTWRAP_LISTENERS(sx), LISTENER_NO_NA);
   
   // call listener with integer result
   call_r_interface(no_na_listener, arguments, ALTWRAP_PARENT_ENV(sx));
@@ -195,8 +195,25 @@ int altwrap_integer_No_NA_method(SEXP sx)
   return no_na;
 }
 
-// int (*R_altinteger_No_NA_method_t)(SEXP);
-// SEXP (*R_altinteger_Sum_method_t)(SEXP, Rboolean); 
+SEXP altwrap_integer_Sum_method(SEXP sx, Rboolean na_rm)
+{
+  SEXP sum = ALTINTEGER_SUM(ALTWRAP_PAYLOAD(sx), na_rm);
+
+  SEXP arguments = PROTECT(Rf_allocVector(VECSXP, 2));
+  SET_VECTOR_ELT(arguments, 0, sum);
+  SET_VECTOR_ELT(arguments, 1, Rf_ScalarInteger(na_rm));
+
+  // retrieve sum listener method
+  SEXP sum_listener = VECTOR_ELT(ALTWRAP_LISTENERS(sx), LISTENER_SUM);
+  
+  // call listener with integer result
+  call_r_interface(sum_listener, arguments, ALTWRAP_PARENT_ENV(sx));
+  
+  UNPROTECT(1);
+  
+  return sum;
+}
+
 // SEXP (*R_altinteger_Min_method_t)(SEXP, Rboolean);
 // SEXP (*R_altinteger_Max_method_t)(SEXP, Rboolean);
 
@@ -223,7 +240,8 @@ void register_altrep_integer_class(DllInfo *dll)
 
   CALL_METHOD_SETTER(altinteger, integer, Is_sorted);
   CALL_METHOD_SETTER(altinteger, integer, No_NA);
-  // CALL_METHOD_SETTER(altinteger, integer, Sum);
+  CALL_METHOD_SETTER(altinteger, integer, Sum);
+  
   // CALL_METHOD_SETTER(altinteger, integer, Min);
   // CALL_METHOD_SETTER(altinteger, integer, Max);
 }

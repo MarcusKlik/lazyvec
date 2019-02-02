@@ -19,7 +19,9 @@ alt_wrap <- function(altrep_vec) {
     listener_get_region,
     listener_element,
     listener_dataptr,
-    listener_is_sorted
+    listener_is_sorted,
+    listener_no_na,
+    listener_sum
   )
   
   meta_data <- list(
@@ -51,7 +53,6 @@ listener_dataptr_or_null <- function(is_non_null_pointer) {
 
 
 listener_get_region <- function(arguments) {
-
   cat(crayon::italic(crayon::cyan("ALTREP get_region called: ")),
     "[ start: ", arguments[1],
     ", length: ", arguments[2],
@@ -60,14 +61,23 @@ listener_get_region <- function(arguments) {
 
 
 listener_element <- function(x) {
-
   cat(crayon::italic(crayon::cyan("ALTREP element called: ")), x, "\n")
 }
 
 
 listener_is_sorted <- function(x) {
-  
-  cat(crayon::italic(crayon::cyan("ALTREP is_sorted called: ")), x, "\n")
+  cat(crayon::italic(crayon::cyan("ALTREP is_sorted called: ")), x == 1, "\n")
+}
+
+
+listener_no_na <- function(x) {
+  cat(crayon::italic(crayon::cyan("ALTREP no_na called: ")), x == 1, "\n")
+}
+
+
+listener_sum <- function(x) {
+  cat(crayon::italic(crayon::cyan("ALTREP sum called with na.rm = ")), x[[2]] == 1,
+    crayon::italic(crayon::cyan(" result: ")), x[[1]], "\n")
 }
 
 
