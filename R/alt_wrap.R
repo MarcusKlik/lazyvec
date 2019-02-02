@@ -10,47 +10,18 @@
 #'
 #' @return a wrapper around the altrep vector which is an altrep vector itself
 #' @export
-alt_wrap <- function(altrep_vec, length_method = NULL, dataptr_or_null_method = NULL, get_region_listener = NULL,
-  element_method = NULL, dataptr_listener = NULL) {
+alt_wrap <- function(altrep_vec) {
 
   # package listener methods
-  listeners <- list()
-
-  # lengh method
-  if (!is.null(length_method)) {
-    listeners <- c(listeners, length_method)
-  } else {
-    listeners <- c(listeners, listener_length)
-  }
-
-  # dataptr_or_null method
-  if (!is.null(dataptr_or_null_method)) {
-    listeners <- c(listeners, dataptr_or_null_method)
-  } else {
-    listeners <- c(listeners, listener_dataptr_or_null)
-  }
-
-  # get_region listener
-  if (!is.null(get_region_listener)) {
-    listeners <- c(listeners, get_region_listener)
-  } else {
-    listeners <- c(listeners, listener_get_region)
-  }
-
-  # element method
-  if (!is.null(element_method)) {
-    listeners <- c(listeners, element_method)
-  } else {
-    listeners <- c(listeners, listener_element)
-  }
-
-  # dataptr method
-  if (!is.null(dataptr_listener)) {
-    listeners <- c(listeners, dataptr_listener)
-  } else {
-    listeners <- c(listeners, listener_dataptr)
-  }
-
+  listeners <- c(
+    listener_length,
+    listener_dataptr_or_null,
+    listener_get_region,
+    listener_element,
+    listener_dataptr,
+    listener_is_sorted
+  )
+  
   meta_data <- list(
 
     # ALTREP payload
@@ -75,7 +46,7 @@ listener_length <- function(x) {
 
 listener_dataptr_or_null <- function(is_non_null_pointer) {
 
-  cat(crayon::italic(crayon::cyan("ALTREP dataptr_or_null called: ")), is_non_null_pointer, "\n")
+  cat(crayon::italic(crayon::cyan("ALTREP dataptr_or_null called, null returned: ")), is_non_null_pointer, "\n")
 }
 
 
@@ -92,6 +63,13 @@ listener_element <- function(x) {
 
   cat(crayon::italic(crayon::cyan("ALTREP element called: ")), x, "\n")
 }
+
+
+listener_is_sorted <- function(x) {
+  
+  cat(crayon::italic(crayon::cyan("ALTREP is_sorted called: ")), x, "\n")
+}
+
 
 listener_dataptr <- function(x) {
 
