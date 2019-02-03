@@ -84,14 +84,22 @@ listener_sum <- function(x) {
 
 
 listener_min <- function(x) {
-  cat(crayon::italic(crayon::cyan("ALTREP min called with na.rm = ")), x[[2]] == 1,
-      crayon::italic(crayon::cyan(" result: ")), x[[1]], "\n")
+  if (is.null(x)) {
+    cat(crayon::italic(crayon::cyan("ALTREP min called, returned NULL")), "\n")
+    return()
+  }
+  
+  cat(crayon::italic(crayon::cyan("ALTREP min called: ")), x, "\n")
 }
 
 
 listener_max <- function(x) {
-  cat(crayon::italic(crayon::cyan("ALTREP max called with na.rm = ")), x[[2]] == 1,
-      crayon::italic(crayon::cyan(" result: ")), x[[1]], "\n")
+  if (is.null(x)) {
+    cat(crayon::italic(crayon::cyan("ALTREP max called, returned NULL")), "\n")
+    return()
+  }
+  
+  cat(crayon::italic(crayon::cyan("ALTREP max called: ")), x, "\n")
 }
 
 

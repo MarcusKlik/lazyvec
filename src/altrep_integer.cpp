@@ -177,9 +177,8 @@ int altwrap_integer_No_NA_method(SEXP sx)
 {
   int no_na = INTEGER_NO_NA(ALTWRAP_PAYLOAD(sx));
 
-  SEXP arguments = Rf_allocVector(INTSXP, 1);
-  PROTECT(arguments);
-  
+  SEXP arguments = PROTECT(Rf_allocVector(INTSXP, 1));
+
   int* parguments = INTEGER(arguments);
   
   parguments[0] = (int)(no_na);
@@ -199,14 +198,26 @@ SEXP altwrap_integer_Sum_method(SEXP sx, Rboolean na_rm)
 {
   SEXP sum = PROTECT(ALTINTEGER_SUM(ALTWRAP_PAYLOAD(sx), na_rm));
 
-  SEXP arguments = PROTECT(Rf_allocVector(VECSXP, 2));
-  
-  SET_VECTOR_ELT(arguments, 0, sum);
-  SET_VECTOR_ELT(arguments, 1, Rf_ScalarInteger(na_rm));
-
   // retrieve sum listener method
   SEXP sum_listener = VECTOR_ELT(ALTWRAP_LISTENERS(sx), LISTENER_SUM);
-  
+
+  SEXP arguments = PROTECT(Rf_allocVector(VECSXP, 2));
+  SET_VECTOR_ELT(arguments, 1, Rf_ScalarInteger(na_rm));
+
+  if (sum == NULL)
+  {
+    SET_VECTOR_ELT(arguments, 0, R_NilValue);
+
+    // call listener with integer result
+    call_r_interface(sum_listener, arguments, ALTWRAP_PARENT_ENV(sx));
+    
+    UNPROTECT(2);
+    
+    return sum;
+  }
+
+  SET_VECTOR_ELT(arguments, 0, sum);
+
   // call listener with integer result
   call_r_interface(sum_listener, arguments, ALTWRAP_PARENT_ENV(sx));
   
@@ -220,18 +231,21 @@ SEXP altwrap_integer_Min_method(SEXP sx, Rboolean na_rm)
 {
   SEXP result_min = PROTECT(ALTINTEGER_MIN(ALTWRAP_PAYLOAD(sx), na_rm));
 
-  SEXP arguments = PROTECT(Rf_allocVector(VECSXP, 2));
-  
-  SET_VECTOR_ELT(arguments, 0, result_min);
-  SET_VECTOR_ELT(arguments, 1, Rf_ScalarInteger(na_rm));
-  
   // retrieve sum listener method
   SEXP min_listener = VECTOR_ELT(ALTWRAP_LISTENERS(sx), LISTENER_MIN);
+
+  if (result_min == NULL)
+  { 
+    // call listener with SEXP result
+    call_r_interface(min_listener, R_NilValue, ALTWRAP_PARENT_ENV(sx));
+    UNPROTECT(1);
+    
+    return result_min;
+  }
   
-  // call listener with integer result
-  call_r_interface(min_listener, arguments, ALTWRAP_PARENT_ENV(sx));
-  
-  UNPROTECT(2);
+  // call listener with SEXP result
+  call_r_interface(min_listener, result_min, ALTWRAP_PARENT_ENV(sx));
+  UNPROTECT(1);
   
   return result_min;
 }
@@ -240,20 +254,23 @@ SEXP altwrap_integer_Min_method(SEXP sx, Rboolean na_rm)
 SEXP altwrap_integer_Max_method(SEXP sx, Rboolean na_rm)
 {
   SEXP result_max = PROTECT(ALTINTEGER_MAX(ALTWRAP_PAYLOAD(sx), na_rm));
-
-  SEXP arguments = PROTECT(Rf_allocVector(VECSXP, 2));
   
-  SET_VECTOR_ELT(arguments, 0, result_max);
-  SET_VECTOR_ELT(arguments, 1, Rf_ScalarInteger(na_rm));
-
   // retrieve sum listener method
   SEXP max_listener = VECTOR_ELT(ALTWRAP_LISTENERS(sx), LISTENER_MAX);
 
-  // call listener with integer result
-  call_r_interface(max_listener, arguments, ALTWRAP_PARENT_ENV(sx));
-
-  UNPROTECT(2);
-
+  if (result_max == NULL)
+  { 
+    // call listener with SEXP result
+    call_r_interface(max_listener, R_NilValue, ALTWRAP_PARENT_ENV(sx));
+    UNPROTECT(1);
+    
+    return result_max;
+  }
+  
+  // call listener with SEXP result
+  call_r_interface(max_listener, result_max, ALTWRAP_PARENT_ENV(sx));
+  UNPROTECT(1);
+  
   return result_max;
 }
 
@@ -282,6 +299,6 @@ void register_altrep_integer_class(DllInfo *dll)
   CALL_METHOD_SETTER(altinteger, integer, No_NA);
   CALL_METHOD_SETTER(altinteger, integer, Sum);
   
-  // CALL_METHOD_SETTER(altinteger, integer, Min);
-  // CALL_METHOD_SETTER(altinteger, integer, Max);
+  CALL_METHOD_SETTER(altinteger, integer, Min);
+  CALL_METHOD_SETTER(altinteger, integer, Max);
 }
