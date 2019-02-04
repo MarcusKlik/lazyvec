@@ -9,16 +9,21 @@
 
 
 // R listeners
-#define LISTENER_LENGTH          0
-#define LISTENER_DATAPTR_OR_NULL 1
-#define LISTENER_GET_REGION      2
-#define LISTENER_ELT             3
-#define LISTENER_DATAPTR         4
-#define LISTENER_IS_SORTED       5
-#define LISTENER_NO_NA           6
-#define LISTENER_SUM             7
-#define LISTENER_MIN             8
-#define LISTENER_MAX             9
+#define LISTENER_LENGTH            0
+#define LISTENER_DATAPTR_OR_NULL   1
+#define LISTENER_GET_REGION        2
+#define LISTENER_ELT               3
+#define LISTENER_DATAPTR           4
+#define LISTENER_IS_SORTED         5
+#define LISTENER_NO_NA             6
+#define LISTENER_SUM               7
+#define LISTENER_MIN               8
+#define LISTENER_MAX               9
+#define LISTENER_INSPECT          10
+#define LISTENER_UNSERIALIZE_EX   11
+#define LISTENER_SERIALIZED_STATE 12
+
+typedef void (*inspect_subtree_method)(SEXP, int, int, int);
 
 
 // get the payload with the ALTREP vector

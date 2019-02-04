@@ -4,7 +4,6 @@ sudo: false
 warnings_are_errors: false
 
 r:
-  - release
   - devel
 os:
   - linux

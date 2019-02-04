@@ -23,7 +23,10 @@ alt_wrap <- function(altrep_vec) {
     listener_no_na,
     listener_sum,
     listener_min,
-    listener_max
+    listener_max,
+    listener_inspect,
+    listener_unserialize_ex,
+    listener_serialized_state
   )
   
   meta_data <- list(
@@ -55,57 +58,68 @@ listener_dataptr_or_null <- function(is_non_null_pointer) {
 
 
 listener_get_region <- function(arguments) {
-  cat(crayon::italic(crayon::cyan("ALTREP get_region called: ")),
-    "[ start: ", arguments[1],
-    ", length: ", arguments[2],
-    ", length result: ", arguments[3], "]\n")
+  cat(crayon::italic(crayon::cyan("ALTREP get_region called: result = ")), arguments[3],
+      crayon::italic(crayon::cyan(", start = ")), arguments[1],
+      crayon::italic(crayon::cyan(", length = ")), arguments[2], "]\n")
 }
 
 
 listener_element <- function(x) {
-  cat(crayon::italic(crayon::cyan("ALTREP element called: ")), x, "\n")
+  cat(crayon::italic(crayon::cyan("ALTREP element called: result = ")), x, "\n")
 }
 
 
 listener_is_sorted <- function(x) {
-  cat(crayon::italic(crayon::cyan("ALTREP is_sorted called: ")), x == 1, "\n")
+  cat(crayon::italic(crayon::cyan("ALTREP is_sorted called: result = ")), x == 1, "\n")
 }
 
 
 listener_no_na <- function(x) {
-  cat(crayon::italic(crayon::cyan("ALTREP no_na called: ")), x == 1, "\n")
+  cat(crayon::italic(crayon::cyan("ALTREP no_na called: result = ")), x == 1, "\n")
 }
 
 
 listener_sum <- function(x) {
-  cat(crayon::italic(crayon::cyan("ALTREP sum called with na.rm = ")), x[[2]] == 1,
-    crayon::italic(crayon::cyan(" result: ")), x[[1]], "\n")
+  cat(crayon::italic(crayon::cyan("ALTREP sum called, na.rm = ")), x[[2]] == 1,
+    crayon::italic(crayon::cyan(", result: ")), x[[1]], "\n")
 }
 
 
 listener_min <- function(x) {
-  if (is.null(x)) {
-    cat(crayon::italic(crayon::cyan("ALTREP min called, returned NULL")), "\n")
-    return()
-  }
-  
-  cat(crayon::italic(crayon::cyan("ALTREP min called: ")), x, "\n")
+  if (is.null(x)) x <- "NULL"
+  cat(crayon::italic(crayon::cyan("ALTREP min called: result = ")), x, "\n")
 }
 
 
 listener_max <- function(x) {
+  if (is.null(x)) x <- "NULL"
+  cat(crayon::italic(crayon::cyan("ALTREP max called: result = ")), x, "\n")
+}
+
+
+listener_inspect <- function(x) {
   if (is.null(x)) {
-    cat(crayon::italic(crayon::cyan("ALTREP max called, returned NULL")), "\n")
-    return()
+    x <- "NULL"
+  } else {
+    x <- x == 1
   }
   
-  cat(crayon::italic(crayon::cyan("ALTREP max called: ")), x, "\n")
+  cat(crayon::italic(crayon::cyan("ALTREP inspect called: result = ")), x, "\n")
+}
+
+
+listener_serialized_state <- function(x) {
+  cat(crayon::italic(crayon::cyan("ALTREP serialized_state called: result = ")), x, "\n")
+}
+
+
+listener_unserialize_ex <- function(x) {
+  cat(crayon::italic(crayon::cyan("ALTREP unserialize_ex called: result = ")), x, "\n")
 }
 
 
 listener_dataptr <- function(x) {
-
-  cat(crayon::italic(crayon::cyan("ALTREP dataptr called: ")),
+  cat(crayon::italic(crayon::cyan("ALTREP dataptr called: result = ")),
       format(as.hexmode(x[1]), width = 8),  # high address bytes
       format(as.hexmode(x[2]), width = 8),  # low bytes of address
       as.logical(x[3]), "\n")

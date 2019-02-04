@@ -1,6 +1,8 @@
 
 #include "api_helpers.h"
 
+#include <stdint.h>
+
 
 // altrep integer class definition
 static R_altrep_class_t altwrap_integer_class;
@@ -13,32 +15,103 @@ SEXP construct_altrep_wrapper(SEXP data)
   return altrep_vec;
 }
 
-static SEXP altwrap_integer_Unserialize_method(SEXP altwrap_class, SEXP state)
-{
-  Rf_PrintValue(Rf_mkString("altwrap_Unserialize called"));
 
-  return NULL;
+// static SEXP altwrap_integer_Unserialize_method(SEXP altwrap_class, SEXP state)
+// {
+//   SEXP unserialize_result = ALTREP_U _INSPECT(ALTWRAP_PAYLOAD(x), pre, deep, pvec, subtree_method);
+//   
+//   // length listener method
+//   SEXP inspect_listener = VECTOR_ELT(ALTWRAP_LISTENERS(x), LISTENER_INSPECT);
+//   
+//   // call listener with integer length result
+//   // TODO: change to int64 result
+//   call_r_interface(inspect_listener, Rf_ScalarInteger(inspect_result), ALTWRAP_PARENT_ENV(x));
+//   
+//   return inspect_result;
+// }
+
+
+static SEXP altwrap_integer_UnserializeEX_method(SEXP x, SEXP state, SEXP arg2, int arg3, int arg4)
+{
+  SEXP unserialize_ex_result = PROTECT(ALTREP_UNSERIALIZE_EX(ALTWRAP_PAYLOAD(x), state, arg2, arg3, arg4));
+
+  SEXP arguments = PROTECT(Rf_allocVector(VECSXP, 5));
+
+  if (unserialize_ex_result == NULL)
+  {
+    SET_VECTOR_ELT(arguments, 0, R_NilValue);
+  }
+  else
+  {
+    SET_VECTOR_ELT(arguments, 0, unserialize_ex_result);
+  }
+  
+  if (state == NULL)
+  {
+    SET_VECTOR_ELT(arguments, 1, R_NilValue);
+  }
+  else
+  {
+    SET_VECTOR_ELT(arguments, 1, state);
+  }
+
+  if (arg2 == NULL)
+  {
+    SET_VECTOR_ELT(arguments, 2, R_NilValue);
+  }
+  else
+  {
+    SET_VECTOR_ELT(arguments, 2, arg2);
+  }
+  
+  SET_VECTOR_ELT(arguments, 3, Rf_ScalarInteger(arg3));
+  SET_VECTOR_ELT(arguments, 4, Rf_ScalarInteger(arg4));
+
+  // length listener method
+  SEXP unserialize_ex_listener = VECTOR_ELT(ALTWRAP_LISTENERS(x), LISTENER_UNSERIALIZE_EX);
+  
+  // call listener
+  call_r_interface(unserialize_ex_listener, unserialize_ex_result, ALTWRAP_PARENT_ENV(x));
+
+  UNPROTECT(2);
+  
+  return unserialize_ex_result;
 }
 
 
 static SEXP altwrap_integer_Serialized_state_method(SEXP x)
 {
-  Rf_PrintValue(Rf_mkString("altwrap_Serialized_state called, null returned"));
+  SEXP serialized_state_result = PROTECT(ALTREP_SERIALIZED_STATE(ALTWRAP_PAYLOAD(x)));
 
-  // TODO: ALTREP_SERIALIZED_STATE currently not correctly linked on Linux
-  return NULL;
-  //  return ALTREP_SERIALIZED_STATE(ALTWRAP_PAYLOAD(x));
+  // length listener method
+  SEXP serialized_state_listener = VECTOR_ELT(ALTWRAP_LISTENERS(x), LISTENER_SERIALIZED_STATE);
+
+  if (serialized_state_result == NULL)
+  {
+    call_r_interface(serialized_state_listener, R_NilValue, ALTWRAP_PARENT_ENV(x));
+    UNPROTECT(1);
+    return serialized_state_result;
+  }
+
+  call_r_interface(serialized_state_listener, serialized_state_result, ALTWRAP_PARENT_ENV(x));
+  UNPROTECT(1);
+  return serialized_state_result;
 }
 
 
 Rboolean altwrap_integer_Inspect_method(SEXP x, int pre, int deep, int pvec,
-  void (*inspect_subtree)(SEXP, int, int, int))
+  inspect_subtree_method subtree_method)
 {
-  Rf_PrintValue(Rf_mkString("altwrap_Inspect start"));
-
-  // TODO: ALTREP_INSPECT currently not correctly linked on Linux (not exported correctly by R?)
-  return TRUE;
-  //  return ALTREP_INSPECT(ALTWRAP_PAYLOAD(x), pre, deep, pvec, inspect_subtree);
+  Rboolean inspect_result = ALTREP_INSPECT(ALTWRAP_PAYLOAD(x), pre, deep, pvec, subtree_method);
+  
+  // length listener method
+  SEXP inspect_listener = VECTOR_ELT(ALTWRAP_LISTENERS(x), LISTENER_INSPECT);
+  
+  // call listener with integer length result
+  // TODO: change to int64 result
+  call_r_interface(inspect_listener, Rf_ScalarInteger(inspect_result), ALTWRAP_PARENT_ENV(x));
+  
+  return inspect_result;
 }
 
 
@@ -57,15 +130,14 @@ static R_xlen_t altwrap_integer_Length_method(SEXP x)
 }
 
 
-static void *altwrap_integer_Dataptr_method(SEXP x, Rboolean writeable)
+static void* altwrap_integer_Dataptr_method(SEXP x, Rboolean writeable)
 {
   // create structure with info
-  SEXP arguments = Rf_allocVector(INTSXP, 3);
-  PROTECT(arguments);
+  SEXP arguments = PROTECT(Rf_allocVector(INTSXP, 3));
 
   int* parguments = INTEGER(arguments);
 
-  void* pdata = DATAPTR(ALTWRAP_PAYLOAD(x));
+  void* pdata = ALTVEC_DATAPTR(ALTWRAP_PAYLOAD(x));
 
   intptr_t address = (intptr_t) pdata;
 
@@ -281,11 +353,19 @@ void register_altrep_integer_class(DllInfo *dll)
   altwrap_integer_class = R_make_altinteger_class("altwrap_integer", "lazyvec", dll);
 
   /* override ALTREP methods */
-  CALL_METHOD_SETTER(altrep, integer, Unserialize);
+  // CALL_METHOD_SETTER(altrep, integer, Unserialize);
   CALL_METHOD_SETTER(altrep, integer, Serialized_state);
   CALL_METHOD_SETTER(altrep, integer, Inspect);
   CALL_METHOD_SETTER(altrep, integer, Length);
 
+  CALL_METHOD_SETTER(altrep, integer, UnserializeEX);
+  // CALL_METHOD_SETTER(altrep, Unserialize);
+  // CALL_METHOD_SETTER(altrep, DuplicateEX);
+  // CALL_METHOD_SETTER(altrep, Duplicate);
+  // CALL_METHOD_SETTER(altrep, Coerce);
+  // CALL_METHOD_SETTER(altrep, Inspect);
+  // CALL_METHOD_SETTER(altrep, Length);
+  
   /* override ALTVEC methods */
   CALL_METHOD_SETTER(altvec, integer, Dataptr);
   CALL_METHOD_SETTER(altvec, integer, Dataptr_or_null);
