@@ -22,6 +22,8 @@
 #define LISTENER_INSPECT          10
 #define LISTENER_UNSERIALIZE_EX   11
 #define LISTENER_SERIALIZED_STATE 12
+#define LISTENER_DUPLICATE_EX     13
+#define LISTENER_COERCE           14
 
 typedef void (*inspect_subtree_method)(SEXP, int, int, int);
 

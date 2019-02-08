@@ -2,11 +2,6 @@
 #' Wrap an altrep vector
 #'
 #' @param altrep_vec altrep vector
-#' @param length_method optional override for the length diagnostic method
-#' @param dataptr_or_null_method optional override for the dataptr_or_null diagnostic method
-#' @param get_region_listener optional override for the get_region diagnostic method
-#' @param element_method optional override for the element diagnostic method
-#' @param dataptr_listener optional override for the dataptr diagnostic method
 #'
 #' @return a wrapper around the altrep vector which is an altrep vector itself
 #' @export
@@ -26,7 +21,9 @@ alt_wrap <- function(altrep_vec) {
     listener_max,
     listener_inspect,
     listener_unserialize_ex,
-    listener_serialized_state
+    listener_serialized_state,
+    listener_duplicate_ex,
+    listener_coerce
   )
   
   meta_data <- list(
@@ -60,7 +57,7 @@ listener_dataptr_or_null <- function(is_non_null_pointer) {
 listener_get_region <- function(arguments) {
   cat(crayon::italic(crayon::cyan("ALTREP get_region called: result = ")), arguments[3],
       crayon::italic(crayon::cyan(", start = ")), arguments[1],
-      crayon::italic(crayon::cyan(", length = ")), arguments[2], "]\n")
+      crayon::italic(crayon::cyan(", length = ")), arguments[2], "\n")
 }
 
 
@@ -123,4 +120,14 @@ listener_dataptr <- function(x) {
       format(as.hexmode(x[1]), width = 8),  # high address bytes
       format(as.hexmode(x[2]), width = 8),  # low bytes of address
       as.logical(x[3]), "\n")
+}
+
+
+listener_duplicate_ex <- function(x) {
+  cat(crayon::italic(crayon::cyan("ALTREP duplicate_ex called: result = ")), x, "\n")
+}
+
+
+listener_coerce <- function(x) {
+  cat(crayon::italic(crayon::cyan("ALTREP coerce called: result = ")), x, "\n")
 }

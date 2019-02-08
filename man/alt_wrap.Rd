@@ -8,16 +8,6 @@ alt_wrap(altrep_vec)
 }
 \arguments{
 \item{altrep_vec}{altrep vector}
-
-\item{length_method}{optional override for the length diagnostic method}
-
-\item{dataptr_or_null_method}{optional override for the dataptr_or_null diagnostic method}
-
-\item{get_region_listener}{optional override for the get_region diagnostic method}
-
-\item{element_method}{optional override for the element diagnostic method}
-
-\item{dataptr_listener}{optional override for the dataptr diagnostic method}
 }
 \value{
 a wrapper around the altrep vector which is an altrep vector itself

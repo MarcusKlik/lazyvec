@@ -9,18 +9,10 @@ os:
   - linux
   - osx
 
-matrix:
-  allow_failures:
-  - r: devel
-
 r_packages:
   - covr
   - testthat
   - lintr
-
-addons:
-  apt:
-    update: true
 
 after_success:
   - Rscript -e 'library(covr); codecov(quiet = FALSE)'
