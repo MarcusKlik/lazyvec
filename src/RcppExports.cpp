@@ -16,9 +16,21 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// is_altrep_vector
+int is_altrep_vector(SEXP vec);
+RcppExport SEXP _lazyvec_is_altrep_vector(SEXP vecSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type vec(vecSEXP);
+    rcpp_result_gen = Rcpp::wrap(is_altrep_vector(vec));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_lazyvec_construct_altrep_wrapper", (DL_FUNC) &_lazyvec_construct_altrep_wrapper, 1},
+    {"_lazyvec_is_altrep_vector", (DL_FUNC) &_lazyvec_is_altrep_vector, 1},
     {NULL, NULL, 0}
 };
 

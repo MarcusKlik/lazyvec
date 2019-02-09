@@ -8,7 +8,7 @@
 #include "R_ext/Altrep.h"
 
 
-// R listeners
+// altvec integer listeners
 #define LISTENER_LENGTH            0
 #define LISTENER_DATAPTR_OR_NULL   1
 #define LISTENER_GET_REGION        2
@@ -24,6 +24,7 @@
 #define LISTENER_SERIALIZED_STATE 12
 #define LISTENER_DUPLICATE_EX     13
 #define LISTENER_COERCE           14
+#define LISTENER_EXTRACT_SUBSET   15
 
 typedef void (*inspect_subtree_method)(SEXP, int, int, int);
 
@@ -39,4 +40,6 @@ typedef void (*inspect_subtree_method)(SEXP, int, int, int);
 // call a single argument R function from the C API
 SEXP call_r_interface(SEXP f, SEXP x, SEXP rho);
 
+int is_altrep_vector(SEXP vec);
+  
 #endif // API_HELPERS_H

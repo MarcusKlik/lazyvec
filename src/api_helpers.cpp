@@ -9,3 +9,8 @@ SEXP call_r_interface(SEXP f, SEXP x, SEXP rho) {
   UNPROTECT(1);
   return val;
 }
+
+// [[Rcpp::export]]
+int is_altrep_vector(SEXP vec) {
+  return ALTREP(vec);
+}

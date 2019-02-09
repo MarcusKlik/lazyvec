@@ -5,3 +5,7 @@ construct_altrep_wrapper <- function(data) {
     .Call(`_lazyvec_construct_altrep_wrapper`, data)
 }
 
+is_altrep_vector <- function(vec) {
+    .Call(`_lazyvec_is_altrep_vector`, vec)
+}
+
