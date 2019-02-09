@@ -405,29 +405,62 @@ SEXP altwrap_integer_Coerce_method(SEXP sx, int type)
 }
 
 
+SEXP altwrap_integer_Extract_subset_method(SEXP sx, SEXP indx, SEXP call)
+{
+  SEXP result_extract_subset = PROTECT(ALTVEC_EXTRACT_SUBSET(ALTWRAP_PAYLOAD(sx), indx, call));
+  
+  SEXP arguments = PROTECT(Rf_allocVector(VECSXP, 3));
+  
+  UNPROTECT(2);
+  return result_extract_subset;
+  
+  // SET_VECTOR_ELT(arguments, 1, Rf_ScalarInteger(type));
+  // 
+  // // retrieve coerce listener method
+  // SEXP coerce_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(sx), LISTENER_COERCE));
+  // 
+  // if (result_coerce == NULL)
+  // {
+  //   SET_VECTOR_ELT(arguments, 0, R_NilValue);
+  //   
+  //   // call listener with integer result
+  //   call_r_interface(coerce_listener, arguments, ALTWRAP_PARENT_ENV(sx));
+  //   
+  //   UNPROTECT(3);
+  //   return result_coerce;
+  // }
+  // 
+  // SET_VECTOR_ELT(arguments, 0, result_coerce);
+  // 
+  // // call listener with integer result
+  // call_r_interface(coerce_listener, arguments, ALTWRAP_PARENT_ENV(sx));
+  // 
+  // UNPROTECT(3);
+  // return result_coerce;
+}
+
+
 // [[Rcpp::init]]
 void register_altrep_integer_class(DllInfo *dll)
 {
   altwrap_integer_class = R_make_altinteger_class("altwrap_integer", "lazyvec", dll);
 
   /* override ALTREP methods */
-  // CALL_METHOD_SETTER(altrep, integer, Unserialize);
   CALL_METHOD_SETTER(altrep, integer, Serialized_state);
   CALL_METHOD_SETTER(altrep, integer, Inspect);
   CALL_METHOD_SETTER(altrep, integer, Length);
-
-  // CALL_METHOD_SETTER(altrep, integer, UnserializeEX);
-  // CALL_METHOD_SETTER(altrep, integer, Unserialize);
   CALL_METHOD_SETTER(altrep, integer, DuplicateEX);
-  // CALL_METHOD_SETTER(altrep, Duplicate);  // not found
   CALL_METHOD_SETTER(altrep, integer, Coerce);
-  // CALL_METHOD_SETTER(altrep, Inspect);
-  // CALL_METHOD_SETTER(altrep, Length);
   
+  // CALL_METHOD_SETTER(altrep, integer, Unserialize);
+  // CALL_METHOD_SETTER(altrep, integer, UnserializeEX);
+  // CALL_METHOD_SETTER(altrep, Duplicate);  // not found
+
   /* override ALTVEC methods */
   CALL_METHOD_SETTER(altvec, integer, Dataptr);
   CALL_METHOD_SETTER(altvec, integer, Dataptr_or_null);
-  
+  CALL_METHOD_SETTER(altvec, integer, Extract_subset);
+    
   /* override ALTINTEGER methods */
   CALL_METHOD_SETTER(altinteger, integer, Elt);
   CALL_METHOD_SETTER(altinteger, integer, Get_region);
