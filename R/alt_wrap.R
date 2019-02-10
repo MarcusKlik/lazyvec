@@ -135,20 +135,17 @@ listener_coerce <- function(x) {
 
 
 display_parameter <- function(x) {
-  # paste0(x, crayon::italic(crayon::cyan(" (")), crayon::magenta(typeof(x)),
-  #   crayon::magenta("["), crayon::magenta(length(x)),
-  #   crayon::magenta("])"))
-  paste0(paste0(x, collapse = " "), " ", crayon::magenta(typeof(x)),
+  paste0(" ", crayon::magenta(typeof(x)),
          crayon::magenta("["), crayon::magenta(length(x)),
-         crayon::magenta("]"))
+         crayon::magenta("]: "), paste0(x, collapse = " "))
 }
 
 
 listener_extract_subset <- function(x) {
   subset_result <- x[[1]]
   if (is.null(subset_result)) subset_result <- "NULL"
-  cat(crayon::italic(crayon::cyan("ALTREP extract_subset: result = ")), display_parameter(subset_result),
-    crayon::italic(crayon::cyan(", indx = ")), display_parameter(x[[2]]),
-    crayon::italic(crayon::cyan(", call = ")), display_parameter(format(x[[3]])),
+  cat(crayon::italic(crayon::cyan("ALTREP extract_subset called:\n  result = ")), display_parameter(subset_result),
+    crayon::italic(crayon::cyan("\n    indx = ")), display_parameter(x[[2]]),
+    crayon::italic(crayon::cyan("\n    call = ")), display_parameter(format(x[[3]])),
     "\n", sep = "")
 }
