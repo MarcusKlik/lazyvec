@@ -7,8 +7,7 @@
 #include <R_ext/Rdynload.h>
 #include "R_ext/Altrep.h"
 
-
-// altvec integer listeners
+// altvec listeners
 #define LISTENER_LENGTH            0
 #define LISTENER_DATAPTR_OR_NULL   1
 #define LISTENER_GET_REGION        2
@@ -25,6 +24,8 @@
 #define LISTENER_DUPLICATE_EX     13
 #define LISTENER_COERCE           14
 #define LISTENER_EXTRACT_SUBSET   15
+#define LISTENER_UNSERIALIZE      16
+#define LISTENER_DUPLICATE        17
 
 typedef void (*inspect_subtree_method)(SEXP, int, int, int);
 
