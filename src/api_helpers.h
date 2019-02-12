@@ -30,10 +30,11 @@
 typedef void (*inspect_subtree_method)(SEXP, int, int, int);
 
 
-// get the payload with the ALTREP vector
+// get meta data components from the ALTREP vector
 #define ALTWRAP_PAYLOAD(x) VECTOR_ELT(R_altrep_data1(x), 0)
 #define ALTWRAP_LISTENERS(x) VECTOR_ELT(R_altrep_data1(x), 1)
 #define ALTWRAP_PARENT_ENV(x) VECTOR_ELT(R_altrep_data1(x), 2)
+#define ALTWRAP_METADATA(x) VECTOR_ELT(R_altrep_data1(x), 3)
 
 #define CALL_METHOD_SETTER(CNAME, TNAME, MNAME) \
   R_set_##CNAME##_##MNAME##_method(altwrap_##TNAME##_class, altwrap_##TNAME##_##MNAME##_method)

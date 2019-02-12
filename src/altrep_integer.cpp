@@ -7,8 +7,9 @@
 // altrep integer class definition
 static R_altrep_class_t altwrap_integer_class;
 
+
 // [[Rcpp::export]]
-SEXP construct_altrep_wrapper(SEXP data)
+SEXP construct_altrep_integer_wrapper(SEXP data)
 {
   SEXP altrep_vec = R_new_altrep(altwrap_integer_class, data, NILSXP);
 
@@ -156,14 +157,18 @@ R_xlen_t altwrap_integer_Length_method(SEXP x)
 {
   R_xlen_t length_result = ALTREP_LENGTH(ALTWRAP_PAYLOAD(x));
 
+  SEXP arguments = PROTECT(Rf_allocVector(VECSXP, 2));
+  SET_VECTOR_ELT(arguments, 0, ALTWRAP_METADATA(x));
+  SET_VECTOR_ELT(arguments, 1, Rf_ScalarInteger(length_result));
+  
   // length listener method
   SEXP length_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(x), LISTENER_LENGTH));
 
   // call listener with integer length result
   // TODO: change to int64 result
-  call_r_interface(length_listener, Rf_ScalarInteger(length_result), ALTWRAP_PARENT_ENV(x));
+  call_r_interface(length_listener, arguments, ALTWRAP_PARENT_ENV(x));
 
-  UNPROTECT(1);
+  UNPROTECT(2);
   
   return length_result;
 }

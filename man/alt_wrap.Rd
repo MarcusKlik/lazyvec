@@ -4,7 +4,7 @@
 \alias{alt_wrap}
 \title{Wrap an altrep vector}
 \usage{
-alt_wrap(altrep_vec)
+alt_wrap(altrep_vec, vec_id)
 }
 \arguments{
 \item{altrep_vec}{altrep vector}

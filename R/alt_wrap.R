@@ -58,7 +58,7 @@ display_parameter <- function(x) {
 
 
 listener_length <- function(x) {
-  cat(crayon::italic(crayon::cyan("ALTREP length called: result = ")), display_parameter(x), "\n", sep = "")
+  cat(crayon::italic(crayon::cyan(x[1], ": ALTREP length called: result = ")), display_parameter(x[2]), "\n", sep = "")
 }
 
 
