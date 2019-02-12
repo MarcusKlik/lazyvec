@@ -6,5 +6,5 @@
 #' @return TRUE if the object is an altrep vector
 #' @export
 is_altrep <- function(x) {
-  is_altrep_vector(x)
+  is_altrep_vector(x) == 1
 }

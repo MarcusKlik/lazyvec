@@ -5,8 +5,12 @@
 #'
 #' @return a wrapper around the altrep vector which is an altrep vector itself
 #' @export
-alt_wrap <- function(altrep_vec) {
+alt_wrap <- function(altrep_vec, vec_id) {
 
+  if (!is_altrep(altrep_vec)) {
+    stop("vector is not an ALTREP vector.")
+  }
+  
   # package listener methods
   listeners <- c(
     listener_length,
@@ -36,10 +40,13 @@ alt_wrap <- function(altrep_vec) {
     listeners,
 
     # parent environment in which to evaluate listeners
-    parent.env(environment())
+    parent.env(environment()),
+    
+    # identifyer, used in diagnostic output
+    vec_id
   )
 
-  construct_altrep_wrapper(meta_data)
+  construct_altrep_integer_wrapper(meta_data)
 }
 
 
