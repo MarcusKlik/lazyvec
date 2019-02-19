@@ -276,7 +276,7 @@ int altwrap_ALTREP_TYPE_Is_sorted_method(SEXP sx)
 
 int altwrap_ALTREP_TYPE_No_NA_method(SEXP sx)
 {
-  int no_na = INTEGER_NO_NA(ALTWRAP_PAYLOAD(sx));
+  int no_na = TYPE_METHOD_NO_NA(ALTWRAP_PAYLOAD(sx));
 
   // retrieve no_na listener method
   SEXP no_na_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(sx), LISTENER_NO_NA));
@@ -291,7 +291,7 @@ int altwrap_ALTREP_TYPE_No_NA_method(SEXP sx)
 
 SEXP altwrap_ALTREP_TYPE_Sum_method(SEXP sx, Rboolean na_rm)
 {
-  SEXP sum = PROTECT(ALTINTEGER_SUM(ALTWRAP_PAYLOAD(sx), na_rm));
+  SEXP sum = PROTECT(ALTTYPE_METHOD_SUM(ALTWRAP_PAYLOAD(sx), na_rm));
 
   // retrieve sum listener method
   SEXP sum_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(sx), LISTENER_SUM));
@@ -324,7 +324,7 @@ SEXP altwrap_ALTREP_TYPE_Sum_method(SEXP sx, Rboolean na_rm)
 
 SEXP altwrap_ALTREP_TYPE_Min_method(SEXP sx, Rboolean na_rm)
 {
-  SEXP result_min = PROTECT(ALTINTEGER_MIN(ALTWRAP_PAYLOAD(sx), na_rm));
+  SEXP result_min = PROTECT(ALTTYPE_METHOD_MIN(ALTWRAP_PAYLOAD(sx), na_rm));
 
   // retrieve sum listener method
   SEXP min_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(sx), LISTENER_MIN));
@@ -348,7 +348,7 @@ SEXP altwrap_ALTREP_TYPE_Min_method(SEXP sx, Rboolean na_rm)
 
 SEXP altwrap_ALTREP_TYPE_Max_method(SEXP sx, Rboolean na_rm)
 {
-  SEXP result_max = PROTECT(ALTINTEGER_MAX(ALTWRAP_PAYLOAD(sx), na_rm));
+  SEXP result_max = PROTECT(ALTTYPE_METHOD_MAX(ALTWRAP_PAYLOAD(sx), na_rm));
 
   // retrieve sum listener method
   SEXP max_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(sx), LISTENER_MAX));
@@ -489,11 +489,11 @@ void register_altrep_ALTREP_TYPE_class(DllInfo *dll)
   CALL_METHOD_SETTER(altvec, ALTREP_TYPE, Extract_subset);
 
   /* override ALTINTEGER methods */
-  CALL_METHOD_SETTER(altinteger, ALTREP_TYPE, Elt);
-  CALL_METHOD_SETTER(altinteger, ALTREP_TYPE, Get_region);
-  CALL_METHOD_SETTER(altinteger, ALTREP_TYPE, Is_sorted);
-  CALL_METHOD_SETTER(altinteger, ALTREP_TYPE, No_NA);
-  CALL_METHOD_SETTER(altinteger, ALTREP_TYPE, Sum);
-  CALL_METHOD_SETTER(altinteger, ALTREP_TYPE, Min);
-  CALL_METHOD_SETTER(altinteger, ALTREP_TYPE, Max);
+  CALL_METHOD_SETTER(ALT_METHOD, ALTREP_TYPE, Elt);
+  CALL_METHOD_SETTER(ALT_METHOD, ALTREP_TYPE, Get_region);
+  CALL_METHOD_SETTER(ALT_METHOD, ALTREP_TYPE, Is_sorted);
+  CALL_METHOD_SETTER(ALT_METHOD, ALTREP_TYPE, No_NA);
+  CALL_METHOD_SETTER(ALT_METHOD, ALTREP_TYPE, Sum);
+  CALL_METHOD_SETTER(ALT_METHOD, ALTREP_TYPE, Min);
+  CALL_METHOD_SETTER(ALT_METHOD, ALTREP_TYPE, Max);
 }

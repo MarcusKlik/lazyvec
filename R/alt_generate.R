@@ -11,6 +11,7 @@ alt_generate <- function(altrep_type, output_path) {
   cpp_type <- "int"
   scalar_method <- "Rf_ScalarInteger"
   type_method <- "INTEGER"
+  alt_method <- "altinteger"
 
   # read default source file
   source_file <- readLines(paste0(
@@ -21,6 +22,7 @@ alt_generate <- function(altrep_type, output_path) {
   source_file <- gsub("CPP_TYPE", cpp_type, source_file)
   source_file <- gsub("RF_SCALAR_TYPE", scalar_method, source_file)
   source_file <- gsub("TYPE_METHOD", type_method, source_file)
+  source_file <- gsub("ALT_METHOD", alt_method, source_file)
 
   writeLines(source_file, output_path)
 }
