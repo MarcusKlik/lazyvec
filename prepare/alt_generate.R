@@ -8,8 +8,7 @@
 alt_generate <- function(altrep_type, cpp_type, scalar_method, type_method, alt_method, output_path) {
 
   # read default source file
-  source_file <- readLines(paste0(
-    path.package("lazyvec"), "/altrep_sources/altrep_implementation.cpp"))
+  source_file <- readLines("altrep_implementation.cpp")
 
   # replace altrep type
   source_file <- gsub("ALTREP_TYPE", altrep_type, source_file)
@@ -28,7 +27,7 @@ alt_generate <- function(altrep_type, cpp_type, scalar_method, type_method, alt_
 #   scalar_method = "Rf_ScalarInteger",
 #   type_method = "INTEGER",
 #   alt_method = "altinteger",
-#   "src/altrep_integer.cpp")
+#   "../src/altrep_integer.cpp")
 
 # alt_generate(
 #   altrep_type = "real",
@@ -36,12 +35,12 @@ alt_generate <- function(altrep_type, cpp_type, scalar_method, type_method, alt_
 #   scalar_method = "Rf_ScalarReal",
 #   type_method = "REAL",
 #   alt_method = "altreal",
-#   "src/altrep_real.cpp")
+#   "../src/altrep_real.cpp")
 
-# alt_generate(
-#   altrep_type = "logical",
-#   cpp_type = "int",
-#   scalar_method = "Rf_ScalarLogical",
-#   type_method = "LOGICAL",
-#   alt_method = "altlogical",
-#   "src/altrep_logical.cpp")
+alt_generate(
+  altrep_type = "logical",
+  cpp_type = "int",
+  scalar_method = "Rf_ScalarLogical",
+  type_method = "LOGICAL",
+  alt_method = "altlogical",
+  "../src/altrep_logical.cpp")

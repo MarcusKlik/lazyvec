@@ -34,6 +34,7 @@ SEXP construct_altrep_ALTREP_TYPE_wrapper(SEXP data)
 // }
 
 
+// generate: UnserializeEX
 // ALTREP_UNSERIALIZE_EX((SEXP info, SEXP state, SEXP attr, int objf, int levs)
 // is not linking on linux
 //
@@ -99,6 +100,7 @@ SEXP altwrap_ALTREP_TYPE_UnserializeEX_method(SEXP info, SEXP state, SEXP attr, 
 }
 
 
+// generate: Serialized_state
 SEXP altwrap_ALTREP_TYPE_Serialized_state_method(SEXP x)
 {
   SEXP serialized_state_result = PROTECT(ALTREP_SERIALIZED_STATE(ALTWRAP_PAYLOAD(x)));
@@ -119,6 +121,7 @@ SEXP altwrap_ALTREP_TYPE_Serialized_state_method(SEXP x)
 }
 
 
+// generate: Inspect
 Rboolean altwrap_ALTREP_TYPE_Inspect_method(SEXP x, int pre, int deep, int pvec,
   inspect_subtree_method subtree_method)
 {
@@ -152,6 +155,7 @@ Rboolean altwrap_ALTREP_TYPE_Inspect_method(SEXP x, int pre, int deep, int pvec,
 }
 
 
+// generate: Length
 R_xlen_t altwrap_ALTREP_TYPE_Length_method(SEXP x)
 {
   R_xlen_t length_result = ALTREP_LENGTH(ALTWRAP_PAYLOAD(x));
@@ -173,6 +177,7 @@ R_xlen_t altwrap_ALTREP_TYPE_Length_method(SEXP x)
 }
 
 
+// generate: Dataptr
 void* altwrap_ALTREP_TYPE_Dataptr_method(SEXP x, Rboolean writeable)
 {
   // create structure with info
@@ -201,6 +206,7 @@ void* altwrap_ALTREP_TYPE_Dataptr_method(SEXP x, Rboolean writeable)
 }
 
 
+// generate: Dataptr_or_null
 const void *altwrap_ALTREP_TYPE_Dataptr_or_null_method(SEXP x)
 {
   const void* pdata_or_null = DATAPTR_OR_NULL(ALTWRAP_PAYLOAD(x));
@@ -219,6 +225,7 @@ const void *altwrap_ALTREP_TYPE_Dataptr_or_null_method(SEXP x)
 }
 
 
+// generate: Elt
 CPP_TYPE altwrap_ALTREP_TYPE_Elt_method(SEXP sx, R_xlen_t i)
 {
   CPP_TYPE element = TYPE_METHOD_ELT(ALTWRAP_PAYLOAD(sx), i);
@@ -235,6 +242,7 @@ CPP_TYPE altwrap_ALTREP_TYPE_Elt_method(SEXP sx, R_xlen_t i)
 }
 
 
+// generate: Get_region
 R_xlen_t altwrap_ALTREP_TYPE_Get_region_method(SEXP sx, R_xlen_t i, R_xlen_t n, CPP_TYPE *buf)
 {
   R_xlen_t length = TYPE_METHOD_GET_REGION(ALTWRAP_PAYLOAD(sx), i, n, buf);
@@ -258,6 +266,7 @@ R_xlen_t altwrap_ALTREP_TYPE_Get_region_method(SEXP sx, R_xlen_t i, R_xlen_t n, 
 }
 
 
+// generate: Is_sorted
 int altwrap_ALTREP_TYPE_Is_sorted_method(SEXP sx)
 {
   int is_sorted = TYPE_METHOD_IS_SORTED(ALTWRAP_PAYLOAD(sx));
@@ -274,6 +283,7 @@ int altwrap_ALTREP_TYPE_Is_sorted_method(SEXP sx)
 }
 
 
+// generate: No_NA
 int altwrap_ALTREP_TYPE_No_NA_method(SEXP sx)
 {
   int no_na = TYPE_METHOD_NO_NA(ALTWRAP_PAYLOAD(sx));
@@ -289,6 +299,8 @@ int altwrap_ALTREP_TYPE_No_NA_method(SEXP sx)
   return no_na;
 }
 
+
+// generate: Sum
 SEXP altwrap_ALTREP_TYPE_Sum_method(SEXP sx, Rboolean na_rm)
 {
   SEXP sum = PROTECT(ALTTYPE_METHOD_SUM(ALTWRAP_PAYLOAD(sx), na_rm));
@@ -322,6 +334,7 @@ SEXP altwrap_ALTREP_TYPE_Sum_method(SEXP sx, Rboolean na_rm)
 }
 
 
+// generate: Min
 SEXP altwrap_ALTREP_TYPE_Min_method(SEXP sx, Rboolean na_rm)
 {
   SEXP result_min = PROTECT(ALTTYPE_METHOD_MIN(ALTWRAP_PAYLOAD(sx), na_rm));
@@ -346,6 +359,7 @@ SEXP altwrap_ALTREP_TYPE_Min_method(SEXP sx, Rboolean na_rm)
 }
 
 
+// generate: Max
 SEXP altwrap_ALTREP_TYPE_Max_method(SEXP sx, Rboolean na_rm)
 {
   SEXP result_max = PROTECT(ALTTYPE_METHOD_MAX(ALTWRAP_PAYLOAD(sx), na_rm));
@@ -370,6 +384,7 @@ SEXP altwrap_ALTREP_TYPE_Max_method(SEXP sx, Rboolean na_rm)
 }
 
 
+// generate: DuplicateEX
 SEXP altwrap_ALTREP_TYPE_DuplicateEX_method(SEXP sx, Rboolean deep)
 {
   SEXP result_duplicate_ex = PROTECT(ALTREP_DUPLICATE_EX(ALTWRAP_PAYLOAD(sx), deep));
@@ -494,6 +509,6 @@ void register_altrep_ALTREP_TYPE_class(DllInfo *dll)
   CALL_METHOD_SETTER(ALT_METHOD, ALTREP_TYPE, Is_sorted);
   CALL_METHOD_SETTER(ALT_METHOD, ALTREP_TYPE, No_NA);
   CALL_METHOD_SETTER(ALT_METHOD, ALTREP_TYPE, Sum);
-  CALL_METHOD_SETTER(ALT_METHOD, ALTREP_TYPE, Min);
-  CALL_METHOD_SETTER(ALT_METHOD, ALTREP_TYPE, Max);
+  CALL_METHOD_SETTER(ALT_METHOD, ALTREP_TYPE, Min);  // codeline: Min
+  CALL_METHOD_SETTER(ALT_METHOD, ALTREP_TYPE, Max);  // codeline: Max
 }
