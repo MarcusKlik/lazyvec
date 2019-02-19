@@ -37,3 +37,11 @@ alt_generate <- function(altrep_type, cpp_type, scalar_method, type_method, alt_
 #   type_method = "REAL",
 #   alt_method = "altreal",
 #   "src/altrep_real.cpp")
+
+# alt_generate(
+#   altrep_type = "logical",
+#   cpp_type = "int",
+#   scalar_method = "Rf_ScalarLogical",
+#   type_method = "LOGICAL",
+#   alt_method = "altlogical",
+#   "src/altrep_logical.cpp")

@@ -221,7 +221,7 @@ const void *altwrap_ALTREP_TYPE_Dataptr_or_null_method(SEXP x)
 
 CPP_TYPE altwrap_ALTREP_TYPE_Elt_method(SEXP sx, R_xlen_t i)
 {
-  CPP_TYPE element = INTEGER_ELT(ALTWRAP_PAYLOAD(sx), i);
+  CPP_TYPE element = TYPE_METHOD_ELT(ALTWRAP_PAYLOAD(sx), i);
 
   // retrieve is_sorted listener method
   SEXP is_sorted_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(sx), LISTENER_ELT));
