@@ -219,15 +219,15 @@ const void *altwrap_ALTREP_TYPE_Dataptr_or_null_method(SEXP x)
 }
 
 
-int altwrap_ALTREP_TYPE_Elt_method(SEXP sx, R_xlen_t i)
+CPP_TYPE altwrap_ALTREP_TYPE_Elt_method(SEXP sx, R_xlen_t i)
 {
-  int element = INTEGER_ELT(ALTWRAP_PAYLOAD(sx), i);
+  CPP_TYPE element = INTEGER_ELT(ALTWRAP_PAYLOAD(sx), i);
 
   // retrieve is_sorted listener method
   SEXP is_sorted_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(sx), LISTENER_ELT));
 
   // call listener with integer result
-  call_r_interface(is_sorted_listener, Rf_ScalarInteger(element), ALTWRAP_PARENT_ENV(sx));
+  call_r_interface(is_sorted_listener, RF_SCALAR_TYPE(element), ALTWRAP_PARENT_ENV(sx));
 
   UNPROTECT(1);
 
@@ -235,9 +235,9 @@ int altwrap_ALTREP_TYPE_Elt_method(SEXP sx, R_xlen_t i)
 }
 
 
-R_xlen_t altwrap_ALTREP_TYPE_Get_region_method(SEXP sx, R_xlen_t i, R_xlen_t n, int *buf)
+R_xlen_t altwrap_ALTREP_TYPE_Get_region_method(SEXP sx, R_xlen_t i, R_xlen_t n, CPP_TYPE *buf)
 {
-  R_xlen_t length = INTEGER_GET_REGION(ALTWRAP_PAYLOAD(sx), i, n, buf);
+  R_xlen_t length = TYPE_METHOD_GET_REGION(ALTWRAP_PAYLOAD(sx), i, n, buf);
 
   SEXP arguments = PROTECT(Rf_allocVector(INTSXP, 3));
   int* parguments = INTEGER(arguments);
@@ -260,7 +260,7 @@ R_xlen_t altwrap_ALTREP_TYPE_Get_region_method(SEXP sx, R_xlen_t i, R_xlen_t n, 
 
 int altwrap_ALTREP_TYPE_Is_sorted_method(SEXP sx)
 {
-  int is_sorted = INTEGER_IS_SORTED(ALTWRAP_PAYLOAD(sx));
+  int is_sorted = TYPE_METHOD_IS_SORTED(ALTWRAP_PAYLOAD(sx));
 
   // retrieve is_sorted listener method
   SEXP is_sorted_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(sx), LISTENER_IS_SORTED));

@@ -4,7 +4,7 @@
 \alias{alt_generate}
 \title{Generate source code for an altrep wrapper}
 \usage{
-alt_generate(altrep_type)
+alt_generate(altrep_type, output_path)
 }
 \arguments{
 \item{altrep_type}{A specific type of altrep vector; 'integer', 'real' or 'logical'}
