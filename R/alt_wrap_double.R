@@ -1,5 +1,5 @@
 
-alt_wrap_integer <- function(altrep_vec, vec_id) {
+alt_wrap_double <- function(altrep_vec, vec_id) {
 
   if (!is_altrep(altrep_vec)) {
     stop("vector is not an ALTREP vector.")
@@ -40,5 +40,5 @@ alt_wrap_integer <- function(altrep_vec, vec_id) {
     vec_id
   )
 
-  construct_altrep_integer_wrapper(meta_data)
+  # construct_altrep_double_wrapper(meta_data)
 }

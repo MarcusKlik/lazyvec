@@ -5,13 +5,7 @@
 #'
 #' @return a wrapper around the altrep vector which is an altrep vector itself
 #' @export
-alt_generate <- function(altrep_type, output_path) {
-
-  altrep_type <- "integer"  # replace ALTREP_TYPE
-  cpp_type <- "int"
-  scalar_method <- "Rf_ScalarInteger"
-  type_method <- "INTEGER"
-  alt_method <- "altinteger"
+alt_generate <- function(altrep_type, cpp_type, scalar_method, type_method, alt_method, output_path) {
 
   # read default source file
   source_file <- readLines(paste0(
@@ -28,4 +22,18 @@ alt_generate <- function(altrep_type, output_path) {
 }
 
 
-# alt_generate("integer", "src/altrep_integer.cpp")
+# alt_generate(
+#   altrep_type = "integer",
+#   cpp_type = "int",
+#   scalar_method = "Rf_ScalarInteger",
+#   type_method = "INTEGER",
+#   alt_method = "altinteger",
+#   "src/altrep_integer.cpp")
+
+# alt_generate(
+#   altrep_type = "real",
+#   cpp_type = "double",
+#   scalar_method = "Rf_ScalarReal",
+#   type_method = "REAL",
+#   alt_method = "altreal",
+#   "src/altrep_real.cpp")
