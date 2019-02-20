@@ -8,6 +8,8 @@ alt_wrap(altrep_vec, vec_id)
 }
 \arguments{
 \item{altrep_vec}{altrep vector}
+
+\item{vec_id}{id of the encapsulated vector, used in diagnostic output}
 }
 \value{
 a wrapper around the altrep vector which in turn is an altrep vector itself

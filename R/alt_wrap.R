@@ -8,6 +8,7 @@
 #' framework and with reports on the data received from the encapsulated vector.
 #'
 #' @param altrep_vec altrep vector
+#' @param vec_id id of the encapsulated vector, used in diagnostic output
 #'
 #' @return a wrapper around the altrep vector which in turn is an altrep vector itself
 #' @export
