@@ -17,6 +17,10 @@ altrep_real_wrapper <- function(data) {
     .Call(`_lazyvec_altrep_real_wrapper`, data)
 }
 
+altrep_string_wrapper <- function(data) {
+    .Call(`_lazyvec_altrep_string_wrapper`, data)
+}
+
 is_altrep_vector <- function(vec) {
     .Call(`_lazyvec_is_altrep_vector`, vec)
 }

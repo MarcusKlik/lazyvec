@@ -87,3 +87,14 @@ alt_generate(
   alt_method = "altraw",
   "../src/altrep_raw.cpp",
   c("Min", "Max", "Is_sorted", "No_NA", "Sum"))
+
+
+# generate raw wrapper
+alt_generate(
+  altrep_type = "string",
+  cpp_type = "SEXP",
+  scalar_method = "",
+  type_method = "STRING",
+  alt_method = "altstring",
+  "../src/altrep_string.cpp",
+  c("Min", "Max", "Sum", "Get_region"))

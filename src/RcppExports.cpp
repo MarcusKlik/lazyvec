@@ -49,6 +49,17 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// altrep_string_wrapper
+SEXP altrep_string_wrapper(SEXP data);
+RcppExport SEXP _lazyvec_altrep_string_wrapper(SEXP dataSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type data(dataSEXP);
+    rcpp_result_gen = Rcpp::wrap(altrep_string_wrapper(data));
+    return rcpp_result_gen;
+END_RCPP
+}
 // is_altrep_vector
 int is_altrep_vector(SEXP vec);
 RcppExport SEXP _lazyvec_is_altrep_vector(SEXP vecSEXP) {
@@ -66,6 +77,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_lazyvec_altrep_logical_wrapper", (DL_FUNC) &_lazyvec_altrep_logical_wrapper, 1},
     {"_lazyvec_altrep_raw_wrapper", (DL_FUNC) &_lazyvec_altrep_raw_wrapper, 1},
     {"_lazyvec_altrep_real_wrapper", (DL_FUNC) &_lazyvec_altrep_real_wrapper, 1},
+    {"_lazyvec_altrep_string_wrapper", (DL_FUNC) &_lazyvec_altrep_string_wrapper, 1},
     {"_lazyvec_is_altrep_vector", (DL_FUNC) &_lazyvec_is_altrep_vector, 1},
     {NULL, NULL, 0}
 };
@@ -74,6 +86,7 @@ void register_altrep_integer_class(DllInfo *dll);
 void register_altrep_logical_class(DllInfo *dll);
 void register_altrep_raw_class(DllInfo *dll);
 void register_altrep_real_class(DllInfo *dll);
+void register_altrep_string_class(DllInfo *dll);
 RcppExport void R_init_lazyvec(DllInfo *dll) {
     R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
     R_useDynamicSymbols(dll, FALSE);
@@ -81,4 +94,5 @@ RcppExport void R_init_lazyvec(DllInfo *dll) {
     register_altrep_logical_class(dll);
     register_altrep_raw_class(dll);
     register_altrep_real_class(dll);
+    register_altrep_string_class(dll);
 }
