@@ -33,9 +33,9 @@ SEXP altrep_ALTREP_TYPE_wrapper(SEXP data)
 // 
 //   return inspect_result;
 // }
+
+
 // generator source end: Unserialize
-
-
 // generator source start: UnserializeEX
 // ALTREP_UNSERIALIZE_EX((SEXP info, SEXP state, SEXP attr, int objf, int levs)
 // is not linking on linux
@@ -100,9 +100,9 @@ SEXP altwrap_ALTREP_TYPE_UnserializeEX_method(SEXP info, SEXP state, SEXP attr, 
 
   // return unserialize_ex_result;
 }
+
+
 // generator source end: UnserializeEX
-
-
 // generator source start: Serialized_state
 SEXP altwrap_ALTREP_TYPE_Serialized_state_method(SEXP x)
 {
@@ -122,9 +122,9 @@ SEXP altwrap_ALTREP_TYPE_Serialized_state_method(SEXP x)
   UNPROTECT(2);
   return serialized_state_result;
 }
+
+
 // generator source end: Serialized_state
-
-
 // generator source start: Inspect
 Rboolean altwrap_ALTREP_TYPE_Inspect_method(SEXP x, int pre, int deep, int pvec,
   inspect_subtree_method subtree_method)
@@ -157,9 +157,9 @@ Rboolean altwrap_ALTREP_TYPE_Inspect_method(SEXP x, int pre, int deep, int pvec,
 
   return inspect_result;
 }
+
+
 // generator source end: Inspect
-
-
 // generator source start: Length
 R_xlen_t altwrap_ALTREP_TYPE_Length_method(SEXP x)
 {
@@ -180,9 +180,9 @@ R_xlen_t altwrap_ALTREP_TYPE_Length_method(SEXP x)
 
   return length_result;
 }
+
+
 // generator source end: Length
-
-
 // generator source start: Dataptr
 void* altwrap_ALTREP_TYPE_Dataptr_method(SEXP x, Rboolean writeable)
 {
@@ -210,9 +210,9 @@ void* altwrap_ALTREP_TYPE_Dataptr_method(SEXP x, Rboolean writeable)
 
   return pdata;
 }
+
+
 // generator source end: Dataptr
-
-
 // generator source start: Dataptr_or_null
 const void *altwrap_ALTREP_TYPE_Dataptr_or_null_method(SEXP x)
 {
@@ -230,9 +230,9 @@ const void *altwrap_ALTREP_TYPE_Dataptr_or_null_method(SEXP x)
 
   return pdata_or_null;
 }
+
+
 // generator source end: Dataptr_or_null
-
-
 // generator source start: Elt
 CPP_TYPE altwrap_ALTREP_TYPE_Elt_method(SEXP sx, R_xlen_t i)
 {
@@ -248,9 +248,9 @@ CPP_TYPE altwrap_ALTREP_TYPE_Elt_method(SEXP sx, R_xlen_t i)
 
   return element;
 }
+
+
 // generator source end: Elt
-
-
 // generator source start: Get_region
 R_xlen_t altwrap_ALTREP_TYPE_Get_region_method(SEXP sx, R_xlen_t i, R_xlen_t n, CPP_TYPE *buf)
 {
@@ -273,9 +273,9 @@ R_xlen_t altwrap_ALTREP_TYPE_Get_region_method(SEXP sx, R_xlen_t i, R_xlen_t n, 
 
   return length;
 }
+
+
 // generator source end: Get_region
-
-
 // generator source start: Is_sorted
 int altwrap_ALTREP_TYPE_Is_sorted_method(SEXP sx)
 {
@@ -291,9 +291,9 @@ int altwrap_ALTREP_TYPE_Is_sorted_method(SEXP sx)
 
   return is_sorted;
 }
+
+
 // generator source end: Is_sorted
-
-
 // generator source start: No_NA
 int altwrap_ALTREP_TYPE_No_NA_method(SEXP sx)
 {
@@ -309,9 +309,9 @@ int altwrap_ALTREP_TYPE_No_NA_method(SEXP sx)
 
   return no_na;
 }
+
+
 // generator source end: No_NA
-
-
 // generator source start: Sum
 SEXP altwrap_ALTREP_TYPE_Sum_method(SEXP sx, Rboolean na_rm)
 {
@@ -344,9 +344,9 @@ SEXP altwrap_ALTREP_TYPE_Sum_method(SEXP sx, Rboolean na_rm)
 
   return sum;
 }
+
+
 // generator source end: Sum
-
-
 // generator source start: Min
 SEXP altwrap_ALTREP_TYPE_Min_method(SEXP sx, Rboolean na_rm)
 {
@@ -370,9 +370,9 @@ SEXP altwrap_ALTREP_TYPE_Min_method(SEXP sx, Rboolean na_rm)
 
   return result_min;
 }
+
+
 // generator source end: Min
-
-
 // generator source start: Max
 SEXP altwrap_ALTREP_TYPE_Max_method(SEXP sx, Rboolean na_rm)
 {
@@ -396,9 +396,9 @@ SEXP altwrap_ALTREP_TYPE_Max_method(SEXP sx, Rboolean na_rm)
 
   return result_max;
 }
+
+
 // generator source end: Max
-
-
 // generator source start: DuplicateEX
 SEXP altwrap_ALTREP_TYPE_DuplicateEX_method(SEXP sx, Rboolean deep)
 {
@@ -422,9 +422,9 @@ SEXP altwrap_ALTREP_TYPE_DuplicateEX_method(SEXP sx, Rboolean deep)
 
   return result_duplicate_ex;
 }
+
+
 // generator source end: DuplicateEX
-
-
 // generator source start: Coerce
 SEXP altwrap_ALTREP_TYPE_Coerce_method(SEXP sx, int type)
 {
@@ -455,9 +455,9 @@ SEXP altwrap_ALTREP_TYPE_Coerce_method(SEXP sx, int type)
   UNPROTECT(3);
   return result_coerce;
 }
+
+
 // generator source end: Coerce
-
-
 // generator source start: Extract_subset
 SEXP altwrap_ALTREP_TYPE_Extract_subset_method(SEXP sx, SEXP indx, SEXP call)
 {
@@ -499,9 +499,9 @@ SEXP altwrap_ALTREP_TYPE_Extract_subset_method(SEXP sx, SEXP indx, SEXP call)
 
   return result_extract_subset;
 }
+
+
 // generator source end: Extract_subset
-
-
 // [[Rcpp::init]]
 void register_altrep_ALTREP_TYPE_class(DllInfo *dll)
 {

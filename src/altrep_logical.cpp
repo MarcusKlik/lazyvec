@@ -323,10 +323,6 @@ SEXP altwrap_logical_Sum_method(SEXP sx, Rboolean na_rm)
 }
 
 
-
-
-
-
 SEXP altwrap_logical_DuplicateEX_method(SEXP sx, Rboolean deep)
 {
   SEXP result_duplicate_ex = PROTECT(ALTREP_DUPLICATE_EX(ALTWRAP_PAYLOAD(sx), deep));
