@@ -41,8 +41,8 @@ alt_generate <- function(altrep_type, cpp_type, scalar_method, type_method,
   # remove all code markers
   hits <- regexpr("// generator source ", source_file, fixed = TRUE) != -1
   source_file <- source_file[!hits]
-  
-  
+
+
   writeLines(source_file, output_path)
 }
 
