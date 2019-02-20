@@ -9,6 +9,10 @@ altrep_logical_wrapper <- function(data) {
     .Call(`_lazyvec_altrep_logical_wrapper`, data)
 }
 
+altrep_raw_wrapper <- function(data) {
+    .Call(`_lazyvec_altrep_raw_wrapper`, data)
+}
+
 altrep_real_wrapper <- function(data) {
     .Call(`_lazyvec_altrep_real_wrapper`, data)
 }

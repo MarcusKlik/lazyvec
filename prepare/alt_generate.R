@@ -38,6 +38,11 @@ alt_generate <- function(altrep_type, cpp_type, scalar_method, type_method,
     source_file <- source_file[c(1:(start - 1), (end + 1):length(source_file))]
   }
 
+  # remove all code markers
+  hits <- regexpr("// generator source ", source_file, fixed = TRUE) != -1
+  source_file <- source_file[!hits]
+  
+  
   writeLines(source_file, output_path)
 }
 
@@ -71,3 +76,14 @@ alt_generate(
   alt_method = "altlogical",
   "../src/altrep_logical.cpp",
   c("Min", "Max"))
+
+
+# generate raw wrapper
+alt_generate(
+  altrep_type = "raw",
+  cpp_type = "Rbyte",
+  scalar_method = "Rf_ScalarRaw",
+  type_method = "RAW",
+  alt_method = "altraw",
+  "../src/altrep_raw.cpp",
+  c("Min", "Max", "Is_sorted", "No_NA", "Sum"))

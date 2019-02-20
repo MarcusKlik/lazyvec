@@ -34,7 +34,6 @@ SEXP altrep_logical_wrapper(SEXP data)
 // }
 
 
-// generate: UnserializeEX
 // ALTREP_UNSERIALIZE_EX((SEXP info, SEXP state, SEXP attr, int objf, int levs)
 // is not linking on linux
 //
@@ -100,7 +99,6 @@ SEXP altwrap_logical_UnserializeEX_method(SEXP info, SEXP state, SEXP attr, int 
 }
 
 
-// generate: Serialized_state
 SEXP altwrap_logical_Serialized_state_method(SEXP x)
 {
   SEXP serialized_state_result = PROTECT(ALTREP_SERIALIZED_STATE(ALTWRAP_PAYLOAD(x)));
@@ -121,7 +119,6 @@ SEXP altwrap_logical_Serialized_state_method(SEXP x)
 }
 
 
-// generate: Inspect
 Rboolean altwrap_logical_Inspect_method(SEXP x, int pre, int deep, int pvec,
   inspect_subtree_method subtree_method)
 {
@@ -155,7 +152,6 @@ Rboolean altwrap_logical_Inspect_method(SEXP x, int pre, int deep, int pvec,
 }
 
 
-// generate: Length
 R_xlen_t altwrap_logical_Length_method(SEXP x)
 {
   R_xlen_t length_result = ALTREP_LENGTH(ALTWRAP_PAYLOAD(x));
@@ -177,7 +173,6 @@ R_xlen_t altwrap_logical_Length_method(SEXP x)
 }
 
 
-// generate: Dataptr
 void* altwrap_logical_Dataptr_method(SEXP x, Rboolean writeable)
 {
   // create structure with info
@@ -206,7 +201,6 @@ void* altwrap_logical_Dataptr_method(SEXP x, Rboolean writeable)
 }
 
 
-// generate: Dataptr_or_null
 const void *altwrap_logical_Dataptr_or_null_method(SEXP x)
 {
   const void* pdata_or_null = DATAPTR_OR_NULL(ALTWRAP_PAYLOAD(x));
@@ -225,7 +219,6 @@ const void *altwrap_logical_Dataptr_or_null_method(SEXP x)
 }
 
 
-// generate: Elt
 int altwrap_logical_Elt_method(SEXP sx, R_xlen_t i)
 {
   int element = LOGICAL_ELT(ALTWRAP_PAYLOAD(sx), i);
@@ -242,7 +235,6 @@ int altwrap_logical_Elt_method(SEXP sx, R_xlen_t i)
 }
 
 
-// generate: Get_region
 R_xlen_t altwrap_logical_Get_region_method(SEXP sx, R_xlen_t i, R_xlen_t n, int *buf)
 {
   R_xlen_t length = LOGICAL_GET_REGION(ALTWRAP_PAYLOAD(sx), i, n, buf);
@@ -266,7 +258,6 @@ R_xlen_t altwrap_logical_Get_region_method(SEXP sx, R_xlen_t i, R_xlen_t n, int 
 }
 
 
-// generate: Is_sorted
 int altwrap_logical_Is_sorted_method(SEXP sx)
 {
   int is_sorted = LOGICAL_IS_SORTED(ALTWRAP_PAYLOAD(sx));
@@ -283,7 +274,6 @@ int altwrap_logical_Is_sorted_method(SEXP sx)
 }
 
 
-// generate: No_NA
 int altwrap_logical_No_NA_method(SEXP sx)
 {
   int no_na = LOGICAL_NO_NA(ALTWRAP_PAYLOAD(sx));
@@ -300,7 +290,6 @@ int altwrap_logical_No_NA_method(SEXP sx)
 }
 
 
-// generate: Sum
 SEXP altwrap_logical_Sum_method(SEXP sx, Rboolean na_rm)
 {
   SEXP sum = PROTECT(ALTLOGICAL_SUM(ALTWRAP_PAYLOAD(sx), na_rm));
@@ -338,7 +327,6 @@ SEXP altwrap_logical_Sum_method(SEXP sx, Rboolean na_rm)
 
 
 
-// generator source start: DuplicateEX
 SEXP altwrap_logical_DuplicateEX_method(SEXP sx, Rboolean deep)
 {
   SEXP result_duplicate_ex = PROTECT(ALTREP_DUPLICATE_EX(ALTWRAP_PAYLOAD(sx), deep));
@@ -361,7 +349,6 @@ SEXP altwrap_logical_DuplicateEX_method(SEXP sx, Rboolean deep)
 
   return result_duplicate_ex;
 }
-// generator source end: DuplicateEX
 
 
 SEXP altwrap_logical_Coerce_method(SEXP sx, int type)
@@ -443,25 +430,25 @@ void register_altrep_logical_class(DllInfo *dll)
   altwrap_logical_class = R_make_altlogical_class("altwrap_logical", "lazyvec", dll);
 
   /* override ALTREP methods */
-  CALL_METHOD_SETTER(altrep, logical, Serialized_state);
-  CALL_METHOD_SETTER(altrep, logical, Inspect);
-  CALL_METHOD_SETTER(altrep, logical, Length);
-  CALL_METHOD_SETTER(altrep, logical, DuplicateEX);
-  CALL_METHOD_SETTER(altrep, logical, Coerce);
+  CALL_METHOD_SETTER(altrep, logical, Serialized_state);  // codeline: Serialized_state
+  CALL_METHOD_SETTER(altrep, logical, Inspect);  // codeline: Inspect
+  CALL_METHOD_SETTER(altrep, logical, Length);  // codeline: Length
+  CALL_METHOD_SETTER(altrep, logical, DuplicateEX);  // codeline: DuplicateEx
+  CALL_METHOD_SETTER(altrep, logical, Coerce);  // codeline: Coerce
 
   // CALL_METHOD_SETTER(altrep, logical, Unserialize);
   // CALL_METHOD_SETTER(altrep, logical, UnserializeEX);
   // CALL_METHOD_SETTER(altrep, Duplicate);  // not found
 
   /* override ALTVEC methods */
-  CALL_METHOD_SETTER(altvec, logical, Dataptr);
-  CALL_METHOD_SETTER(altvec, logical, Dataptr_or_null);
-  CALL_METHOD_SETTER(altvec, logical, Extract_subset);
+  CALL_METHOD_SETTER(altvec, logical, Dataptr);  // codeline: Dataptr
+  CALL_METHOD_SETTER(altvec, logical, Dataptr_or_null);  // codeline: Dataptr_or_null
+  CALL_METHOD_SETTER(altvec, logical, Extract_subset);  // codeline: Extract_subset
 
   /* override ALTINTEGER methods */
-  CALL_METHOD_SETTER(altlogical, logical, Elt);
-  CALL_METHOD_SETTER(altlogical, logical, Get_region);
-  CALL_METHOD_SETTER(altlogical, logical, Is_sorted);
-  CALL_METHOD_SETTER(altlogical, logical, No_NA);
-  CALL_METHOD_SETTER(altlogical, logical, Sum);
+  CALL_METHOD_SETTER(altlogical, logical, Elt);  // codeline: Elt
+  CALL_METHOD_SETTER(altlogical, logical, Get_region);  // codeline: Get_region
+  CALL_METHOD_SETTER(altlogical, logical, Is_sorted);  // codeline: Is_sorted
+  CALL_METHOD_SETTER(altlogical, logical, No_NA);  // codeline: No_NA
+  CALL_METHOD_SETTER(altlogical, logical, Sum);  // codeline: Sum
 }
