@@ -18,7 +18,19 @@ alt_wrap <- function(altrep_vec, vec_id) {
   }
 
   if (typeof(altrep_vec) == "double") {
-    return(alt_wrap_double(altrep_vec, vec_id))
+    return(alt_wrap_real(altrep_vec, vec_id))
+  }
+
+  if (typeof(altrep_vec) == "logical") {
+    return(alt_wrap_logical(altrep_vec, vec_id))
+  }
+
+  if (typeof(altrep_vec) == "raw") {
+    return(alt_wrap_raw(altrep_vec, vec_id))
+  }
+
+  if (typeof(altrep_vec) == "character") {
+    return(alt_wrap_string(altrep_vec, vec_id))
   }
 }
 
