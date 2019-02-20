@@ -5,13 +5,13 @@
 
 
 // altrep integer class definition
-static R_altrep_class_t altwrap_real_class;
+static R_altrep_class_t altwrap_logical_class;
 
 
 // [[Rcpp::export]]
-SEXP altrep_real_wrapper(SEXP data)
+SEXP altrep_logical_wrapper(SEXP data)
 {
-  SEXP altrep_vec = R_new_altrep(altwrap_real_class, data, NILSXP);
+  SEXP altrep_vec = R_new_altrep(altwrap_logical_class, data, NILSXP);
 
   return altrep_vec;
 }
@@ -38,7 +38,7 @@ SEXP altrep_real_wrapper(SEXP data)
 // ALTREP_UNSERIALIZE_EX((SEXP info, SEXP state, SEXP attr, int objf, int levs)
 // is not linking on linux
 //
-SEXP altwrap_real_UnserializeEX_method(SEXP info, SEXP state, SEXP attr, int objf, int levs)
+SEXP altwrap_logical_UnserializeEX_method(SEXP info, SEXP state, SEXP attr, int objf, int levs)
 {
   return ALTREP_UNSERIALIZE_EX(info, state, attr, objf, levs);
 
@@ -101,7 +101,7 @@ SEXP altwrap_real_UnserializeEX_method(SEXP info, SEXP state, SEXP attr, int obj
 
 
 // generate: Serialized_state
-SEXP altwrap_real_Serialized_state_method(SEXP x)
+SEXP altwrap_logical_Serialized_state_method(SEXP x)
 {
   SEXP serialized_state_result = PROTECT(ALTREP_SERIALIZED_STATE(ALTWRAP_PAYLOAD(x)));
 
@@ -122,7 +122,7 @@ SEXP altwrap_real_Serialized_state_method(SEXP x)
 
 
 // generate: Inspect
-Rboolean altwrap_real_Inspect_method(SEXP x, int pre, int deep, int pvec,
+Rboolean altwrap_logical_Inspect_method(SEXP x, int pre, int deep, int pvec,
   inspect_subtree_method subtree_method)
 {
   Rboolean inspect_result = ALTREP_INSPECT(ALTWRAP_PAYLOAD(x), pre, deep, pvec, subtree_method);
@@ -156,7 +156,7 @@ Rboolean altwrap_real_Inspect_method(SEXP x, int pre, int deep, int pvec,
 
 
 // generate: Length
-R_xlen_t altwrap_real_Length_method(SEXP x)
+R_xlen_t altwrap_logical_Length_method(SEXP x)
 {
   R_xlen_t length_result = ALTREP_LENGTH(ALTWRAP_PAYLOAD(x));
 
@@ -178,7 +178,7 @@ R_xlen_t altwrap_real_Length_method(SEXP x)
 
 
 // generate: Dataptr
-void* altwrap_real_Dataptr_method(SEXP x, Rboolean writeable)
+void* altwrap_logical_Dataptr_method(SEXP x, Rboolean writeable)
 {
   // create structure with info
   SEXP arguments = PROTECT(Rf_allocVector(INTSXP, 3));
@@ -207,7 +207,7 @@ void* altwrap_real_Dataptr_method(SEXP x, Rboolean writeable)
 
 
 // generate: Dataptr_or_null
-const void *altwrap_real_Dataptr_or_null_method(SEXP x)
+const void *altwrap_logical_Dataptr_or_null_method(SEXP x)
 {
   const void* pdata_or_null = DATAPTR_OR_NULL(ALTWRAP_PAYLOAD(x));
 
@@ -226,15 +226,15 @@ const void *altwrap_real_Dataptr_or_null_method(SEXP x)
 
 
 // generate: Elt
-double altwrap_real_Elt_method(SEXP sx, R_xlen_t i)
+int altwrap_logical_Elt_method(SEXP sx, R_xlen_t i)
 {
-  double element = REAL_ELT(ALTWRAP_PAYLOAD(sx), i);
+  int element = LOGICAL_ELT(ALTWRAP_PAYLOAD(sx), i);
 
   // retrieve is_sorted listener method
   SEXP is_sorted_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(sx), LISTENER_ELT));
 
   // call listener with result with the correct ALTREP type
-  call_r_interface(is_sorted_listener, Rf_ScalarReal(element), ALTWRAP_PARENT_ENV(sx));
+  call_r_interface(is_sorted_listener, Rf_ScalarLogical(element), ALTWRAP_PARENT_ENV(sx));
 
   UNPROTECT(1);
 
@@ -243,9 +243,9 @@ double altwrap_real_Elt_method(SEXP sx, R_xlen_t i)
 
 
 // generate: Get_region
-R_xlen_t altwrap_real_Get_region_method(SEXP sx, R_xlen_t i, R_xlen_t n, double *buf)
+R_xlen_t altwrap_logical_Get_region_method(SEXP sx, R_xlen_t i, R_xlen_t n, int *buf)
 {
-  R_xlen_t length = REAL_GET_REGION(ALTWRAP_PAYLOAD(sx), i, n, buf);
+  R_xlen_t length = LOGICAL_GET_REGION(ALTWRAP_PAYLOAD(sx), i, n, buf);
 
   SEXP arguments = PROTECT(Rf_allocVector(INTSXP, 3));
   int* parguments = INTEGER(arguments);
@@ -267,9 +267,9 @@ R_xlen_t altwrap_real_Get_region_method(SEXP sx, R_xlen_t i, R_xlen_t n, double 
 
 
 // generate: Is_sorted
-int altwrap_real_Is_sorted_method(SEXP sx)
+int altwrap_logical_Is_sorted_method(SEXP sx)
 {
-  int is_sorted = REAL_IS_SORTED(ALTWRAP_PAYLOAD(sx));
+  int is_sorted = LOGICAL_IS_SORTED(ALTWRAP_PAYLOAD(sx));
 
   // retrieve is_sorted listener method
   SEXP is_sorted_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(sx), LISTENER_IS_SORTED));
@@ -284,9 +284,9 @@ int altwrap_real_Is_sorted_method(SEXP sx)
 
 
 // generate: No_NA
-int altwrap_real_No_NA_method(SEXP sx)
+int altwrap_logical_No_NA_method(SEXP sx)
 {
-  int no_na = REAL_NO_NA(ALTWRAP_PAYLOAD(sx));
+  int no_na = LOGICAL_NO_NA(ALTWRAP_PAYLOAD(sx));
 
   // retrieve no_na listener method
   SEXP no_na_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(sx), LISTENER_NO_NA));
@@ -301,9 +301,9 @@ int altwrap_real_No_NA_method(SEXP sx)
 
 
 // generate: Sum
-SEXP altwrap_real_Sum_method(SEXP sx, Rboolean na_rm)
+SEXP altwrap_logical_Sum_method(SEXP sx, Rboolean na_rm)
 {
-  SEXP sum = PROTECT(ALTREAL_SUM(ALTWRAP_PAYLOAD(sx), na_rm));
+  SEXP sum = PROTECT(ALTLOGICAL_SUM(ALTWRAP_PAYLOAD(sx), na_rm));
 
   // retrieve sum listener method
   SEXP sum_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(sx), LISTENER_SUM));
@@ -334,60 +334,12 @@ SEXP altwrap_real_Sum_method(SEXP sx, Rboolean na_rm)
 }
 
 
-// generator source start: Min
-SEXP altwrap_real_Min_method(SEXP sx, Rboolean na_rm)
-{
-  SEXP result_min = PROTECT(ALTREAL_MIN(ALTWRAP_PAYLOAD(sx), na_rm));
-
-  // retrieve sum listener method
-  SEXP min_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(sx), LISTENER_MIN));
-
-  if (result_min == NULL)
-  { 
-    // call listener with SEXP result
-    call_r_interface(min_listener, R_NilValue, ALTWRAP_PARENT_ENV(sx));
-    UNPROTECT(2);
-
-    return result_min;
-  }
-
-  // call listener with SEXP result
-  call_r_interface(min_listener, result_min, ALTWRAP_PARENT_ENV(sx));
-  UNPROTECT(2);
-
-  return result_min;
-}
-// generator source end: Min
 
 
-// generator source start: Max
-SEXP altwrap_real_Max_method(SEXP sx, Rboolean na_rm)
-{
-  SEXP result_max = PROTECT(ALTREAL_MAX(ALTWRAP_PAYLOAD(sx), na_rm));
-
-  // retrieve sum listener method
-  SEXP max_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(sx), LISTENER_MAX));
-
-  if (result_max == NULL)
-  { 
-    // call listener with SEXP result
-    call_r_interface(max_listener, R_NilValue, ALTWRAP_PARENT_ENV(sx));
-    UNPROTECT(2);
-
-    return result_max;
-  }
-
-  // call listener with SEXP result
-  call_r_interface(max_listener, result_max, ALTWRAP_PARENT_ENV(sx));
-  UNPROTECT(2);
-
-  return result_max;
-}
-// generator source end: Max
 
 
 // generator source start: DuplicateEX
-SEXP altwrap_real_DuplicateEX_method(SEXP sx, Rboolean deep)
+SEXP altwrap_logical_DuplicateEX_method(SEXP sx, Rboolean deep)
 {
   SEXP result_duplicate_ex = PROTECT(ALTREP_DUPLICATE_EX(ALTWRAP_PAYLOAD(sx), deep));
 
@@ -412,7 +364,7 @@ SEXP altwrap_real_DuplicateEX_method(SEXP sx, Rboolean deep)
 // generator source end: DuplicateEX
 
 
-SEXP altwrap_real_Coerce_method(SEXP sx, int type)
+SEXP altwrap_logical_Coerce_method(SEXP sx, int type)
 {
   SEXP result_coerce = PROTECT(ALTREP_COERCE(ALTWRAP_PAYLOAD(sx), type));
 
@@ -443,7 +395,7 @@ SEXP altwrap_real_Coerce_method(SEXP sx, int type)
 }
 
 
-SEXP altwrap_real_Extract_subset_method(SEXP sx, SEXP indx, SEXP call)
+SEXP altwrap_logical_Extract_subset_method(SEXP sx, SEXP indx, SEXP call)
 {
   SEXP result_extract_subset = PROTECT(ALTVEC_EXTRACT_SUBSET(ALTWRAP_PAYLOAD(sx), indx, call));
 
@@ -486,32 +438,30 @@ SEXP altwrap_real_Extract_subset_method(SEXP sx, SEXP indx, SEXP call)
 
 
 // [[Rcpp::init]]
-void register_altrep_real_class(DllInfo *dll)
+void register_altrep_logical_class(DllInfo *dll)
 {
-  altwrap_real_class = R_make_altreal_class("altwrap_real", "lazyvec", dll);
+  altwrap_logical_class = R_make_altlogical_class("altwrap_logical", "lazyvec", dll);
 
   /* override ALTREP methods */
-  CALL_METHOD_SETTER(altrep, real, Serialized_state);
-  CALL_METHOD_SETTER(altrep, real, Inspect);
-  CALL_METHOD_SETTER(altrep, real, Length);
-  CALL_METHOD_SETTER(altrep, real, DuplicateEX);
-  CALL_METHOD_SETTER(altrep, real, Coerce);
+  CALL_METHOD_SETTER(altrep, logical, Serialized_state);
+  CALL_METHOD_SETTER(altrep, logical, Inspect);
+  CALL_METHOD_SETTER(altrep, logical, Length);
+  CALL_METHOD_SETTER(altrep, logical, DuplicateEX);
+  CALL_METHOD_SETTER(altrep, logical, Coerce);
 
-  // CALL_METHOD_SETTER(altrep, real, Unserialize);
-  // CALL_METHOD_SETTER(altrep, real, UnserializeEX);
+  // CALL_METHOD_SETTER(altrep, logical, Unserialize);
+  // CALL_METHOD_SETTER(altrep, logical, UnserializeEX);
   // CALL_METHOD_SETTER(altrep, Duplicate);  // not found
 
   /* override ALTVEC methods */
-  CALL_METHOD_SETTER(altvec, real, Dataptr);
-  CALL_METHOD_SETTER(altvec, real, Dataptr_or_null);
-  CALL_METHOD_SETTER(altvec, real, Extract_subset);
+  CALL_METHOD_SETTER(altvec, logical, Dataptr);
+  CALL_METHOD_SETTER(altvec, logical, Dataptr_or_null);
+  CALL_METHOD_SETTER(altvec, logical, Extract_subset);
 
   /* override ALTINTEGER methods */
-  CALL_METHOD_SETTER(altreal, real, Elt);
-  CALL_METHOD_SETTER(altreal, real, Get_region);
-  CALL_METHOD_SETTER(altreal, real, Is_sorted);
-  CALL_METHOD_SETTER(altreal, real, No_NA);
-  CALL_METHOD_SETTER(altreal, real, Sum);
-  CALL_METHOD_SETTER(altreal, real, Min);  // codeline: Min
-  CALL_METHOD_SETTER(altreal, real, Max);  // codeline: Max
+  CALL_METHOD_SETTER(altlogical, logical, Elt);
+  CALL_METHOD_SETTER(altlogical, logical, Get_region);
+  CALL_METHOD_SETTER(altlogical, logical, Is_sorted);
+  CALL_METHOD_SETTER(altlogical, logical, No_NA);
+  CALL_METHOD_SETTER(altlogical, logical, Sum);
 }

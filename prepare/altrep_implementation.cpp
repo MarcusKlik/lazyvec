@@ -9,7 +9,7 @@ static R_altrep_class_t altwrap_ALTREP_TYPE_class;
 
 
 // [[Rcpp::export]]
-SEXP construct_altrep_ALTREP_TYPE_wrapper(SEXP data)
+SEXP altrep_ALTREP_TYPE_wrapper(SEXP data)
 {
   SEXP altrep_vec = R_new_altrep(altwrap_ALTREP_TYPE_class, data, NILSXP);
 
@@ -334,7 +334,7 @@ SEXP altwrap_ALTREP_TYPE_Sum_method(SEXP sx, Rboolean na_rm)
 }
 
 
-// generate: Min
+// generator source start: Min
 SEXP altwrap_ALTREP_TYPE_Min_method(SEXP sx, Rboolean na_rm)
 {
   SEXP result_min = PROTECT(ALTTYPE_METHOD_MIN(ALTWRAP_PAYLOAD(sx), na_rm));
@@ -357,9 +357,10 @@ SEXP altwrap_ALTREP_TYPE_Min_method(SEXP sx, Rboolean na_rm)
 
   return result_min;
 }
+// generator source end: Min
 
 
-// generate: Max
+// generator source start: Max
 SEXP altwrap_ALTREP_TYPE_Max_method(SEXP sx, Rboolean na_rm)
 {
   SEXP result_max = PROTECT(ALTTYPE_METHOD_MAX(ALTWRAP_PAYLOAD(sx), na_rm));
@@ -382,9 +383,10 @@ SEXP altwrap_ALTREP_TYPE_Max_method(SEXP sx, Rboolean na_rm)
 
   return result_max;
 }
+// generator source end: Max
 
 
-// generate: DuplicateEX
+// generator source start: DuplicateEX
 SEXP altwrap_ALTREP_TYPE_DuplicateEX_method(SEXP sx, Rboolean deep)
 {
   SEXP result_duplicate_ex = PROTECT(ALTREP_DUPLICATE_EX(ALTWRAP_PAYLOAD(sx), deep));
@@ -407,6 +409,7 @@ SEXP altwrap_ALTREP_TYPE_DuplicateEX_method(SEXP sx, Rboolean deep)
 
   return result_duplicate_ex;
 }
+// generator source end: DuplicateEX
 
 
 SEXP altwrap_ALTREP_TYPE_Coerce_method(SEXP sx, int type)

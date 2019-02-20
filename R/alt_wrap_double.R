@@ -4,7 +4,7 @@ alt_wrap_double <- function(altrep_vec, vec_id) {
   if (!is_altrep(altrep_vec)) {
     stop("vector is not an ALTREP vector.")
   }
-  
+
   # package listener methods
   listeners <- c(
     listener_length,
@@ -24,7 +24,7 @@ alt_wrap_double <- function(altrep_vec, vec_id) {
     listener_coerce,
     listener_extract_subset
   )
-  
+
   meta_data <- list(
 
     # ALTREP payload
@@ -35,10 +35,10 @@ alt_wrap_double <- function(altrep_vec, vec_id) {
 
     # parent environment in which to evaluate listeners
     parent.env(environment()),
-    
+
     # identifyer, used in diagnostic output
     vec_id
   )
 
-  # construct_altrep_double_wrapper(meta_data)
+  altrep_real_wrapper(meta_data)
 }

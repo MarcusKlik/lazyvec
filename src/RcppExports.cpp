@@ -5,25 +5,36 @@
 
 using namespace Rcpp;
 
-// construct_altrep_integer_wrapper
-SEXP construct_altrep_integer_wrapper(SEXP data);
-RcppExport SEXP _lazyvec_construct_altrep_integer_wrapper(SEXP dataSEXP) {
+// altrep_integer_wrapper
+SEXP altrep_integer_wrapper(SEXP data);
+RcppExport SEXP _lazyvec_altrep_integer_wrapper(SEXP dataSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type data(dataSEXP);
-    rcpp_result_gen = Rcpp::wrap(construct_altrep_integer_wrapper(data));
+    rcpp_result_gen = Rcpp::wrap(altrep_integer_wrapper(data));
     return rcpp_result_gen;
 END_RCPP
 }
-// construct_altrep_real_wrapper
-SEXP construct_altrep_real_wrapper(SEXP data);
-RcppExport SEXP _lazyvec_construct_altrep_real_wrapper(SEXP dataSEXP) {
+// altrep_logical_wrapper
+SEXP altrep_logical_wrapper(SEXP data);
+RcppExport SEXP _lazyvec_altrep_logical_wrapper(SEXP dataSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type data(dataSEXP);
-    rcpp_result_gen = Rcpp::wrap(construct_altrep_real_wrapper(data));
+    rcpp_result_gen = Rcpp::wrap(altrep_logical_wrapper(data));
+    return rcpp_result_gen;
+END_RCPP
+}
+// altrep_real_wrapper
+SEXP altrep_real_wrapper(SEXP data);
+RcppExport SEXP _lazyvec_altrep_real_wrapper(SEXP dataSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type data(dataSEXP);
+    rcpp_result_gen = Rcpp::wrap(altrep_real_wrapper(data));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -40,17 +51,20 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_lazyvec_construct_altrep_integer_wrapper", (DL_FUNC) &_lazyvec_construct_altrep_integer_wrapper, 1},
-    {"_lazyvec_construct_altrep_real_wrapper", (DL_FUNC) &_lazyvec_construct_altrep_real_wrapper, 1},
+    {"_lazyvec_altrep_integer_wrapper", (DL_FUNC) &_lazyvec_altrep_integer_wrapper, 1},
+    {"_lazyvec_altrep_logical_wrapper", (DL_FUNC) &_lazyvec_altrep_logical_wrapper, 1},
+    {"_lazyvec_altrep_real_wrapper", (DL_FUNC) &_lazyvec_altrep_real_wrapper, 1},
     {"_lazyvec_is_altrep_vector", (DL_FUNC) &_lazyvec_is_altrep_vector, 1},
     {NULL, NULL, 0}
 };
 
 void register_altrep_integer_class(DllInfo *dll);
+void register_altrep_logical_class(DllInfo *dll);
 void register_altrep_real_class(DllInfo *dll);
 RcppExport void R_init_lazyvec(DllInfo *dll) {
     R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
     R_useDynamicSymbols(dll, FALSE);
     register_altrep_integer_class(dll);
+    register_altrep_logical_class(dll);
     register_altrep_real_class(dll);
 }
