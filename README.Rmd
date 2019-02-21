@@ -1,6 +1,8 @@
 ---
 output:
   github_document
+editor_options: 
+  chunk_output_type: console
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -21,8 +23,10 @@ knitr::opts_chunk$set(
 
 ## Overview
 
-The [_lazyvec_ package][lazyvecRepo] for R provides an easy way to create custom `ALTREP` vectors without the need to write any `C/C++` code. Just provide your custom implementation of a few generic functions and your `ALTREP` vector can be used like those in native `R`.
+The [_lazyvec_ package][lazyvecRepo] for `R` provides an easy way to create custom `ALTREP` vectors without the need to write any `C/C++` code. The package provides the necessary ALTREP method overrides that are normally implemented in `C/C++` and allows the user to write their much simpler `R` equivalents.
 
+In addition to providing the tools to generate custom ALTREP's, `lazyvec` provides a diagnostic framework to
+observe the internal calls made to existing or custom ALTREP vectors.
 
 ## Installation
 
@@ -35,11 +39,41 @@ devtools::install_github("marcusklik/lazyvec")
 
 ## Basic usage
 
+To observe the internal behaviour of ALTREP ranges, the object can be wrapped:
+
 ```{r, results = 'hide', echo = FALSE, message = FALSE}
 library(lazyvec)
+
+x <- 1:10  # a range
+
+# ranges are implemented as ALTREP for R versions > 3.5.0
+is_altrep(x)
+
+# wrap ALTREP vector
+y <- alt_wrap(x, "x")
 ```
 
+We can already see `R` making calls to the ALTREP vector. Subsequent operations will reveal more of
+these internal calls to `x`:
 
+```{r, results = 'hide', echo = FALSE, message = FALSE}
+# single element
+y[2]
+
+# vector length
+length(y)
+
+# sum
+sum(y)
+```
+
+As can be seen, no elements are actually retrieved to calculate the sum, only the internal ALTREP
+method for calculating the sum is called.
+
+```{r, results = 'hide', echo = FALSE, message = FALSE}
+# print vector
+min(y)
+```
 
 
 [lazyvecRepo]: https://github.com/MarcusKlik/lazyvec
