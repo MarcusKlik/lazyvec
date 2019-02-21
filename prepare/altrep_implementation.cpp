@@ -19,26 +19,17 @@ SEXP altrep_ALTREP_TYPE_wrapper(SEXP data)
 
 // generator source start: Unserialize
 // There is no ALTREP_UNSERIALIZE method on Windows
-// 
-// static SEXP altwrap_integer_Unserialize_method(SEXP altwrap_class, SEXP state)
-// {
-//   SEXP unserialize_result = AL  ALTREP_U _INSPECT(ALTWRAP_PAYLOAD(x), pre, deep, pvec, subtree_method);
-// 
-//   // length listener method
-//   SEXP inspect_listener = VECTOR_ELT(ALTWRAP_LISTENERS(x), LISTENER_INSPECT);
-// 
-//   // call listener with integer length result
-//   // TODO: change to int64 result
-//   call_r_interface(inspect_listener, Rf_ScalarInteger(inspect_result), ALTWRAP_PARENT_ENV(x));
-// 
-//   return inspect_result;
-// }
+//
+static SEXP altwrap_ALTREP_TYPE_Unserialize_method(SEXP altwrap_class, SEXP state)
+{
+  return NULL;
+}
 
 
 // generator source end: Unserialize
 // generator source start: UnserializeEX
-// ALTREP_UNSERIALIZE_EX((SEXP info, SEXP state, SEXP attr, int objf, int levs)
-// is not linking on linux
+// ALTREP_UNSERIALIZE_EX is not linking on linux due to uncommented hidden_attribute
+// in declaration
 //
 SEXP altwrap_ALTREP_TYPE_UnserializeEX_method(SEXP info, SEXP state, SEXP attr, int objf, int levs)
 {
@@ -399,6 +390,32 @@ SEXP altwrap_ALTREP_TYPE_Max_method(SEXP sx, Rboolean na_rm)
 
 
 // generator source end: Max
+// generator source start: Duplicate_
+SEXP altwrap_ALTREP_TYPE_Duplicate_method(SEXP sx, Rboolean deep)
+{
+  SEXP result_duplicate = PROTECT(ALTREP_DUPLICATE(ALTWRAP_PAYLOAD(sx), deep));
+  
+  // retrieve duplicateEX listener method
+  SEXP duplicate_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(sx), LISTENER_DUPLICATE));
+  
+  if (result_duplicate == NULL)
+  { 
+    // call listener with SEXP result
+    call_r_interface(duplicate_listener, R_NilValue, ALTWRAP_PARENT_ENV(sx));
+    UNPROTECT(2);
+    
+    return result_duplicate;
+  }
+  
+  // call listener with SEXP result
+  call_r_interface(duplicate_listener, result_duplicate, ALTWRAP_PARENT_ENV(sx));
+  UNPROTECT(2);
+  
+  return result_duplicate;
+}
+
+
+// generator source end: Duplicate_
 // generator source start: DuplicateEX
 SEXP altwrap_ALTREP_TYPE_DuplicateEX_method(SEXP sx, Rboolean deep)
 {
@@ -508,27 +525,26 @@ void register_altrep_ALTREP_TYPE_class(DllInfo *dll)
   altwrap_ALTREP_TYPE_class = R_make_altALTREP_TYPE_class("altwrap_ALTREP_TYPE", "lazyvec", dll);
 
   /* override ALTREP methods */
+  CALL_METHOD_SETTER(altrep, ALTREP_TYPE, UnserializeEX);     // codeline: UnserializeEX
+  CALL_METHOD_SETTER(altrep, ALTREP_TYPE, Unserialize);       // codeline: Unserialize
   CALL_METHOD_SETTER(altrep, ALTREP_TYPE, Serialized_state);  // codeline: Serialized_state
-  CALL_METHOD_SETTER(altrep, ALTREP_TYPE, Inspect);  // codeline: Inspect
-  CALL_METHOD_SETTER(altrep, ALTREP_TYPE, Length);  // codeline: Length
-  CALL_METHOD_SETTER(altrep, ALTREP_TYPE, DuplicateEX);  // codeline: DuplicateEx
-  CALL_METHOD_SETTER(altrep, ALTREP_TYPE, Coerce);  // codeline: Coerce
-
-  // CALL_METHOD_SETTER(altrep, ALTREP_TYPE, Unserialize);
-  // CALL_METHOD_SETTER(altrep, ALTREP_TYPE, UnserializeEX);
-  // CALL_METHOD_SETTER(altrep, Duplicate);  // not found
+  CALL_METHOD_SETTER(altrep, ALTREP_TYPE, DuplicateEX);       // codeline: DuplicateEx
+  CALL_METHOD_SETTER(altrep, ALTREP_TYPE, Duplicate);         // codeline: Duplicate_
+  CALL_METHOD_SETTER(altrep, ALTREP_TYPE, Coerce);            // codeline: Coerce
+  CALL_METHOD_SETTER(altrep, ALTREP_TYPE, Inspect);           // codeline: Inspect
+  CALL_METHOD_SETTER(altrep, ALTREP_TYPE, Length);            // codeline: Length
 
   /* override ALTVEC methods */
-  CALL_METHOD_SETTER(altvec, ALTREP_TYPE, Dataptr);  // codeline: Dataptr
-  CALL_METHOD_SETTER(altvec, ALTREP_TYPE, Dataptr_or_null);  // codeline: Dataptr_or_null
-  CALL_METHOD_SETTER(altvec, ALTREP_TYPE, Extract_subset);  // codeline: Extract_subset
+  CALL_METHOD_SETTER(altvec, ALTREP_TYPE, Dataptr);           // codeline: Dataptr
+  CALL_METHOD_SETTER(altvec, ALTREP_TYPE, Dataptr_or_null);   // codeline: Dataptr_or_null
+  CALL_METHOD_SETTER(altvec, ALTREP_TYPE, Extract_subset);    // codeline: Extract_subset
 
-  /* override ALTINTEGER methods */
-  CALL_METHOD_SETTER(ALT_METHOD, ALTREP_TYPE, Elt);  // codeline: Elt
-  CALL_METHOD_SETTER(ALT_METHOD, ALTREP_TYPE, Get_region);  // codeline: Get_region
-  CALL_METHOD_SETTER(ALT_METHOD, ALTREP_TYPE, Is_sorted);  // codeline: Is_sorted
-  CALL_METHOD_SETTER(ALT_METHOD, ALTREP_TYPE, No_NA);  // codeline: No_NA
-  CALL_METHOD_SETTER(ALT_METHOD, ALTREP_TYPE, Sum);  // codeline: Sum
-  CALL_METHOD_SETTER(ALT_METHOD, ALTREP_TYPE, Min);  // codeline: Min
-  CALL_METHOD_SETTER(ALT_METHOD, ALTREP_TYPE, Max);  // codeline: Max
+  /* override specific type methods */
+  CALL_METHOD_SETTER(ALT_METHOD, ALTREP_TYPE, Elt);           // codeline: Elt
+  CALL_METHOD_SETTER(ALT_METHOD, ALTREP_TYPE, Get_region);    // codeline: Get_region
+  CALL_METHOD_SETTER(ALT_METHOD, ALTREP_TYPE, Is_sorted);     // codeline: Is_sorted
+  CALL_METHOD_SETTER(ALT_METHOD, ALTREP_TYPE, No_NA);         // codeline: No_NA
+  CALL_METHOD_SETTER(ALT_METHOD, ALTREP_TYPE, Sum);           // codeline: Sum
+  CALL_METHOD_SETTER(ALT_METHOD, ALTREP_TYPE, Min);           // codeline: Min
+  CALL_METHOD_SETTER(ALT_METHOD, ALTREP_TYPE, Max);           // codeline: Max
 }

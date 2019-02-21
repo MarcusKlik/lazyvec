@@ -18,24 +18,15 @@ SEXP altrep_raw_wrapper(SEXP data)
 
 
 // There is no ALTREP_UNSERIALIZE method on Windows
-// 
-// static SEXP altwrap_integer_Unserialize_method(SEXP altwrap_class, SEXP state)
-// {
-//   SEXP unserialize_result = AL  ALTREP_U _INSPECT(ALTWRAP_PAYLOAD(x), pre, deep, pvec, subtree_method);
-// 
-//   // length listener method
-//   SEXP inspect_listener = VECTOR_ELT(ALTWRAP_LISTENERS(x), LISTENER_INSPECT);
-// 
-//   // call listener with integer length result
-//   // TODO: change to int64 result
-//   call_r_interface(inspect_listener, Rf_ScalarInteger(inspect_result), ALTWRAP_PARENT_ENV(x));
-// 
-//   return inspect_result;
-// }
+//
+static SEXP altwrap_raw_Unserialize_method(SEXP altwrap_class, SEXP state)
+{
+  return NULL;
+}
 
 
-// ALTREP_UNSERIALIZE_EX((SEXP info, SEXP state, SEXP attr, int objf, int levs)
-// is not linking on linux
+// ALTREP_UNSERIALIZE_EX is not linking on linux due to uncommented hidden_attribute
+// in declaration
 //
 SEXP altwrap_raw_UnserializeEX_method(SEXP info, SEXP state, SEXP attr, int objf, int levs)
 {
@@ -361,22 +352,20 @@ void register_altrep_raw_class(DllInfo *dll)
   altwrap_raw_class = R_make_altraw_class("altwrap_raw", "lazyvec", dll);
 
   /* override ALTREP methods */
+  CALL_METHOD_SETTER(altrep, raw, UnserializeEX);     // codeline: UnserializeEX
+  CALL_METHOD_SETTER(altrep, raw, Unserialize);       // codeline: Unserialize
   CALL_METHOD_SETTER(altrep, raw, Serialized_state);  // codeline: Serialized_state
-  CALL_METHOD_SETTER(altrep, raw, Inspect);  // codeline: Inspect
-  CALL_METHOD_SETTER(altrep, raw, Length);  // codeline: Length
-  CALL_METHOD_SETTER(altrep, raw, DuplicateEX);  // codeline: DuplicateEx
-  CALL_METHOD_SETTER(altrep, raw, Coerce);  // codeline: Coerce
-
-  // CALL_METHOD_SETTER(altrep, raw, Unserialize);
-  // CALL_METHOD_SETTER(altrep, raw, UnserializeEX);
-  // CALL_METHOD_SETTER(altrep, Duplicate);  // not found
+  CALL_METHOD_SETTER(altrep, raw, DuplicateEX);       // codeline: DuplicateEx
+  CALL_METHOD_SETTER(altrep, raw, Coerce);            // codeline: Coerce
+  CALL_METHOD_SETTER(altrep, raw, Inspect);           // codeline: Inspect
+  CALL_METHOD_SETTER(altrep, raw, Length);            // codeline: Length
 
   /* override ALTVEC methods */
-  CALL_METHOD_SETTER(altvec, raw, Dataptr);  // codeline: Dataptr
-  CALL_METHOD_SETTER(altvec, raw, Dataptr_or_null);  // codeline: Dataptr_or_null
-  CALL_METHOD_SETTER(altvec, raw, Extract_subset);  // codeline: Extract_subset
+  CALL_METHOD_SETTER(altvec, raw, Dataptr);           // codeline: Dataptr
+  CALL_METHOD_SETTER(altvec, raw, Dataptr_or_null);   // codeline: Dataptr_or_null
+  CALL_METHOD_SETTER(altvec, raw, Extract_subset);    // codeline: Extract_subset
 
-  /* override ALTINTEGER methods */
-  CALL_METHOD_SETTER(altraw, raw, Elt);  // codeline: Elt
-  CALL_METHOD_SETTER(altraw, raw, Get_region);  // codeline: Get_region
+  /* override specific type methods */
+  CALL_METHOD_SETTER(altraw, raw, Elt);           // codeline: Elt
+  CALL_METHOD_SETTER(altraw, raw, Get_region);    // codeline: Get_region
 }

@@ -54,8 +54,8 @@ alt_generate(
   scalar_method = "Rf_ScalarInteger",
   type_method = "INTEGER",
   alt_method = "altinteger",
-  "../src/altrep_integer.cpp")
-
+  "../src/altrep_integer.cpp",
+  "Duplicate_")
 
 # generate real wrapper
 alt_generate(
@@ -64,7 +64,8 @@ alt_generate(
   scalar_method = "Rf_ScalarReal",
   type_method = "REAL",
   alt_method = "altreal",
-  "../src/altrep_real.cpp")
+  "../src/altrep_real.cpp",
+  "Duplicate_")
 
 
 # generate logical wrapper
@@ -75,7 +76,7 @@ alt_generate(
   type_method = "LOGICAL",
   alt_method = "altlogical",
   "../src/altrep_logical.cpp",
-  c("Min", "Max"))
+  c("Min", "Max", "Duplicate_"))
 
 
 # generate raw wrapper
@@ -86,7 +87,7 @@ alt_generate(
   type_method = "RAW",
   alt_method = "altraw",
   "../src/altrep_raw.cpp",
-  c("Min", "Max", "Is_sorted", "No_NA", "Sum"))
+  c("Min", "Max", "Is_sorted", "No_NA", "Sum", "Duplicate_"))
 
 
 # generate raw wrapper
@@ -97,4 +98,4 @@ alt_generate(
   type_method = "STRING",
   alt_method = "altstring",
   "../src/altrep_string.cpp",
-  c("Min", "Max", "Sum", "Get_region"))
+  c("Min", "Max", "Sum", "Get_region", "Duplicate_"))

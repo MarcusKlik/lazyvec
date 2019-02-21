@@ -162,7 +162,7 @@ listener_extract_subset <- function(x) {
     display_parameter(subset_result),
     crayon::italic(crayon::cyan("\n    indx = ")),
     display_parameter(x[[2]]),
-    crayon::italic(crayon::cyan("\n    call = ")),
-    display_parameter(format(x[[3]])),
+    # crayon::italic(crayon::cyan("\n    call = ")),
+    # display_parameter(str(x[[3]])),
     "\n", sep = "")
 }
