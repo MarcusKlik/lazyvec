@@ -21,7 +21,18 @@ SEXP altrep_string_wrapper(SEXP data)
 //
 static SEXP altwrap_string_Unserialize_method(SEXP altwrap_class, SEXP state)
 {
-  return NULL;
+  // unserialize listener method
+  SEXP unserialize_listener = PROTECT(VECTOR_ELT(VECTOR_ELT(state, 1), LISTENER_UNSERIALIZE));
+
+  SEXP arguments = PROTECT(Rf_allocVector(VECSXP, 2));
+
+  SET_VECTOR_ELT(arguments, 0, VECTOR_ELT(state, 3));  // identifier
+  SET_VECTOR_ELT(arguments, 1, altwrap_class);         // altrep_class argument
+
+  call_r_interface(unserialize_listener, arguments, VECTOR_ELT(state, 2));
+  UNPROTECT(2);
+
+  return altrep_string_wrapper(state);
 }
 
 
@@ -101,12 +112,13 @@ SEXP altwrap_string_Serialized_state_method(SEXP x)
   {
     call_r_interface(serialized_state_listener, R_NilValue, ALTWRAP_PARENT_ENV(x));
     UNPROTECT(2);
-    return serialized_state_result;
+    return R_altrep_data1(x);
   }
 
   call_r_interface(serialized_state_listener, serialized_state_result, ALTWRAP_PARENT_ENV(x));
   UNPROTECT(2);
-  return serialized_state_result;
+  
+  return R_altrep_data1(x);
 }
 
 

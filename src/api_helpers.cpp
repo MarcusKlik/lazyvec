@@ -1,7 +1,8 @@
 
 #include "api_helpers.h"
 
-// call a single argument R function from the C API
+// Call a single argument R function from the C API
+// Environment rho is stored when creating the ALTREP wrapper.
 SEXP call_r_interface(SEXP f, SEXP x, SEXP rho) {
 
   SEXP call = PROTECT(LCONS(f, LCONS(x, R_NilValue)));
@@ -10,7 +11,14 @@ SEXP call_r_interface(SEXP f, SEXP x, SEXP rho) {
   return val;
 }
 
+
 // [[Rcpp::export]]
 int is_altrep_vector(SEXP vec) {
   return ALTREP(vec);
+}
+
+
+// [[Rcpp::export]]
+SEXP altrep_class(SEXP vec) {
+  return ALTREP_CLASS(vec);
 }

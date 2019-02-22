@@ -25,3 +25,7 @@ is_altrep_vector <- function(vec) {
     .Call(`_lazyvec_is_altrep_vector`, vec)
 }
 
+altrep_class <- function(vec) {
+    .Call(`_lazyvec_altrep_class`, vec)
+}
+
