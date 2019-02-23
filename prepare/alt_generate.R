@@ -94,7 +94,7 @@ alt_generate(
 alt_generate(
   altrep_type = "string",
   cpp_type = "SEXP",
-  scalar_method = "",
+  scalar_method = "Rf_ScalarString",
   type_method = "STRING",
   alt_method = "altstring",
   "../src/altrep_string.cpp",

@@ -227,10 +227,10 @@ int altwrap_integer_Elt_method(SEXP sx, R_xlen_t i)
   int element = INTEGER_ELT(ALTWRAP_PAYLOAD(sx), i);
 
   // retrieve is_sorted listener method
-  SEXP is_sorted_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(sx), LISTENER_ELT));
+  SEXP elt_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(sx), LISTENER_ELT));
 
   // call listener with result with the correct ALTREP type
-  call_r_interface(is_sorted_listener, Rf_ScalarInteger(element), ALTWRAP_PARENT_ENV(sx));
+  call_r_interface(elt_listener, Rf_ScalarInteger(element), ALTWRAP_PARENT_ENV(sx));
 
   UNPROTECT(1);
 
