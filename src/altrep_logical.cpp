@@ -1,6 +1,7 @@
 
-#include "api_helpers.h"
+#include <Rcpp.h>
 
+#include "api_helpers.h"
 #include <stdint.h>
 
 
@@ -11,28 +12,29 @@ static R_altrep_class_t altwrap_logical_class;
 // [[Rcpp::export]]
 SEXP altrep_logical_wrapper(SEXP data)
 {
-  SEXP altrep_vec = R_new_altrep(altwrap_logical_class, data, NILSXP);
-
-  return altrep_vec;
+  return R_new_altrep(altwrap_logical_class, data, NILSXP);
 }
 
 
-// There is no ALTREP_UNSERIALIZE method on Windows
+//
+// On Win there is no Unserialize method exported, check with R-dev!
 //
 static SEXP altwrap_logical_Unserialize_method(SEXP altwrap_class, SEXP state)
 {
+  SEXP altrep_data1 = PROTECT(Rf_allocVector(VECSXP, 4));
+  SET_VECTOR_ELT(altrep_data1, 0, VECTOR_ELT(state, 0));
+  SET_VECTOR_ELT(altrep_data1, 1, VECTOR_ELT(state, 1));
+  SET_VECTOR_ELT(altrep_data1, 2, VECTOR_ELT(state, 2));
+  SET_VECTOR_ELT(altrep_data1, 3, Rcpp::Environment::global_env());
+
   // unserialize listener method
-  SEXP unserialize_listener = PROTECT(VECTOR_ELT(VECTOR_ELT(state, 1), LISTENER_UNSERIALIZE));
+  // SEXP unserialize_listener = PROTECT(VECTOR_ELT(VECTOR_ELT(state, 1), LISTENER_UNSERIALIZE));
+  
+  // call_r_interface(unserialize_listener, state, ALTWRAP_PARENT_ENV(altrep_data1));
 
-  SEXP arguments = PROTECT(Rf_allocVector(VECSXP, 2));
-
-  SET_VECTOR_ELT(arguments, 0, VECTOR_ELT(state, 3));  // identifier
-  SET_VECTOR_ELT(arguments, 1, altwrap_class);         // altrep_class argument
-
-  call_r_interface(unserialize_listener, arguments, VECTOR_ELT(state, 2));
-  UNPROTECT(2);
-
-  return altrep_logical_wrapper(state);
+  // UNPROTECT(2);
+  UNPROTECT(1);
+  return altrep_logical_wrapper(altrep_data1);
 }
 
 
@@ -41,8 +43,23 @@ static SEXP altwrap_logical_Unserialize_method(SEXP altwrap_class, SEXP state)
 //
 SEXP altwrap_logical_UnserializeEX_method(SEXP info, SEXP state, SEXP attr, int objf, int levs)
 {
-  return ALTREP_UNSERIALIZE_EX(info, state, attr, objf, levs);
+  // return ALTREP_UNSERIALIZE_EX(info, state, attr, objf, levs);
 
+  SEXP altrep_data1 = PROTECT(Rf_allocVector(VECSXP, 4));
+  SET_VECTOR_ELT(altrep_data1, 0, VECTOR_ELT(state, 0));
+  SET_VECTOR_ELT(altrep_data1, 1, VECTOR_ELT(state, 1));
+  SET_VECTOR_ELT(altrep_data1, 2, VECTOR_ELT(state, 2));
+  SET_VECTOR_ELT(altrep_data1, 3, Rcpp::Environment::global_env());
+  
+  // unserialize listener method
+  // SEXP unserialize_listener = PROTECT(VECTOR_ELT(VECTOR_ELT(state, 1), LISTENER_UNSERIALIZE_EX));
+  
+  // call_r_interface(unserialize_listener, state, ALTWRAP_PARENT_ENV(altrep_data1));
+  
+  // UNPROTECT(2);
+  UNPROTECT(1);
+  return altrep_logical_wrapper(altrep_data1);
+  
   // SEXP payload = PROTECT(ALTWRAP_PAYLOAD(x));
 
   // get attributes from original altrep object
