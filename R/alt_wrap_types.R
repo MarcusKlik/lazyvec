@@ -37,11 +37,11 @@ alt_wrap_integer <- function(altrep_vec, vec_id) {
     # package listener methods
     listeners(),
 
-    # parent environment in which to evaluate listeners
-    parent.env(environment()),
-
     # identifyer, used in diagnostic output
-    vec_id
+    vec_id,
+    
+    # parent environment in which to evaluate listeners
+    parent.env(environment())
   )
 
   altrep_integer_wrapper(meta_data)
@@ -62,11 +62,11 @@ alt_wrap_real <- function(altrep_vec, vec_id) {
     # package listener methods
     listeners(),
 
-    # parent environment in which to evaluate listeners
-    parent.env(environment()),
-
     # identifyer, used in diagnostic output
-    vec_id
+    vec_id,
+    
+    # parent environment in which to evaluate listeners
+    parent.env(environment())
   )
 
   altrep_real_wrapper(meta_data)
@@ -87,11 +87,11 @@ alt_wrap_logical <- function(altrep_vec, vec_id) {
     # package listener methods
     listeners(),
 
-    # parent environment in which to evaluate listeners
-    parent.env(environment()),
-
     # identifyer, used in diagnostic output
-    vec_id
+    vec_id,
+    
+    # parent environment in which to evaluate listeners
+    parent.env(environment())
   )
 
   altrep_logical_wrapper(meta_data)
@@ -112,11 +112,11 @@ alt_wrap_raw <- function(altrep_vec, vec_id) {
     # package listener methods
     listeners(),
 
-    # parent environment in which to evaluate listeners
-    parent.env(environment()),
-
     # identifyer, used in diagnostic output
-    vec_id
+    vec_id,
+    
+    # parent environment in which to evaluate listeners
+    parent.env(environment())
   )
 
   altrep_raw_wrapper(meta_data)
@@ -137,11 +137,11 @@ alt_wrap_string <- function(altrep_vec, vec_id) {
     # package listener methods
     listeners(),
 
-    # parent environment in which to evaluate listeners
-    parent.env(environment()),
-
     # identifyer, used in diagnostic output
-    vec_id
+    vec_id,
+    
+    # parent environment in which to evaluate listeners
+    parent.env(environment())
   )
 
   altrep_string_wrapper(meta_data)

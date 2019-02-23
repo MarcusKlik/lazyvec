@@ -108,17 +108,24 @@ SEXP altwrap_raw_Serialized_state_method(SEXP x)
   // length listener method
   SEXP serialized_state_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(x), LISTENER_SERIALIZED_STATE));
 
+  // create serialization state
+  SEXP serialized_state = PROTECT(Rf_allocVector(VECSXP, 3));
+  SET_VECTOR_ELT(serialized_state, 0, ALTWRAP_PAYLOAD(x));
+  SET_VECTOR_ELT(serialized_state, 1, ALTWRAP_LISTENERS(x));
+  SET_VECTOR_ELT(serialized_state, 2, ALTWRAP_METADATA(x));
+  
   if (serialized_state_result == NULL)
   {
     call_r_interface(serialized_state_listener, R_NilValue, ALTWRAP_PARENT_ENV(x));
-    UNPROTECT(2);
-    return R_altrep_data1(x);
+  }
+  else
+  {
+    call_r_interface(serialized_state_listener, serialized_state_result, ALTWRAP_PARENT_ENV(x));
   }
 
-  call_r_interface(serialized_state_listener, serialized_state_result, ALTWRAP_PARENT_ENV(x));
-  UNPROTECT(2);
-  
-  return R_altrep_data1(x);
+  UNPROTECT(3);
+
+  return serialized_state;
 }
 
 
