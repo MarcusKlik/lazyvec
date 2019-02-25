@@ -21,11 +21,13 @@ SEXP altrep_logical_wrapper(SEXP data)
 //
 static SEXP altwrap_logical_Unserialize_method(SEXP altwrap_class, SEXP state)
 {
+  Rcpp::Environment pkgs = Rcpp::Environment::namespace_env("lazyvec");
+
   SEXP altrep_data1 = PROTECT(Rf_allocVector(VECSXP, 4));
   SET_VECTOR_ELT(altrep_data1, 0, VECTOR_ELT(state, 0));
   SET_VECTOR_ELT(altrep_data1, 1, VECTOR_ELT(state, 1));
   SET_VECTOR_ELT(altrep_data1, 2, VECTOR_ELT(state, 2));
-  SET_VECTOR_ELT(altrep_data1, 3, Rcpp::Environment::global_env());
+  SET_VECTOR_ELT(altrep_data1, 3, pkgs);
 
   // unserialize listener method
   // SEXP unserialize_listener = PROTECT(VECTOR_ELT(VECTOR_ELT(state, 1), LISTENER_UNSERIALIZE));
@@ -33,7 +35,7 @@ static SEXP altwrap_logical_Unserialize_method(SEXP altwrap_class, SEXP state)
   // call_r_interface(unserialize_listener, state, ALTWRAP_PARENT_ENV(altrep_data1));
 
   // UNPROTECT(2);
-  UNPROTECT(2);
+  UNPROTECT(1);
   return altrep_logical_wrapper(altrep_data1);
 }
 
@@ -46,19 +48,22 @@ SEXP altwrap_logical_UnserializeEX_method(SEXP info, SEXP state, SEXP attr, int 
 {
   // return ALTREP_UNSERIALIZE_EX(info, state, attr, objf, levs);
 
+  Rcpp::Environment pkgs = Rcpp::Environment::namespace_env("lazyvec");
+
   SEXP altrep_data1 = PROTECT(Rf_allocVector(VECSXP, 4));
   SET_VECTOR_ELT(altrep_data1, 0, VECTOR_ELT(state, 0));
   SET_VECTOR_ELT(altrep_data1, 1, VECTOR_ELT(state, 1));
   SET_VECTOR_ELT(altrep_data1, 2, VECTOR_ELT(state, 2));
-  SET_VECTOR_ELT(altrep_data1, 3, Rcpp::Environment::global_env());
-  
-  // SEXP unserialize_ex_listener = PROTECT(VECTOR_ELT(VECTOR_ELT(state, 1), LISTENER_UNSERIALIZE_EX));
+  SET_VECTOR_ELT(altrep_data1, 3, pkgs);
 
-  Rf_PrintValue(state);
+  // SEXP unserialize_ex_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(altrep_data1),
+  //   LISTENER_UNSERIALIZE_EX));
+
+  // Rf_PrintValue(state);
   // call_r_interface(unserialize_ex_listener, state, ALTWRAP_PARENT_ENV(altrep_data1));
   
   // UNPROTECT(2);
-  UNPROTECT(2);
+  UNPROTECT(1);
   return altrep_logical_wrapper(altrep_data1);
   
   // SEXP payload = PROTECT(ALTWRAP_PAYLOAD(x));
