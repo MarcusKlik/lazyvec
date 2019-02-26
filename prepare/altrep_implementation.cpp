@@ -313,12 +313,12 @@ R_xlen_t altwrap_ALTREP_TYPE_Get_region_method(SEXP sx, R_xlen_t i, R_xlen_t n, 
 {
   R_xlen_t length = TYPE_METHOD_GET_REGION(ALTWRAP_PAYLOAD(sx), i, n, buf);
 
-  SEXP arguments = PROTECT(Rf_allocVector(INTSXP, 3));
-  int* parguments = INTEGER(arguments);
-
-  parguments[0] = (int)(i);
-  parguments[1] = (int)(n);
-  parguments[2] = (int)(length);
+  SEXP arguments = PROTECT(Rf_allocVector(VECSXP, 4));
+  
+  SET_VECTOR_ELT(arguments, 0, ALTWRAP_METADATA(sx));
+  SET_VECTOR_ELT(arguments, 1, Rf_ScalarInteger(i));
+  SET_VECTOR_ELT(arguments, 2, Rf_ScalarInteger(n));
+  SET_VECTOR_ELT(arguments, 3, Rf_ScalarInteger(length));
 
   // dataptr_or_null listener method
   SEXP get_region_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(sx), LISTENER_GET_REGION));

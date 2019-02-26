@@ -115,13 +115,14 @@ listener_dataptr_or_null <- function(x) {
 }
 
 
-listener_get_region <- function(arguments) {
-  cat(crayon::italic(crayon::cyan("ALTREP get_region : result =")),
-      display_parameter(arguments[3]),
+listener_get_region <- function(x) {
+  cat(crayon::italic(
+    crayon::cyan(x[[1]], ": ALTREP get_region : result =")),
+      display_parameter(x[3]),
       crayon::italic(crayon::cyan(", start =")),
-      display_parameter(arguments[1]),
+      display_parameter(x[1]),
       crayon::italic(crayon::cyan(", length =")),
-      display_parameter(arguments[2]), "\n", sep = "")
+      display_parameter(x[2]), "\n", sep = "")
 }
 
 
