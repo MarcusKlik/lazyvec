@@ -39,7 +39,7 @@ alt_wrap_integer <- function(altrep_vec, vec_id) {
 
     # identifyer, used in diagnostic output
     vec_id,
-    
+
     # parent environment in which to evaluate listeners
     parent.env(environment())
   )
@@ -64,7 +64,7 @@ alt_wrap_real <- function(altrep_vec, vec_id) {
 
     # identifyer, used in diagnostic output
     vec_id,
-    
+
     # parent environment in which to evaluate listeners
     parent.env(environment())
   )
@@ -89,7 +89,7 @@ alt_wrap_logical <- function(altrep_vec, vec_id) {
 
     # identifyer, used in diagnostic output
     vec_id,
-    
+
     # parent environment in which to evaluate listeners
     parent.env(environment())
   )
@@ -114,7 +114,7 @@ alt_wrap_raw <- function(altrep_vec, vec_id) {
 
     # identifyer, used in diagnostic output
     vec_id,
-    
+
     # parent environment in which to evaluate listeners
     parent.env(environment())
   )
@@ -139,7 +139,7 @@ alt_wrap_string <- function(altrep_vec, vec_id) {
 
     # identifyer, used in diagnostic output
     vec_id,
-    
+
     # parent environment in which to evaluate listeners
     parent.env(environment())
   )
