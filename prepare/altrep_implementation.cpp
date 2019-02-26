@@ -271,16 +271,19 @@ void* altwrap_ALTREP_TYPE_Dataptr_method(SEXP x, Rboolean writeable)
 const void *altwrap_ALTREP_TYPE_Dataptr_or_null_method(SEXP x)
 {
   const void* pdata_or_null = DATAPTR_OR_NULL(ALTWRAP_PAYLOAD(x));
+  int is_pointer = pdata_or_null == NULL;
 
   // dataptr_or_null listener method
   SEXP dataptr_or_null_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(x), LISTENER_DATAPTR_OR_NULL));
 
-  int is_pointer = pdata_or_null == NULL;
-
+  SEXP arguments = PROTECT(Rf_allocVector(VECSXP, 2));
+  SET_VECTOR_ELT(arguments, 0, ALTWRAP_METADATA(x));
+  SET_VECTOR_ELT(arguments, 1, Rf_ScalarLogical(is_pointer));
+  
   // call listener with integer result
-  call_r_interface(dataptr_or_null_listener, Rf_ScalarLogical(is_pointer), ALTWRAP_PARENT_ENV(x));
+  call_r_interface(dataptr_or_null_listener, arguments, ALTWRAP_PARENT_ENV(x));
 
-  UNPROTECT(1);
+  UNPROTECT(2);
 
   return pdata_or_null;
 }

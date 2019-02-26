@@ -34,24 +34,60 @@
 #' @export
 alt_wrap <- function(altrep_vec, vec_id) {
 
+  if (!is_altrep(altrep_vec)) {
+    stop("vector is not an ALTREP vector.")
+  }
+  
+  meta_data <- list(
+    
+    # ALTREP payload
+    altrep_vec,
+    
+    # package listener methods
+    c(
+      listener_length,
+      listener_dataptr_or_null,
+      listener_get_region,
+      listener_element,
+      listener_dataptr,
+      listener_is_sorted,
+      listener_no_na,
+      listener_sum,
+      listener_min,
+      listener_max,
+      listener_inspect,
+      listener_unserialize_ex,
+      listener_serialized_state,
+      listener_duplicate_ex,
+      listener_coerce,
+      listener_extract_subset
+    ),
+    
+    # identifyer, used in diagnostic output
+    vec_id,
+    
+    # parent environment in which to evaluate listeners
+    parent.env(environment())
+  )
+  
   if (typeof(altrep_vec) == "integer") {
-    return(alt_wrap_integer(altrep_vec, vec_id))
+    return(altrep_integer_wrapper(meta_data))
   }
 
   if (typeof(altrep_vec) == "double") {
-    return(alt_wrap_real(altrep_vec, vec_id))
+    return(altrep_real_wrapper(meta_data))
   }
 
   if (typeof(altrep_vec) == "logical") {
-    return(alt_wrap_logical(altrep_vec, vec_id))
+    return(altrep_logical_wrapper(meta_data))
   }
 
   if (typeof(altrep_vec) == "raw") {
-    return(alt_wrap_raw(altrep_vec, vec_id))
+    return(altrep_raw_wrapper(meta_data))
   }
 
   if (typeof(altrep_vec) == "character") {
-    return(alt_wrap_string(altrep_vec, vec_id))
+    return(altrep_string_wrapper(meta_data))
   }
 }
 
@@ -65,43 +101,44 @@ display_parameter <- function(x) {
 
 
 listener_length <- function(x) {
-  cat(crayon::italic(crayon::cyan(x[[1]], ": ALTREP length : result = ")),
+  cat(crayon::italic(
+    crayon::cyan(x[[1]], ": ALTREP length : result =")),
     display_parameter(x[[2]]), "\n", sep = "")
 }
 
 
-listener_dataptr_or_null <- function(is_non_null_pointer) {
+listener_dataptr_or_null <- function(x) {
 
   cat(crayon::italic(
-    crayon::cyan("ALTREP dataptr_or_null called, null returned: ")),
-    display_parameter(is_non_null_pointer), "\n", sep = "")
+    crayon::cyan(x[[1]], ": ALTREP dataptr_or_null called, null returned: ")),
+    display_parameter(x[[2]]), "\n", sep = "")
 }
 
 
 listener_get_region <- function(arguments) {
-  cat(crayon::italic(crayon::cyan("ALTREP get_region : result = ")),
+  cat(crayon::italic(crayon::cyan("ALTREP get_region : result =")),
       display_parameter(arguments[3]),
-      crayon::italic(crayon::cyan(", start = ")),
+      crayon::italic(crayon::cyan(", start =")),
       display_parameter(arguments[1]),
-      crayon::italic(crayon::cyan(", length = ")),
+      crayon::italic(crayon::cyan(", length =")),
       display_parameter(arguments[2]), "\n", sep = "")
 }
 
 
 listener_element <- function(x) {
-  cat(crayon::italic(crayon::cyan("ALTREP element : result = ")),
+  cat(crayon::italic(crayon::cyan("ALTREP element : result =")),
       display_parameter(x), "\n", sep = "")
 }
 
 
 listener_is_sorted <- function(x) {
-  cat(crayon::italic(crayon::cyan("ALTREP is_sorted : result = ")),
+  cat(crayon::italic(crayon::cyan("ALTREP is_sorted : result =")),
       display_parameter(x == 1), "\n", sep = "")
 }
 
 
 listener_no_na <- function(x) {
-  cat(crayon::italic(crayon::cyan("ALTREP no_na : result = ")),
+  cat(crayon::italic(crayon::cyan("ALTREP no_na : result =")),
     display_parameter(x == 1), "\n", sep = "")
 }
 
@@ -115,13 +152,13 @@ listener_sum <- function(x) {
 
 
 listener_min <- function(x) {
-  cat(crayon::italic(crayon::cyan("ALTREP min : result = ")),
+  cat(crayon::italic(crayon::cyan("ALTREP min : result =")),
     display_parameter(x), "\n", sep = "")
 }
 
 
 listener_max <- function(x) {
-  cat(crayon::italic(crayon::cyan("ALTREP max : result = ")),
+  cat(crayon::italic(crayon::cyan("ALTREP max : result =")),
     display_parameter(x), "\n", sep = "")
 }
 
@@ -130,7 +167,7 @@ listener_inspect <- function(x) {
 
   print(x)
 
-  cat(crayon::italic(crayon::cyan("ALTREP inspect : result = ")),
+  cat(crayon::italic(crayon::cyan("ALTREP inspect : result =")),
     display_parameter(x[[1]]),
     crayon::italic(crayon::cyan(", x = ")),
     display_parameter(x[[2]]),
@@ -144,19 +181,19 @@ listener_inspect <- function(x) {
 
 
 listener_serialized_state <- function(x) {
-  cat(crayon::italic(crayon::cyan("ALTREP serialized_state : result = ")),
+  cat(crayon::italic(crayon::cyan("ALTREP serialized_state : result =")),
     display_parameter(x), "\n", sep = "")
 }
 
 
 listener_unserialize_ex <- function(x) {
-  cat(crayon::italic(crayon::cyan("ALTREP unserialize_ex : result = ")),
+  cat(crayon::italic(crayon::cyan("ALTREP unserialize_ex : result =")),
     display_parameter(x), "\n", sep = "")
 }
 
 
 listener_dataptr <- function(x) {
-  cat(crayon::italic(crayon::cyan("ALTREP dataptr : result = ")),
+  cat(crayon::italic(crayon::cyan("ALTREP dataptr : result =")),
       format(as.hexmode(x[1]), width = 8),  # high address bytes
       format(as.hexmode(x[2]), width = 8),  # low bytes of address
       ", writable = ", as.logical(x[3]), "\n", sep = "")
@@ -164,13 +201,13 @@ listener_dataptr <- function(x) {
 
 
 listener_duplicate_ex <- function(x) {
-  cat(crayon::italic(crayon::cyan("ALTREP duplicate_ex : result = ")),
+  cat(crayon::italic(crayon::cyan("ALTREP duplicate_ex : result =")),
     display_parameter(x), "\n", sep = "")
 }
 
 
 listener_coerce <- function(x) {
-  cat(crayon::italic(crayon::cyan("ALTREP coerce : result = ")),
+  cat(crayon::italic(crayon::cyan("ALTREP coerce : result =")),
     display_parameter(x), "\n", sep = "")
 }
 
@@ -178,7 +215,7 @@ listener_coerce <- function(x) {
 listener_extract_subset <- function(x) {
   subset_result <- x[[1]]
   if (is.null(subset_result)) subset_result <- "NULL"
-  cat(crayon::italic(crayon::cyan("ALTREP extract_subset :\n  result = ")),
+  cat(crayon::italic(crayon::cyan("ALTREP extract_subset :\n  result =")),
     display_parameter(subset_result),
     crayon::italic(crayon::cyan("\n    indx = ")),
     display_parameter(x[[2]]),
