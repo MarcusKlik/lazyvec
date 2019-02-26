@@ -314,7 +314,6 @@ R_xlen_t altwrap_ALTREP_TYPE_Get_region_method(SEXP sx, R_xlen_t i, R_xlen_t n, 
   R_xlen_t length = TYPE_METHOD_GET_REGION(ALTWRAP_PAYLOAD(sx), i, n, buf);
 
   SEXP arguments = PROTECT(Rf_allocVector(VECSXP, 4));
-  
   SET_VECTOR_ELT(arguments, 0, ALTWRAP_METADATA(sx));
   SET_VECTOR_ELT(arguments, 1, Rf_ScalarInteger(i));
   SET_VECTOR_ELT(arguments, 2, Rf_ScalarInteger(n));
@@ -409,21 +408,16 @@ SEXP altwrap_ALTREP_TYPE_Min_method(SEXP sx, Rboolean na_rm)
 {
   SEXP result_min = PROTECT(ALTTYPE_METHOD_MIN(ALTWRAP_PAYLOAD(sx), na_rm));
 
+  SEXP arguments = PROTECT(Rf_allocVector(VECSXP, 2));
+  SET_VECTOR_ELT(arguments, 0, ALTWRAP_METADATA(sx));
+  SET_VECTOR_ELT(arguments, 1, result_min == NULL ? R_NilValue : result_min);
+  
   // retrieve sum listener method
   SEXP min_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(sx), LISTENER_MIN));
 
-  if (result_min == NULL)
-  { 
-    // call listener with SEXP result
-    call_r_interface(min_listener, R_NilValue, ALTWRAP_PARENT_ENV(sx));
-    UNPROTECT(2);
-
-    return result_min;
-  }
-
   // call listener with SEXP result
-  call_r_interface(min_listener, result_min, ALTWRAP_PARENT_ENV(sx));
-  UNPROTECT(2);
+  call_r_interface(min_listener, arguments, ALTWRAP_PARENT_ENV(sx));
+  UNPROTECT(3);
 
   return result_min;
 }

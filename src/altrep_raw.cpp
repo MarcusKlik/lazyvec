@@ -258,16 +258,19 @@ void* altwrap_raw_Dataptr_method(SEXP x, Rboolean writeable)
 const void *altwrap_raw_Dataptr_or_null_method(SEXP x)
 {
   const void* pdata_or_null = DATAPTR_OR_NULL(ALTWRAP_PAYLOAD(x));
+  int is_pointer = pdata_or_null == NULL;
 
   // dataptr_or_null listener method
   SEXP dataptr_or_null_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(x), LISTENER_DATAPTR_OR_NULL));
 
-  int is_pointer = pdata_or_null == NULL;
-
+  SEXP arguments = PROTECT(Rf_allocVector(VECSXP, 2));
+  SET_VECTOR_ELT(arguments, 0, ALTWRAP_METADATA(x));
+  SET_VECTOR_ELT(arguments, 1, Rf_ScalarLogical(is_pointer));
+  
   // call listener with integer result
-  call_r_interface(dataptr_or_null_listener, Rf_ScalarLogical(is_pointer), ALTWRAP_PARENT_ENV(x));
+  call_r_interface(dataptr_or_null_listener, arguments, ALTWRAP_PARENT_ENV(x));
 
-  UNPROTECT(1);
+  UNPROTECT(2);
 
   return pdata_or_null;
 }
@@ -293,12 +296,11 @@ R_xlen_t altwrap_raw_Get_region_method(SEXP sx, R_xlen_t i, R_xlen_t n, Rbyte *b
 {
   R_xlen_t length = RAW_GET_REGION(ALTWRAP_PAYLOAD(sx), i, n, buf);
 
-  SEXP arguments = PROTECT(Rf_allocVector(INTSXP, 3));
-  int* parguments = INTEGER(arguments);
-
-  parguments[0] = (int)(i);
-  parguments[1] = (int)(n);
-  parguments[2] = (int)(length);
+  SEXP arguments = PROTECT(Rf_allocVector(VECSXP, 4));
+  SET_VECTOR_ELT(arguments, 0, ALTWRAP_METADATA(sx));
+  SET_VECTOR_ELT(arguments, 1, Rf_ScalarInteger(i));
+  SET_VECTOR_ELT(arguments, 2, Rf_ScalarInteger(n));
+  SET_VECTOR_ELT(arguments, 3, Rf_ScalarInteger(length));
 
   // dataptr_or_null listener method
   SEXP get_region_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(sx), LISTENER_GET_REGION));

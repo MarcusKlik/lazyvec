@@ -118,11 +118,11 @@ listener_dataptr_or_null <- function(x) {
 listener_get_region <- function(x) {
   cat(crayon::italic(
     crayon::cyan(x[[1]], ": ALTREP get_region : result =")),
-      display_parameter(x[3]),
+      display_parameter(x[[4]]),
       crayon::italic(crayon::cyan(", start =")),
-      display_parameter(x[1]),
+      display_parameter(x[[2]]),
       crayon::italic(crayon::cyan(", length =")),
-      display_parameter(x[2]), "\n", sep = "")
+      display_parameter(x[[3]]), "\n", sep = "")
 }
 
 
@@ -153,8 +153,9 @@ listener_sum <- function(x) {
 
 
 listener_min <- function(x) {
-  cat(crayon::italic(crayon::cyan("ALTREP min : result =")),
-    display_parameter(x), "\n", sep = "")
+  cat(crayon::italic(
+    crayon::cyan(x[[1]], ": ALTREP min : result =")),
+    display_parameter(x[[2]]), "\n", sep = "")
 }
 
 
