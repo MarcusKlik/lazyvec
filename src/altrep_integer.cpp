@@ -51,7 +51,7 @@ static SEXP altwrap_integer_Unserialize_method(SEXP altwrap_class, SEXP state)
   SET_VECTOR_ELT(altrep_data1, 3, pkgs);
 
   // unserialize listener method
-  // SEXP unserialize_listener = PROTECT(VECTOR_ELT(VECTOR_ELT(state, 1), LISTENER_UNSERIALIZE));
+  // SEXP unserialize_listener = PROTECT(VECTOR_ELT(VECTOR_ELT(state, 1), ALTREP_METHOD_UNSERIALIZE));
   
   // call_r_interface(unserialize_listener, state, ALTWRAP_PARENT_ENV(altrep_data1));
 
@@ -78,7 +78,7 @@ SEXP altwrap_integer_UnserializeEX_method(SEXP info, SEXP state, SEXP attr, int 
   SET_VECTOR_ELT(altrep_data1, 3, pkgs);
 
   // SEXP unserialize_ex_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(altrep_data1),
-  //   LISTENER_UNSERIALIZE_EX));
+  //   ALTREP_METHOD_UNSERIALIZE_EX));
 
   // Rf_PrintValue(state);
   // call_r_interface(unserialize_ex_listener, state, ALTWRAP_PARENT_ENV(altrep_data1));
@@ -134,7 +134,7 @@ SEXP altwrap_integer_UnserializeEX_method(SEXP info, SEXP state, SEXP attr, int 
   // if (unserialize_ex_result == NULL) Rf_error("stop immediately!");
 
   // length listener method
-  // SEXP unserialize_ex_listener = VECTOR_ELT(ALTWRAP_LISTENERS(x), LISTENER_UNSERIALIZE_EX);
+  // SEXP unserialize_ex_listener = VECTOR_ELT(ALTWRAP_LISTENERS(x), ALTREP_METHOD_UNSERIALIZE_EX);
 
   // call listener
   // call_r_interface(unserialize_ex_listener, arguments, ALTWRAP_PARENT_ENV(x));
@@ -150,7 +150,7 @@ SEXP altwrap_integer_Serialized_state_method(SEXP x)
   SEXP serialized_state_result = PROTECT(ALTREP_SERIALIZED_STATE(ALTWRAP_PAYLOAD(x)));
 
   // length listener method
-  SEXP serialized_state_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(x), LISTENER_SERIALIZED_STATE));
+  SEXP serialized_state_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(x), ALTREP_METHOD_SERIALIZED_STATE));
 
   // create serialization state
   SEXP serialized_state = PROTECT(Rf_allocVector(VECSXP, 3));
@@ -195,7 +195,7 @@ Rboolean altwrap_integer_Inspect_method(SEXP x, int pre, int deep, int pvec,
   SET_VECTOR_ELT(arguments, 4, Rf_ScalarInteger(pvec));
 
   // length listener method
-  SEXP inspect_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(x), LISTENER_INSPECT));
+  SEXP inspect_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(x), ALTREP_METHOD_INSPECT));
 
   // call inspect listener
   call_r_interface(inspect_listener, arguments, ALTWRAP_PARENT_ENV(x));
@@ -215,7 +215,7 @@ R_xlen_t altwrap_integer_Length_method(SEXP x)
   SET_VECTOR_ELT(arguments, 1, Rf_ScalarInteger(length_result));
 
   // length listener method
-  SEXP length_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(x), LISTENER_LENGTH));
+  SEXP length_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(x), ALTREP_METHOD_LENGTH));
 
   // call listener with integer length result
   // TODO: change to int64 result
@@ -244,7 +244,7 @@ void* altwrap_integer_Dataptr_method(SEXP x, Rboolean writeable)
   // call listener with info
 
   // dataptr_or_null listener method
-  SEXP dataptr_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(x), LISTENER_DATAPTR));
+  SEXP dataptr_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(x), ALTREP_METHOD_DATAPTR));
 
   // call listener with integer result
   call_r_interface(dataptr_listener, arguments, ALTWRAP_PARENT_ENV(x));
@@ -261,7 +261,7 @@ const void *altwrap_integer_Dataptr_or_null_method(SEXP x)
   int is_pointer = pdata_or_null == NULL;
 
   // dataptr_or_null listener method
-  SEXP dataptr_or_null_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(x), LISTENER_DATAPTR_OR_NULL));
+  SEXP dataptr_or_null_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(x), ALTREP_METHOD_DATAPTR_OR_NULL));
 
   SEXP arguments = PROTECT(Rf_allocVector(VECSXP, 2));
   SET_VECTOR_ELT(arguments, 0, ALTWRAP_METADATA(x));
@@ -281,7 +281,7 @@ int altwrap_integer_Elt_method(SEXP sx, R_xlen_t i)
   int element = INTEGER_ELT(ALTWRAP_PAYLOAD(sx), i);
 
   // retrieve is_sorted listener method
-  SEXP elt_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(sx), LISTENER_ELT));
+  SEXP elt_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(sx), ALTREP_METHOD_ELT));
 
   // call listener with result with the correct ALTREP type
   call_r_interface(elt_listener, Rf_ScalarInteger(element), ALTWRAP_PARENT_ENV(sx));
@@ -303,7 +303,7 @@ R_xlen_t altwrap_integer_Get_region_method(SEXP sx, R_xlen_t i, R_xlen_t n, int 
   SET_VECTOR_ELT(arguments, 3, Rf_ScalarInteger(length));
 
   // dataptr_or_null listener method
-  SEXP get_region_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(sx), LISTENER_GET_REGION));
+  SEXP get_region_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(sx), ALTREP_METHOD_GET_REGION));
 
   // call listener with integer result
   call_r_interface(get_region_listener, arguments, ALTWRAP_PARENT_ENV(sx));
@@ -319,7 +319,7 @@ int altwrap_integer_Is_sorted_method(SEXP sx)
   int is_sorted = INTEGER_IS_SORTED(ALTWRAP_PAYLOAD(sx));
 
   // retrieve is_sorted listener method
-  SEXP is_sorted_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(sx), LISTENER_IS_SORTED));
+  SEXP is_sorted_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(sx), ALTREP_METHOD_IS_SORTED));
 
   // call listener with integer result
   call_r_interface(is_sorted_listener, Rf_ScalarInteger(is_sorted), ALTWRAP_PARENT_ENV(sx));
@@ -335,7 +335,7 @@ int altwrap_integer_No_NA_method(SEXP sx)
   int no_na = INTEGER_NO_NA(ALTWRAP_PAYLOAD(sx));
 
   // retrieve no_na listener method
-  SEXP no_na_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(sx), LISTENER_NO_NA));
+  SEXP no_na_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(sx), ALTREP_METHOD_NO_NA));
 
   // call listener with integer result
   call_r_interface(no_na_listener, Rf_ScalarInteger(no_na), ALTWRAP_PARENT_ENV(sx));
@@ -351,7 +351,7 @@ SEXP altwrap_integer_Sum_method(SEXP sx, Rboolean na_rm)
   SEXP sum = PROTECT(ALTINTEGER_SUM(ALTWRAP_PAYLOAD(sx), na_rm));
 
   // retrieve sum listener method
-  SEXP sum_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(sx), LISTENER_SUM));
+  SEXP sum_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(sx), ALTREP_METHOD_SUM));
 
   SEXP arguments = PROTECT(Rf_allocVector(VECSXP, 2));
   SET_VECTOR_ELT(arguments, 1, Rf_ScalarInteger(na_rm));
@@ -388,7 +388,7 @@ SEXP altwrap_integer_Min_method(SEXP sx, Rboolean na_rm)
   SET_VECTOR_ELT(arguments, 1, result_min == NULL ? R_NilValue : result_min);
   
   // retrieve sum listener method
-  SEXP min_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(sx), LISTENER_MIN));
+  SEXP min_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(sx), ALTREP_METHOD_MIN));
 
   // call listener with SEXP result
   call_r_interface(min_listener, arguments, ALTWRAP_PARENT_ENV(sx));
@@ -403,7 +403,7 @@ SEXP altwrap_integer_Max_method(SEXP sx, Rboolean na_rm)
   SEXP result_max = PROTECT(ALTINTEGER_MAX(ALTWRAP_PAYLOAD(sx), na_rm));
 
   // retrieve sum listener method
-  SEXP max_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(sx), LISTENER_MAX));
+  SEXP max_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(sx), ALTREP_METHOD_MAX));
 
   if (result_max == NULL)
   { 
@@ -427,7 +427,7 @@ SEXP altwrap_integer_DuplicateEX_method(SEXP sx, Rboolean deep)
   SEXP result_duplicate_ex = PROTECT(ALTREP_DUPLICATE_EX(ALTWRAP_PAYLOAD(sx), deep));
 
   // retrieve duplicateEX listener method
-  SEXP duplicate_ex_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(sx), LISTENER_DUPLICATE_EX));
+  SEXP duplicate_ex_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(sx), ALTREP_METHOD_DUPLICATE_EX));
 
   if (result_duplicate_ex == NULL)
   { 
@@ -454,7 +454,7 @@ SEXP altwrap_integer_Coerce_method(SEXP sx, int type)
   SET_VECTOR_ELT(arguments, 1, Rf_ScalarInteger(type));
 
   // retrieve coerce listener method
-  SEXP coerce_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(sx), LISTENER_COERCE));
+  SEXP coerce_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(sx), ALTREP_METHOD_COERCE));
 
   if (result_coerce == NULL)
   {
@@ -508,7 +508,7 @@ SEXP altwrap_integer_Extract_subset_method(SEXP sx, SEXP indx, SEXP call)
   }
 
   // retrieve coerce listener method
-  SEXP extract_subset_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(sx), LISTENER_EXTRACT_SUBSET));
+  SEXP extract_subset_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(sx), ALTREP_METHOD_EXTRACT_SUBSET));
 
   // call listener with arguments and result
   call_r_interface(extract_subset_listener, arguments, ALTWRAP_PARENT_ENV(sx));
