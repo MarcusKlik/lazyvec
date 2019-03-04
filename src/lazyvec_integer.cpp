@@ -208,23 +208,22 @@ Rboolean lazyvec_integer_Inspect_method(SEXP x, int pre, int deep, int pvec,
 
 R_xlen_t lazyvec_integer_Length_method(SEXP x)
 {
-  R_xlen_t length_result = ALTREP_LENGTH(LAZYVEC_PAYLOAD(x));
+  // custom payload
+  SEXP payload = PROTECT(LAZYVEC_PAYLOAD(x));
 
-  SEXP arguments = PROTECT(Rf_allocVector(VECSXP, 2));
-  SET_VECTOR_ELT(arguments, 0, LAZYVEC_METADATA(x));
-  SET_VECTOR_ELT(arguments, 1, Rf_ScalarInteger(length_result));
-
+  // calling environment
+  SEXP calling_env = PROTECT(LAZYVEC_PARENT_ENV(x));
+  
   // length listener method
   SEXP length_listener = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(x), ALTREP_METHOD_LENGTH));
 
   // call ALTREP override
-  SEXP custom_length = PROTECT(call_r_interface(length_listener, arguments, LAZYVEC_PARENT_ENV(x)));
+  SEXP custom_length = PROTECT(call_r_interface(length_listener, payload, calling_env));
 
   // type and length checking is done on R side
-  // TODO: add 64 bit support to length method
   R_xlen_t res_length = (R_xlen_t)(*INTEGER(custom_length));
   
-  UNPROTECT(3);
+  UNPROTECT(4);
 
   return res_length;
 }

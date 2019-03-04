@@ -37,12 +37,12 @@ alt_wrap <- function(altrep_vec, vec_id) {
   if (!is_altrep(altrep_vec)) {
     stop("vector is not an ALTREP vector.")
   }
-  
+
   meta_data <- list(
-    
+
     # ALTREP payload
     altrep_vec,
-    
+
     # package listener methods
     c(
       listener_length,
@@ -62,14 +62,14 @@ alt_wrap <- function(altrep_vec, vec_id) {
       listener_coerce,
       listener_extract_subset
     ),
-    
+
     # identifyer, used in diagnostic output
     vec_id,
-    
+
     # parent environment in which to evaluate listeners
     parent.env(environment())
   )
-  
+
   if (typeof(altrep_vec) == "integer") {
     return(altrep_integer_wrapper(meta_data))
   }

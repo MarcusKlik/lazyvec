@@ -35,12 +35,12 @@ lazyvec <- function(altrep_vec, vec_id) {
   if (!is_altrep(altrep_vec)) {
     stop("vector is not an ALTREP vector.")
   }
-  
+
   meta_data <- list(
-    
+
     # ALTREP payload
     altrep_vec,
-    
+
     # package listener methods
     c(
       lazyvec_length,
@@ -60,14 +60,14 @@ lazyvec <- function(altrep_vec, vec_id) {
       lazyvec_coerce,
       lazyvec_extract_subset
     ),
-    
+
     # identifyer, used in diagnostic output
     vec_id,
-    
+
     # parent environment in which to evaluate listeners
     parent.env(environment())
   )
-  
+
   if (typeof(altrep_vec) == "integer") {
     return(lazyvec_integer_wrapper(meta_data))
   }
@@ -90,7 +90,6 @@ lazyvec <- function(altrep_vec, vec_id) {
 }
 
 
-
 lazyvec_length <- function(x) {
   cat(crayon::italic(
     crayon::cyan(x[[1]], ": ALTREP length : result =")),
@@ -101,7 +100,7 @@ lazyvec_length <- function(x) {
 
 
 lazyvec_dataptr_or_null <- function(x) {
-  
+
   cat(crayon::italic(
     crayon::cyan(x[[1]], ": ALTREP dataptr_or_null called, null returned: ")),
     display_parameter(x[[2]]), "\n", sep = "")
@@ -159,9 +158,9 @@ lazyvec_max <- function(x) {
 
 
 lazyvec_inspect <- function(x) {
-  
+
   print(x)
-  
+
   cat(crayon::italic(crayon::cyan("ALTREP inspect : result =")),
       display_parameter(x[[1]]),
       crayon::italic(crayon::cyan(", x = ")),
