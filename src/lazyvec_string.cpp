@@ -217,13 +217,15 @@ R_xlen_t lazyvec_string_Length_method(SEXP x)
   // length listener method
   SEXP length_listener = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(x), ALTREP_METHOD_LENGTH));
 
-  // call listener with integer length result
-  // TODO: change to int64 result
-  call_r_interface(length_listener, arguments, LAZYVEC_PARENT_ENV(x));
+  // call ALTREP override
+  SEXP custom_length = PROTECT(call_r_interface(length_listener, arguments, LAZYVEC_PARENT_ENV(x)));
 
-  UNPROTECT(2);
+  // type and length checking is done on R side
+  R_xlen_t res_length = (R_xlen_t)(*INTEGER(custom_length));
+  
+  UNPROTECT(3);
 
-  return length_result;
+  return res_length;
 }
 
 
