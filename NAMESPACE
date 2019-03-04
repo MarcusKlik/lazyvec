@@ -2,6 +2,7 @@
 
 export(alt_wrap)
 export(is_altrep)
+export(lazyvec)
 importFrom(Rcpp,evalCpp)
 importFrom(crayon,cyan)
 importFrom(crayon,italic)

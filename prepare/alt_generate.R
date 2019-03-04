@@ -1,7 +1,16 @@
 
 #' Generate source code for an altrep wrapper
 #'
-#' @param altrep_type A specific type of altrep vector; 'integer', 'real' or 'logical'
+#' @param altrep_type specific type of ALTREP vector; 'integer', 'real', 'logical', 'raw'
+#' or `string`
+#' @param source_path path to the source file used for code generation
+#' @param cpp_type C++ type corresponding to ALTREP type
+#' @param scalar_method method from R API to generate a scalar SEXP value
+#' @param type_method method from R API to access vector data
+#' @param alt_method name use in ALTREP API for specific ALTREP type generation
+#' @param output_path path to generated output file
+#' @param exclude_methods methods to remove from source before generation (for most ALTREP
+#' vectors only a subset of the ALTREP API is needed)
 #'
 #' @return a wrapper around the altrep vector which is an altrep vector itself
 #' @export
@@ -46,6 +55,10 @@ alt_generate <- function(source_path, altrep_type, cpp_type, scalar_method, type
   writeLines(source_file, output_path)
 }
 
+
+###################################################################################################
+# Generators for ALTREP API used by alt_wrap()                                                    #
+###################################################################################################
 
 # generate int wrapper
 alt_generate(
@@ -94,7 +107,7 @@ alt_generate(
   c("Min", "Max", "Is_sorted", "No_NA", "Sum", "Duplicate_"))
 
 
-# generate raw wrapper
+# generate string wrapper
 alt_generate(
   source_path = "altrep_implementation.cpp",
   altrep_type = "string",
@@ -103,4 +116,67 @@ alt_generate(
   type_method = "STRING",
   alt_method = "altstring",
   "../src/altrep_string.cpp",
+  c("Min", "Max", "Sum", "Get_region", "Duplicate_"))
+
+
+###################################################################################################
+# Generators for ALTREP API used by lazyvec()                                                     #
+###################################################################################################
+
+# generate int wrapper
+alt_generate(
+  source_path = "lazyvec_implementation.cpp",
+  altrep_type = "integer",
+  cpp_type = "int",
+  scalar_method = "Rf_ScalarInteger",
+  type_method = "INTEGER",
+  alt_method = "altinteger",
+  "../src/lazyvec_integer.cpp",
+  "Duplicate_")
+
+# generate real wrapper
+alt_generate(
+  source_path = "lazyvec_implementation.cpp",
+  altrep_type = "real",
+  cpp_type = "double",
+  scalar_method = "Rf_ScalarReal",
+  type_method = "REAL",
+  alt_method = "altreal",
+  "../src/lazyvec_real.cpp",
+  "Duplicate_")
+
+
+# generate logical wrapper
+alt_generate(
+  source_path = "lazyvec_implementation.cpp",
+  altrep_type = "logical",
+  cpp_type = "int",
+  scalar_method = "Rf_ScalarLogical",
+  type_method = "LOGICAL",
+  alt_method = "altlogical",
+  "../src/lazyvec_logical.cpp",
+  c("Min", "Max", "Duplicate_"))
+
+
+# generate raw wrapper
+alt_generate(
+  source_path = "lazyvec_implementation.cpp",
+  altrep_type = "raw",
+  cpp_type = "Rbyte",
+  scalar_method = "Rf_ScalarRaw",
+  type_method = "RAW",
+  alt_method = "altraw",
+  "../src/lazyvec_raw.cpp",
+  c("Min", "Max", "Is_sorted", "No_NA", "Sum", "Duplicate_"))
+
+
+# generate raw wrapper
+alt_generate(
+  source_path = "lazyvec_implementation.cpp",
+  altrep_type = "string",
+  cpp_type = "SEXP",
+  scalar_method = "Rf_ScalarString",
+  type_method = "STRING",
+  alt_method = "altstring",
+  "../src/lazyvec_string.cpp",
   c("Min", "Max", "Sum", "Get_region", "Duplicate_"))

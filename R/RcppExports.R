@@ -29,3 +29,23 @@ altrep_class <- function(vec) {
     .Call(`_lazyvec_altrep_class`, vec)
 }
 
+lazyvec_integer_wrapper <- function(data) {
+    .Call(`_lazyvec_lazyvec_integer_wrapper`, data)
+}
+
+lazyvec_logical_wrapper <- function(data) {
+    .Call(`_lazyvec_lazyvec_logical_wrapper`, data)
+}
+
+lazyvec_raw_wrapper <- function(data) {
+    .Call(`_lazyvec_lazyvec_raw_wrapper`, data)
+}
+
+lazyvec_real_wrapper <- function(data) {
+    .Call(`_lazyvec_lazyvec_real_wrapper`, data)
+}
+
+lazyvec_string_wrapper <- function(data) {
+    .Call(`_lazyvec_lazyvec_string_wrapper`, data)
+}
+

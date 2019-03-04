@@ -27,21 +27,20 @@
 
 
 // altrep integer class definition
-static R_altrep_class_t lazyvec_ALTREP_TYPE_class;
+static R_altrep_class_t lazyvec_logical_class;
 
 
 // [[Rcpp::export]]
-SEXP lazyvec_ALTREP_TYPE_wrapper(SEXP data)
+SEXP lazyvec_logical_wrapper(SEXP data)
 {
-  return R_new_altrep(lazyvec_ALTREP_TYPE_class, data, NILSXP);
+  return R_new_altrep(lazyvec_logical_class, data, NILSXP);
 }
 
 
-// generator source start: Unserialize
 //
 // On Win there is no Unserialize method exported, check with R-dev!
 //
-static SEXP lazyvec_ALTREP_TYPE_Unserialize_method(SEXP lazyvec_class, SEXP state)
+static SEXP lazyvec_logical_Unserialize_method(SEXP lazyvec_class, SEXP state)
 {
   Rcpp::Environment pkgs = Rcpp::Environment::namespace_env("lazyvec");
 
@@ -58,17 +57,15 @@ static SEXP lazyvec_ALTREP_TYPE_Unserialize_method(SEXP lazyvec_class, SEXP stat
 
   // UNPROTECT(2);
   UNPROTECT(1);
-  return lazyvec_ALTREP_TYPE_wrapper(altrep_data1);
+  return lazyvec_logical_wrapper(altrep_data1);
 }
 
 
-// generator source end: Unserialize
-// generator source start: UnserializeEX
 //
 // ALTREP_UNSERIALIZE_EX is not linking on linux due to uncommented hidden_attribute
 // in declaration
 //
-SEXP lazyvec_ALTREP_TYPE_UnserializeEX_method(SEXP info, SEXP state, SEXP attr, int objf, int levs)
+SEXP lazyvec_logical_UnserializeEX_method(SEXP info, SEXP state, SEXP attr, int objf, int levs)
 {
   // return ALTREP_UNSERIALIZE_EX(info, state, attr, objf, levs);
 
@@ -88,7 +85,7 @@ SEXP lazyvec_ALTREP_TYPE_UnserializeEX_method(SEXP info, SEXP state, SEXP attr, 
   
   // UNPROTECT(2);
   UNPROTECT(1);
-  return lazyvec_ALTREP_TYPE_wrapper(altrep_data1);
+  return lazyvec_logical_wrapper(altrep_data1);
   
   // SEXP payload = PROTECT(LAZYVEC_PAYLOAD(x));
 
@@ -148,9 +145,7 @@ SEXP lazyvec_ALTREP_TYPE_UnserializeEX_method(SEXP info, SEXP state, SEXP attr, 
 }
 
 
-// generator source end: UnserializeEX
-// generator source start: Serialized_state
-SEXP lazyvec_ALTREP_TYPE_Serialized_state_method(SEXP x)
+SEXP lazyvec_logical_Serialized_state_method(SEXP x)
 {
   SEXP serialized_state_result = PROTECT(ALTREP_SERIALIZED_STATE(LAZYVEC_PAYLOAD(x)));
 
@@ -178,9 +173,7 @@ SEXP lazyvec_ALTREP_TYPE_Serialized_state_method(SEXP x)
 }
 
 
-// generator source end: Serialized_state
-// generator source start: Inspect
-Rboolean lazyvec_ALTREP_TYPE_Inspect_method(SEXP x, int pre, int deep, int pvec,
+Rboolean lazyvec_logical_Inspect_method(SEXP x, int pre, int deep, int pvec,
   inspect_subtree_method subtree_method)
 {
   Rboolean inspect_result = ALTREP_INSPECT(LAZYVEC_PAYLOAD(x), pre, deep, pvec, subtree_method);
@@ -213,9 +206,7 @@ Rboolean lazyvec_ALTREP_TYPE_Inspect_method(SEXP x, int pre, int deep, int pvec,
 }
 
 
-// generator source end: Inspect
-// generator source start: Length
-R_xlen_t lazyvec_ALTREP_TYPE_Length_method(SEXP x)
+R_xlen_t lazyvec_logical_Length_method(SEXP x)
 {
   R_xlen_t length_result = ALTREP_LENGTH(LAZYVEC_PAYLOAD(x));
 
@@ -236,9 +227,7 @@ R_xlen_t lazyvec_ALTREP_TYPE_Length_method(SEXP x)
 }
 
 
-// generator source end: Length
-// generator source start: Dataptr
-void* lazyvec_ALTREP_TYPE_Dataptr_method(SEXP x, Rboolean writeable)
+void* lazyvec_logical_Dataptr_method(SEXP x, Rboolean writeable)
 {
   // create structure with info
   SEXP arguments = PROTECT(Rf_allocVector(INTSXP, 3));
@@ -266,9 +255,7 @@ void* lazyvec_ALTREP_TYPE_Dataptr_method(SEXP x, Rboolean writeable)
 }
 
 
-// generator source end: Dataptr
-// generator source start: Dataptr_or_null
-const void *lazyvec_ALTREP_TYPE_Dataptr_or_null_method(SEXP x)
+const void *lazyvec_logical_Dataptr_or_null_method(SEXP x)
 {
   const void* pdata_or_null = DATAPTR_OR_NULL(LAZYVEC_PAYLOAD(x));
   int is_pointer = pdata_or_null == NULL;
@@ -289,17 +276,15 @@ const void *lazyvec_ALTREP_TYPE_Dataptr_or_null_method(SEXP x)
 }
 
 
-// generator source end: Dataptr_or_null
-// generator source start: Elt
-CPP_TYPE lazyvec_ALTREP_TYPE_Elt_method(SEXP sx, R_xlen_t i)
+int lazyvec_logical_Elt_method(SEXP sx, R_xlen_t i)
 {
-  CPP_TYPE element = TYPE_METHOD_ELT(LAZYVEC_PAYLOAD(sx), i);
+  int element = LOGICAL_ELT(LAZYVEC_PAYLOAD(sx), i);
 
   // retrieve is_sorted listener method
   SEXP elt_listener = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(sx), ALTREP_METHOD_ELT));
 
   // call listener with result with the correct ALTREP type
-  call_r_interface(elt_listener, RF_SCALAR_TYPE(element), LAZYVEC_PARENT_ENV(sx));
+  call_r_interface(elt_listener, Rf_ScalarLogical(element), LAZYVEC_PARENT_ENV(sx));
 
   UNPROTECT(1);
 
@@ -307,11 +292,9 @@ CPP_TYPE lazyvec_ALTREP_TYPE_Elt_method(SEXP sx, R_xlen_t i)
 }
 
 
-// generator source end: Elt
-// generator source start: Get_region
-R_xlen_t lazyvec_ALTREP_TYPE_Get_region_method(SEXP sx, R_xlen_t i, R_xlen_t n, CPP_TYPE *buf)
+R_xlen_t lazyvec_logical_Get_region_method(SEXP sx, R_xlen_t i, R_xlen_t n, int *buf)
 {
-  R_xlen_t length = TYPE_METHOD_GET_REGION(LAZYVEC_PAYLOAD(sx), i, n, buf);
+  R_xlen_t length = LOGICAL_GET_REGION(LAZYVEC_PAYLOAD(sx), i, n, buf);
 
   SEXP arguments = PROTECT(Rf_allocVector(VECSXP, 4));
   SET_VECTOR_ELT(arguments, 0, LAZYVEC_METADATA(sx));
@@ -331,11 +314,9 @@ R_xlen_t lazyvec_ALTREP_TYPE_Get_region_method(SEXP sx, R_xlen_t i, R_xlen_t n, 
 }
 
 
-// generator source end: Get_region
-// generator source start: Is_sorted
-int lazyvec_ALTREP_TYPE_Is_sorted_method(SEXP sx)
+int lazyvec_logical_Is_sorted_method(SEXP sx)
 {
-  int is_sorted = TYPE_METHOD_IS_SORTED(LAZYVEC_PAYLOAD(sx));
+  int is_sorted = LOGICAL_IS_SORTED(LAZYVEC_PAYLOAD(sx));
 
   // retrieve is_sorted listener method
   SEXP is_sorted_listener = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(sx), ALTREP_METHOD_IS_SORTED));
@@ -349,11 +330,9 @@ int lazyvec_ALTREP_TYPE_Is_sorted_method(SEXP sx)
 }
 
 
-// generator source end: Is_sorted
-// generator source start: No_NA
-int lazyvec_ALTREP_TYPE_No_NA_method(SEXP sx)
+int lazyvec_logical_No_NA_method(SEXP sx)
 {
-  int no_na = TYPE_METHOD_NO_NA(LAZYVEC_PAYLOAD(sx));
+  int no_na = LOGICAL_NO_NA(LAZYVEC_PAYLOAD(sx));
 
   // retrieve no_na listener method
   SEXP no_na_listener = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(sx), ALTREP_METHOD_NO_NA));
@@ -367,11 +346,9 @@ int lazyvec_ALTREP_TYPE_No_NA_method(SEXP sx)
 }
 
 
-// generator source end: No_NA
-// generator source start: Sum
-SEXP lazyvec_ALTREP_TYPE_Sum_method(SEXP sx, Rboolean na_rm)
+SEXP lazyvec_logical_Sum_method(SEXP sx, Rboolean na_rm)
 {
-  SEXP sum = PROTECT(ALTTYPE_METHOD_SUM(LAZYVEC_PAYLOAD(sx), na_rm));
+  SEXP sum = PROTECT(ALTLOGICAL_SUM(LAZYVEC_PAYLOAD(sx), na_rm));
 
   // retrieve sum listener method
   SEXP sum_listener = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(sx), ALTREP_METHOD_SUM));
@@ -402,82 +379,7 @@ SEXP lazyvec_ALTREP_TYPE_Sum_method(SEXP sx, Rboolean na_rm)
 }
 
 
-// generator source end: Sum
-// generator source start: Min
-SEXP lazyvec_ALTREP_TYPE_Min_method(SEXP sx, Rboolean na_rm)
-{
-  SEXP result_min = PROTECT(ALTTYPE_METHOD_MIN(LAZYVEC_PAYLOAD(sx), na_rm));
-
-  SEXP arguments = PROTECT(Rf_allocVector(VECSXP, 2));
-  SET_VECTOR_ELT(arguments, 0, LAZYVEC_METADATA(sx));
-  SET_VECTOR_ELT(arguments, 1, result_min == NULL ? R_NilValue : result_min);
-  
-  // retrieve sum listener method
-  SEXP min_listener = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(sx), ALTREP_METHOD_MIN));
-
-  // call listener with SEXP result
-  call_r_interface(min_listener, arguments, LAZYVEC_PARENT_ENV(sx));
-  UNPROTECT(3);
-
-  return result_min;
-}
-
-
-// generator source end: Min
-// generator source start: Max
-SEXP lazyvec_ALTREP_TYPE_Max_method(SEXP sx, Rboolean na_rm)
-{
-  SEXP result_max = PROTECT(ALTTYPE_METHOD_MAX(LAZYVEC_PAYLOAD(sx), na_rm));
-
-  // retrieve sum listener method
-  SEXP max_listener = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(sx), ALTREP_METHOD_MAX));
-
-  if (result_max == NULL)
-  { 
-    // call listener with SEXP result
-    call_r_interface(max_listener, R_NilValue, LAZYVEC_PARENT_ENV(sx));
-    UNPROTECT(2);
-
-    return result_max;
-  }
-
-  // call listener with SEXP result
-  call_r_interface(max_listener, result_max, LAZYVEC_PARENT_ENV(sx));
-  UNPROTECT(2);
-
-  return result_max;
-}
-
-
-// generator source end: Max
-// generator source start: Duplicate_
-SEXP lazyvec_ALTREP_TYPE_Duplicate_method(SEXP sx, Rboolean deep)
-{
-  SEXP result_duplicate = PROTECT(ALTREP_DUPLICATE(LAZYVEC_PAYLOAD(sx), deep));
-  
-  // retrieve duplicateEX listener method
-  SEXP duplicate_listener = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(sx), ALTREP_METHOD_DUPLICATE));
-  
-  if (result_duplicate == NULL)
-  { 
-    // call listener with SEXP result
-    call_r_interface(duplicate_listener, R_NilValue, LAZYVEC_PARENT_ENV(sx));
-    UNPROTECT(2);
-    
-    return result_duplicate;
-  }
-  
-  // call listener with SEXP result
-  call_r_interface(duplicate_listener, result_duplicate, LAZYVEC_PARENT_ENV(sx));
-  UNPROTECT(2);
-  
-  return result_duplicate;
-}
-
-
-// generator source end: Duplicate_
-// generator source start: DuplicateEX
-SEXP lazyvec_ALTREP_TYPE_DuplicateEX_method(SEXP sx, Rboolean deep)
+SEXP lazyvec_logical_DuplicateEX_method(SEXP sx, Rboolean deep)
 {
   SEXP result_duplicate_ex = PROTECT(ALTREP_DUPLICATE_EX(LAZYVEC_PAYLOAD(sx), deep));
 
@@ -501,9 +403,7 @@ SEXP lazyvec_ALTREP_TYPE_DuplicateEX_method(SEXP sx, Rboolean deep)
 }
 
 
-// generator source end: DuplicateEX
-// generator source start: Coerce
-SEXP lazyvec_ALTREP_TYPE_Coerce_method(SEXP sx, int type)
+SEXP lazyvec_logical_Coerce_method(SEXP sx, int type)
 {
   SEXP result_coerce = PROTECT(ALTREP_COERCE(LAZYVEC_PAYLOAD(sx), type));
 
@@ -534,9 +434,7 @@ SEXP lazyvec_ALTREP_TYPE_Coerce_method(SEXP sx, int type)
 }
 
 
-// generator source end: Coerce
-// generator source start: Extract_subset
-SEXP lazyvec_ALTREP_TYPE_Extract_subset_method(SEXP sx, SEXP indx, SEXP call)
+SEXP lazyvec_logical_Extract_subset_method(SEXP sx, SEXP indx, SEXP call)
 {
   SEXP result_extract_subset = PROTECT(ALTVEC_EXTRACT_SUBSET(LAZYVEC_PAYLOAD(sx), indx, call));
 
@@ -578,33 +476,29 @@ SEXP lazyvec_ALTREP_TYPE_Extract_subset_method(SEXP sx, SEXP indx, SEXP call)
 }
 
 
-// generator source end: Extract_subset
 // [[Rcpp::init]]
-void register_lazyvec_ALTREP_TYPE_class(DllInfo *dll)
+void register_lazyvec_logical_class(DllInfo *dll)
 {
-  lazyvec_ALTREP_TYPE_class = R_make_altALTREP_TYPE_class("lazyvec_ALTREP_TYPE", "lazyvec", dll);
+  lazyvec_logical_class = R_make_altlogical_class("lazyvec_logical", "lazyvec", dll);
 
   /* override ALTREP methods */
-  CALL_LAZYVEC_SETTER(altrep, ALTREP_TYPE, UnserializeEX);     // codeline: UnserializeEX
-  CALL_LAZYVEC_SETTER(altrep, ALTREP_TYPE, Unserialize);       // codeline: Unserialize
-  CALL_LAZYVEC_SETTER(altrep, ALTREP_TYPE, Serialized_state);  // codeline: Serialized_state
-  CALL_LAZYVEC_SETTER(altrep, ALTREP_TYPE, DuplicateEX);       // codeline: DuplicateEx
-  CALL_LAZYVEC_SETTER(altrep, ALTREP_TYPE, Duplicate);         // codeline: Duplicate_
-  CALL_LAZYVEC_SETTER(altrep, ALTREP_TYPE, Coerce);            // codeline: Coerce
-  CALL_LAZYVEC_SETTER(altrep, ALTREP_TYPE, Inspect);           // codeline: Inspect
-  CALL_LAZYVEC_SETTER(altrep, ALTREP_TYPE, Length);            // codeline: Length
+  CALL_LAZYVEC_SETTER(altrep, logical, UnserializeEX);     // codeline: UnserializeEX
+  CALL_LAZYVEC_SETTER(altrep, logical, Unserialize);       // codeline: Unserialize
+  CALL_LAZYVEC_SETTER(altrep, logical, Serialized_state);  // codeline: Serialized_state
+  CALL_LAZYVEC_SETTER(altrep, logical, DuplicateEX);       // codeline: DuplicateEx
+  CALL_LAZYVEC_SETTER(altrep, logical, Coerce);            // codeline: Coerce
+  CALL_LAZYVEC_SETTER(altrep, logical, Inspect);           // codeline: Inspect
+  CALL_LAZYVEC_SETTER(altrep, logical, Length);            // codeline: Length
 
   /* override ALTVEC methods */
-  CALL_LAZYVEC_SETTER(altvec, ALTREP_TYPE, Dataptr);           // codeline: Dataptr
-  CALL_LAZYVEC_SETTER(altvec, ALTREP_TYPE, Dataptr_or_null);   // codeline: Dataptr_or_null
-  CALL_LAZYVEC_SETTER(altvec, ALTREP_TYPE, Extract_subset);    // codeline: Extract_subset
+  CALL_LAZYVEC_SETTER(altvec, logical, Dataptr);           // codeline: Dataptr
+  CALL_LAZYVEC_SETTER(altvec, logical, Dataptr_or_null);   // codeline: Dataptr_or_null
+  CALL_LAZYVEC_SETTER(altvec, logical, Extract_subset);    // codeline: Extract_subset
 
   /* override specific type methods */
-  CALL_LAZYVEC_SETTER(ALT_METHOD, ALTREP_TYPE, Elt);           // codeline: Elt
-  CALL_LAZYVEC_SETTER(ALT_METHOD, ALTREP_TYPE, Get_region);    // codeline: Get_region
-  CALL_LAZYVEC_SETTER(ALT_METHOD, ALTREP_TYPE, Is_sorted);     // codeline: Is_sorted
-  CALL_LAZYVEC_SETTER(ALT_METHOD, ALTREP_TYPE, No_NA);         // codeline: No_NA
-  CALL_LAZYVEC_SETTER(ALT_METHOD, ALTREP_TYPE, Sum);           // codeline: Sum
-  CALL_LAZYVEC_SETTER(ALT_METHOD, ALTREP_TYPE, Min);           // codeline: Min
-  CALL_LAZYVEC_SETTER(ALT_METHOD, ALTREP_TYPE, Max);           // codeline: Max
+  CALL_LAZYVEC_SETTER(altlogical, logical, Elt);           // codeline: Elt
+  CALL_LAZYVEC_SETTER(altlogical, logical, Get_region);    // codeline: Get_region
+  CALL_LAZYVEC_SETTER(altlogical, logical, Is_sorted);     // codeline: Is_sorted
+  CALL_LAZYVEC_SETTER(altlogical, logical, No_NA);         // codeline: No_NA
+  CALL_LAZYVEC_SETTER(altlogical, logical, Sum);           // codeline: Sum
 }

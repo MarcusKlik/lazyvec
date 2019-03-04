@@ -82,6 +82,61 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// lazyvec_integer_wrapper
+SEXP lazyvec_integer_wrapper(SEXP data);
+RcppExport SEXP _lazyvec_lazyvec_integer_wrapper(SEXP dataSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type data(dataSEXP);
+    rcpp_result_gen = Rcpp::wrap(lazyvec_integer_wrapper(data));
+    return rcpp_result_gen;
+END_RCPP
+}
+// lazyvec_logical_wrapper
+SEXP lazyvec_logical_wrapper(SEXP data);
+RcppExport SEXP _lazyvec_lazyvec_logical_wrapper(SEXP dataSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type data(dataSEXP);
+    rcpp_result_gen = Rcpp::wrap(lazyvec_logical_wrapper(data));
+    return rcpp_result_gen;
+END_RCPP
+}
+// lazyvec_raw_wrapper
+SEXP lazyvec_raw_wrapper(SEXP data);
+RcppExport SEXP _lazyvec_lazyvec_raw_wrapper(SEXP dataSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type data(dataSEXP);
+    rcpp_result_gen = Rcpp::wrap(lazyvec_raw_wrapper(data));
+    return rcpp_result_gen;
+END_RCPP
+}
+// lazyvec_real_wrapper
+SEXP lazyvec_real_wrapper(SEXP data);
+RcppExport SEXP _lazyvec_lazyvec_real_wrapper(SEXP dataSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type data(dataSEXP);
+    rcpp_result_gen = Rcpp::wrap(lazyvec_real_wrapper(data));
+    return rcpp_result_gen;
+END_RCPP
+}
+// lazyvec_string_wrapper
+SEXP lazyvec_string_wrapper(SEXP data);
+RcppExport SEXP _lazyvec_lazyvec_string_wrapper(SEXP dataSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type data(dataSEXP);
+    rcpp_result_gen = Rcpp::wrap(lazyvec_string_wrapper(data));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_lazyvec_altrep_integer_wrapper", (DL_FUNC) &_lazyvec_altrep_integer_wrapper, 1},
@@ -91,6 +146,11 @@ static const R_CallMethodDef CallEntries[] = {
     {"_lazyvec_altrep_string_wrapper", (DL_FUNC) &_lazyvec_altrep_string_wrapper, 1},
     {"_lazyvec_is_altrep_vector", (DL_FUNC) &_lazyvec_is_altrep_vector, 1},
     {"_lazyvec_altrep_class", (DL_FUNC) &_lazyvec_altrep_class, 1},
+    {"_lazyvec_lazyvec_integer_wrapper", (DL_FUNC) &_lazyvec_lazyvec_integer_wrapper, 1},
+    {"_lazyvec_lazyvec_logical_wrapper", (DL_FUNC) &_lazyvec_lazyvec_logical_wrapper, 1},
+    {"_lazyvec_lazyvec_raw_wrapper", (DL_FUNC) &_lazyvec_lazyvec_raw_wrapper, 1},
+    {"_lazyvec_lazyvec_real_wrapper", (DL_FUNC) &_lazyvec_lazyvec_real_wrapper, 1},
+    {"_lazyvec_lazyvec_string_wrapper", (DL_FUNC) &_lazyvec_lazyvec_string_wrapper, 1},
     {NULL, NULL, 0}
 };
 
@@ -99,6 +159,11 @@ void register_altrep_logical_class(DllInfo *dll);
 void register_altrep_raw_class(DllInfo *dll);
 void register_altrep_real_class(DllInfo *dll);
 void register_altrep_string_class(DllInfo *dll);
+void register_lazyvec_integer_class(DllInfo *dll);
+void register_lazyvec_logical_class(DllInfo *dll);
+void register_lazyvec_raw_class(DllInfo *dll);
+void register_lazyvec_real_class(DllInfo *dll);
+void register_lazyvec_string_class(DllInfo *dll);
 RcppExport void R_init_lazyvec(DllInfo *dll) {
     R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
     R_useDynamicSymbols(dll, FALSE);
@@ -107,4 +172,9 @@ RcppExport void R_init_lazyvec(DllInfo *dll) {
     register_altrep_raw_class(dll);
     register_altrep_real_class(dll);
     register_altrep_string_class(dll);
+    register_lazyvec_integer_class(dll);
+    register_lazyvec_logical_class(dll);
+    register_lazyvec_raw_class(dll);
+    register_lazyvec_real_class(dll);
+    register_lazyvec_string_class(dll);
 }
