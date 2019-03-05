@@ -126,8 +126,9 @@ listener_get_region <- function(x) {
 
 
 listener_element <- function(x) {
-  cat(crayon::italic(crayon::cyan("ALTREP element : result =")),
-      display_parameter(x), "\n", sep = "")
+  cat(crayon::italic(
+    crayon::cyan(x[[1]], ": ALTREP element : result =")),
+      display_parameter(x[[2]]), "\n", sep = "")
 }
 
 
