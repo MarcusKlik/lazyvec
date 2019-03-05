@@ -35,8 +35,8 @@ lazyvec_get_region <- function(x) {
 
 
 lazyvec_element <- function(x) {
-  cat(crayon::italic(crayon::cyan("ALTREP element : result =")),
-      display_parameter(x), "\n", sep = "")
+  
+  5L
 }
 
 
@@ -164,3 +164,5 @@ length(my_altrep_vec)
 sum(my_altrep_vec)
 
 min(my_altrep_vec)
+
+my_altrep_vec[5]

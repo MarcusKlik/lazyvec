@@ -27,6 +27,12 @@
 #define ALTREP_METHOD_UNSERIALIZE      16
 #define ALTREP_METHOD_DUPLICATE        17
 
+// conversion helpers
+#define SEXP_TO_INT(x) *INTEGER(x)
+#define SEXP_TO_DOUBLE(x) *REAL(x)
+#define SEXP_TO_RBYTE(x) (Rbyte)(*RAW(x))
+#define SEXP_TO_CHARXP(x) STRING_ELT(x, 0)
+
 typedef void (*inspect_subtree_method)(SEXP, int, int, int);
 
 

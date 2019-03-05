@@ -86,62 +86,6 @@ SEXP lazyvec_real_UnserializeEX_method(SEXP info, SEXP state, SEXP attr, int obj
   // UNPROTECT(2);
   UNPROTECT(1);
   return lazyvec_real_wrapper(altrep_data1);
-  
-  // SEXP payload = PROTECT(LAZYVEC_PAYLOAD(x));
-
-  // get attributes from original altrep object
-  // SEXP payload_attr = PROTECT(ATTRIB(payload));
-  // int payload_objf = OBJECT(payload);
-  // int payload_levs = LEVELS(payload);
-
-  // UNPROTECT(2);
-
-  // SEXP unserialize_ex_result = PROTECT(ALTREP_UNSERIALIZE_EX(LAZYVEC_PAYLOAD(x), state, attr, objf, levs));
-  // return ALTREP_UNSERIALIZE_EX(payload, state, payload_attr, payload_objf, payload_levs);
-
-  // SEXP arguments = PROTECT(Rf_allocVector(VECSXP, 5));
-
-  // if (unserialize_ex_result == NULL)
-  // {
-  //   SET_VECTOR_ELT(arguments, 0, R_NilValue);
-  // }
-  // else
-  // {
-  //   SET_VECTOR_ELT(arguments, 0, unserialize_ex_result);
-  // }
-  // 
-  // if (state == NULL)
-  // {
-  //   SET_VECTOR_ELT(arguments, 1, R_NilValue);
-  // }
-  // else
-  // {
-  //   SET_VECTOR_ELT(arguments, 1, state);
-  // }
-  // 
-  // if (attr == NULL)
-  // {
-  //   SET_VECTOR_ELT(arguments, 2, R_NilValue);
-  // }
-  // else
-  // {
-  //   SET_VECTOR_ELT(arguments, 2, attr);
-  // }
-  // 
-  // SET_VECTOR_ELT(arguments, 3, Rf_ScalarInteger(objf));
-  // SET_VECTOR_ELT(arguments, 4, Rf_ScalarInteger(levs));
-
-  // if (unserialize_ex_result == NULL) Rf_error("stop immediately!");
-
-  // length listener method
-  // SEXP unserialize_ex_listener = VECTOR_ELT(LAZYVEC_LISTENERS(x), ALTREP_METHOD_UNSERIALIZE_EX);
-
-  // call listener
-  // call_r_interface(unserialize_ex_listener, arguments, LAZYVEC_PARENT_ENV(x));
-
-  // UNPROTECT(2);
-
-  // return unserialize_ex_result;
 }
 
 
@@ -278,18 +222,26 @@ const void *lazyvec_real_Dataptr_or_null_method(SEXP x)
 }
 
 
-double lazyvec_real_Elt_method(SEXP sx, R_xlen_t i)
+double lazyvec_real_Elt_method(SEXP x, R_xlen_t i)
 {
-  double element = REAL_ELT(LAZYVEC_PAYLOAD(sx), i);
+  // custom payload
+  SEXP user_data = PROTECT(LAZYVEC_USER_DATA(x));
+  
+  // calling environment
+  SEXP calling_env = PROTECT(LAZYVEC_PARENT_ENV(x));
+  
+  // length listener method
+  SEXP elt_listener = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(x), ALTREP_METHOD_ELT));
+  
+  // ALTREP override
+  // should return a length 1 vector containing the element
+  SEXP custom_element = PROTECT(call_r_interface(elt_listener, user_data, calling_env));
 
-  // retrieve is_sorted listener method
-  SEXP elt_listener = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(sx), ALTREP_METHOD_ELT));
+  // convert to double
+  double element = SEXP_TO_DOUBLE(custom_element);
 
-  // call listener with result with the correct ALTREP type
-  call_r_interface(elt_listener, Rf_ScalarReal(element), LAZYVEC_PARENT_ENV(sx));
-
-  UNPROTECT(1);
-
+  UNPROTECT(4);
+  
   return element;
 }
 

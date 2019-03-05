@@ -15,7 +15,7 @@
 #' @return a wrapper around the altrep vector which is an altrep vector itself
 #' @export
 alt_generate <- function(source_path, altrep_type, cpp_type, scalar_method, type_method,
-  alt_method, output_path, exclude_methods = NULL) {
+  alt_method, sexp_to_cpp, output_path, exclude_methods = NULL) {
 
   # read default source file
   source_file <- readLines(source_path)
@@ -26,6 +26,7 @@ alt_generate <- function(source_path, altrep_type, cpp_type, scalar_method, type
   source_file <- gsub("RF_SCALAR_TYPE", scalar_method, source_file)
   source_file <- gsub("TYPE_METHOD", type_method, source_file)
   source_file <- gsub("ALT_METHOD", alt_method, source_file)
+  source_file <- gsub("SEXP_TO_CPP", sexp_to_cpp, source_file)
 
   for (exclude_method in exclude_methods) {
 
@@ -68,6 +69,7 @@ alt_generate(
   scalar_method = "Rf_ScalarInteger",
   type_method = "INTEGER",
   alt_method = "altinteger",
+  sexp_to_cpp = "not_needed",
   "../src/altrep_integer.cpp",
   "Duplicate_")
 
@@ -79,6 +81,7 @@ alt_generate(
   scalar_method = "Rf_ScalarReal",
   type_method = "REAL",
   alt_method = "altreal",
+  sexp_to_cpp = "not_needed",
   "../src/altrep_real.cpp",
   "Duplicate_")
 
@@ -91,6 +94,7 @@ alt_generate(
   scalar_method = "Rf_ScalarLogical",
   type_method = "LOGICAL",
   alt_method = "altlogical",
+  sexp_to_cpp = "not_needed",
   "../src/altrep_logical.cpp",
   c("Min", "Max", "Duplicate_"))
 
@@ -103,6 +107,7 @@ alt_generate(
   scalar_method = "Rf_ScalarRaw",
   type_method = "RAW",
   alt_method = "altraw",
+  sexp_to_cpp = "not_needed",
   "../src/altrep_raw.cpp",
   c("Min", "Max", "Is_sorted", "No_NA", "Sum", "Duplicate_"))
 
@@ -115,6 +120,7 @@ alt_generate(
   scalar_method = "Rf_ScalarString",
   type_method = "STRING",
   alt_method = "altstring",
+  sexp_to_cpp = "not_needed",
   "../src/altrep_string.cpp",
   c("Min", "Max", "Sum", "Get_region", "Duplicate_"))
 
@@ -131,6 +137,7 @@ alt_generate(
   scalar_method = "Rf_ScalarInteger",
   type_method = "INTEGER",
   alt_method = "altinteger",
+  sexp_to_cpp = "SEXP_TO_INT",
   "../src/lazyvec_integer.cpp",
   "Duplicate_")
 
@@ -142,6 +149,7 @@ alt_generate(
   scalar_method = "Rf_ScalarReal",
   type_method = "REAL",
   alt_method = "altreal",
+  sexp_to_cpp = "SEXP_TO_DOUBLE",
   "../src/lazyvec_real.cpp",
   "Duplicate_")
 
@@ -154,6 +162,7 @@ alt_generate(
   scalar_method = "Rf_ScalarLogical",
   type_method = "LOGICAL",
   alt_method = "altlogical",
+  sexp_to_cpp = "SEXP_TO_INT",
   "../src/lazyvec_logical.cpp",
   c("Min", "Max", "Duplicate_"))
 
@@ -166,6 +175,7 @@ alt_generate(
   scalar_method = "Rf_ScalarRaw",
   type_method = "RAW",
   alt_method = "altraw",
+  sexp_to_cpp = "SEXP_TO_RBYTE",
   "../src/lazyvec_raw.cpp",
   c("Min", "Max", "Is_sorted", "No_NA", "Sum", "Duplicate_"))
 
@@ -178,5 +188,6 @@ alt_generate(
   scalar_method = "Rf_ScalarString",
   type_method = "STRING",
   alt_method = "altstring",
+  sexp_to_cpp = "SEXP_TO_CHARXP",
   "../src/lazyvec_string.cpp",
   c("Min", "Max", "Sum", "Get_region", "Duplicate_"))

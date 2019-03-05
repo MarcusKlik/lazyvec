@@ -298,10 +298,15 @@ CPP_TYPE altwrap_ALTREP_TYPE_Elt_method(SEXP sx, R_xlen_t i)
   // retrieve is_sorted listener method
   SEXP elt_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(sx), ALTREP_METHOD_ELT));
 
-  // call listener with result with the correct ALTREP type
-  call_r_interface(elt_listener, RF_SCALAR_TYPE(element), ALTWRAP_PARENT_ENV(sx));
+  // arguments vector
+  SEXP arguments = PROTECT(Rf_allocVector(VECSXP, 2));
+  SET_VECTOR_ELT(arguments, 0, ALTWRAP_METADATA(sx));
+  SET_VECTOR_ELT(arguments, 1, RF_SCALAR_TYPE(element));
 
-  UNPROTECT(1);
+  // call listener with result with the correct ALTREP type
+  call_r_interface(elt_listener, arguments, ALTWRAP_PARENT_ENV(sx));
+
+  UNPROTECT(2);
 
   return element;
 }
