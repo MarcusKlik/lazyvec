@@ -10,6 +10,13 @@ status](https://ci.appveyor.com/api/projects/status/bfm7amtkyjvc2rk9?svg=true)](
 [![License: AGPL
 v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 
+> This repository is home to the `lazyvec` package. `lazyvec` depends
+> heavily on the ALTREP framework that will be rolled out with `R` 3.6.
+> Therefore, at the moment, it can only be compiled from source when you
+> are running the latest `dev` version of `R`. After the `R` 3.6
+> release, `lazyvec` will be submitted to CRAN and more readily
+> available to the user.
+
 ## Overview
 
 The [*lazyvec* package](https://github.com/fstpackage/lazyvec) for `R`

@@ -161,4 +161,6 @@ my_altrep_vec <- lazyvec(c(1L, 20L, 2L), "integer", lazyvec_api)
 
 length(my_altrep_vec)
 
-       
+sum(my_altrep_vec)
+
+min(my_altrep_vec)
