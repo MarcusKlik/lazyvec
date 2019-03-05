@@ -20,63 +20,60 @@
 #  - lazyvec R package source repository : https://github.com/fstpackage/lazyvec
 
 
-#' Define a custom ALTREP vector
+#' Define a ALTREP interface
+#'
+#' With this method a complete ALTREP interface is defined using R functions. Calls to the custom
+#' ALTREP vector will be diverted to these user functions.
 #' 
-#' This method creates a user-defined ALTREP vector with the complete ALTREP API created
-#' in R instead of C/C++ sources.
+#' @param method_length override for the ALTREP length method
+#' @param method_dataptr_or_null  override for the ALTREP dataptr_or_null method
+#' @param method_get_region override for the ALTREP get_region method
+#' @param method_element override for the ALTREP element method
+#' @param method_dataptr override for the ALTREP dataptr method
+#' @param method_is_sorted override for the ALTREP is_sorted method
+#' @param method_no_na override for the ALTREP no_na method
+#' @param method_sum override for the ALTREP sum method
+#' @param method_min override for the ALTREP min method
+#' @param method_max override for the ALTREP max method
+#' @param method_inspect override for the ALTREP inspect method
+#' @param method_unserialize_ex override for the ALTREP unserialize_ex method
+#' @param method_serialized_state override for the ALTREP serialized_state method
+#' @param method_duplicate_ex override for the ALTREP duplicate_ex method
+#' @param method_coerce override for the ALTREP coerce method
+#' @param method_extract_subset override for the ALTREP extract_subset method
 #'
-#' @param metadata custom metadata stored alongside the generated ALTREP vector
-#' @param vec_type data type required for the ALTREP vector, options are 'integer', 'double',
-#' 'logical', 'raw' and 'character'. 
-#' @param altrep_methods user-defined methods used by the resulting ALTREP vector
-#'
-#' @return a user-defined ALTREP vector
+#' @return object of type 'lazyvec_api' defining the set of methods to use for ALTREP calls
 #' @export
-lazyvec <- function(metadata, vec_type, altrep_methods) {
+lazyvec_methods <- function(method_length, method_dataptr_or_null, method_get_region,
+  method_element, method_dataptr, method_is_sorted, method_no_na, method_sum, method_min,
+  method_max, method_inspect, method_unserialize_ex, method_serialized_state,
+  method_duplicate_ex, method_coerce, method_extract_subset) {
 
-  if (class(altrep_methods) != "lazyvec_api") {
-    stop("Please use lazyvec_methods() to define the ALTREP methods for this vector")
-  }
+  # some checks on user function here
   
-  class(altrep_methods) <- NULL
-  
-  payload <- list(
-
-    # ALTREP payload for testing (remove later)
-    1:10,
-
-    # altrep API
-    altrep_methods,
-    
-    # identifyer, used in diagnostic output
-    "sample_range",
-
-    # parent environment in which to evaluate listeners
-    parent.env(environment()),
-
-    # user-defined metadata
-    metadata
+  methods <- list(
+    method_length,
+    method_dataptr_or_null,
+    method_get_region,
+    method_element,
+    method_dataptr,
+    method_is_sorted,
+    method_no_na,
+    method_sum,
+    method_min,
+    method_max,
+    method_inspect,
+    method_unserialize_ex,
+    method_serialized_state,
+    method_duplicate_ex,
+    method_coerce,
+    method_extract_subset
   )
 
-  if (vec_type == "integer") {
-    return(lazyvec_integer_wrapper(payload))
-  }
-
-  if (vec_type == "double") {
-    return(lazyvec_real_wrapper(payload))
-  }
-
-  if (vec_type == "logical") {
-    return(lazyvec_logical_wrapper(payload))
-  }
-
-  if (vec_type == "raw") {
-    return(lazyvec_raw_wrapper(payload))
-  }
-
-  if (vec_type == "character") {
-    return(lazyvec_string_wrapper(payload))
-  }
+  # some protection against arbitrary lists  
+  class(methods) <- "lazyvec_api"
+  
+  methods
 }
 
 

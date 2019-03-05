@@ -92,7 +92,6 @@ alt_wrap <- function(altrep_vec, vec_id) {
 }
 
 
-
 display_parameter <- function(x) {
   paste0(" ", crayon::magenta(typeof(x)),
          crayon::magenta("["), crayon::magenta(length(x)),

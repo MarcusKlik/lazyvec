@@ -209,7 +209,7 @@ Rboolean lazyvec_real_Inspect_method(SEXP x, int pre, int deep, int pvec,
 R_xlen_t lazyvec_real_Length_method(SEXP x)
 {
   // custom payload
-  SEXP payload = PROTECT(LAZYVEC_PAYLOAD(x));
+  SEXP user_data = PROTECT(LAZYVEC_USER_DATA(x));
 
   // calling environment
   SEXP calling_env = PROTECT(LAZYVEC_PARENT_ENV(x));
@@ -218,7 +218,7 @@ R_xlen_t lazyvec_real_Length_method(SEXP x)
   SEXP length_listener = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(x), ALTREP_METHOD_LENGTH));
 
   // call ALTREP override
-  SEXP custom_length = PROTECT(call_r_interface(length_listener, payload, calling_env));
+  SEXP custom_length = PROTECT(call_r_interface(length_listener, user_data, calling_env));
 
   // type and length checking is done on R side
   R_xlen_t res_length = (R_xlen_t)(*INTEGER(custom_length));

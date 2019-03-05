@@ -4,12 +4,15 @@
 \alias{lazyvec}
 \title{Define a custom ALTREP vector}
 \usage{
-lazyvec(altrep_vec, vec_id)
+lazyvec(metadata, vec_type, altrep_methods)
 }
 \arguments{
-\item{altrep_vec}{altrep vector}
+\item{metadata}{custom metadata stored alongside the generated ALTREP vector}
 
-\item{vec_id}{id of the custom ALTREP vector}
+\item{vec_type}{data type required for the ALTREP vector, options are 'integer', 'double',
+'logical', 'raw' and 'character'.}
+
+\item{altrep_methods}{user-defined methods used by the resulting ALTREP vector}
 }
 \value{
 a user-defined ALTREP vector
