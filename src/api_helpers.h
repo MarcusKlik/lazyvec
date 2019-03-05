@@ -1,3 +1,24 @@
+//  lazyvec - R package for creating, testing and deploying custom ALTREP vectors
+//
+//  Copyright (C) 2019-present, Mark AJ Klik
+//
+//  This file is part of the lazyvec R package.
+//
+//  The lazyvec R package is free software: you can redistribute it and/or modify it
+//  under the terms of the GNU Affero General Public License version 3 as
+//  published by the Free Software Foundation.
+//
+//  The lazyvec R package is distributed in the hope that it will be useful, but
+//  WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+//  FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License
+//  for more details.
+//
+//  You should have received a copy of the GNU Affero General Public License along
+//  with the lazyvec R package. If not, see <http://www.gnu.org/licenses/>.
+//
+//  You can contact the author at:
+//  - lazyvec R package source repository : https://github.com/fstpackage/lazyvec
+
 
 #ifndef API_HELPERS_H
 #define API_HELPERS_H
@@ -61,6 +82,9 @@ typedef void (*inspect_subtree_method)(SEXP, int, int, int);
 // call a single argument R function from the C API
 SEXP call_r_interface(SEXP f, SEXP x, SEXP rho);
 
+// call a dual argument R function from the C API
+SEXP call_dual_r_interface(SEXP f, SEXP x1, SEXP x2, SEXP rho);
+    
 int is_altrep_vector(SEXP vec);
   
 #endif // API_HELPERS_H
