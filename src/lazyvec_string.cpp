@@ -235,7 +235,8 @@ SEXP lazyvec_string_Elt_method(SEXP x, R_xlen_t i)
   
   // ALTREP override
   // should return a length 1 vector containing the element
-  SEXP custom_element = PROTECT(call_r_interface(elt_listener, user_data, calling_env));
+  SEXP custom_element = PROTECT(call_dual_r_interface(elt_listener,
+    user_data, Rf_ScalarInteger((int)(i + 1)), calling_env));
 
   // convert to SEXP
   SEXP element = SEXP_TO_CHARXP(custom_element);
