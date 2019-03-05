@@ -46,6 +46,7 @@ typedef void (*inspect_subtree_method)(SEXP, int, int, int);
 #define LAZYVEC_LISTENERS(x) VECTOR_ELT(R_altrep_data1(x), 1)
 #define LAZYVEC_METADATA(x) VECTOR_ELT(R_altrep_data1(x), 2)
 #define LAZYVEC_PARENT_ENV(x) VECTOR_ELT(R_altrep_data1(x), 3)
+#define LAZYVEC_USER_DATA(x) VECTOR_ELT(R_altrep_data1(x), 4)
 
 #define CALL_LAZYVEC_SETTER(CNAME, TNAME, MNAME) \
   R_set_##CNAME##_##MNAME##_method(lazyvec_##TNAME##_class, lazyvec_##TNAME##_##MNAME##_method)
