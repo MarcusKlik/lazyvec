@@ -346,8 +346,8 @@ SEXP lazyvec_raw_Extract_subset_method(SEXP x, SEXP indx, SEXP call)
   }
 
   // should return a vector containing a subset of elements
-  SEXP custom_elements = PROTECT(call_tripple_r_interface(
-    listener_extract_subset, user_data, indx, R_NilValue, calling_env));
+  SEXP custom_elements = PROTECT(call_dual_r_interface(
+    listener_extract_subset, user_data, indx, calling_env));
 
   UNPROTECT(4);  // last PROTECT could be removed
   

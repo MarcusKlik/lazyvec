@@ -85,12 +85,15 @@ typedef void (*inspect_subtree_method)(SEXP, int, int, int);
   R_set_##CNAME##_##MNAME##_method(lazyvec_##TNAME##_class, lazyvec_##TNAME##_##MNAME##_method)
 
 
-// call a single argument R function from the C API
+// call R function with a single argument from the C API
 SEXP call_r_interface(SEXP f, SEXP x, SEXP rho);
 
-// call a dual argument R function from the C API
+// call R function with two arguments from the C API
 SEXP call_dual_r_interface(SEXP f, SEXP x1, SEXP x2, SEXP rho);
-    
+
+// call R function with three arguments from the C API
+SEXP call_tripple_r_interface(SEXP f, SEXP x1, SEXP x2, SEXP x3, SEXP rho);
+
 int is_altrep_vector(SEXP vec);
   
 #endif // API_HELPERS_H

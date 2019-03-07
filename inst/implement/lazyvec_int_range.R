@@ -53,25 +53,20 @@ lazyvec_get_region <- function(x) {
 
 
 lazyvec_element <- function(x, i) {
-  # calculate result
   res <- x[[1]] + (i - 1L) * x[[3]]  
-
   x$message(x$diagnostics, "element", res, i = i)  
-
   res
 }
 
 
 lazyvec_is_sorted <- function(x) {
   x$message(x$diagnostics, "is_sorted", TRUE)
-  
   TRUE
 }
 
 
 lazyvec_no_na <- function(x) {
   x$message(x$diagnostics, "no_na", TRUE)
-  
   TRUE
 }
 
@@ -126,12 +121,8 @@ lazyvec_coerce <- function(x) {
 }
 
 
-lazyvec_extract_subset <- function(x, indx, call) {
-  
-  # x$message(x$diagnostics, "extract_subset", NULL, indx = indx, call = call)
-  # x$message(x$diagnostics, "extract_subset", 1)
-  
-  # 1L
+lazyvec_extract_subset <- function(x, indx) {
+  x$message(x$diagnostics, "extract_subset", NULL, indx = indx)
   x$from + (indx - 1L) * x$step
 }
 

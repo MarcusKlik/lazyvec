@@ -44,6 +44,17 @@ SEXP call_dual_r_interface(SEXP f, SEXP x1, SEXP x2, SEXP rho) {
 }
 
 
+// Call a tripple argument R function from the C API and evaluate in environment rho
+SEXP call_tripple_r_interface(SEXP f, SEXP x1, SEXP x2, SEXP x3, SEXP rho) {
+  
+  SEXP call = PROTECT(LCONS(f, LCONS(x1, LCONS(x2, LCONS(x3, R_NilValue)))));
+  SEXP val = R_forceAndCall(call, 3, rho);
+  UNPROTECT(1);
+
+  return val;
+}
+
+
 // [[Rcpp::export]]
 int is_altrep_vector(SEXP vec) {
   return ALTREP(vec);
