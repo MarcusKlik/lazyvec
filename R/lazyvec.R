@@ -25,10 +25,10 @@
 #' This method creates a user-defined ALTREP vector with the complete ALTREP API created
 #' in R instead of C/C++ sources.
 #'
-#' @param metadata custom metadata stored alongside the generated ALTREP vector
+#' @param metadata custom metadata stored alongside the generated ALTREP vector.
 #' @param vec_type data type required for the ALTREP vector, options are 'integer', 'double',
 #' 'logical', 'raw' and 'character'. 
-#' @param altrep_methods user-defined methods used by the resulting ALTREP vector
+#' @param altrep_methods user-defined methods used by the resulting ALTREP vector.
 #'
 #' @return a user-defined ALTREP vector
 #' @export
@@ -37,7 +37,7 @@ lazyvec <- function(metadata, vec_type, altrep_methods) {
   if (class(altrep_methods) != "lazyvec_api") {
     stop("Please use lazyvec_methods() to define the ALTREP methods for this vector")
   }
-  
+
   payload <- list(
 
     # ALTREP payload for testing (remove later)

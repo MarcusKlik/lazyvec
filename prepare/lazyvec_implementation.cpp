@@ -247,16 +247,18 @@ CPP_TYPE lazyvec_ALTREP_TYPE_Elt_method(SEXP x, R_xlen_t i)
   
   // length listener method
   SEXP elt_listener = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(x), ALTREP_METHOD_ELT));
+
+  // i argument
+  SEXP i_arg = PROTECT(Rf_ScalarInteger((int)(i + 1)));
   
   // ALTREP override
   // should return a length 1 vector containing the element
-  SEXP custom_element = PROTECT(call_dual_r_interface(elt_listener,
-    user_data, Rf_ScalarInteger((int)(i + 1)), calling_env));
+  SEXP custom_element = PROTECT(call_dual_r_interface(elt_listener, user_data, i_arg, calling_env));
 
   // convert to CPP_TYPE
   CPP_TYPE element = SEXP_TO_CPP(custom_element);
 
-  UNPROTECT(4);
+  UNPROTECT(5);
   
   return element;
 }
@@ -288,37 +290,51 @@ R_xlen_t lazyvec_ALTREP_TYPE_Get_region_method(SEXP sx, R_xlen_t i, R_xlen_t n, 
 
 // generator source end: Get_region
 // generator source start: Is_sorted
-int lazyvec_ALTREP_TYPE_Is_sorted_method(SEXP sx)
+int lazyvec_ALTREP_TYPE_Is_sorted_method(SEXP x)
 {
-  int is_sorted = TYPE_METHOD_IS_SORTED(LAZYVEC_PAYLOAD(sx));
-
-  // retrieve is_sorted listener method
-  SEXP is_sorted_listener = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(sx), ALTREP_METHOD_IS_SORTED));
-
-  // call listener with integer result
-  call_r_interface(is_sorted_listener, Rf_ScalarInteger(is_sorted), LAZYVEC_PARENT_ENV(sx));
-
-  UNPROTECT(1);
-
-  return is_sorted;
+  // custom payload
+  SEXP user_data = PROTECT(LAZYVEC_USER_DATA(x));
+  
+  // calling environment
+  SEXP calling_env = PROTECT(LAZYVEC_PARENT_ENV(x));
+  
+  // length listener method
+  SEXP is_sorted_listener = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(x), ALTREP_METHOD_IS_SORTED));
+  
+  // returns int
+  SEXP custom_is_sorted = PROTECT(call_r_interface(is_sorted_listener, user_data, calling_env));
+  
+  // type and length checking is done on R side
+  int res_is_sorted = *INTEGER(custom_is_sorted);
+  
+  UNPROTECT(4);
+  
+  return res_is_sorted;
 }
 
 
 // generator source end: Is_sorted
 // generator source start: No_NA
-int lazyvec_ALTREP_TYPE_No_NA_method(SEXP sx)
+int lazyvec_ALTREP_TYPE_No_NA_method(SEXP x)
 {
-  int no_na = TYPE_METHOD_NO_NA(LAZYVEC_PAYLOAD(sx));
+  // custom payload
+  SEXP user_data = PROTECT(LAZYVEC_USER_DATA(x));
 
-  // retrieve no_na listener method
-  SEXP no_na_listener = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(sx), ALTREP_METHOD_NO_NA));
+  // calling environment
+  SEXP calling_env = PROTECT(LAZYVEC_PARENT_ENV(x));
 
-  // call listener with integer result
-  call_r_interface(no_na_listener, Rf_ScalarInteger(no_na), LAZYVEC_PARENT_ENV(sx));
+  // length listener method
+  SEXP no_na_listener = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(x), ALTREP_METHOD_NO_NA));
 
-  UNPROTECT(1);
+  // returns int
+  SEXP custom_no_na = PROTECT(call_r_interface(no_na_listener, user_data, calling_env));
 
-  return no_na;
+  // type and length checking is done on R side
+  int res_no_na = *INTEGER(custom_no_na);
+
+  UNPROTECT(4);
+
+  return res_no_na;
 }
 
 
@@ -359,22 +375,27 @@ SEXP lazyvec_ALTREP_TYPE_Sum_method(SEXP sx, Rboolean na_rm)
 
 // generator source end: Sum
 // generator source start: Min
-SEXP lazyvec_ALTREP_TYPE_Min_method(SEXP sx, Rboolean na_rm)
+SEXP lazyvec_ALTREP_TYPE_Min_method(SEXP x, Rboolean na_rm)
 {
-  SEXP result_min = PROTECT(ALTTYPE_METHOD_MIN(LAZYVEC_PAYLOAD(sx), na_rm));
-
-  SEXP arguments = PROTECT(Rf_allocVector(VECSXP, 2));
-  SET_VECTOR_ELT(arguments, 0, LAZYVEC_METADATA(sx));
-  SET_VECTOR_ELT(arguments, 1, result_min == NULL ? R_NilValue : result_min);
+  // custom payload
+  SEXP user_data = PROTECT(LAZYVEC_USER_DATA(x));
   
-  // retrieve sum listener method
-  SEXP min_listener = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(sx), ALTREP_METHOD_MIN));
-
-  // call listener with SEXP result
-  call_r_interface(min_listener, arguments, LAZYVEC_PARENT_ENV(sx));
-  UNPROTECT(3);
-
-  return result_min;
+  // calling environment
+  SEXP calling_env = PROTECT(LAZYVEC_PARENT_ENV(x));
+  
+  // length listener method
+  SEXP min_listener = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(x), ALTREP_METHOD_MIN));
+  
+  // na_rm argument
+  SEXP na_rm_arg = PROTECT(Rf_ScalarInteger(na_rm));
+  
+  // ALTREP override
+  // should return a length 1 vector containing the element
+  SEXP custom_element = PROTECT(call_dual_r_interface(min_listener, user_data, na_rm_arg, calling_env));
+  
+  UNPROTECT(5);  // last PROTECT could be removed
+  
+  return custom_element;
 }
 
 

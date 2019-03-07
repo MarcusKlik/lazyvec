@@ -2,7 +2,7 @@
 diagnostic_message <- function(show, ...) {
   
   named_args <- list(...)
-  
+
   # do not show messages
   if (!show) return()
 
@@ -30,44 +30,43 @@ display_parameter <- function(x) {
 
 
 lazyvec_length <- function(x) {
-  diagnostic_message(x[5], "length", x[4])
+  x[[6]](x[[5]], "length", x[[4]])
 
-  x[4]
+  x[[4]]
 }
 
 
 lazyvec_dataptr_or_null <- function(x) {
-  diagnostic_message(TRUE, "dataptr_or_null", ifelse(x[[2]], "NULL", "dataptr"))
+  x[[6]](x[[5]], "dataptr_or_null", ifelse(x[[2]], "NULL", "dataptr"))
 }
 
 
 lazyvec_get_region <- function(x) {
-  diagnostic_message(TRUE, "get_region", x[[4]], start = x[[2]], length = x[[3]])
+  x[[6]](x[[5]], "get_region", x[[4]], start = x[[2]], length = x[[3]])
 }
 
 
 lazyvec_element <- function(x, i) {
-  
   # calculate result
-  res <- x[1] + i * x[3]  
-  
-  cat(crayon::italic(crayon::cyan(
-    "element(i = ", i, "): ", res, "\n", sep = ""
-  )))
+  res <- x[[1]] + i * x[[3]]  
+
+  x[[6]](x[[5]], "element", res, i = i)  
 
   res
 }
 
 
 lazyvec_is_sorted <- function(x) {
-  cat(crayon::italic(crayon::cyan("ALTREP is_sorted : result =")),
-      display_parameter(x == 1), "\n", sep = "")
+  x[[6]](x[[5]], "is_sorted", TRUE)
+  
+  TRUE
 }
 
 
 lazyvec_no_na <- function(x) {
-  cat(crayon::italic(crayon::cyan("ALTREP no_na : result =")),
-      display_parameter(x == 1), "\n", sep = "")
+  x[[6]](x[[5]], "no_na", TRUE)
+  
+  TRUE
 }
 
 
@@ -79,10 +78,12 @@ lazyvec_sum <- function(x) {
 }
 
 
-lazyvec_min <- function(x) {
-  cat(crayon::italic(
-    crayon::cyan(x[[1]], ": ALTREP min : result =")),
-    display_parameter(x[[2]]), "\n", sep = "")
+lazyvec_min <- function(x, na_rm) {
+  min_element = x[[1]]  # from
+  
+  x[[6]](x[[5]], "min", min_element)
+  
+  min_element
 }
 
 
@@ -93,9 +94,6 @@ lazyvec_max <- function(x) {
 
 
 lazyvec_inspect <- function(x) {
-
-  print(x)
-
   cat(crayon::italic(crayon::cyan("ALTREP inspect : result =")),
       display_parameter(x[[1]]),
       crayon::italic(crayon::cyan(", x = ")),
@@ -156,6 +154,7 @@ lazyvec_extract_subset <- function(x) {
 
 # define int_range ALTREP API
 lazyvec_api <- lazyvec_methods(
+  function() {},  # init lazyvec
   lazyvec_length,
   lazyvec_dataptr_or_null,
   lazyvec_get_region,
@@ -177,27 +176,28 @@ lazyvec_api <- lazyvec_methods(
 
 # constructor for an custom integer range
 int_range <- function(from, to, step, diagnostics = FALSE) {
+
   # alternative representation
-  alt_pres <- c(
+  alt_pres <- list(
     as.integer(from),                     # range start
     as.integer(to),                       # range end
     as.integer(step),                     # range step
     as.integer(1L + (to - from) / step),  # vector length
-    as.integer(diagnostics)
+    diagnostics,
+    diagnostic_message
   )
-  
-  # create custom ALTREP vector
+
+  # return custom ALTREP vector
   lazyvec(alt_pres, "integer", lazyvec_api)
 }
 
-
 x <- int_range(3, 10, 2, TRUE)
+
+sort(x)
+is.na(x)
 length(x)
 sum(x)
 min(x)
 
+x[3]
 
-x <- int_range(3, 10, 2)
-length(x)
-sum(x)
-min(x)

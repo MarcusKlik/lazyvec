@@ -4,13 +4,15 @@
 \alias{lazyvec_methods}
 \title{Define a ALTREP interface}
 \usage{
-lazyvec_methods(method_length, method_dataptr_or_null, method_get_region,
-  method_element, method_dataptr, method_is_sorted, method_no_na,
-  method_sum, method_min, method_max, method_inspect,
+lazyvec_methods(lazyvec_init, method_length, method_dataptr_or_null,
+  method_get_region, method_element, method_dataptr, method_is_sorted,
+  method_no_na, method_sum, method_min, method_max, method_inspect,
   method_unserialize_ex, method_serialized_state, method_duplicate_ex,
   method_coerce, method_extract_subset)
 }
 \arguments{
+\item{lazyvec_init}{method to be called once upon deserialization (copying?) of a vector}
+
 \item{method_length}{override for the ALTREP length method}
 
 \item{method_dataptr_or_null}{override for the ALTREP dataptr_or_null method}
