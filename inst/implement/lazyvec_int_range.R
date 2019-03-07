@@ -16,6 +16,10 @@ diagnostic_message <- function(show, ...) {
     args <- paste0(paste(names(func_args), "=", func_args), collapse = ", ")
   }
   
+  if (length(res) > 1) {
+    res <- paste0("c(", paste0(res, collapse = ", "), ")")
+  }
+  
   cat(crayon::italic(crayon::cyan(
     paste0(func_name, "(", args, "): ", res, "\n")
   )))
@@ -36,7 +40,10 @@ lazyvec_length <- function(x) {
 
 
 lazyvec_full_vector <- function(x) {
-  x$message(x$diagnostics, "dataptr_or_null", ifelse(x[[2]], "NULL", "dataptr"))
+  full_vec <- seq.int(x$from, x$to, x$step)
+  x$message(x$diagnostics, "full_vector", full_vec)
+  
+  full_vec
 }
 
 
@@ -170,6 +177,11 @@ int_range <- function(from, to, step, diagnostics = FALSE) {
   lazyvec(alt_pres, "integer", lazyvec_api)
 }
 
+y <- int_range(3, 10, 2, TRUE)
+y * 3
+
+length(y)
+
 x <- int_range(3, 10, 2, TRUE)
 
 sort(x)
@@ -179,8 +191,18 @@ sum(x)
 min(x)
 max(x)
 x[3]
-
-x <- int_range(3, 10, 2, TRUE)
-y <- alt_wrap(x, "x")
-y[1]
-
+# 
+# x * 3L
+# 
+# y <- int_range(3, 10, 2, TRUE)
+# x <- alt_wrap(y, "x")
+# x * 3
+# 
+# sort(x)
+# is.na(x)
+# length(x)
+# sum(x)
+# min(x)
+# max(x)
+# x[3]
+# x * 3

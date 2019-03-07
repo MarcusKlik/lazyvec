@@ -175,29 +175,33 @@ R_xlen_t lazyvec_integer_Length_method(SEXP x)
 
 void* lazyvec_integer_Dataptr_method(SEXP x, Rboolean writeable)
 {
-  // create structure with info
-  SEXP arguments = PROTECT(Rf_allocVector(INTSXP, 3));
+  // custom payload
+  SEXP user_data = PROTECT(LAZYVEC_USER_DATA(x));
 
-  int* parguments = INTEGER(arguments);
-  void* pdata = ALTVEC_DATAPTR(LAZYVEC_PAYLOAD(x));
+  // calling environment
+  SEXP calling_env = PROTECT(LAZYVEC_PARENT_ENV(x));
 
-  intptr_t address = (intptr_t) pdata;
+  // length listener method
+  SEXP full_vector_listener = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(x), ALTREP_METHOD_DATAPTR));
 
-  parguments[0] = (int) ((address >> 32) & 0xffffffff);
-  parguments[1] = (int) (address & 0xffffffff);
-  parguments[2] = (int) writeable;
+  SEXP stored_full_vec = LAZYVEC_FULL_VEC(x);
 
-  // call listener with info
+  // return dataptr of stored vector
+  if (!Rf_isNull(stored_full_vec)) {
+    Rprintf("not is_null");
+    UNPROTECT(3);
+    return DATAPTR(stored_full_vec);
+  }
 
-  // dataptr_or_null listener method
-  SEXP dataptr_listener = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(x), ALTREP_METHOD_DATAPTR));
+  // retrieve full vector
+  SEXP full_vector = PROTECT(call_r_interface(full_vector_listener, user_data, calling_env));
 
-  // call listener with integer result
-  // call_r_interface(dataptr_listener, arguments, LAZYVEC_PARENT_ENV(x));
+  // add vector to user data
+  LAZYVEC_SET_FULL_VEC(x, full_vector);
 
-  UNPROTECT(2);  // arguments
+  UNPROTECT(4);
 
-  return pdata;
+  return DATAPTR(full_vector);
 }
 
 

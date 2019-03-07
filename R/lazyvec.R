@@ -53,7 +53,9 @@ lazyvec <- function(metadata, vec_type, altrep_methods) {
     parent.env(environment()),
 
     # user-defined metadata
-    metadata
+    metadata,
+
+    NULL
   )
 
   if (vec_type == "integer") {
