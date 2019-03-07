@@ -188,7 +188,6 @@ void* lazyvec_logical_Dataptr_method(SEXP x, Rboolean writeable)
 
   // return dataptr of stored vector
   if (!Rf_isNull(stored_full_vec)) {
-    Rprintf("not is_null");
     UNPROTECT(3);
     return DATAPTR(stored_full_vec);
   }
@@ -207,22 +206,17 @@ void* lazyvec_logical_Dataptr_method(SEXP x, Rboolean writeable)
 
 const void *lazyvec_logical_Dataptr_or_null_method(SEXP x)
 {
-  const void* pdata_or_null = DATAPTR_OR_NULL(LAZYVEC_PAYLOAD(x));
-  int is_pointer = pdata_or_null == NULL;
-
-  // dataptr_or_null listener method
-  SEXP dataptr_or_null_listener = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(x), ALTREP_METHOD_DATAPTR_OR_NULL));
-
-  SEXP arguments = PROTECT(Rf_allocVector(VECSXP, 2));
-  SET_VECTOR_ELT(arguments, 0, LAZYVEC_METADATA(x));
-  SET_VECTOR_ELT(arguments, 1, Rf_ScalarLogical(is_pointer));
-
-  // call listener with integer result
-  // call_r_interface(dataptr_or_null_listener, arguments, LAZYVEC_PARENT_ENV(x));
-
-  UNPROTECT(2);
-
-  return pdata_or_null;
+  SEXP stored_full_vec = LAZYVEC_FULL_VEC(x);
+  
+  Rprintf("dataptr_or_null called");
+  
+  // return dataptr of stored vector
+  if (!Rf_isNull(stored_full_vec)) {
+    UNPROTECT(3);
+    return DATAPTR(stored_full_vec);
+  }
+  
+  return NULL;
 }
 
 
@@ -400,45 +394,77 @@ SEXP lazyvec_logical_Coerce_method(SEXP sx, int type)
 }
 
 
-SEXP lazyvec_logical_Extract_subset_method(SEXP sx, SEXP indx, SEXP call)
+SEXP lazyvec_logical_Extract_subset_method(SEXP x, SEXP indx, SEXP call)
 {
-  SEXP result_extract_subset = PROTECT(ALTVEC_EXTRACT_SUBSET(LAZYVEC_PAYLOAD(sx), indx, call));
-
-  SEXP arguments = PROTECT(Rf_allocVector(VECSXP, 3));
-
-  if (result_extract_subset == NULL)
-  {
-    SET_VECTOR_ELT(arguments, 0, R_NilValue);
-  } else
-  {
-    SET_VECTOR_ELT(arguments, 0, result_extract_subset);
-  }
+  // custom payload
+  SEXP user_data = PROTECT(LAZYVEC_USER_DATA(x));
+  
+  // calling environment
+  SEXP calling_env = PROTECT(LAZYVEC_PARENT_ENV(x));
+  
+  // length listener method
+  SEXP listener_extract_subset = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(x), ALTREP_METHOD_EXTRACT_SUBSET));
 
   if (indx == NULL)
   {
-    SET_VECTOR_ELT(arguments, 1, R_NilValue);
-  } else
-  {
-    SET_VECTOR_ELT(arguments, 1, indx);
+    Rf_error("indx is_null");
   }
 
   if (call == NULL)
   {
-    SET_VECTOR_ELT(arguments, 2, R_NilValue);
-  } else
-  {
-    SET_VECTOR_ELT(arguments, 2, call);
+    Rf_error("call is_null");
   }
 
-  // retrieve coerce listener method
-  SEXP extract_subset_listener = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(sx), ALTREP_METHOD_EXTRACT_SUBSET));
+  // should return a vector containing a subset of elements
+  SEXP custom_elements = PROTECT(call_tripple_r_interface(
+    listener_extract_subset, user_data, indx, R_NilValue, calling_env));
 
-  // call listener with arguments and result
-  call_r_interface(extract_subset_listener, arguments, LAZYVEC_PARENT_ENV(sx));
+  UNPROTECT(4);  // last PROTECT could be removed
+  
+  return custom_elements;
+  
+  // UNPROTECT(4);  // last PROTECT could be removed
+  // 
+  // return custom_elements;
 
-  UNPROTECT(3);
+  
+  // SEXP result_extract_subset = PROTECT(ALTVEC_EXTRACT_SUBSET(LAZYVEC_PAYLOAD(sx), indx, call));
 
-  return result_extract_subset;
+  // SEXP arguments = PROTECT(Rf_allocVector(VECSXP, 3));
+  // 
+  // if (result_extract_subset == NULL)
+  // {
+  //   SET_VECTOR_ELT(arguments, 0, R_NilValue);
+  // } else
+  // {
+  //   SET_VECTOR_ELT(arguments, 0, result_extract_subset);
+  // }
+  // 
+  // if (indx == NULL)
+  // {
+  //   SET_VECTOR_ELT(arguments, 1, R_NilValue);
+  // } else
+  // {
+  //   SET_VECTOR_ELT(arguments, 1, indx);
+  // }
+  // 
+  // if (call == NULL)
+  // {
+  //   SET_VECTOR_ELT(arguments, 2, R_NilValue);
+  // } else
+  // {
+  //   SET_VECTOR_ELT(arguments, 2, call);
+  // }
+  // 
+  // // retrieve coerce listener method
+  // SEXP extract_subset_listener = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(sx), ALTREP_METHOD_EXTRACT_SUBSET));
+  // 
+  // // call listener with arguments and result
+  // call_r_interface(extract_subset_listener, arguments, LAZYVEC_PARENT_ENV(sx));
+  // 
+  // UNPROTECT(3);
+  // 
+  // return result_extract_subset;
 }
 
 

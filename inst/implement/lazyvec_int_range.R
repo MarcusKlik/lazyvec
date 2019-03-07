@@ -126,16 +126,13 @@ lazyvec_coerce <- function(x) {
 }
 
 
-lazyvec_extract_subset <- function(x) {
-  subset_result <- x[[1]]
-  if (is.null(subset_result)) subset_result <- "NULL"
-  cat(crayon::italic(crayon::cyan("ALTREP extract_subset :\n  result =")),
-      display_parameter(subset_result),
-      crayon::italic(crayon::cyan("\n    indx = ")),
-      display_parameter(x[[2]]),
-      crayon::italic(crayon::cyan("\n    call = ")),
-      display_parameter(str(x[[3]])),
-      "\n", sep = "")
+lazyvec_extract_subset <- function(x, indx, call) {
+  
+  # x$message(x$diagnostics, "extract_subset", NULL, indx = indx, call = call)
+  # x$message(x$diagnostics, "extract_subset", 1)
+  
+  # 1L
+  x$from + (indx - 1L) * x$step
 }
 
 
@@ -180,6 +177,8 @@ int_range <- function(from, to, step, diagnostics = FALSE) {
 y <- int_range(3, 10, 2, TRUE)
 y * 3
 
+y[c(2, 4)]
+
 length(y)
 
 x <- int_range(3, 10, 2, TRUE)
@@ -191,6 +190,9 @@ sum(x)
 min(x)
 max(x)
 x[3]
+
+x * 2
+
 # 
 # x * 3L
 # 
