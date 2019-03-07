@@ -30,21 +30,17 @@ display_parameter <- function(x) {
 
 
 lazyvec_length <- function(x) {
-  print("length")
   x$message(x$diagnostics, "length", x[[4]])
-
   x[[4]]
 }
 
 
 lazyvec_full_vector <- function(x) {
-  print("vec")
-  x[[6]](x[[5]], "dataptr_or_null", ifelse(x[[2]], "NULL", "dataptr"))
+  x$message(x$diagnostics, "dataptr_or_null", ifelse(x[[2]], "NULL", "dataptr"))
 }
 
 
 lazyvec_get_region <- function(x) {
-  print("region")
   x$message(x$diagnostics, "get_region", x[[4]], start = x[[2]], length = x[[3]])
 }
 
@@ -91,18 +87,14 @@ lazyvec_sum <- function(x, na_rm) {
 
 lazyvec_min <- function(x, na_rm) {
   min_element = x$from  # from
-  
   x$message(x$diagnostics, "min", min_element)
-  
   min_element
 }
 
 
 lazyvec_max <- function(x, na_rm) {
   max_element = x$to  # from
-  
   x$message(x$diagnostics, "max", max_element)
-  
   max_element
 }
 
@@ -188,6 +180,7 @@ min(x)
 max(x)
 x[3]
 
+x <- int_range(3, 10, 2, TRUE)
 y <- alt_wrap(x, "x")
 y[1]
 

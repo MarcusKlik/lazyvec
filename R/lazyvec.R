@@ -45,7 +45,7 @@ lazyvec <- function(metadata, vec_type, altrep_methods) {
 
     # altrep API
     altrep_methods,
-    
+
     # identifyer, used in diagnostic output
     "sample_range",
 
