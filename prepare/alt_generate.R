@@ -180,7 +180,7 @@ alt_generate(
   c("Min", "Max", "Is_sorted", "No_NA", "Sum", "Duplicate_"))
 
 
-# generate raw wrapper
+# generate string wrapper
 alt_generate(
   source_path = "lazyvec_implementation.cpp",
   altrep_type = "string",
