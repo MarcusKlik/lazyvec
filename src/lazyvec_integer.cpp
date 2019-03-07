@@ -102,14 +102,14 @@ SEXP lazyvec_integer_Serialized_state_method(SEXP x)
   SET_VECTOR_ELT(serialized_state, 1, LAZYVEC_LISTENERS(x));
   SET_VECTOR_ELT(serialized_state, 2, LAZYVEC_METADATA(x));
   
-  if (serialized_state_result == NULL)
-  {
-    call_r_interface(serialized_state_listener, R_NilValue, LAZYVEC_PARENT_ENV(x));
-  }
-  else
-  {
-    call_r_interface(serialized_state_listener, serialized_state_result, LAZYVEC_PARENT_ENV(x));
-  }
+  // if (serialized_state_result == NULL)
+  // {
+  //   call_r_interface(serialized_state_listener, R_NilValue, LAZYVEC_PARENT_ENV(x));
+  // }
+  // else
+  // {
+  //   call_r_interface(serialized_state_listener, serialized_state_result, LAZYVEC_PARENT_ENV(x));
+  // }
 
   UNPROTECT(3);
 
@@ -193,7 +193,7 @@ void* lazyvec_integer_Dataptr_method(SEXP x, Rboolean writeable)
   SEXP dataptr_listener = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(x), ALTREP_METHOD_DATAPTR));
 
   // call listener with integer result
-  call_r_interface(dataptr_listener, arguments, LAZYVEC_PARENT_ENV(x));
+  // call_r_interface(dataptr_listener, arguments, LAZYVEC_PARENT_ENV(x));
 
   UNPROTECT(2);  // arguments
 
@@ -212,9 +212,9 @@ const void *lazyvec_integer_Dataptr_or_null_method(SEXP x)
   SEXP arguments = PROTECT(Rf_allocVector(VECSXP, 2));
   SET_VECTOR_ELT(arguments, 0, LAZYVEC_METADATA(x));
   SET_VECTOR_ELT(arguments, 1, Rf_ScalarLogical(is_pointer));
-  
+
   // call listener with integer result
-  call_r_interface(dataptr_or_null_listener, arguments, LAZYVEC_PARENT_ENV(x));
+  // call_r_interface(dataptr_or_null_listener, arguments, LAZYVEC_PARENT_ENV(x));
 
   UNPROTECT(2);
 

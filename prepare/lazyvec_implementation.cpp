@@ -107,14 +107,14 @@ SEXP lazyvec_ALTREP_TYPE_Serialized_state_method(SEXP x)
   SET_VECTOR_ELT(serialized_state, 1, LAZYVEC_LISTENERS(x));
   SET_VECTOR_ELT(serialized_state, 2, LAZYVEC_METADATA(x));
   
-  if (serialized_state_result == NULL)
-  {
-    call_r_interface(serialized_state_listener, R_NilValue, LAZYVEC_PARENT_ENV(x));
-  }
-  else
-  {
-    call_r_interface(serialized_state_listener, serialized_state_result, LAZYVEC_PARENT_ENV(x));
-  }
+  // if (serialized_state_result == NULL)
+  // {
+  //   call_r_interface(serialized_state_listener, R_NilValue, LAZYVEC_PARENT_ENV(x));
+  // }
+  // else
+  // {
+  //   call_r_interface(serialized_state_listener, serialized_state_result, LAZYVEC_PARENT_ENV(x));
+  // }
 
   UNPROTECT(3);
 
@@ -204,7 +204,7 @@ void* lazyvec_ALTREP_TYPE_Dataptr_method(SEXP x, Rboolean writeable)
   SEXP dataptr_listener = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(x), ALTREP_METHOD_DATAPTR));
 
   // call listener with integer result
-  call_r_interface(dataptr_listener, arguments, LAZYVEC_PARENT_ENV(x));
+  // call_r_interface(dataptr_listener, arguments, LAZYVEC_PARENT_ENV(x));
 
   UNPROTECT(2);  // arguments
 
@@ -225,9 +225,9 @@ const void *lazyvec_ALTREP_TYPE_Dataptr_or_null_method(SEXP x)
   SEXP arguments = PROTECT(Rf_allocVector(VECSXP, 2));
   SET_VECTOR_ELT(arguments, 0, LAZYVEC_METADATA(x));
   SET_VECTOR_ELT(arguments, 1, Rf_ScalarLogical(is_pointer));
-  
+
   // call listener with integer result
-  call_r_interface(dataptr_or_null_listener, arguments, LAZYVEC_PARENT_ENV(x));
+  // call_r_interface(dataptr_or_null_listener, arguments, LAZYVEC_PARENT_ENV(x));
 
   UNPROTECT(2);
 
@@ -340,36 +340,27 @@ int lazyvec_ALTREP_TYPE_No_NA_method(SEXP x)
 
 // generator source end: No_NA
 // generator source start: Sum
-SEXP lazyvec_ALTREP_TYPE_Sum_method(SEXP sx, Rboolean na_rm)
+SEXP lazyvec_ALTREP_TYPE_Sum_method(SEXP x, Rboolean na_rm)
 {
-  SEXP sum = PROTECT(ALTTYPE_METHOD_SUM(LAZYVEC_PAYLOAD(sx), na_rm));
-
-  // retrieve sum listener method
-  SEXP sum_listener = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(sx), ALTREP_METHOD_SUM));
-
-  SEXP arguments = PROTECT(Rf_allocVector(VECSXP, 2));
-  SET_VECTOR_ELT(arguments, 1, Rf_ScalarInteger(na_rm));
-
-  if (sum == NULL)
-  {
-    SET_VECTOR_ELT(arguments, 0, R_NilValue);
-
-    // call listener with integer result
-    call_r_interface(sum_listener, arguments, LAZYVEC_PARENT_ENV(sx));
-
-    UNPROTECT(3);
-
-    return sum;
-  }
-
-  SET_VECTOR_ELT(arguments, 0, sum);
-
-  // call listener with integer result
-  call_r_interface(sum_listener, arguments, LAZYVEC_PARENT_ENV(sx));
-
-  UNPROTECT(3);
-
-  return sum;
+  // custom payload
+  SEXP user_data = PROTECT(LAZYVEC_USER_DATA(x));
+  
+  // calling environment
+  SEXP calling_env = PROTECT(LAZYVEC_PARENT_ENV(x));
+  
+  // length listener method
+  SEXP sum_listener = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(x), ALTREP_METHOD_SUM));
+  
+  // na_rm argument
+  SEXP na_rm_arg = PROTECT(Rf_ScalarInteger(na_rm));
+  
+  // ALTREP override
+  // should return a length 1 vector containing the element
+  SEXP custom_element = PROTECT(call_dual_r_interface(sum_listener, user_data, na_rm_arg, calling_env));
+  
+  UNPROTECT(5);  // last PROTECT could be removed
+  
+  return custom_element;
 }
 
 
@@ -401,27 +392,27 @@ SEXP lazyvec_ALTREP_TYPE_Min_method(SEXP x, Rboolean na_rm)
 
 // generator source end: Min
 // generator source start: Max
-SEXP lazyvec_ALTREP_TYPE_Max_method(SEXP sx, Rboolean na_rm)
+SEXP lazyvec_ALTREP_TYPE_Max_method(SEXP x, Rboolean na_rm)
 {
-  SEXP result_max = PROTECT(ALTTYPE_METHOD_MAX(LAZYVEC_PAYLOAD(sx), na_rm));
-
-  // retrieve sum listener method
-  SEXP max_listener = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(sx), ALTREP_METHOD_MAX));
-
-  if (result_max == NULL)
-  { 
-    // call listener with SEXP result
-    call_r_interface(max_listener, R_NilValue, LAZYVEC_PARENT_ENV(sx));
-    UNPROTECT(2);
-
-    return result_max;
-  }
-
-  // call listener with SEXP result
-  call_r_interface(max_listener, result_max, LAZYVEC_PARENT_ENV(sx));
-  UNPROTECT(2);
-
-  return result_max;
+  // custom payload
+  SEXP user_data = PROTECT(LAZYVEC_USER_DATA(x));
+  
+  // calling environment
+  SEXP calling_env = PROTECT(LAZYVEC_PARENT_ENV(x));
+  
+  // length listener method
+  SEXP max_listener = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(x), ALTREP_METHOD_MAX));
+  
+  // na_rm argument
+  SEXP na_rm_arg = PROTECT(Rf_ScalarInteger(na_rm));
+  
+  // ALTREP override
+  // should return a length 1 vector containing the element
+  SEXP custom_element = PROTECT(call_dual_r_interface(max_listener, user_data, na_rm_arg, calling_env));
+  
+  UNPROTECT(5);  // last PROTECT could be removed
+  
+  return custom_element;
 }
 
 
@@ -431,21 +422,23 @@ SEXP lazyvec_ALTREP_TYPE_Duplicate_method(SEXP sx, Rboolean deep)
 {
   SEXP result_duplicate = PROTECT(ALTREP_DUPLICATE(LAZYVEC_PAYLOAD(sx), deep));
   
-  // retrieve duplicateEX listener method
-  SEXP duplicate_listener = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(sx), ALTREP_METHOD_DUPLICATE));
-  
-  if (result_duplicate == NULL)
-  { 
-    // call listener with SEXP result
-    call_r_interface(duplicate_listener, R_NilValue, LAZYVEC_PARENT_ENV(sx));
-    UNPROTECT(2);
-    
-    return result_duplicate;
-  }
-  
-  // call listener with SEXP result
-  call_r_interface(duplicate_listener, result_duplicate, LAZYVEC_PARENT_ENV(sx));
-  UNPROTECT(2);
+  // // retrieve duplicateEX listener method
+  // SEXP duplicate_listener = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(sx), ALTREP_METHOD_DUPLICATE));
+  // 
+  // if (result_duplicate == NULL)
+  // {
+  //   // call listener with SEXP result
+  //   call_r_interface(duplicate_listener, R_NilValue, LAZYVEC_PARENT_ENV(sx));
+  //   UNPROTECT(2);
+  // 
+  //   return result_duplicate;
+  // }
+  // 
+  // // call listener with SEXP result
+  // call_r_interface(duplicate_listener, result_duplicate, LAZYVEC_PARENT_ENV(sx));
+  // UNPROTECT(2);
+
+  UNPROTECT(1);
   
   return result_duplicate;
 }

@@ -30,66 +30,80 @@ display_parameter <- function(x) {
 
 
 lazyvec_length <- function(x) {
-  x[[6]](x[[5]], "length", x[[4]])
+  print("length")
+  x$message(x$diagnostics, "length", x[[4]])
 
   x[[4]]
 }
 
 
-lazyvec_dataptr_or_null <- function(x) {
+lazyvec_full_vector <- function(x) {
+  print("vec")
   x[[6]](x[[5]], "dataptr_or_null", ifelse(x[[2]], "NULL", "dataptr"))
 }
 
 
 lazyvec_get_region <- function(x) {
-  x[[6]](x[[5]], "get_region", x[[4]], start = x[[2]], length = x[[3]])
+  print("region")
+  x$message(x$diagnostics, "get_region", x[[4]], start = x[[2]], length = x[[3]])
 }
 
 
 lazyvec_element <- function(x, i) {
   # calculate result
-  res <- x[[1]] + i * x[[3]]  
+  res <- x[[1]] + (i - 1L) * x[[3]]  
 
-  x[[6]](x[[5]], "element", res, i = i)  
+  x$message(x$diagnostics, "element", res, i = i)  
 
   res
 }
 
 
 lazyvec_is_sorted <- function(x) {
-  x[[6]](x[[5]], "is_sorted", TRUE)
+  x$message(x$diagnostics, "is_sorted", TRUE)
   
   TRUE
 }
 
 
 lazyvec_no_na <- function(x) {
-  x[[6]](x[[5]], "no_na", TRUE)
+  x$message(x$diagnostics, "no_na", TRUE)
   
   TRUE
 }
 
 
-lazyvec_sum <- function(x) {
-  cat(crayon::italic(crayon::cyan("ALTREP sum called, na.rm = ")),
-      display_parameter(x[[2]] == 1),
-      crayon::italic(crayon::cyan(", result: ")),
-      display_parameter(x[[1]]), "\n", sep = "")
+lazyvec_sum <- function(x, na_rm) {
+
+  if (x$length %% 2 == 0) {
+    sum_element <- (2 * x$from + (x$length - 1) * x$step) * x$length / 2
+  } else {
+    half_length <- (x$length - 1) / 2
+    sum_element <- (2 * x$from + (x$length - 1) * x$step) * half_length
+    sum_element <- sum_element + x$from + half_length * x$step;
+  }
+
+  x$message(x$diagnostics, "sum", sum_element)
+  
+  sum_element
 }
 
 
 lazyvec_min <- function(x, na_rm) {
-  min_element = x[[1]]  # from
+  min_element = x$from  # from
   
-  x[[6]](x[[5]], "min", min_element)
+  x$message(x$diagnostics, "min", min_element)
   
   min_element
 }
 
 
-lazyvec_max <- function(x) {
-  cat(crayon::italic(crayon::cyan("ALTREP max : result =")),
-      display_parameter(x), "\n", sep = "")
+lazyvec_max <- function(x, na_rm) {
+  max_element = x$to  # from
+  
+  x$message(x$diagnostics, "max", max_element)
+  
+  max_element
 }
 
 
@@ -104,32 +118,6 @@ lazyvec_inspect <- function(x) {
       display_parameter(x[[4]]),
       crayon::italic(crayon::cyan(", pVec = ")),
       display_parameter(x[[5]]), "\n", sep = "")
-}
-
-
-lazyvec_serialized_state <- function(x) {
-  cat(crayon::italic(crayon::cyan("ALTREP serialized_state : result =")),
-      display_parameter(x), "\n", sep = "")
-}
-
-
-lazyvec_unserialize_ex <- function(x) {
-  cat(crayon::italic(crayon::cyan("ALTREP unserialize_ex : result =")),
-      display_parameter(x), "\n", sep = "")
-}
-
-
-lazyvec_dataptr <- function(x) {
-  cat(crayon::italic(crayon::cyan("ALTREP dataptr : result =")),
-      format(as.hexmode(x[1]), width = 8),  # high address bytes
-      format(as.hexmode(x[2]), width = 8),  # low bytes of address
-      ", writable = ", as.logical(x[3]), "\n", sep = "")
-}
-
-
-lazyvec_duplicate_ex <- function(x) {
-  cat(crayon::italic(crayon::cyan("ALTREP duplicate_ex : result =")),
-      display_parameter(x), "\n", sep = "")
 }
 
 
@@ -156,35 +144,34 @@ lazyvec_extract_subset <- function(x) {
 lazyvec_api <- lazyvec_methods(
   function() {},  # init lazyvec
   lazyvec_length,
-  lazyvec_dataptr_or_null,
+  lazyvec_full_vector,
   lazyvec_get_region,
   lazyvec_element,
-  lazyvec_dataptr,
+  lazyvec_full_vector,
   lazyvec_is_sorted,
   lazyvec_no_na,
   lazyvec_sum,
   lazyvec_min,
   lazyvec_max,
   lazyvec_inspect,
-  lazyvec_unserialize_ex,
-  lazyvec_serialized_state,
-  lazyvec_duplicate_ex,
+  NULL,
+  NULL,
+  NULL,
   lazyvec_coerce,
   lazyvec_extract_subset
 )
-
 
 # constructor for an custom integer range
 int_range <- function(from, to, step, diagnostics = FALSE) {
 
   # alternative representation
   alt_pres <- list(
-    as.integer(from),                     # range start
-    as.integer(to),                       # range end
-    as.integer(step),                     # range step
-    as.integer(1L + (to - from) / step),  # vector length
-    diagnostics,
-    diagnostic_message
+    from = as.integer(from),                       # range start
+    to = as.integer(to),                           # range end
+    step = as.integer(step),                       # range step
+    length = as.integer(1L + (to - from) / step),  # vector length
+    diagnostics = diagnostics,                     # show diagnostics
+    message = diagnostic_message                   # output diagnostic message
   )
 
   # return custom ALTREP vector
@@ -198,6 +185,9 @@ is.na(x)
 length(x)
 sum(x)
 min(x)
-
+max(x)
 x[3]
+
+y <- alt_wrap(x, "x")
+y[1]
 
