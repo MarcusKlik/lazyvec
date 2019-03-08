@@ -26,11 +26,11 @@ diagnostic_message <- function(show, ...) {
 }
 
 
-display_parameter <- function(x) {
-  paste0(" ", crayon::magenta(typeof(x)),
-         crayon::magenta("["), crayon::magenta(length(x)),
-         crayon::magenta("] "), paste0(x, collapse = " "))
-}
+# display_parameter <- function(x) {
+#   paste0(" ", crayon::magenta(typeof(x)),
+#          crayon::magenta("["), crayon::magenta(length(x)),
+#          crayon::magenta("] "), paste0(x, collapse = " "))
+# }
 
 
 lazyvec_length <- function(x) {
@@ -101,26 +101,6 @@ lazyvec_max <- function(x, na_rm) {
 }
 
 
-lazyvec_inspect <- function(x) {
-  cat(crayon::italic(crayon::cyan("ALTREP inspect : result =")),
-      display_parameter(x[[1]]),
-      crayon::italic(crayon::cyan(", x = ")),
-      display_parameter(x[[2]]),
-      crayon::italic(crayon::cyan(", pre = ")),
-      display_parameter(x[[3]]),
-      crayon::italic(crayon::cyan(", deep = ")),
-      display_parameter(x[[4]]),
-      crayon::italic(crayon::cyan(", pVec = ")),
-      display_parameter(x[[5]]), "\n", sep = "")
-}
-
-
-lazyvec_coerce <- function(x) {
-  cat(crayon::italic(crayon::cyan("ALTREP coerce : result =")),
-      display_parameter(x), "\n", sep = "")
-}
-
-
 lazyvec_extract_subset <- function(x, indx) {
   x$message(x$diagnostics, "extract_subset", NULL, indx = indx)
   x$from + (indx - 1L) * x$step
@@ -140,11 +120,11 @@ lazyvec_api <- lazyvec_methods(
   lazyvec_sum,
   lazyvec_min,
   lazyvec_max,
-  lazyvec_inspect,
   NULL,
   NULL,
   NULL,
-  lazyvec_coerce,
+  NULL,
+  NULL,
   lazyvec_extract_subset
 )
 
@@ -166,21 +146,12 @@ int_range <- function(from, to, step, diagnostics = FALSE) {
 }
 
 
-y <- int_range(3, 100, 2)
-.Internal(inspect(y))
-
-
-y <- int_range(3, 10, 2, TRUE)
-.Internal(inspect(y))
-
-y * 3
-
-y[c(2, 4)]
-
-length(y)
-
 x <- int_range(3, 10, 2, TRUE)
+.Internal(inspect(x))
 
+x * 3
+x[c(2, 4)]
+length(x)
 sort(x)
 is.na(x)
 length(x)
@@ -188,5 +159,3 @@ sum(x)
 min(x)
 max(x)
 x[3]
-
-x * 2

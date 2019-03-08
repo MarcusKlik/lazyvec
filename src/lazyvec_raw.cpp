@@ -121,33 +121,6 @@ Rboolean lazyvec_raw_Inspect_method(SEXP x, int pre, int deep, int pvec,
   inspect_subtree_method subtree_method)
 {
   return FALSE;
-  // Rboolean inspect_result = ALTREP_INSPECT(LAZYVEC_PAYLOAD(x), pre, deep, pvec, subtree_method);
-  // 
-  // SEXP arguments = PROTECT(Rf_allocVector(VECSXP, 5));
-  // 
-  // if (x == NULL)
-  // {
-  //   SET_VECTOR_ELT(arguments, 1, R_NilValue);
-  // }
-  // else
-  // {
-  //   SET_VECTOR_ELT(arguments, 1, x);
-  // }
-  // 
-  // SET_VECTOR_ELT(arguments, 0, Rf_ScalarInteger(inspect_result));
-  // SET_VECTOR_ELT(arguments, 2, Rf_ScalarInteger(pre));
-  // SET_VECTOR_ELT(arguments, 3, Rf_ScalarInteger(deep));
-  // SET_VECTOR_ELT(arguments, 4, Rf_ScalarInteger(pvec));
-  // 
-  // // length listener method
-  // SEXP inspect_listener = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(x), LAZYVEC_METHOD_INSPECT));
-  // 
-  // // call inspect listener
-  // call_r_interface(inspect_listener, arguments, LAZYVEC_PARENT_ENV(x));
-  // 
-  // UNPROTECT(2);
-  // 
-  // return inspect_result;
 }
 
 
@@ -294,34 +267,17 @@ SEXP lazyvec_raw_DuplicateEX_method(SEXP sx, Rboolean deep)
 }
 
 
-SEXP lazyvec_raw_Coerce_method(SEXP sx, int type)
+SEXP lazyvec_raw_Coerce_method(SEXP x, int type)
 {
-  SEXP result_coerce = PROTECT(ALTREP_COERCE(LAZYVEC_PAYLOAD(sx), type));
+  // length listener method
+  SEXP listener_coerce = VECTOR_ELT(LAZYVEC_LISTENERS(x), LAZYVEC_METHOD_COERCE);
 
-  SEXP arguments = PROTECT(Rf_allocVector(VECSXP, 2));
-  SET_VECTOR_ELT(arguments, 1, Rf_ScalarInteger(type));
-
-  // retrieve coerce listener method
-  SEXP coerce_listener = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(sx), LAZYVEC_METHOD_COERCE));
-
-  if (result_coerce == NULL)
-  {
-    SET_VECTOR_ELT(arguments, 0, R_NilValue);
-
-    // call listener with integer result
-    call_r_interface(coerce_listener, arguments, LAZYVEC_PARENT_ENV(sx));
-
-    UNPROTECT(3);
-    return result_coerce;
+  // use default coercion
+  if (Rf_isNull(listener_coerce)) {
+    return NULL;
   }
 
-  SET_VECTOR_ELT(arguments, 0, result_coerce);
-
-  // call listener with integer result
-  call_r_interface(coerce_listener, arguments, LAZYVEC_PARENT_ENV(sx));
-
-  UNPROTECT(3);
-  return result_coerce;
+  return  NULL;
 }
 
 
@@ -336,6 +292,7 @@ SEXP lazyvec_raw_Extract_subset_method(SEXP x, SEXP indx, SEXP call)
   // length listener method
   SEXP listener_extract_subset = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(x), LAZYVEC_METHOD_EXTRACT_SUBSET));
 
+  // checks are for safety, remove later
   if (indx == NULL)
   {
     Rf_error("indx is_null");
@@ -353,49 +310,6 @@ SEXP lazyvec_raw_Extract_subset_method(SEXP x, SEXP indx, SEXP call)
   UNPROTECT(4);  // last PROTECT could be removed
   
   return custom_elements;
-  
-  // UNPROTECT(4);  // last PROTECT could be removed
-  // 
-  // return custom_elements;
-
-  
-  // SEXP result_extract_subset = PROTECT(ALTVEC_EXTRACT_SUBSET(LAZYVEC_PAYLOAD(sx), indx, call));
-
-  // SEXP arguments = PROTECT(Rf_allocVector(VECSXP, 3));
-  // 
-  // if (result_extract_subset == NULL)
-  // {
-  //   SET_VECTOR_ELT(arguments, 0, R_NilValue);
-  // } else
-  // {
-  //   SET_VECTOR_ELT(arguments, 0, result_extract_subset);
-  // }
-  // 
-  // if (indx == NULL)
-  // {
-  //   SET_VECTOR_ELT(arguments, 1, R_NilValue);
-  // } else
-  // {
-  //   SET_VECTOR_ELT(arguments, 1, indx);
-  // }
-  // 
-  // if (call == NULL)
-  // {
-  //   SET_VECTOR_ELT(arguments, 2, R_NilValue);
-  // } else
-  // {
-  //   SET_VECTOR_ELT(arguments, 2, call);
-  // }
-  // 
-  // // retrieve coerce listener method
-  // SEXP extract_subset_listener = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(sx), LAZYVEC_METHOD_EXTRACT_SUBSET));
-  // 
-  // // call listener with arguments and result
-  // call_r_interface(extract_subset_listener, arguments, LAZYVEC_PARENT_ENV(sx));
-  // 
-  // UNPROTECT(3);
-  // 
-  // return result_extract_subset;
 }
 
 
