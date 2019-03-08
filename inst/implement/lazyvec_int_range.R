@@ -183,19 +183,3 @@ max(x)
 x[3]
 
 x * 2
-
-# 
-# x * 3L
-# 
-# y <- int_range(3, 10, 2, TRUE)
-# x <- alt_wrap(y, "x")
-# x * 3
-# 
-# sort(x)
-# is.na(x)
-# length(x)
-# sum(x)
-# min(x)
-# max(x)
-# x[3]
-# x * 3

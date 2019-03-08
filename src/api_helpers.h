@@ -48,6 +48,26 @@
 #define ALTREP_METHOD_UNSERIALIZE      16
 #define ALTREP_METHOD_DUPLICATE        17
 
+// lazyvec user methods
+#define LAZYVEC_METHOD_LENGTH            0
+#define LAZYVEC_METHOD_DATAPTR_OR_NULL   1
+#define LAZYVEC_METHOD_GET_REGION        2
+#define LAZYVEC_METHOD_ELT               3
+#define LAZYVEC_METHOD_DATAPTR           4
+#define LAZYVEC_METHOD_IS_SORTED         5
+#define LAZYVEC_METHOD_NO_NA             6
+#define LAZYVEC_METHOD_SUM               7
+#define LAZYVEC_METHOD_MIN               8
+#define LAZYVEC_METHOD_MAX               9
+#define LAZYVEC_METHOD_INSPECT          10
+#define LAZYVEC_METHOD_UNSERIALIZE_EX   11
+#define LAZYVEC_METHOD_SERIALIZED_STATE 12
+#define LAZYVEC_METHOD_DUPLICATE_EX     13
+#define LAZYVEC_METHOD_COERCE           14
+#define LAZYVEC_METHOD_EXTRACT_SUBSET   15
+#define LAZYVEC_METHOD_UNSERIALIZE      16
+#define LAZYVEC_METHOD_DUPLICATE        17
+
 // conversion helpers
 #define SEXP_TO_INT(x) *INTEGER(x)
 #define SEXP_TO_DOUBLE(x) *REAL(x)
