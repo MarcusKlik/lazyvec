@@ -120,33 +120,34 @@ SEXP lazyvec_string_Serialized_state_method(SEXP x)
 Rboolean lazyvec_string_Inspect_method(SEXP x, int pre, int deep, int pvec,
   inspect_subtree_method subtree_method)
 {
-  Rboolean inspect_result = ALTREP_INSPECT(LAZYVEC_PAYLOAD(x), pre, deep, pvec, subtree_method);
-
-  SEXP arguments = PROTECT(Rf_allocVector(VECSXP, 5));
-
-  if (x == NULL)
-  {
-    SET_VECTOR_ELT(arguments, 1, R_NilValue);
-  }
-  else
-  {
-    SET_VECTOR_ELT(arguments, 1, x);
-  }
-
-  SET_VECTOR_ELT(arguments, 0, Rf_ScalarInteger(inspect_result));
-  SET_VECTOR_ELT(arguments, 2, Rf_ScalarInteger(pre));
-  SET_VECTOR_ELT(arguments, 3, Rf_ScalarInteger(deep));
-  SET_VECTOR_ELT(arguments, 4, Rf_ScalarInteger(pvec));
-
-  // length listener method
-  SEXP inspect_listener = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(x), LAZYVEC_METHOD_INSPECT));
-
-  // call inspect listener
-  call_r_interface(inspect_listener, arguments, LAZYVEC_PARENT_ENV(x));
-
-  UNPROTECT(2);
-
-  return inspect_result;
+  return FALSE;
+  // Rboolean inspect_result = ALTREP_INSPECT(LAZYVEC_PAYLOAD(x), pre, deep, pvec, subtree_method);
+  // 
+  // SEXP arguments = PROTECT(Rf_allocVector(VECSXP, 5));
+  // 
+  // if (x == NULL)
+  // {
+  //   SET_VECTOR_ELT(arguments, 1, R_NilValue);
+  // }
+  // else
+  // {
+  //   SET_VECTOR_ELT(arguments, 1, x);
+  // }
+  // 
+  // SET_VECTOR_ELT(arguments, 0, Rf_ScalarInteger(inspect_result));
+  // SET_VECTOR_ELT(arguments, 2, Rf_ScalarInteger(pre));
+  // SET_VECTOR_ELT(arguments, 3, Rf_ScalarInteger(deep));
+  // SET_VECTOR_ELT(arguments, 4, Rf_ScalarInteger(pvec));
+  // 
+  // // length listener method
+  // SEXP inspect_listener = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(x), LAZYVEC_METHOD_INSPECT));
+  // 
+  // // call inspect listener
+  // call_r_interface(inspect_listener, arguments, LAZYVEC_PARENT_ENV(x));
+  // 
+  // UNPROTECT(2);
+  // 
+  // return inspect_result;
 }
 
 
