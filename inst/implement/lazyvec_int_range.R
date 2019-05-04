@@ -147,6 +147,9 @@ int_range <- function(from, to, step, diagnostics = FALSE) {
 
 
 x <- int_range(3, 10, 2, TRUE)
+
+lazyvec::
+
 .Internal(inspect(x))
 
 x * 3

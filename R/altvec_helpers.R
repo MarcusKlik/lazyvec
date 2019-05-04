@@ -29,3 +29,29 @@
 is_altrep <- function(x) {
   is_altrep_vector(x) == 1
 }
+
+
+#' Retrieve the ALTREP class descriptor
+#'
+#' @param x ALTREP vector for which to determine the ALTREP class descriptor
+#'
+#' @return ALTREP class descriptor
+#' @export
+altrep_class <- function(x) {
+  if (!is_altrep(x)) return(NULL)
+
+  as.character(altrep_full_class(x)[[1]])
+}
+
+
+#' Retrieve the package in which a ALTREP vector is defined
+#'
+#' @param x ALTREP vector for which to determine the package
+#'
+#' @return package that contains the ALTREP class definition
+#' @export
+altrep_package <- function(x) {
+  if (!is_altrep(x)) return(NULL)
+
+  as.character(altrep_full_class(x)[[2]])
+}

@@ -5,6 +5,17 @@
 
 using namespace Rcpp;
 
+// altrep_full_class
+SEXP altrep_full_class(SEXP altrep_vec);
+RcppExport SEXP _lazyvec_altrep_full_class(SEXP altrep_vecSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type altrep_vec(altrep_vecSEXP);
+    rcpp_result_gen = Rcpp::wrap(altrep_full_class(altrep_vec));
+    return rcpp_result_gen;
+END_RCPP
+}
 // altrep_integer_wrapper
 SEXP altrep_integer_wrapper(SEXP data);
 RcppExport SEXP _lazyvec_altrep_integer_wrapper(SEXP dataSEXP) {
@@ -139,6 +150,7 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_lazyvec_altrep_full_class", (DL_FUNC) &_lazyvec_altrep_full_class, 1},
     {"_lazyvec_altrep_integer_wrapper", (DL_FUNC) &_lazyvec_altrep_integer_wrapper, 1},
     {"_lazyvec_altrep_logical_wrapper", (DL_FUNC) &_lazyvec_altrep_logical_wrapper, 1},
     {"_lazyvec_altrep_raw_wrapper", (DL_FUNC) &_lazyvec_altrep_raw_wrapper, 1},
