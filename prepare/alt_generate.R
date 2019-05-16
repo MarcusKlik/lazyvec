@@ -63,7 +63,7 @@ alt_generate <- function(source_path, altrep_type, cpp_type, scalar_method, type
 
 # generate int wrapper
 alt_generate(
-  source_path = "altrep_implementation.cpp",
+  source_path = "altwrap_implementation.cpp",
   altrep_type = "integer",
   cpp_type = "int",
   scalar_method = "Rf_ScalarInteger",
@@ -75,7 +75,7 @@ alt_generate(
 
 # generate real wrapper
 alt_generate(
-  source_path = "altrep_implementation.cpp",
+  source_path = "altwrap_implementation.cpp",
   altrep_type = "real",
   cpp_type = "double",
   scalar_method = "Rf_ScalarReal",
@@ -88,7 +88,7 @@ alt_generate(
 
 # generate logical wrapper
 alt_generate(
-  source_path = "altrep_implementation.cpp",
+  source_path = "altwrap_implementation.cpp",
   altrep_type = "logical",
   cpp_type = "int",
   scalar_method = "Rf_ScalarLogical",
@@ -101,7 +101,7 @@ alt_generate(
 
 # generate raw wrapper
 alt_generate(
-  source_path = "altrep_implementation.cpp",
+  source_path = "altwrap_implementation.cpp",
   altrep_type = "raw",
   cpp_type = "Rbyte",
   scalar_method = "Rf_ScalarRaw",
@@ -114,7 +114,7 @@ alt_generate(
 
 # generate string wrapper
 alt_generate(
-  source_path = "altrep_implementation.cpp",
+  source_path = "altwrap_implementation.cpp",
   altrep_type = "string",
   cpp_type = "SEXP",
   scalar_method = "Rf_ScalarString",

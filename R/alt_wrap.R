@@ -109,7 +109,7 @@ listener_length <- function(x) {
 listener_dataptr_or_null <- function(x) {
 
   cat(crayon::italic(
-    crayon::cyan(x[[1]], ": ALTREP dataptr_or_null called, null returned: ")),
+    crayon::cyan(x[[1]], ": ALTREP dataptr_or_null, null returned: ")),
     display_parameter(x[[2]]), "\n", sep = "")
 }
 
@@ -145,7 +145,7 @@ listener_no_na <- function(x) {
 
 
 listener_sum <- function(x) {
-  cat(crayon::italic(crayon::cyan("ALTREP sum called, na.rm = ")),
+  cat(crayon::italic(crayon::cyan("ALTREP sum, na.rm = ")),
     display_parameter(x[[2]] == 1),
     crayon::italic(crayon::cyan(", result: ")),
     display_parameter(x[[1]]), "\n", sep = "")
