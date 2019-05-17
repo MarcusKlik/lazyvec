@@ -50,7 +50,7 @@ lazyvec_methods <- function(lazyvec_init, method_length, method_dataptr_or_null,
   method_max, method_inspect, method_unserialize_ex, method_serialized_state,
   method_duplicate_ex, method_coerce, method_extract_subset) {
 
-  # some checks on user function here
+  # some checks on user functions here
 
   methods <- list(
     method_length,
