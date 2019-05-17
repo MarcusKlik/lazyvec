@@ -25,5 +25,6 @@
 #' @importFrom crayon italic
 #' @importFrom crayon cyan
 #' @importFrom utils str
+#' @importFrom utils tail
 #' @importFrom utils packageVersion
 NULL

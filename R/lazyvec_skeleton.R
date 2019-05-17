@@ -56,9 +56,9 @@ lazyvec_skeleton <- function(skeleton_id, path) {
     stop("target path points to a non-existing folder, please create the folder first")
   }
 
-  sample_path <- paste0(path.package("lazyvec"), "/lazyvec_samples/", skeleton_id, ".R")
-  
+  sample_path <- paste0(path.package("lazyvec"), "/", "lazyvec_samples/", skeleton_id, ".R")
+
   file.copy(sample_path, path)
-  
+
   invisible(NULL)
 }
