@@ -41,7 +41,15 @@
 #'
 #' @md
 lazyvec_skeleton <- function(skeleton_id, path) {
-  valid_ids <- c("int_range", "real_range", "logical_compressed", "raw_ondisk", "character_range")
+  sample_dir <- paste0(path.package("lazyvec"), "/", "lazyvec_samples/")
+
+  lazyvec_sample_copy(skeleton_id, sample_dir, path)
+}
+
+
+# helper method to allow for alternative sample folders
+lazyvec_sample_copy <- function(skeleton_id, sample_dir, path) {
+  valid_ids <- c("int_range")
 
   if (!(skeleton_id %in% valid_ids)) {
     stop("Invalid skeleton_id. Please select one of the following id's: '",
@@ -56,7 +64,7 @@ lazyvec_skeleton <- function(skeleton_id, path) {
     stop("target path points to a non-existing folder, please create the folder first")
   }
 
-  sample_path <- paste0(path.package("lazyvec"), "/", "lazyvec_samples/", skeleton_id, ".R")
+  sample_path <- paste0(sample_dir, skeleton_id, ".R")
 
   file.copy(sample_path, path)
 

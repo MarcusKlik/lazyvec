@@ -2,7 +2,8 @@
 context("int_range")
 
 # clean generated files
-unlink("int_range.R", force = TRUE)
+sample_path <- "sample_int_range.R"
+unlink(sample_path, force = TRUE)
 
 test_that("arguments", {
   expect_error(lazyvec_skeleton("bla"), "Invalid skeleton_id")
@@ -11,19 +12,16 @@ test_that("arguments", {
 })
 
 
-# use for sample implementation
-tmpfile <- tempfile(fileext = ".R")
-
-
 test_that("generate", {
-  lazyvec_skeleton("int_range", tmpfile)
+  # explicitly set sample source directory
+  lazyvec:::lazyvec_sample_copy("int_range", "../../inst/lazyvec_samples/", sample_path)
 
-  expect_true(file.exists(tmpfile))
+  expect_true(file.exists(sample_path))
 })
 
 
 # import generated implementation
-source(tmpfile)
+source(sample_path)
 
 
 test_that("ranges with different step size", {
