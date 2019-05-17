@@ -72,6 +72,6 @@ altrep_check <- function(x) {
 #' @export
 altrep_length <- function(x) {
   altrep_check(x)
-  
+
   altrep_length_method(x)
 }

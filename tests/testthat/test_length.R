@@ -6,7 +6,7 @@ match_output <- function(output, message) {
 }
 
 test_that("ALTREP length diagnostic message", {
-  output <- capture.output(alt_wrap(1:20, "x"))
+  output <- capture.output(altrep_listener(1:20, "x"))
 
   expect_true(match_output(output, "result = integer[1] 20"))
 })
