@@ -2,7 +2,7 @@
 % Please edit documentation in R/lazyvec_methods.R
 \name{lazyvec_methods}
 \alias{lazyvec_methods}
-\title{Define a ALTREP interface}
+\title{Define the lazyvec interface}
 \usage{
 lazyvec_methods(lazyvec_init, method_length, method_dataptr_or_null,
   method_get_region, method_element, method_dataptr, method_is_sorted,

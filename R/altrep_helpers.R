@@ -55,3 +55,23 @@ altrep_package <- function(x) {
 
   as.character(altrep_full_class(x)[[2]])
 }
+
+
+altrep_check <- function(x) {
+  if (!is_altrep(x)) {
+    stop("Vector is not an ALTREP vector")
+  }
+}
+
+
+#' Trigger ALTREP method altrep_Length
+#'
+#' @param x ALTREP vector
+#'
+#' @return value returned by ALTREP method altrep_Length
+#' @export
+altrep_length <- function(x) {
+  altrep_check(x)
+  
+  altrep_length_method(x)
+}

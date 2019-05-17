@@ -20,7 +20,7 @@
 #  - lazyvec R package source repository : https://github.com/fstpackage/lazyvec
 
 
-#' Define a ALTREP interface
+#' Define the lazyvec interface
 #'
 #' With this method a complete ALTREP interface is defined using R functions. Calls to the custom
 #' ALTREP vector will be diverted to these user functions.

@@ -119,6 +119,7 @@ lazyvec_api <- lazyvec_methods(
   lazyvec_extract_subset
 )
 
+
 # constructor for an custom integer range
 int_range <- function(from, to, step, diagnostics = FALSE) {
 

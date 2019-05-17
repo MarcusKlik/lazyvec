@@ -5,6 +5,42 @@ altrep_full_class <- function(altrep_vec) {
     .Call(`_lazyvec_altrep_full_class`, altrep_vec)
 }
 
+altrep_length_method <- function(x) {
+    .Call(`_lazyvec_altrep_length_method`, x)
+}
+
+altrep_duplicate_ex_method <- function(x, deep) {
+    .Call(`_lazyvec_altrep_duplicate_ex_method`, x, deep)
+}
+
+altrep_coerce_method <- function(x, type) {
+    .Call(`_lazyvec_altrep_coerce_method`, x, type)
+}
+
+altrep_integer_Elt_method <- function(x, i) {
+    .Call(`_lazyvec_altrep_integer_Elt_method`, x, i)
+}
+
+altrep_integer_is_sorted_method <- function(x) {
+    .Call(`_lazyvec_altrep_integer_is_sorted_method`, x)
+}
+
+altrep_integer_no_na_method <- function(x) {
+    .Call(`_lazyvec_altrep_integer_no_na_method`, x)
+}
+
+altrep_integer_sum_method <- function(x, na_rm) {
+    .Call(`_lazyvec_altrep_integer_sum_method`, x, na_rm)
+}
+
+altrep_integer_min_method <- function(x, na_rm) {
+    .Call(`_lazyvec_altrep_integer_min_method`, x, na_rm)
+}
+
+altrep_integer_max_method <- function(x, na_rm) {
+    .Call(`_lazyvec_altrep_integer_max_method`, x, na_rm)
+}
+
 altrep_integer_wrapper <- function(data) {
     .Call(`_lazyvec_altrep_integer_wrapper`, data)
 }

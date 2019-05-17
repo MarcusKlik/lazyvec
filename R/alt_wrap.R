@@ -20,19 +20,17 @@
 #  - lazyvec R package source repository : https://github.com/fstpackage/lazyvec
 
 
-#' Wrap an altrep vector with listeners
+#' Add listeners to an ALTREP vector to eavesdrop on all internal ALTREP calls 
 #' 
-#' This method encapsulates an ALTREP vector with a new ALTREP vector that\
-#' passes all ALTREP calls to the original vector. In addition to that, diagnostic
-#' information is sent to the console about the specific calls executed from the R
-#' framework and with reports on the data received from the encapsulated vector.
+#' This method adds a set of listeners to an ALTREP vector that can be used to
+#' track all internal ALTREP calls. Diagnostic information is shown on the specific
+#' calls that are made from the R language and the data returned from the ALTREP vector.
 #'
 #' @param altrep_vec altrep vector
-#' @param vec_id id of the encapsulated vector, used in diagnostic output
+#' @param vec_id custom id of the ALTREP vector, used in diagnostic output
 #'
-#' @return a wrapper around the altrep vector which in turn is an altrep vector itself
 #' @export
-alt_wrap <- function(altrep_vec, vec_id) {
+altrep_listener <- function(altrep_vec, vec_id) {
 
   if (!is_altrep(altrep_vec)) {
     stop("vector is not an ALTREP vector.")
