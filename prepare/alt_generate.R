@@ -70,7 +70,7 @@ alt_generate(
   type_method = "INTEGER",
   alt_method = "altinteger",
   sexp_to_cpp = "not_needed",
-  "../src/altrep_integer.cpp",
+  "../src/altwrap_integer.cpp",
   "Duplicate_")
 
 # generate real wrapper
@@ -82,7 +82,7 @@ alt_generate(
   type_method = "REAL",
   alt_method = "altreal",
   sexp_to_cpp = "not_needed",
-  "../src/altrep_real.cpp",
+  "../src/altwrap_real.cpp",
   "Duplicate_")
 
 
@@ -95,7 +95,7 @@ alt_generate(
   type_method = "LOGICAL",
   alt_method = "altlogical",
   sexp_to_cpp = "not_needed",
-  "../src/altrep_logical.cpp",
+  "../src/altwrap_logical.cpp",
   c("Min", "Max", "Duplicate_"))
 
 
@@ -108,7 +108,7 @@ alt_generate(
   type_method = "RAW",
   alt_method = "altraw",
   sexp_to_cpp = "not_needed",
-  "../src/altrep_raw.cpp",
+  "../src/altwrap_raw.cpp",
   c("Min", "Max", "Is_sorted", "No_NA", "Sum", "Duplicate_"))
 
 
@@ -121,7 +121,7 @@ alt_generate(
   type_method = "STRING",
   alt_method = "altstring",
   sexp_to_cpp = "not_needed",
-  "../src/altrep_string.cpp",
+  "../src/altwrap_string.cpp",
   c("Min", "Max", "Sum", "Get_region", "Duplicate_"))
 
 
