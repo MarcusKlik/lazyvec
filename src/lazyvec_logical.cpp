@@ -91,10 +91,10 @@ SEXP lazyvec_logical_UnserializeEX_method(SEXP info, SEXP state, SEXP attr, int 
 
 SEXP lazyvec_logical_Serialized_state_method(SEXP x)
 {
-  SEXP serialized_state_result = PROTECT(ALTREP_SERIALIZED_STATE(LAZYVEC_PAYLOAD(x)));
+  // SEXP serialized_state_result = PROTECT(ALTREP_SERIALIZED_STATE(LAZYVEC_PAYLOAD(x)));
 
   // length listener method
-  SEXP serialized_state_listener = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(x), LAZYVEC_METHOD_SERIALIZED_STATE));
+  // SEXP serialized_state_listener = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(x), LAZYVEC_METHOD_SERIALIZED_STATE));
 
   // create serialization state
   SEXP serialized_state = PROTECT(Rf_allocVector(VECSXP, 3));

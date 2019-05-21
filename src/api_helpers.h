@@ -85,6 +85,7 @@ typedef void (*inspect_subtree_method)(SEXP, int, int, int);
 #define ALTWRAP_LISTENERS(x) VECTOR_ELT(R_altrep_data1(x), 1)
 #define ALTWRAP_METADATA(x) VECTOR_ELT(R_altrep_data1(x), 2)
 #define ALTWRAP_PARENT_ENV(x) VECTOR_ELT(R_altrep_data1(x), 3)
+#define ALTWRAP_VERSION(x) VECTOR_ELT(R_altrep_data1(x), 4)
 
 // override default altrep methods
 #define CALL_METHOD_SETTER(CNAME, TNAME, MNAME) \
@@ -101,7 +102,6 @@ typedef void (*inspect_subtree_method)(SEXP, int, int, int);
 
 // setters
 #define LAZYVEC_SET_FULL_VEC(x, y) SET_VECTOR_ELT(R_altrep_data1(x), 5, y)
-
 
 
 #define CALL_LAZYVEC_SETTER(CNAME, TNAME, MNAME) \
