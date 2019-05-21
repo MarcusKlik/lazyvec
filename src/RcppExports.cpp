@@ -16,132 +16,147 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// altrep_length_method
-int altrep_length_method(SEXP x);
-RcppExport SEXP _lazyvec_altrep_length_method(SEXP xSEXP) {
+// altrep_trigger_length
+int altrep_trigger_length(SEXP x);
+RcppExport SEXP _lazyvec_altrep_trigger_length(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(altrep_length_method(x));
+    rcpp_result_gen = Rcpp::wrap(altrep_trigger_length(x));
     return rcpp_result_gen;
 END_RCPP
 }
-// altrep_duplicate_ex_method
-SEXP altrep_duplicate_ex_method(SEXP x, int deep);
-RcppExport SEXP _lazyvec_altrep_duplicate_ex_method(SEXP xSEXP, SEXP deepSEXP) {
+// altrep_trigger_duplicate_ex
+SEXP altrep_trigger_duplicate_ex(SEXP x, int deep);
+RcppExport SEXP _lazyvec_altrep_trigger_duplicate_ex(SEXP xSEXP, SEXP deepSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
     Rcpp::traits::input_parameter< int >::type deep(deepSEXP);
-    rcpp_result_gen = Rcpp::wrap(altrep_duplicate_ex_method(x, deep));
+    rcpp_result_gen = Rcpp::wrap(altrep_trigger_duplicate_ex(x, deep));
     return rcpp_result_gen;
 END_RCPP
 }
-// altrep_serialized_state_method
-SEXP altrep_serialized_state_method(SEXP x);
-RcppExport SEXP _lazyvec_altrep_serialized_state_method(SEXP xSEXP) {
+// altrep_trigger_serialized_state
+SEXP altrep_trigger_serialized_state(SEXP x);
+RcppExport SEXP _lazyvec_altrep_trigger_serialized_state(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(altrep_serialized_state_method(x));
+    rcpp_result_gen = Rcpp::wrap(altrep_trigger_serialized_state(x));
     return rcpp_result_gen;
 END_RCPP
 }
-// altrep_inspect_method
-void altrep_inspect_method(SEXP x, int pre, int deep, int pvec);
-RcppExport SEXP _lazyvec_altrep_inspect_method(SEXP xSEXP, SEXP preSEXP, SEXP deepSEXP, SEXP pvecSEXP) {
+// altrep_trigger_unserialize_ex
+SEXP altrep_trigger_unserialize_ex(SEXP info, SEXP state, SEXP attr, int objf, int levs);
+RcppExport SEXP _lazyvec_altrep_trigger_unserialize_ex(SEXP infoSEXP, SEXP stateSEXP, SEXP attrSEXP, SEXP objfSEXP, SEXP levsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type info(infoSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type state(stateSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type attr(attrSEXP);
+    Rcpp::traits::input_parameter< int >::type objf(objfSEXP);
+    Rcpp::traits::input_parameter< int >::type levs(levsSEXP);
+    rcpp_result_gen = Rcpp::wrap(altrep_trigger_unserialize_ex(info, state, attr, objf, levs));
+    return rcpp_result_gen;
+END_RCPP
+}
+// altrep_trigger_inspect
+void altrep_trigger_inspect(SEXP x, int pre, int deep, int pvec);
+RcppExport SEXP _lazyvec_altrep_trigger_inspect(SEXP xSEXP, SEXP preSEXP, SEXP deepSEXP, SEXP pvecSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
     Rcpp::traits::input_parameter< int >::type pre(preSEXP);
     Rcpp::traits::input_parameter< int >::type deep(deepSEXP);
     Rcpp::traits::input_parameter< int >::type pvec(pvecSEXP);
-    altrep_inspect_method(x, pre, deep, pvec);
+    altrep_trigger_inspect(x, pre, deep, pvec);
     return R_NilValue;
 END_RCPP
 }
-// altrep_coerce_method
-SEXP altrep_coerce_method(SEXP x, int type);
-RcppExport SEXP _lazyvec_altrep_coerce_method(SEXP xSEXP, SEXP typeSEXP) {
+// altrep_trigger_coerce
+SEXP altrep_trigger_coerce(SEXP x, int type);
+RcppExport SEXP _lazyvec_altrep_trigger_coerce(SEXP xSEXP, SEXP typeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
     Rcpp::traits::input_parameter< int >::type type(typeSEXP);
-    rcpp_result_gen = Rcpp::wrap(altrep_coerce_method(x, type));
+    rcpp_result_gen = Rcpp::wrap(altrep_trigger_coerce(x, type));
     return rcpp_result_gen;
 END_RCPP
 }
-// altrep_integer_Elt_method
-int altrep_integer_Elt_method(SEXP x, int i);
-RcppExport SEXP _lazyvec_altrep_integer_Elt_method(SEXP xSEXP, SEXP iSEXP) {
+// altrep_trigger_integer_Elt
+int altrep_trigger_integer_Elt(SEXP x, int i);
+RcppExport SEXP _lazyvec_altrep_trigger_integer_Elt(SEXP xSEXP, SEXP iSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
     Rcpp::traits::input_parameter< int >::type i(iSEXP);
-    rcpp_result_gen = Rcpp::wrap(altrep_integer_Elt_method(x, i));
+    rcpp_result_gen = Rcpp::wrap(altrep_trigger_integer_Elt(x, i));
     return rcpp_result_gen;
 END_RCPP
 }
-// altrep_integer_is_sorted_method
-int altrep_integer_is_sorted_method(SEXP x);
-RcppExport SEXP _lazyvec_altrep_integer_is_sorted_method(SEXP xSEXP) {
+// altrep_trigger_integer_is_sorted
+int altrep_trigger_integer_is_sorted(SEXP x);
+RcppExport SEXP _lazyvec_altrep_trigger_integer_is_sorted(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(altrep_integer_is_sorted_method(x));
+    rcpp_result_gen = Rcpp::wrap(altrep_trigger_integer_is_sorted(x));
     return rcpp_result_gen;
 END_RCPP
 }
-// altrep_integer_no_na_method
-int altrep_integer_no_na_method(SEXP x);
-RcppExport SEXP _lazyvec_altrep_integer_no_na_method(SEXP xSEXP) {
+// altrep_trigger_integer_no_na
+int altrep_trigger_integer_no_na(SEXP x);
+RcppExport SEXP _lazyvec_altrep_trigger_integer_no_na(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(altrep_integer_no_na_method(x));
+    rcpp_result_gen = Rcpp::wrap(altrep_trigger_integer_no_na(x));
     return rcpp_result_gen;
 END_RCPP
 }
-// altrep_integer_sum_method
-SEXP altrep_integer_sum_method(SEXP x, int na_rm);
-RcppExport SEXP _lazyvec_altrep_integer_sum_method(SEXP xSEXP, SEXP na_rmSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
-    Rcpp::traits::input_parameter< int >::type na_rm(na_rmSEXP);
-    rcpp_result_gen = Rcpp::wrap(altrep_integer_sum_method(x, na_rm));
-    return rcpp_result_gen;
-END_RCPP
-}
-// altrep_integer_min_method
-SEXP altrep_integer_min_method(SEXP x, int na_rm);
-RcppExport SEXP _lazyvec_altrep_integer_min_method(SEXP xSEXP, SEXP na_rmSEXP) {
+// altrep_trigger_integer_sum
+SEXP altrep_trigger_integer_sum(SEXP x, int na_rm);
+RcppExport SEXP _lazyvec_altrep_trigger_integer_sum(SEXP xSEXP, SEXP na_rmSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
     Rcpp::traits::input_parameter< int >::type na_rm(na_rmSEXP);
-    rcpp_result_gen = Rcpp::wrap(altrep_integer_min_method(x, na_rm));
+    rcpp_result_gen = Rcpp::wrap(altrep_trigger_integer_sum(x, na_rm));
     return rcpp_result_gen;
 END_RCPP
 }
-// altrep_integer_max_method
-SEXP altrep_integer_max_method(SEXP x, int na_rm);
-RcppExport SEXP _lazyvec_altrep_integer_max_method(SEXP xSEXP, SEXP na_rmSEXP) {
+// altrep_trigger_integer_min
+SEXP altrep_trigger_integer_min(SEXP x, int na_rm);
+RcppExport SEXP _lazyvec_altrep_trigger_integer_min(SEXP xSEXP, SEXP na_rmSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
     Rcpp::traits::input_parameter< int >::type na_rm(na_rmSEXP);
-    rcpp_result_gen = Rcpp::wrap(altrep_integer_max_method(x, na_rm));
+    rcpp_result_gen = Rcpp::wrap(altrep_trigger_integer_min(x, na_rm));
+    return rcpp_result_gen;
+END_RCPP
+}
+// altrep_trigger_integer_max
+SEXP altrep_trigger_integer_max(SEXP x, int na_rm);
+RcppExport SEXP _lazyvec_altrep_trigger_integer_max(SEXP xSEXP, SEXP na_rmSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
+    Rcpp::traits::input_parameter< int >::type na_rm(na_rmSEXP);
+    rcpp_result_gen = Rcpp::wrap(altrep_trigger_integer_max(x, na_rm));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -280,17 +295,18 @@ END_RCPP
 
 static const R_CallMethodDef CallEntries[] = {
     {"_lazyvec_altrep_full_class", (DL_FUNC) &_lazyvec_altrep_full_class, 1},
-    {"_lazyvec_altrep_length_method", (DL_FUNC) &_lazyvec_altrep_length_method, 1},
-    {"_lazyvec_altrep_duplicate_ex_method", (DL_FUNC) &_lazyvec_altrep_duplicate_ex_method, 2},
-    {"_lazyvec_altrep_serialized_state_method", (DL_FUNC) &_lazyvec_altrep_serialized_state_method, 1},
-    {"_lazyvec_altrep_inspect_method", (DL_FUNC) &_lazyvec_altrep_inspect_method, 4},
-    {"_lazyvec_altrep_coerce_method", (DL_FUNC) &_lazyvec_altrep_coerce_method, 2},
-    {"_lazyvec_altrep_integer_Elt_method", (DL_FUNC) &_lazyvec_altrep_integer_Elt_method, 2},
-    {"_lazyvec_altrep_integer_is_sorted_method", (DL_FUNC) &_lazyvec_altrep_integer_is_sorted_method, 1},
-    {"_lazyvec_altrep_integer_no_na_method", (DL_FUNC) &_lazyvec_altrep_integer_no_na_method, 1},
-    {"_lazyvec_altrep_integer_sum_method", (DL_FUNC) &_lazyvec_altrep_integer_sum_method, 2},
-    {"_lazyvec_altrep_integer_min_method", (DL_FUNC) &_lazyvec_altrep_integer_min_method, 2},
-    {"_lazyvec_altrep_integer_max_method", (DL_FUNC) &_lazyvec_altrep_integer_max_method, 2},
+    {"_lazyvec_altrep_trigger_length", (DL_FUNC) &_lazyvec_altrep_trigger_length, 1},
+    {"_lazyvec_altrep_trigger_duplicate_ex", (DL_FUNC) &_lazyvec_altrep_trigger_duplicate_ex, 2},
+    {"_lazyvec_altrep_trigger_serialized_state", (DL_FUNC) &_lazyvec_altrep_trigger_serialized_state, 1},
+    {"_lazyvec_altrep_trigger_unserialize_ex", (DL_FUNC) &_lazyvec_altrep_trigger_unserialize_ex, 5},
+    {"_lazyvec_altrep_trigger_inspect", (DL_FUNC) &_lazyvec_altrep_trigger_inspect, 4},
+    {"_lazyvec_altrep_trigger_coerce", (DL_FUNC) &_lazyvec_altrep_trigger_coerce, 2},
+    {"_lazyvec_altrep_trigger_integer_Elt", (DL_FUNC) &_lazyvec_altrep_trigger_integer_Elt, 2},
+    {"_lazyvec_altrep_trigger_integer_is_sorted", (DL_FUNC) &_lazyvec_altrep_trigger_integer_is_sorted, 1},
+    {"_lazyvec_altrep_trigger_integer_no_na", (DL_FUNC) &_lazyvec_altrep_trigger_integer_no_na, 1},
+    {"_lazyvec_altrep_trigger_integer_sum", (DL_FUNC) &_lazyvec_altrep_trigger_integer_sum, 2},
+    {"_lazyvec_altrep_trigger_integer_min", (DL_FUNC) &_lazyvec_altrep_trigger_integer_min, 2},
+    {"_lazyvec_altrep_trigger_integer_max", (DL_FUNC) &_lazyvec_altrep_trigger_integer_max, 2},
     {"_lazyvec_altrep_integer_wrapper", (DL_FUNC) &_lazyvec_altrep_integer_wrapper, 1},
     {"_lazyvec_altrep_logical_wrapper", (DL_FUNC) &_lazyvec_altrep_logical_wrapper, 1},
     {"_lazyvec_altrep_raw_wrapper", (DL_FUNC) &_lazyvec_altrep_raw_wrapper, 1},

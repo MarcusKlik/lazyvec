@@ -38,6 +38,7 @@ test_that("inspect_method trigger", {
   expect_equal(res, " 1 : 100 (compact)")
 })
 
+
 test_that("serialized_state trigger", {
   res <- lazyvec:::altrep_serialized_state_method(x)
   expect_equal(res, c(100, 1, 1))

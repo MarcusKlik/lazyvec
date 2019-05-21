@@ -28,39 +28,47 @@
   
 
 // [[Rcpp::export]]
-int altrep_length_method(SEXP x)
+int altrep_trigger_length(SEXP x)
 {
   return (int)(ALTREP_LENGTH(x));
 }
 
 
-// [[Rcpp::export]]
-SEXP altrep_duplicate_ex_method(SEXP x, int deep)
+SEXP sexp_or_null(SEXP res)
 {
-  SEXP res = PROTECT(ALTREP_DUPLICATE_EX(x, (Rboolean) deep));
-  
   if (!res)
   {
-    res = R_NilValue;
+    return R_NilValue;
   }
   
-  UNPROTECT(1);
   return res;
 }
 
 
 // [[Rcpp::export]]
-SEXP altrep_serialized_state_method(SEXP x)
+SEXP altrep_trigger_duplicate_ex(SEXP x, int deep)
 {
-  SEXP res = PROTECT(ALTREP_SERIALIZED_STATE(x));
+  SEXP res = ALTREP_DUPLICATE_EX(x, (Rboolean) deep);
+
+  return sexp_or_null(res);
+}
+
+
+// [[Rcpp::export]]
+SEXP altrep_trigger_serialized_state(SEXP x)
+{
+  SEXP res = ALTREP_SERIALIZED_STATE(x);
+
+  return sexp_or_null(res);
+}
+
+
+// [[Rcpp::export]]
+SEXP altrep_trigger_unserialize_ex(SEXP info, SEXP state, SEXP attr, int objf, int levs)
+{
+  SEXP res = ALTREP_UNSERIALIZE_EX(info, state, attr, objf, levs);
   
-  if (!res)
-  {
-    res = R_NilValue;
-  }
-  
-  UNPROTECT(1);
-  return res;
+  return sexp_or_null(res);
 }
 
 
@@ -78,7 +86,7 @@ void inspect_subtree_helper(SEXP, int, int, int)
 //'   recursion, positive numbers define the maximum recursion depth)
 //' @param pvec is the maximum number of vector elements to show
 // [[Rcpp::export]]
-void altrep_inspect_method(SEXP x, int pre, int deep, int pvec)
+void altrep_trigger_inspect(SEXP x, int pre, int deep, int pvec)
 {
   if (!is_altrep_vector(x))
   {
@@ -111,7 +119,7 @@ void altrep_inspect_method(SEXP x, int pre, int deep, int pvec)
 // 20  |  EXPRSXP
 
 // [[Rcpp::export]]
-SEXP altrep_coerce_method(SEXP x, int type)
+SEXP altrep_trigger_coerce(SEXP x, int type)
 {
   if (!is_altrep_vector(x))
   {
@@ -131,55 +139,51 @@ SEXP altrep_coerce_method(SEXP x, int type)
       "15 (CPLXSXP), 16 (STRSXP), 19 (VECSXP), 24 (RAWSXP) and 20 (EXPRSXP)");
   }
   
-  SEXP res = PROTECT(ALTREP_COERCE(x, type));
+  SEXP res = ALTREP_COERCE(x, type);
 
-  if (!res)
-  {
-    res = R_NilValue;
-  }
-  
-  UNPROTECT(1);
-  return res;
+  return sexp_or_null(res);
 }
 
 
+// integer methods
+
 // [[Rcpp::export]]
-int altrep_integer_Elt_method(SEXP x, int i)
+int altrep_trigger_integer_Elt(SEXP x, int i)
 {
   return INTEGER_ELT(x, i);
 }
 
 
 // [[Rcpp::export]]
-int altrep_integer_is_sorted_method(SEXP x)
+int altrep_trigger_integer_is_sorted(SEXP x)
 {
   return INTEGER_IS_SORTED(x);
 }
 
 
 // [[Rcpp::export]]
-int altrep_integer_no_na_method(SEXP x)
+int altrep_trigger_integer_no_na(SEXP x)
 {
   return INTEGER_NO_NA(x);
 }
 
 
 // [[Rcpp::export]]
-SEXP altrep_integer_sum_method(SEXP x, int na_rm)
+SEXP altrep_trigger_integer_sum(SEXP x, int na_rm)
 {
   return ALTINTEGER_SUM(x, (Rboolean) na_rm);
 }
 
 
 // [[Rcpp::export]]
-SEXP altrep_integer_min_method(SEXP x, int na_rm)
+SEXP altrep_trigger_integer_min(SEXP x, int na_rm)
 {
   return ALTINTEGER_MIN(x, (Rboolean) na_rm);
 }
 
 
 // [[Rcpp::export]]
-SEXP altrep_integer_max_method(SEXP x, int na_rm)
+SEXP altrep_trigger_integer_max(SEXP x, int na_rm)
 {
   return ALTINTEGER_MAX(x, (Rboolean) na_rm);
 }
