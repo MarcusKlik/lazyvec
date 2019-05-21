@@ -187,8 +187,7 @@ listener_serialized_state <- function(x) {
 
 
 listener_unserialize_ex <- function(x) {
-  cat(crayon::italic(crayon::cyan("ALTREP unserialize_ex : result =")),
-    display_parameter(x), "\n", sep = "")
+  cat(crayon::italic(crayon::cyan("ALTREP unserialize_ex : result = ?")))
 }
 
 

@@ -67,81 +67,33 @@ static SEXP altwrap_raw_Unserialize_method(SEXP altwrap_class, SEXP state)
 //
 SEXP altwrap_raw_UnserializeEX_method(SEXP info, SEXP state, SEXP attr, int objf, int levs)
 {
-  // return ALTREP_UNSERIALIZE_EX(info, state, attr, objf, levs);
-
   Rcpp::Environment pkgs = Rcpp::Environment::namespace_env("lazyvec");
-
+  
   SEXP altrep_data1 = PROTECT(Rf_allocVector(VECSXP, 4));
   SET_VECTOR_ELT(altrep_data1, 0, VECTOR_ELT(state, 0));
   SET_VECTOR_ELT(altrep_data1, 1, VECTOR_ELT(state, 1));
   SET_VECTOR_ELT(altrep_data1, 2, VECTOR_ELT(state, 2));
   SET_VECTOR_ELT(altrep_data1, 3, pkgs);
-
-  // SEXP unserialize_ex_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(altrep_data1),
-  //   ALTREP_METHOD_UNSERIALIZE_EX));
-
-  // Rf_PrintValue(state);
-  // call_r_interface(unserialize_ex_listener, state, ALTWRAP_PARENT_ENV(altrep_data1));
   
-  // UNPROTECT(2);
-  UNPROTECT(1);
-  return altrep_raw_wrapper(altrep_data1);
+  SEXP altwrap_integer = PROTECT(altrep_raw_wrapper(altrep_data1));
   
-  // SEXP payload = PROTECT(ALTWRAP_PAYLOAD(x));
-
-  // get attributes from original altrep object
-  // SEXP payload_attr = PROTECT(ATTRIB(payload));
-  // int payload_objf = OBJECT(payload);
-  // int payload_levs = LEVELS(payload);
-
-  // UNPROTECT(2);
-
-  // SEXP unserialize_ex_result = PROTECT(ALTREP_UNSERIALIZE_EX(ALTWRAP_PAYLOAD(x), state, attr, objf, levs));
-  // return ALTREP_UNSERIALIZE_EX(payload, state, payload_attr, payload_objf, payload_levs);
-
-  // SEXP arguments = PROTECT(Rf_allocVector(VECSXP, 5));
-
-  // if (unserialize_ex_result == NULL)
-  // {
-  //   SET_VECTOR_ELT(arguments, 0, R_NilValue);
-  // }
-  // else
-  // {
-  //   SET_VECTOR_ELT(arguments, 0, unserialize_ex_result);
-  // }
-  // 
-  // if (state == NULL)
-  // {
-  //   SET_VECTOR_ELT(arguments, 1, R_NilValue);
-  // }
-  // else
-  // {
-  //   SET_VECTOR_ELT(arguments, 1, state);
-  // }
-  // 
-  // if (attr == NULL)
-  // {
-  //   SET_VECTOR_ELT(arguments, 2, R_NilValue);
-  // }
-  // else
-  // {
-  //   SET_VECTOR_ELT(arguments, 2, attr);
-  // }
-  // 
-  // SET_VECTOR_ELT(arguments, 3, Rf_ScalarInteger(objf));
-  // SET_VECTOR_ELT(arguments, 4, Rf_ScalarInteger(levs));
-
-  // if (unserialize_ex_result == NULL) Rf_error("stop immediately!");
-
-  // length listener method
-  // SEXP unserialize_ex_listener = VECTOR_ELT(ALTWRAP_LISTENERS(x), ALTREP_METHOD_UNSERIALIZE_EX);
-
-  // call listener
-  // call_r_interface(unserialize_ex_listener, arguments, ALTWRAP_PARENT_ENV(x));
-
-  // UNPROTECT(2);
-
-  // return unserialize_ex_result;
+  // now use the (updated) listener to display info
+  
+  SEXP unserialize_ex_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(altwrap_integer),
+    ALTREP_METHOD_UNSERIALIZE_EX));
+  
+  SEXP altrep_info = PROTECT(Rf_allocVector(VECSXP, 5));
+  SET_VECTOR_ELT(altrep_info, 0, info);
+  SET_VECTOR_ELT(altrep_info, 1, state);
+  SET_VECTOR_ELT(altrep_info, 2, attr);
+  SET_VECTOR_ELT(altrep_info, 3, Rf_ScalarInteger(objf));
+  SET_VECTOR_ELT(altrep_info, 4, Rf_ScalarInteger(levs));
+  
+  UNPROTECT(4);  // altrep_data1, altwrap_integer, unserialize_ex_listener, altrep_info
+  
+  call_r_interface(unserialize_ex_listener, altrep_info, pkgs);
+  
+  return altwrap_integer;
 }
 
 
