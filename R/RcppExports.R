@@ -13,6 +13,10 @@ altrep_duplicate_ex_method <- function(x, deep) {
     .Call(`_lazyvec_altrep_duplicate_ex_method`, x, deep)
 }
 
+altrep_inspect_method <- function(x, pre, deep, pvec) {
+    invisible(.Call(`_lazyvec_altrep_inspect_method`, x, pre, deep, pvec))
+}
+
 altrep_coerce_method <- function(x, type) {
     .Call(`_lazyvec_altrep_coerce_method`, x, type)
 }

@@ -39,6 +39,19 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// altrep_inspect_method
+void altrep_inspect_method(SEXP x, int pre, int deep, int pvec);
+RcppExport SEXP _lazyvec_altrep_inspect_method(SEXP xSEXP, SEXP preSEXP, SEXP deepSEXP, SEXP pvecSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
+    Rcpp::traits::input_parameter< int >::type pre(preSEXP);
+    Rcpp::traits::input_parameter< int >::type deep(deepSEXP);
+    Rcpp::traits::input_parameter< int >::type pvec(pvecSEXP);
+    altrep_inspect_method(x, pre, deep, pvec);
+    return R_NilValue;
+END_RCPP
+}
 // altrep_coerce_method
 SEXP altrep_coerce_method(SEXP x, int type);
 RcppExport SEXP _lazyvec_altrep_coerce_method(SEXP xSEXP, SEXP typeSEXP) {
@@ -258,6 +271,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_lazyvec_altrep_full_class", (DL_FUNC) &_lazyvec_altrep_full_class, 1},
     {"_lazyvec_altrep_length_method", (DL_FUNC) &_lazyvec_altrep_length_method, 1},
     {"_lazyvec_altrep_duplicate_ex_method", (DL_FUNC) &_lazyvec_altrep_duplicate_ex_method, 2},
+    {"_lazyvec_altrep_inspect_method", (DL_FUNC) &_lazyvec_altrep_inspect_method, 4},
     {"_lazyvec_altrep_coerce_method", (DL_FUNC) &_lazyvec_altrep_coerce_method, 2},
     {"_lazyvec_altrep_integer_Elt_method", (DL_FUNC) &_lazyvec_altrep_integer_Elt_method, 2},
     {"_lazyvec_altrep_integer_is_sorted_method", (DL_FUNC) &_lazyvec_altrep_integer_is_sorted_method, 1},
