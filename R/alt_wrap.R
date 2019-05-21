@@ -65,7 +65,9 @@ altrep_listener <- function(altrep_vec, vec_id) {
     vec_id,
 
     # parent environment in which to evaluate listeners
-    parent.env(environment())
+    parent.env(environment()),
+
+    lazyvec_version = 17  # 0 * 256 + 1 * 16 + 1 * 16
   )
 
   if (typeof(altrep_vec) == "integer") {

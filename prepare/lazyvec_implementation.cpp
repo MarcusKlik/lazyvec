@@ -96,10 +96,10 @@ SEXP lazyvec_ALTREP_TYPE_UnserializeEX_method(SEXP info, SEXP state, SEXP attr, 
 // generator source start: Serialized_state
 SEXP lazyvec_ALTREP_TYPE_Serialized_state_method(SEXP x)
 {
-  SEXP serialized_state_result = PROTECT(ALTREP_SERIALIZED_STATE(LAZYVEC_PAYLOAD(x)));
+  // SEXP serialized_state_result = PROTECT(ALTREP_SERIALIZED_STATE(LAZYVEC_PAYLOAD(x)));
 
   // length listener method
-  SEXP serialized_state_listener = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(x), LAZYVEC_METHOD_SERIALIZED_STATE));
+  // SEXP serialized_state_listener = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(x), LAZYVEC_METHOD_SERIALIZED_STATE));
 
   // create serialization state
   SEXP serialized_state = PROTECT(Rf_allocVector(VECSXP, 3));

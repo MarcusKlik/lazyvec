@@ -3,8 +3,6 @@ context("code quality")
 
 library(lintr)
 
-# issues with lintr:
-#   * RcppExports not excluded
 
 test_that("Package Style", {
   lints <- with_defaults(line_length_linter = line_length_linter(120))

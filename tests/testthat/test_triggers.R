@@ -1,12 +1,11 @@
 
 context("triggers")
 
-
+# sample ALTREP vector
 x <- 1:100
 
 
 # general ALTREP methods
-
 
 test_that("is ALTREP vector", {
   expect_true(is_altrep(x))
@@ -43,3 +42,9 @@ test_that("serialized_state trigger", {
   res <- lazyvec:::altrep_trigger_serialized_state(x)
   expect_equal(res, c(100, 1, 1))
 })
+
+
+x <- 1:100
+y <- altrep_listener(x, "x")
+tmp_file <- tempfile()
+saveRDS(y, tmp_file)

@@ -108,27 +108,31 @@ SEXP altwrap_ALTREP_TYPE_UnserializeEX_method(SEXP info, SEXP state, SEXP attr, 
 SEXP altwrap_ALTREP_TYPE_Serialized_state_method(SEXP x)
 {
   SEXP serialized_state_result = PROTECT(ALTREP_SERIALIZED_STATE(ALTWRAP_PAYLOAD(x)));
-
+  
   // length listener method
   SEXP serialized_state_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(x), ALTREP_METHOD_SERIALIZED_STATE));
-
+  
   // create serialization state
-  SEXP serialized_state = PROTECT(Rf_allocVector(VECSXP, 3));
+  SEXP serialized_state = PROTECT(Rf_allocVector(VECSXP, 5));
   SET_VECTOR_ELT(serialized_state, 0, ALTWRAP_PAYLOAD(x));
   SET_VECTOR_ELT(serialized_state, 1, ALTWRAP_LISTENERS(x));
   SET_VECTOR_ELT(serialized_state, 2, ALTWRAP_METADATA(x));
   
-  if (serialized_state_result == NULL)
+  if (!serialized_state_result)
   {
+    SET_VECTOR_ELT(serialized_state, 3, serialized_state_result);
+    SET_VECTOR_ELT(serialized_state, 4, Rf_ScalarLogical(1));
     call_r_interface(serialized_state_listener, R_NilValue, ALTWRAP_PARENT_ENV(x));
   }
   else
   {
+    SET_VECTOR_ELT(serialized_state, 3, R_NilValue);
+    SET_VECTOR_ELT(serialized_state, 4, Rf_ScalarLogical(0));
     call_r_interface(serialized_state_listener, serialized_state_result, ALTWRAP_PARENT_ENV(x));
   }
-
+  
   UNPROTECT(3);
-
+  
   return serialized_state;
 }
 
