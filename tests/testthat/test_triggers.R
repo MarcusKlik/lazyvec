@@ -14,33 +14,32 @@ test_that("is ALTREP vector", {
 
 
 test_that("length trigger", {
-  expect_equal(lazyvec:::altrep_length_method(x), 100)
+  expect_equal(lazyvec:::altrep_trigger_length(x), 100)
 })
 
 
 test_that("duplicate_ex trigger", {
-  res <- lazyvec:::altrep_duplicate_ex_method(x, FALSE)
+  res <- lazyvec:::altrep_trigger_duplicate_ex(x, FALSE)
   expect_false(is_altrep(res))
 
-  res <- lazyvec:::altrep_duplicate_ex_method(x, TRUE)
+  res <- lazyvec:::altrep_trigger_duplicate_ex(x, TRUE)
   expect_false(is_altrep(res))
 })
 
 
 test_that("coerce_method trigger", {
-  res <- lazyvec:::altrep_coerce_method(x, 10)  # to logical
+  res <- lazyvec:::altrep_trigger_coerce(x, 10)  # to logical
   expect_null(res)
 })
 
 
 test_that("inspect_method trigger", {
-  res <- capture.output(lazyvec:::altrep_inspect_method(x, 1, 10, 10))
+  res <- capture.output(lazyvec:::altrep_trigger_inspect(x, 1, 10, 10))
   expect_equal(res, " 1 : 100 (compact)")
 })
 
 
 test_that("serialized_state trigger", {
-  res <- lazyvec:::altrep_serialized_state_method(x)
+  res <- lazyvec:::altrep_trigger_serialized_state(x)
   expect_equal(res, c(100, 1, 1))
 })
-

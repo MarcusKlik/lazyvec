@@ -73,5 +73,5 @@ altrep_check <- function(x) {
 altrep_length <- function(x) {
   altrep_check(x)
 
-  altrep_length_method(x)
+  altrep_trigger_length(x)
 }
