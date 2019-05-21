@@ -28,6 +28,9 @@
 #include <R_ext/Rdynload.h>
 #include "R_ext/Altrep.h"
 
+// settings
+#define LAZYVEC_VERSION 17  // 0 * 256 + 1 * 16 + 1 * 16
+
 // altvec listeners
 #define ALTREP_METHOD_LENGTH            0
 #define ALTREP_METHOD_DATAPTR_OR_NULL   1
