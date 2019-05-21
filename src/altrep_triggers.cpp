@@ -55,12 +55,13 @@ void inspect_subtree_helper(SEXP, int, int, int)
 }
   
 
-// pre is the prefix
-// x is the object to inspect
-// deep specifies the recursion behavior (0 = no recursion, -1 = [sort of] unlimited
-//   recursion, positive numbers define the maximum recursion depth)
-// pvec is the maximum number of vector elements to show
-    
+//' Trigger ALTREP_INSPECT method
+//' 
+//' @param x is the object to inspect
+//' @param pre is the prefix
+//' @param deep specifies the recursion behavior (0 = no recursion, -1 = [sort of] unlimited
+//'   recursion, positive numbers define the maximum recursion depth)
+//' @param pvec is the maximum number of vector elements to show
 // [[Rcpp::export]]
 void altrep_inspect_method(SEXP x, int pre, int deep, int pvec)
 {
@@ -68,7 +69,7 @@ void altrep_inspect_method(SEXP x, int pre, int deep, int pvec)
   {
     Rf_error("x is not an ALTREP vector");
   }
-  
+
   if (deep < -1)
   {
     Rf_error("deep specifies the recursion behavior: 0 = no recursion, -1 = [sort of] unlimited"
@@ -79,7 +80,7 @@ void altrep_inspect_method(SEXP x, int pre, int deep, int pvec)
   // {
   //   Rf_error("use a positive int for pVec");
   // }
-  
+
   ALTREP_INSPECT(x, pre, deep, pvec, inspect_subtree_helper);
 }
 
