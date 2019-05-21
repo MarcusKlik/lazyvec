@@ -79,6 +79,9 @@ SEXP altwrap_ALTREP_TYPE_UnserializeEX_method(SEXP info, SEXP state, SEXP attr, 
   SET_VECTOR_ELT(altrep_data1, 3, pkgs);
   
   SEXP altwrap_integer = PROTECT(ALTVEC_WRAPPER(altrep_data1));
+
+  // update the listeners with more current version here!
+  // (the listeners could be a package global)
   
   // now use the (updated) listener to display info
   
