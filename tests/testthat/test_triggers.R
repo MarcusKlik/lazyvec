@@ -44,7 +44,11 @@ test_that("serialized_state trigger", {
 })
 
 
-x <- 1:100
-y <- altrep_listener(x, "x")
-tmp_file <- tempfile()
-saveRDS(y, tmp_file)
+# x <- 1:100
+# y <- altrep_listener(x, "x")
+# tmp_file <- tempfile()
+# saveRDS(y, tmp_file)
+# z <- readRDS(tmp_file)
+# file.remove(tmp_file)
+# 
+# is_altrep(z)

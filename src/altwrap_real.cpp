@@ -69,21 +69,27 @@ SEXP altwrap_real_UnserializeEX_method(SEXP info, SEXP state, SEXP attr, int obj
 {
   Rcpp::Environment pkgs = Rcpp::Environment::namespace_env("lazyvec");
   
-  SEXP altrep_data1 = PROTECT(Rf_allocVector(VECSXP, 4));
+  SEXP altrep_data1 = PROTECT(Rf_allocVector(VECSXP, 5));
   SET_VECTOR_ELT(altrep_data1, 0, VECTOR_ELT(state, 0));
   SET_VECTOR_ELT(altrep_data1, 1, VECTOR_ELT(state, 1));
   SET_VECTOR_ELT(altrep_data1, 2, VECTOR_ELT(state, 2));
   SET_VECTOR_ELT(altrep_data1, 3, pkgs);
-  
+  SET_VECTOR_ELT(altrep_data1, 4, Rf_ScalarInteger(LAZYVEC_VERSION));
+
+  // create a new wrapper using the current lazyvec implementation
   SEXP altwrap_integer = PROTECT(altrep_real_wrapper(altrep_data1));
 
+  // get current listeners
+  SEXP listeners = PROTECT(ALTWRAP_LISTENERS(altwrap_integer));
+  SET_VECTOR_ELT(altrep_data1, 1, listeners);
+  
+  
   // update the listeners with more current version here!
   // (the listeners could be a package global)
   
   // now use the (updated) listener to display info
   
-  SEXP unserialize_ex_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(altwrap_integer),
-    ALTREP_METHOD_UNSERIALIZE_EX));
+  SEXP unserialize_ex_listener = PROTECT(VECTOR_ELT(listeners, ALTREP_METHOD_UNSERIALIZE_EX));
   
   SEXP altrep_info = PROTECT(Rf_allocVector(VECSXP, 5));
   SET_VECTOR_ELT(altrep_info, 0, info);
@@ -92,7 +98,7 @@ SEXP altwrap_real_UnserializeEX_method(SEXP info, SEXP state, SEXP attr, int obj
   SET_VECTOR_ELT(altrep_info, 3, Rf_ScalarInteger(objf));
   SET_VECTOR_ELT(altrep_info, 4, Rf_ScalarInteger(levs));
   
-  UNPROTECT(4);  // altrep_data1, altwrap_integer, unserialize_ex_listener, altrep_info
+  UNPROTECT(5);  // altrep_data1, altwrap_integer, unserialize_ex_listener, altrep_info, listeners
   
   call_r_interface(unserialize_ex_listener, altrep_info, pkgs);
   
