@@ -39,6 +39,17 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// altrep_serialized_state_method
+SEXP altrep_serialized_state_method(SEXP x);
+RcppExport SEXP _lazyvec_altrep_serialized_state_method(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(altrep_serialized_state_method(x));
+    return rcpp_result_gen;
+END_RCPP
+}
 // altrep_inspect_method
 void altrep_inspect_method(SEXP x, int pre, int deep, int pvec);
 RcppExport SEXP _lazyvec_altrep_inspect_method(SEXP xSEXP, SEXP preSEXP, SEXP deepSEXP, SEXP pvecSEXP) {
@@ -271,6 +282,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_lazyvec_altrep_full_class", (DL_FUNC) &_lazyvec_altrep_full_class, 1},
     {"_lazyvec_altrep_length_method", (DL_FUNC) &_lazyvec_altrep_length_method, 1},
     {"_lazyvec_altrep_duplicate_ex_method", (DL_FUNC) &_lazyvec_altrep_duplicate_ex_method, 2},
+    {"_lazyvec_altrep_serialized_state_method", (DL_FUNC) &_lazyvec_altrep_serialized_state_method, 1},
     {"_lazyvec_altrep_inspect_method", (DL_FUNC) &_lazyvec_altrep_inspect_method, 4},
     {"_lazyvec_altrep_coerce_method", (DL_FUNC) &_lazyvec_altrep_coerce_method, 2},
     {"_lazyvec_altrep_integer_Elt_method", (DL_FUNC) &_lazyvec_altrep_integer_Elt_method, 2},

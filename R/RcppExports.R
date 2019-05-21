@@ -13,6 +13,10 @@ altrep_duplicate_ex_method <- function(x, deep) {
     .Call(`_lazyvec_altrep_duplicate_ex_method`, x, deep)
 }
 
+altrep_serialized_state_method <- function(x) {
+    .Call(`_lazyvec_altrep_serialized_state_method`, x)
+}
+
 #' Trigger ALTREP_INSPECT method
 #' 
 #' @param x is the object to inspect

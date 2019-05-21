@@ -49,6 +49,21 @@ SEXP altrep_duplicate_ex_method(SEXP x, int deep)
 }
 
 
+// [[Rcpp::export]]
+SEXP altrep_serialized_state_method(SEXP x)
+{
+  SEXP res = PROTECT(ALTREP_SERIALIZED_STATE(x));
+  
+  if (!res)
+  {
+    res = R_NilValue;
+  }
+  
+  UNPROTECT(1);
+  return res;
+}
+
+
 // used as a proxy for the inspect_subtree method normally supplied by R
 void inspect_subtree_helper(SEXP, int, int, int)
 {
