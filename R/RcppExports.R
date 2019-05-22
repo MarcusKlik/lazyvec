@@ -21,13 +21,6 @@ altrep_trigger_unserialize_ex <- function(info, state, attr, objf, levs) {
     .Call(`_lazyvec_altrep_trigger_unserialize_ex`, info, state, attr, objf, levs)
 }
 
-#' Trigger ALTREP_INSPECT method
-#' 
-#' @param x is the object to inspect
-#' @param pre is the prefix
-#' @param deep specifies the recursion behavior (0 = no recursion, -1 = [sort of] unlimited
-#'   recursion, positive numbers define the maximum recursion depth)
-#' @param pvec is the maximum number of vector elements to show
 altrep_trigger_inspect <- function(x, pre, deep, pvec) {
     invisible(.Call(`_lazyvec_altrep_trigger_inspect`, x, pre, deep, pvec))
 }

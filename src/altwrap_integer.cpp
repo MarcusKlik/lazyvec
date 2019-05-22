@@ -111,28 +111,26 @@ SEXP altwrap_integer_Serialized_state_method(SEXP x)
   
   // length listener method
   SEXP serialized_state_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(x), ALTREP_METHOD_SERIALIZED_STATE));
-  
+
+  // payload does not implement serialized state
+  if (!serialized_state_result)
+  {
+    call_r_interface(serialized_state_listener, R_NilValue, ALTWRAP_PARENT_ENV(x));
+    UNPROTECT(2);
+    return NULL;
+  }
+
   // create serialization state
   SEXP serialized_state = PROTECT(Rf_allocVector(VECSXP, 5));
   SET_VECTOR_ELT(serialized_state, 0, ALTWRAP_PAYLOAD(x));
   SET_VECTOR_ELT(serialized_state, 1, ALTWRAP_LISTENERS(x));
   SET_VECTOR_ELT(serialized_state, 2, ALTWRAP_METADATA(x));
-  
-  if (!serialized_state_result)
-  {
-    SET_VECTOR_ELT(serialized_state, 3, serialized_state_result);
-    SET_VECTOR_ELT(serialized_state, 4, Rf_ScalarLogical(1));
-    call_r_interface(serialized_state_listener, R_NilValue, ALTWRAP_PARENT_ENV(x));
-  }
-  else
-  {
-    SET_VECTOR_ELT(serialized_state, 3, R_NilValue);
-    SET_VECTOR_ELT(serialized_state, 4, Rf_ScalarLogical(0));
-    call_r_interface(serialized_state_listener, serialized_state_result, ALTWRAP_PARENT_ENV(x));
-  }
-  
+  SET_VECTOR_ELT(serialized_state, 3, serialized_state_result);
+
+  call_r_interface(serialized_state_listener, serialized_state_result, ALTWRAP_PARENT_ENV(x));
+
   UNPROTECT(3);
-  
+
   return serialized_state;
 }
 

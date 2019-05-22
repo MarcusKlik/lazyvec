@@ -20,7 +20,6 @@
 #  - lazyvec R package source repository : https://github.com/fstpackage/lazyvec
 
 
-#' A vector of all ALTREP listener methods
 altrep_listeners <- function() {
   c(
     listener_length,
