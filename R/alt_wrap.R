@@ -20,6 +20,28 @@
 #  - lazyvec R package source repository : https://github.com/fstpackage/lazyvec
 
 
+#' A vector of all ALTREP listener methods
+altrep_listeners <- function() {
+  c(
+    listener_length,
+    listener_dataptr_or_null,
+    listener_get_region,
+    listener_element,
+    listener_dataptr,
+    listener_is_sorted,
+    listener_no_na,
+    listener_sum,
+    listener_min,
+    listener_max,
+    listener_inspect,
+    listener_unserialize_ex,
+    listener_serialized_state,
+    listener_duplicate_ex,
+    listener_coerce,
+    listener_extract_subset
+  )
+}
+
 #' Add listeners to an ALTREP vector to eavesdrop on all internal ALTREP calls 
 #' 
 #' This method adds a set of listeners to an ALTREP vector that can be used to
@@ -42,24 +64,7 @@ altrep_listener <- function(altrep_vec, vec_id) {
     altrep_vec,
 
     # package listener methods
-    c(
-      listener_length,
-      listener_dataptr_or_null,
-      listener_get_region,
-      listener_element,
-      listener_dataptr,
-      listener_is_sorted,
-      listener_no_na,
-      listener_sum,
-      listener_min,
-      listener_max,
-      listener_inspect,
-      listener_unserialize_ex,
-      listener_serialized_state,
-      listener_duplicate_ex,
-      listener_coerce,
-      listener_extract_subset
-    ),
+    altrep_listeners(),
 
     # identifyer, used in diagnostic output
     vec_id,

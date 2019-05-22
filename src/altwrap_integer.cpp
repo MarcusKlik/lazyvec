@@ -21,7 +21,6 @@
 
 
 #include <Rcpp.h>
-
 #include "api_helpers.h"
 #include <stdint.h>
 

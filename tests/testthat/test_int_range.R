@@ -13,8 +13,12 @@ test_that("arguments", {
 
 
 test_that("generate", {
-  # explicitly set sample source directory
-  lazyvec:::lazyvec_sample_copy("int_range", "../../inst/lazyvec_samples/", sample_path)
+  # when testing interactively
+  if (dir.exists("../../inst/lazyvec_samples/")) {
+    lazyvec:::lazyvec_sample_copy("int_range", "../../inst/lazyvec_samples/", sample_path)
+  } else {
+    lazyvec::lazyvec_skeleton("int_range", sample_path)
+  }
 
   expect_true(file.exists(sample_path))
 })
