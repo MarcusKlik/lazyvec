@@ -44,6 +44,8 @@ test_that("serialized_state trigger", {
 })
 
 
+# nolint start
+
 # x <- 1:100
 # y <- altrep_listener(x, "x")
 # tmp_file <- tempfile()
@@ -52,3 +54,5 @@ test_that("serialized_state trigger", {
 # file.remove(tmp_file)
 # 
 # is_altrep(z)
+
+# nolint end

@@ -28,3 +28,11 @@
 #' @importFrom utils tail
 #' @importFrom utils packageVersion
 NULL
+
+
+#' Return lazyvec version identifier
+#' 
+#' The version is calculated as: `256 * major_version + 16 * minor_version + patch_version`
+lazyvec_version <- function() {
+  17
+}
