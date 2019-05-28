@@ -23,8 +23,6 @@
 #include <Rcpp.h>
 #include "api_helpers.h"
 
-// general ALTREP methods
-  
 
 // [[Rcpp::export]]
 int trigger_length(SEXP x)
@@ -171,9 +169,146 @@ SEXP trigger_element(SEXP x, int pos)
     return Rf_ScalarString(STRING_ELT(x, pos));
   }
 
-  Rf_error("Method get_region cannot be called on a ALTREP vector of this type");
+  Rf_error("Method element cannot be called on a ALTREP vector of this type");
 
   return R_NilValue;
+}
+
+
+// [[Rcpp::export]]
+int trigger_is_sorted(SEXP x)
+{
+  int type = TYPEOF(x);
+  
+  if (type == INTSXP)
+  {
+    return INTEGER_IS_SORTED(x);
+  }
+  else if (type == LGLSXP)
+  {
+    return LOGICAL_IS_SORTED(x);
+  }
+  else if (type == REALSXP)
+  {
+    return REAL_IS_SORTED(x);
+  }
+
+  Rf_error("Method is_sorted cannot be called on a ALTREP vector of this type");
+
+  return 0;
+}
+
+
+// [[Rcpp::export]]
+int trigger_no_na(SEXP x)
+{
+  int type = TYPEOF(x);
+
+  if (type == INTSXP)
+  {
+    return INTEGER_NO_NA(x);
+  }
+  else if (type == LGLSXP)
+  {
+    return LOGICAL_NO_NA(x);
+  }
+  else if (type == REALSXP)
+  {
+    return REAL_NO_NA(x);
+  }
+  else if (type == STRSXP)
+  {
+    return STRING_NO_NA(x);
+  }
+
+  Rf_error("Method no_na cannot be called on a ALTREP vector of this type");
+  
+  return 0;
+}
+
+
+// [[Rcpp::export]]
+SEXP trigger_sum(SEXP x, SEXP na_rm)
+{
+  if (TYPEOF(na_rm) != LGLSXP || Rf_length(na_rm) < 1)
+  {
+    Rf_error("Please set na_rm using a logical value");
+  }
+
+  Rboolean na_remove = (Rboolean) LOGICAL(na_rm)[0];
+  
+  int type = TYPEOF(x);
+  
+  if (type == INTSXP)
+  {
+    return ALTINTEGER_SUM(x, na_remove);
+  }
+  else if (type == LGLSXP)
+  {
+    return ALTLOGICAL_SUM(x, na_remove);
+  }
+  else if (type == REALSXP)
+  {
+    return ALTREAL_SUM(x, na_remove);
+  }
+
+  Rf_error("Method sum cannot be called on a ALTREP vector of this type");
+  
+  return 0;
+}
+
+
+// [[Rcpp::export]]
+SEXP trigger_min(SEXP x, SEXP na_rm)
+{
+  if (TYPEOF(na_rm) != LGLSXP || Rf_length(na_rm) < 1)
+  {
+    Rf_error("Please set na_rm using a logical value");
+  }
+  
+  Rboolean na_remove = (Rboolean) LOGICAL(na_rm)[0];
+  
+  int type = TYPEOF(x);
+  
+  if (type == INTSXP)
+  {
+    return ALTINTEGER_MIN(x, na_remove);
+  }
+  else if (type == REALSXP)
+  {
+    return ALTREAL_MIN(x, na_remove);
+  }
+
+  Rf_error("Method min cannot be called on a ALTREP vector of this type");
+  
+  return 0;
+}
+
+
+// [[Rcpp::export]]
+SEXP trigger_max(SEXP x, SEXP na_rm)
+{
+  if (TYPEOF(na_rm) != LGLSXP || Rf_length(na_rm) < 1)
+  {
+    Rf_error("Please set na_rm using a logical value");
+  }
+  
+  Rboolean na_remove = (Rboolean) LOGICAL(na_rm)[0];
+  
+  int type = TYPEOF(x);
+  
+  if (type == INTSXP)
+  {
+    return ALTINTEGER_MAX(x, na_remove);
+  }
+  else if (type == REALSXP)
+  {
+    return ALTREAL_MAX(x, na_remove);
+  }
+  
+  Rf_error("Method max cannot be called on a ALTREP vector of this type");
+  
+  return 0;
 }
 
 
@@ -256,42 +391,4 @@ SEXP trigger_coerce(SEXP x, int type)
   SEXP res = ALTREP_COERCE(x, type);
 
   return sexp_or_null(res);
-}
-
-
-// integer methods
-
-
-// [[Rcpp::export]]
-int trigger_integer_is_sorted(SEXP x)
-{
-  return INTEGER_IS_SORTED(x);
-}
-
-
-// [[Rcpp::export]]
-int trigger_integer_no_na(SEXP x)
-{
-  return INTEGER_NO_NA(x);
-}
-
-
-// [[Rcpp::export]]
-SEXP trigger_integer_sum(SEXP x, int na_rm)
-{
-  return ALTINTEGER_SUM(x, (Rboolean) na_rm);
-}
-
-
-// [[Rcpp::export]]
-SEXP trigger_integer_min(SEXP x, int na_rm)
-{
-  return ALTINTEGER_MIN(x, (Rboolean) na_rm);
-}
-
-
-// [[Rcpp::export]]
-SEXP trigger_integer_max(SEXP x, int na_rm)
-{
-  return ALTINTEGER_MAX(x, (Rboolean) na_rm);
 }

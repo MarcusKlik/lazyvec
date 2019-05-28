@@ -4,16 +4,28 @@ context("triggers")
 # sample ALTREP vector
 x <- 1:100
 x_char <- as.character(x)
+x_real <- as.numeric(x)
+x_logical <- c(TRUE, FALSE, NA, TRUE, FALSE, NA)
 
 # general ALTREP methods
 
 test_that("is ALTREP vector", {
   expect_true(is_altrep(x))
+
+  expect_true(is_altrep(x_char))
+
+  expect_true(is_altrep(x_real))
+  
+  expect_false(is_altrep(x_logical))
 })
 
 
 test_that("length trigger", {
   expect_equal(lazyvec:::trigger_length(x), 100)
+
+  expect_equal(lazyvec:::trigger_length(x_char), 100)
+
+  expect_equal(lazyvec:::trigger_length(x_real), 100)
 })
 
 
@@ -23,6 +35,15 @@ test_that("get_region trigger", {
   expect_error(lazyvec:::trigger_get_region(x, 100, 5), "Position is outside vector boundaries")
 
   expect_error(lazyvec:::trigger_get_region(x, 10, 5000), "Size too large, resulting range is outside vector boundaries")
+  
+  expect_error(lazyvec:::trigger_get_region(x_char, 2, 5), "Method get_region cannot be called on a ALTREP vector of this type")
+  
+  expect_equal(lazyvec:::trigger_get_region(x_real, 2, 5), 3:7)
+
+  expect_error(lazyvec:::trigger_get_region(x_real, 100, 5), "Position is outside vector boundaries")
+  
+  expect_error(lazyvec:::trigger_get_region(x_real, 10, 5000), "Size too large, resulting range is outside vector boundaries")
+  
 })
 
 

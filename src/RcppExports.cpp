@@ -86,6 +86,64 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// trigger_is_sorted
+int trigger_is_sorted(SEXP x);
+RcppExport SEXP _lazyvec_trigger_is_sorted(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(trigger_is_sorted(x));
+    return rcpp_result_gen;
+END_RCPP
+}
+// trigger_no_na
+int trigger_no_na(SEXP x);
+RcppExport SEXP _lazyvec_trigger_no_na(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(trigger_no_na(x));
+    return rcpp_result_gen;
+END_RCPP
+}
+// trigger_sum
+SEXP trigger_sum(SEXP x, SEXP na_rm);
+RcppExport SEXP _lazyvec_trigger_sum(SEXP xSEXP, SEXP na_rmSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type na_rm(na_rmSEXP);
+    rcpp_result_gen = Rcpp::wrap(trigger_sum(x, na_rm));
+    return rcpp_result_gen;
+END_RCPP
+}
+// trigger_min
+SEXP trigger_min(SEXP x, SEXP na_rm);
+RcppExport SEXP _lazyvec_trigger_min(SEXP xSEXP, SEXP na_rmSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type na_rm(na_rmSEXP);
+    rcpp_result_gen = Rcpp::wrap(trigger_min(x, na_rm));
+    return rcpp_result_gen;
+END_RCPP
+}
+// trigger_max
+SEXP trigger_max(SEXP x, SEXP na_rm);
+RcppExport SEXP _lazyvec_trigger_max(SEXP xSEXP, SEXP na_rmSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type na_rm(na_rmSEXP);
+    rcpp_result_gen = Rcpp::wrap(trigger_max(x, na_rm));
+    return rcpp_result_gen;
+END_RCPP
+}
 // trigger_unserialize_ex
 SEXP trigger_unserialize_ex(SEXP info, SEXP state, SEXP attr, int objf, int levs);
 RcppExport SEXP _lazyvec_trigger_unserialize_ex(SEXP infoSEXP, SEXP stateSEXP, SEXP attrSEXP, SEXP objfSEXP, SEXP levsSEXP) {
@@ -123,64 +181,6 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
     Rcpp::traits::input_parameter< int >::type type(typeSEXP);
     rcpp_result_gen = Rcpp::wrap(trigger_coerce(x, type));
-    return rcpp_result_gen;
-END_RCPP
-}
-// trigger_integer_is_sorted
-int trigger_integer_is_sorted(SEXP x);
-RcppExport SEXP _lazyvec_trigger_integer_is_sorted(SEXP xSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(trigger_integer_is_sorted(x));
-    return rcpp_result_gen;
-END_RCPP
-}
-// trigger_integer_no_na
-int trigger_integer_no_na(SEXP x);
-RcppExport SEXP _lazyvec_trigger_integer_no_na(SEXP xSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(trigger_integer_no_na(x));
-    return rcpp_result_gen;
-END_RCPP
-}
-// trigger_integer_sum
-SEXP trigger_integer_sum(SEXP x, int na_rm);
-RcppExport SEXP _lazyvec_trigger_integer_sum(SEXP xSEXP, SEXP na_rmSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
-    Rcpp::traits::input_parameter< int >::type na_rm(na_rmSEXP);
-    rcpp_result_gen = Rcpp::wrap(trigger_integer_sum(x, na_rm));
-    return rcpp_result_gen;
-END_RCPP
-}
-// trigger_integer_min
-SEXP trigger_integer_min(SEXP x, int na_rm);
-RcppExport SEXP _lazyvec_trigger_integer_min(SEXP xSEXP, SEXP na_rmSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
-    Rcpp::traits::input_parameter< int >::type na_rm(na_rmSEXP);
-    rcpp_result_gen = Rcpp::wrap(trigger_integer_min(x, na_rm));
-    return rcpp_result_gen;
-END_RCPP
-}
-// trigger_integer_max
-SEXP trigger_integer_max(SEXP x, int na_rm);
-RcppExport SEXP _lazyvec_trigger_integer_max(SEXP xSEXP, SEXP na_rmSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
-    Rcpp::traits::input_parameter< int >::type na_rm(na_rmSEXP);
-    rcpp_result_gen = Rcpp::wrap(trigger_integer_max(x, na_rm));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -325,14 +325,14 @@ static const R_CallMethodDef CallEntries[] = {
     {"_lazyvec_trigger_dataptr_or_null", (DL_FUNC) &_lazyvec_trigger_dataptr_or_null, 1},
     {"_lazyvec_trigger_get_region", (DL_FUNC) &_lazyvec_trigger_get_region, 3},
     {"_lazyvec_trigger_element", (DL_FUNC) &_lazyvec_trigger_element, 2},
+    {"_lazyvec_trigger_is_sorted", (DL_FUNC) &_lazyvec_trigger_is_sorted, 1},
+    {"_lazyvec_trigger_no_na", (DL_FUNC) &_lazyvec_trigger_no_na, 1},
+    {"_lazyvec_trigger_sum", (DL_FUNC) &_lazyvec_trigger_sum, 2},
+    {"_lazyvec_trigger_min", (DL_FUNC) &_lazyvec_trigger_min, 2},
+    {"_lazyvec_trigger_max", (DL_FUNC) &_lazyvec_trigger_max, 2},
     {"_lazyvec_trigger_unserialize_ex", (DL_FUNC) &_lazyvec_trigger_unserialize_ex, 5},
     {"_lazyvec_trigger_inspect", (DL_FUNC) &_lazyvec_trigger_inspect, 4},
     {"_lazyvec_trigger_coerce", (DL_FUNC) &_lazyvec_trigger_coerce, 2},
-    {"_lazyvec_trigger_integer_is_sorted", (DL_FUNC) &_lazyvec_trigger_integer_is_sorted, 1},
-    {"_lazyvec_trigger_integer_no_na", (DL_FUNC) &_lazyvec_trigger_integer_no_na, 1},
-    {"_lazyvec_trigger_integer_sum", (DL_FUNC) &_lazyvec_trigger_integer_sum, 2},
-    {"_lazyvec_trigger_integer_min", (DL_FUNC) &_lazyvec_trigger_integer_min, 2},
-    {"_lazyvec_trigger_integer_max", (DL_FUNC) &_lazyvec_trigger_integer_max, 2},
     {"_lazyvec_altrep_integer_wrapper", (DL_FUNC) &_lazyvec_altrep_integer_wrapper, 1},
     {"_lazyvec_altrep_logical_wrapper", (DL_FUNC) &_lazyvec_altrep_logical_wrapper, 1},
     {"_lazyvec_altrep_raw_wrapper", (DL_FUNC) &_lazyvec_altrep_raw_wrapper, 1},

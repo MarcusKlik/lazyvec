@@ -4,7 +4,6 @@ context("linstener")
 # sample ALTREP vector
 x <- 1:100
 
-
 # general ALTREP methods
 
 test_that("is ALTREP vector", {
