@@ -29,6 +29,10 @@ trigger_get_region <- function(x, pos, size) {
     .Call(`_lazyvec_trigger_get_region`, x, pos, size)
 }
 
+trigger_extract_subset <- function(x, indx) {
+    .Call(`_lazyvec_trigger_extract_subset`, x, indx)
+}
+
 trigger_element <- function(x, pos) {
     .Call(`_lazyvec_trigger_element`, x, pos)
 }

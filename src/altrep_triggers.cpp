@@ -188,6 +188,15 @@ SEXP trigger_get_region(SEXP x, SEXP pos, SEXP size)
 
 
 // [[Rcpp::export]]
+SEXP trigger_extract_subset(SEXP x, SEXP indx)
+{
+  test_altrep(x);
+
+  return ALTVEC_EXTRACT_SUBSET(x, indx, R_NilValue);
+}
+
+
+// [[Rcpp::export]]
 SEXP trigger_element(SEXP x, int pos)
 {
   test_altrep(x);

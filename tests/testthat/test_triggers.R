@@ -147,7 +147,7 @@ test_that("serialized_state trigger", {
 })
 
 
-# must be the last test because afterwards, the vector is expanded
+# after this test, the vector will be in it's expanded form
 test_that("dataptr trigger", {
   res <- lazyvec:::trigger_dataptr(x)
   expect_true(sum(res) > 0)
