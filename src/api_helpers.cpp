@@ -22,6 +22,17 @@
 
 #include "api_helpers.h"
 
+// Convert nullptr to R_NilValue
+SEXP sexp_or_null(SEXP res)
+{
+  if (!res)
+  {
+    return R_NilValue;
+  }
+  
+  return res;
+}
+
 // Call a single argument R function from the C API and evaluate in environment rho
 SEXP call_r_interface(SEXP f, SEXP x, SEXP rho) {
 

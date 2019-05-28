@@ -33,17 +33,6 @@ void test_altrep(SEXP x)
 }
 
 
-SEXP sexp_or_null(SEXP res)
-{
-  if (!res)
-  {
-    return R_NilValue;
-  }
-  
-  return res;
-}
-
-
 // [[Rcpp::export]]
 int trigger_length(SEXP x)
 {
@@ -199,9 +188,7 @@ SEXP trigger_extract_subset(SEXP x, SEXP indx)
     Rf_error("Please use a numeric index");
   }
     
-  SEXP indices = Rf_coerceVector(indx, INTSXP);
-
-  return sexp_or_null(ALTVEC_EXTRACT_SUBSET(x, indices, R_NilValue));
+  return sexp_or_null(ALTVEC_EXTRACT_SUBSET(x, indx, R_NilValue));
 }
 
 
@@ -405,9 +392,9 @@ SEXP trigger_max(SEXP x, SEXP na_rm)
 
 
 // [[Rcpp::export]]
-SEXP trigger_unserialize_ex(SEXP info, SEXP state, SEXP attr, int objf, int levs)
+SEXP trigger_unserialize_ex(SEXP class_info, SEXP state, SEXP attr, int objf, int levs)
 {
-  SEXP res = ALTREP_UNSERIALIZE_EX(info, state, attr, objf, levs);
+  SEXP res = ALTREP_UNSERIALIZE_EX(class_info, state, attr, objf, levs);
   
   return sexp_or_null(res);
 }
@@ -427,7 +414,7 @@ void inspect_subtree_helper(SEXP, int, int, int)
 //   recursion, positive numbers define the maximum recursion depth)
 // pvec is the maximum number of vector elements to show
 // [[Rcpp::export]]
-void trigger_inspect(SEXP x, int pre, int deep, int pvec)
+int trigger_inspect(SEXP x, int pre, int deep, int pvec)
 {
   test_altrep(x);
 
@@ -442,19 +429,9 @@ void trigger_inspect(SEXP x, int pre, int deep, int pvec)
   //   Rf_error("use a positive int for pVec");
   // }
 
-  ALTREP_INSPECT(x, pre, deep, pvec, inspect_subtree_helper);
+  return ALTREP_INSPECT(x, pre, deep, pvec, inspect_subtree_helper);
 }
 
-
-// Valid SEXP types:
-// 10  |  LGLSXP
-// 13  |  INTSXP
-// 14  |  REALSXP
-// 15  |  CPLXSXP
-// 16  |  STRSXP
-// 19  |  VECSXP
-// 24  |  RAWSXP
-// 20  |  EXPRSXP
 
 // [[Rcpp::export]]
 SEXP trigger_coerce(SEXP x, int type)
@@ -465,7 +442,7 @@ SEXP trigger_coerce(SEXP x, int type)
   {
     Rf_error("x is not an ALTREP vector");
   }
-  
+
   if ((type != LGLSXP) &&
       (type != INTSXP) &&
       (type != REALSXP) &&

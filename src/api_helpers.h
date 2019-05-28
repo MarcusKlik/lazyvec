@@ -108,6 +108,9 @@ typedef void (*inspect_subtree_method)(SEXP, int, int, int);
   R_set_##CNAME##_##MNAME##_method(lazyvec_##TNAME##_class, lazyvec_##TNAME##_##MNAME##_method)
 
 
+// convert nullptr to R_NilValue
+SEXP sexp_or_null(SEXP res);
+
 // call R function with a single argument from the C API
 SEXP call_r_interface(SEXP f, SEXP x, SEXP rho);
 
