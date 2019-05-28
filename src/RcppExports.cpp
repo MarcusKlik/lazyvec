@@ -74,6 +74,18 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// trigger_element
+SEXP trigger_element(SEXP x, int pos);
+RcppExport SEXP _lazyvec_trigger_element(SEXP xSEXP, SEXP posSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
+    Rcpp::traits::input_parameter< int >::type pos(posSEXP);
+    rcpp_result_gen = Rcpp::wrap(trigger_element(x, pos));
+    return rcpp_result_gen;
+END_RCPP
+}
 // trigger_unserialize_ex
 SEXP trigger_unserialize_ex(SEXP info, SEXP state, SEXP attr, int objf, int levs);
 RcppExport SEXP _lazyvec_trigger_unserialize_ex(SEXP infoSEXP, SEXP stateSEXP, SEXP attrSEXP, SEXP objfSEXP, SEXP levsSEXP) {
@@ -111,18 +123,6 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
     Rcpp::traits::input_parameter< int >::type type(typeSEXP);
     rcpp_result_gen = Rcpp::wrap(trigger_coerce(x, type));
-    return rcpp_result_gen;
-END_RCPP
-}
-// trigger_integer_Elt
-int trigger_integer_Elt(SEXP x, int i);
-RcppExport SEXP _lazyvec_trigger_integer_Elt(SEXP xSEXP, SEXP iSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
-    Rcpp::traits::input_parameter< int >::type i(iSEXP);
-    rcpp_result_gen = Rcpp::wrap(trigger_integer_Elt(x, i));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -324,10 +324,10 @@ static const R_CallMethodDef CallEntries[] = {
     {"_lazyvec_trigger_serialized_state", (DL_FUNC) &_lazyvec_trigger_serialized_state, 1},
     {"_lazyvec_trigger_dataptr_or_null", (DL_FUNC) &_lazyvec_trigger_dataptr_or_null, 1},
     {"_lazyvec_trigger_get_region", (DL_FUNC) &_lazyvec_trigger_get_region, 3},
+    {"_lazyvec_trigger_element", (DL_FUNC) &_lazyvec_trigger_element, 2},
     {"_lazyvec_trigger_unserialize_ex", (DL_FUNC) &_lazyvec_trigger_unserialize_ex, 5},
     {"_lazyvec_trigger_inspect", (DL_FUNC) &_lazyvec_trigger_inspect, 4},
     {"_lazyvec_trigger_coerce", (DL_FUNC) &_lazyvec_trigger_coerce, 2},
-    {"_lazyvec_trigger_integer_Elt", (DL_FUNC) &_lazyvec_trigger_integer_Elt, 2},
     {"_lazyvec_trigger_integer_is_sorted", (DL_FUNC) &_lazyvec_trigger_integer_is_sorted, 1},
     {"_lazyvec_trigger_integer_no_na", (DL_FUNC) &_lazyvec_trigger_integer_no_na, 1},
     {"_lazyvec_trigger_integer_sum", (DL_FUNC) &_lazyvec_trigger_integer_sum, 2},

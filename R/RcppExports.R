@@ -25,6 +25,10 @@ trigger_get_region <- function(x, pos, size) {
     .Call(`_lazyvec_trigger_get_region`, x, pos, size)
 }
 
+trigger_element <- function(x, pos) {
+    .Call(`_lazyvec_trigger_element`, x, pos)
+}
+
 trigger_unserialize_ex <- function(info, state, attr, objf, levs) {
     .Call(`_lazyvec_trigger_unserialize_ex`, info, state, attr, objf, levs)
 }
@@ -35,10 +39,6 @@ trigger_inspect <- function(x, pre, deep, pvec) {
 
 trigger_coerce <- function(x, type) {
     .Call(`_lazyvec_trigger_coerce`, x, type)
-}
-
-trigger_integer_Elt <- function(x, i) {
-    .Call(`_lazyvec_trigger_integer_Elt`, x, i)
 }
 
 trigger_integer_is_sorted <- function(x) {

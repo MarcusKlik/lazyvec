@@ -3,7 +3,7 @@ context("triggers")
 
 # sample ALTREP vector
 x <- 1:100
-
+x_char <- as.character(x)
 
 # general ALTREP methods
 
@@ -19,6 +19,21 @@ test_that("length trigger", {
 
 test_that("get_region trigger", {
   expect_equal(lazyvec:::trigger_get_region(x, 2, 5), 3:7)
+  
+  expect_error(lazyvec:::trigger_get_region(x, 100, 5), "Position is outside vector boundaries")
+
+  expect_error(lazyvec:::trigger_get_region(x, 10, 5000), "Size too large, resulting range is outside vector boundaries")
+})
+
+
+test_that("element trigger", {
+  expect_equal(lazyvec:::trigger_element(x, 3), 4)
+  
+  expect_error(lazyvec:::trigger_element(x, 1000), "Position is outside vector boundaries")
+
+  expect_equal(lazyvec:::trigger_element(x_char, 3), "4")
+  
+  expect_error(lazyvec:::trigger_element(x_char, 1000), "Position is outside vector boundaries")
 })
 
 
@@ -47,17 +62,3 @@ test_that("serialized_state trigger", {
   res <- lazyvec:::trigger_serialized_state(x)
   expect_equal(res, c(100, 1, 1))
 })
-
-
-# nolint start
-
-# x <- 1:100
-# y <- altrep_listener(x, "x")
-# tmp_file <- tempfile()
-# saveRDS(y, tmp_file)
-# z <- readRDS(tmp_file)
-# file.remove(tmp_file)
-# 
-# is_altrep(z)
-
-# nolint end

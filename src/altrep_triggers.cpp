@@ -89,11 +89,7 @@ SEXP trigger_dataptr_or_null(SEXP x)
 // [[Rcpp::export]]
 SEXP trigger_get_region(SEXP x, SEXP pos, SEXP size)
 {
-  int type = TYPEOF(x);
-
-  // expect pos and size arguments of the correct type at this point
-
-  R_xlen_t vec_length = R_xlen_t(x);
+  R_xlen_t vec_length = Rf_length(x);
   R_xlen_t vec_pos = INTEGER(Rf_coerceVector(pos, INTSXP))[0];
   R_xlen_t vec_size = INTEGER(Rf_coerceVector(size, INTSXP))[0];
 
@@ -110,6 +106,8 @@ SEXP trigger_get_region(SEXP x, SEXP pos, SEXP size)
   }
   
   SEXP res;
+  
+  int type = TYPEOF(x);
 
   switch (type)
   {
@@ -134,7 +132,48 @@ SEXP trigger_get_region(SEXP x, SEXP pos, SEXP size)
         break;
   }
 
+  UNPROTECT(1);
+  
   return res;
+}
+
+
+// [[Rcpp::export]]
+SEXP trigger_element(SEXP x, int pos)
+{
+  R_xlen_t vec_length = Rf_length(x);
+  
+  if (pos < 0 || pos >= vec_length)
+  {
+    Rf_error("Position is outside vector boundaries");
+  }
+  
+  int type = TYPEOF(x);
+  
+  if (type == INTSXP)
+  {
+    return Rf_ScalarInteger(INTEGER_ELT(x, pos));
+  }
+  else if (type == LGLSXP)
+  {
+    return Rf_ScalarLogical(LOGICAL_ELT(x, pos));
+  }
+  else if (type == REALSXP)
+  {
+    return Rf_ScalarReal(REAL_ELT(x, pos));
+  }
+  else if (type == RAWSXP)
+  {
+    return Rf_ScalarRaw(RAW_ELT(x, pos));
+  }
+  else if (type == STRSXP)
+  {
+    return Rf_ScalarString(STRING_ELT(x, pos));
+  }
+
+  Rf_error("Method get_region cannot be called on a ALTREP vector of this type");
+
+  return R_NilValue;
 }
 
 
@@ -221,12 +260,6 @@ SEXP trigger_coerce(SEXP x, int type)
 
 
 // integer methods
-
-// [[Rcpp::export]]
-int trigger_integer_Elt(SEXP x, int i)
-{
-  return INTEGER_ELT(x, i);
-}
 
 
 // [[Rcpp::export]]

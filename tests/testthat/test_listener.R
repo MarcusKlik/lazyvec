@@ -33,8 +33,6 @@ test_that("dataptr_or_null listener", {
 })
 
 
-lazyvec:::trigger_get_region(y)
-
 test_that("duplicate_ex trigger", {
   res <- lazyvec:::altrep_trigger_duplicate_ex(x, FALSE)
   expect_false(is_altrep(res))
