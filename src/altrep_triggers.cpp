@@ -33,15 +33,6 @@ void test_altrep(SEXP x)
 }
 
 
-// [[Rcpp::export]]
-int trigger_length(SEXP x)
-{
-  test_altrep(x);
-
-  return (int)(ALTREP_LENGTH(x));
-}
-
-
 SEXP sexp_or_null(SEXP res)
 {
   if (!res)
@@ -50,6 +41,15 @@ SEXP sexp_or_null(SEXP res)
   }
   
   return res;
+}
+
+
+// [[Rcpp::export]]
+int trigger_length(SEXP x)
+{
+  test_altrep(x);
+
+  return (int)(ALTREP_LENGTH(x));
 }
 
 
@@ -278,15 +278,18 @@ SEXP trigger_sum(SEXP x, SEXP na_rm)
   
   if (type == INTSXP)
   {
-    return ALTINTEGER_SUM(x, na_remove);
+    SEXP res = ALTINTEGER_SUM(x, na_remove);
+    return sexp_or_null(res);
   }
   else if (type == LGLSXP)
   {
-    return ALTLOGICAL_SUM(x, na_remove);
+    SEXP res = ALTLOGICAL_SUM(x, na_remove);
+    return sexp_or_null(res);
   }
   else if (type == REALSXP)
   {
-    return ALTREAL_SUM(x, na_remove);
+    SEXP res = ALTREAL_SUM(x, na_remove);
+    return sexp_or_null(res);
   }
 
   Rf_error("Method sum cannot be called on a ALTREP vector of this type");

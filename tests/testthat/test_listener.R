@@ -12,8 +12,8 @@ test_that("is ALTREP vector", {
 
 
 test_that("non ALTREP vector", {
-  expect_error(altrep_listener(c(1,5)), "vector is not an ALTREP vector")
-  
+  expect_error(altrep_listener(c(1, 5)), "vector is not an ALTREP vector")
+
   y <- altrep_listener(x, "x")  # no error
 })
 
@@ -32,42 +32,28 @@ test_that("dataptr_or_null listener", {
 })
 
 
-test_that("duplicate_ex trigger", {
-  res <- lazyvec:::altrep_trigger_duplicate_ex(x, FALSE)
+test_that("duplicate_ex listener", {
+  res <- lazyvec:::trigger_duplicate_ex(x, FALSE)
   expect_false(is_altrep(res))
 
-  res <- lazyvec:::altrep_trigger_duplicate_ex(x, TRUE)
+  res <- lazyvec:::trigger_duplicate_ex(x, TRUE)
   expect_false(is_altrep(res))
 })
 
 
-test_that("coerce_method trigger", {
-  res <- lazyvec:::altrep_trigger_coerce(x, 10)  # to logical
+test_that("coerce_method listener", {
+  res <- lazyvec:::trigger_coerce(x, 10)  # to logical
   expect_null(res)
 })
 
 
-test_that("inspect_method trigger", {
-  res <- capture.output(lazyvec:::altrep_trigger_inspect(x, 1, 10, 10))
+test_that("inspect_method listener", {
+  res <- capture.output(lazyvec:::trigger_inspect(x, 1, 10, 10))
   expect_equal(res, " 1 : 100 (compact)")
 })
 
 
-test_that("serialized_state trigger", {
-  res <- lazyvec:::altrep_trigger_serialized_state(x)
+test_that("serialized_state listener", {
+  res <- lazyvec:::trigger_serialized_state(x)
   expect_equal(res, c(100, 1, 1))
 })
-
-
-# nolint start
-
-# x <- 1:100
-# y <- altrep_listener(x, "x")
-# tmp_file <- tempfile()
-# saveRDS(y, tmp_file)
-# z <- readRDS(tmp_file)
-# file.remove(tmp_file)
-# 
-# is_altrep(z)
-
-# nolint end
