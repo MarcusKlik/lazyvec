@@ -23,12 +23,11 @@
 #include <Rcpp.h>
 #include "api_helpers.h"
 
-
 // general ALTREP methods
   
 
 // [[Rcpp::export]]
-int altrep_trigger_length(SEXP x)
+int trigger_length(SEXP x)
 {
   return (int)(ALTREP_LENGTH(x));
 }
@@ -46,7 +45,7 @@ SEXP sexp_or_null(SEXP res)
 
 
 // [[Rcpp::export]]
-SEXP altrep_trigger_duplicate_ex(SEXP x, int deep)
+SEXP trigger_duplicate_ex(SEXP x, int deep)
 {
   SEXP res = ALTREP_DUPLICATE_EX(x, (Rboolean) deep);
 
@@ -55,7 +54,7 @@ SEXP altrep_trigger_duplicate_ex(SEXP x, int deep)
 
 
 // [[Rcpp::export]]
-SEXP altrep_trigger_serialized_state(SEXP x)
+SEXP trigger_serialized_state(SEXP x)
 {
   SEXP res = ALTREP_SERIALIZED_STATE(x);
 
@@ -64,7 +63,83 @@ SEXP altrep_trigger_serialized_state(SEXP x)
 
 
 // [[Rcpp::export]]
-SEXP altrep_trigger_unserialize_ex(SEXP info, SEXP state, SEXP attr, int objf, int levs)
+SEXP trigger_dataptr_or_null(SEXP x)
+{
+  const void* dataptr = DATAPTR_OR_NULL(x);
+
+  if (dataptr == NULL)
+  {
+    return R_NilValue;
+  }
+
+  uint64_t ptr_address = (uint64_t) dataptr;
+
+  SEXP pointer = PROTECT(Rf_allocVector(INTSXP, 2));
+  int* pointer_values = INTEGER(pointer);
+  
+  pointer_values[0] = (int32_t) (ptr_address >> 32);
+  pointer_values[1] = ptr_address & ((1LL << 32) - 1);
+  
+  UNPROTECT(1);
+  
+  return pointer;
+}
+
+
+// [[Rcpp::export]]
+SEXP trigger_get_region(SEXP x, SEXP pos, SEXP size)
+{
+  int type = TYPEOF(x);
+
+  // expect pos and size arguments of the correct type at this point
+
+  R_xlen_t vec_length = R_xlen_t(x);
+  R_xlen_t vec_pos = INTEGER(Rf_coerceVector(pos, INTSXP))[0];
+  R_xlen_t vec_size = INTEGER(Rf_coerceVector(size, INTSXP))[0];
+
+  if (vec_pos < 0 || vec_pos > (vec_length - 1))
+  {
+    Rf_error("Position is outside vector boundaries");
+  }
+
+  R_xlen_t end_pos = vec_pos + vec_size - 1;
+  
+  if (end_pos < 0 || end_pos > (vec_length - 1))
+  {
+    Rf_error("Size too large, resulting range is outside vector boundaries");
+  }
+  
+  SEXP res;
+
+  switch (type)
+  {
+    case INTSXP:
+      res = PROTECT(Rf_allocVector(INTSXP, vec_size)); 
+      INTEGER_GET_REGION(x, vec_pos, vec_size, INTEGER(res));
+      break;
+    case LGLSXP:
+      res = PROTECT(Rf_allocVector(LGLSXP, vec_size)); 
+      LOGICAL_GET_REGION(x, vec_pos, vec_size, LOGICAL(res));
+      break;
+    case REALSXP:
+      res = PROTECT(Rf_allocVector(REALSXP, vec_size)); 
+      REAL_GET_REGION(x, vec_pos, vec_size, REAL(res));
+      break;
+    case RAWSXP:
+      res = PROTECT(Rf_allocVector(RAWSXP, vec_size)); 
+      RAW_GET_REGION(x, vec_pos, vec_size, RAW(res));
+      break;
+    default:
+        Rf_error("Method get_region cannot be called on a ALTREP vector of this type");
+        break;
+  }
+
+  return res;
+}
+
+
+// [[Rcpp::export]]
+SEXP trigger_unserialize_ex(SEXP info, SEXP state, SEXP attr, int objf, int levs)
 {
   SEXP res = ALTREP_UNSERIALIZE_EX(info, state, attr, objf, levs);
   
@@ -86,7 +161,7 @@ void inspect_subtree_helper(SEXP, int, int, int)
 //   recursion, positive numbers define the maximum recursion depth)
 // pvec is the maximum number of vector elements to show
 // [[Rcpp::export]]
-void altrep_trigger_inspect(SEXP x, int pre, int deep, int pvec)
+void trigger_inspect(SEXP x, int pre, int deep, int pvec)
 {
   if (!is_altrep_vector(x))
   {
@@ -119,7 +194,7 @@ void altrep_trigger_inspect(SEXP x, int pre, int deep, int pvec)
 // 20  |  EXPRSXP
 
 // [[Rcpp::export]]
-SEXP altrep_trigger_coerce(SEXP x, int type)
+SEXP trigger_coerce(SEXP x, int type)
 {
   if (!is_altrep_vector(x))
   {
@@ -148,42 +223,42 @@ SEXP altrep_trigger_coerce(SEXP x, int type)
 // integer methods
 
 // [[Rcpp::export]]
-int altrep_trigger_integer_Elt(SEXP x, int i)
+int trigger_integer_Elt(SEXP x, int i)
 {
   return INTEGER_ELT(x, i);
 }
 
 
 // [[Rcpp::export]]
-int altrep_trigger_integer_is_sorted(SEXP x)
+int trigger_integer_is_sorted(SEXP x)
 {
   return INTEGER_IS_SORTED(x);
 }
 
 
 // [[Rcpp::export]]
-int altrep_trigger_integer_no_na(SEXP x)
+int trigger_integer_no_na(SEXP x)
 {
   return INTEGER_NO_NA(x);
 }
 
 
 // [[Rcpp::export]]
-SEXP altrep_trigger_integer_sum(SEXP x, int na_rm)
+SEXP trigger_integer_sum(SEXP x, int na_rm)
 {
   return ALTINTEGER_SUM(x, (Rboolean) na_rm);
 }
 
 
 // [[Rcpp::export]]
-SEXP altrep_trigger_integer_min(SEXP x, int na_rm)
+SEXP trigger_integer_min(SEXP x, int na_rm)
 {
   return ALTINTEGER_MIN(x, (Rboolean) na_rm);
 }
 
 
 // [[Rcpp::export]]
-SEXP altrep_trigger_integer_max(SEXP x, int na_rm)
+SEXP trigger_integer_max(SEXP x, int na_rm)
 {
   return ALTINTEGER_MAX(x, (Rboolean) na_rm);
 }

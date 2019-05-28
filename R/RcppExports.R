@@ -5,52 +5,60 @@ altrep_full_class <- function(altrep_vec) {
     .Call(`_lazyvec_altrep_full_class`, altrep_vec)
 }
 
-altrep_trigger_length <- function(x) {
-    .Call(`_lazyvec_altrep_trigger_length`, x)
+trigger_length <- function(x) {
+    .Call(`_lazyvec_trigger_length`, x)
 }
 
-altrep_trigger_duplicate_ex <- function(x, deep) {
-    .Call(`_lazyvec_altrep_trigger_duplicate_ex`, x, deep)
+trigger_duplicate_ex <- function(x, deep) {
+    .Call(`_lazyvec_trigger_duplicate_ex`, x, deep)
 }
 
-altrep_trigger_serialized_state <- function(x) {
-    .Call(`_lazyvec_altrep_trigger_serialized_state`, x)
+trigger_serialized_state <- function(x) {
+    .Call(`_lazyvec_trigger_serialized_state`, x)
 }
 
-altrep_trigger_unserialize_ex <- function(info, state, attr, objf, levs) {
-    .Call(`_lazyvec_altrep_trigger_unserialize_ex`, info, state, attr, objf, levs)
+trigger_dataptr_or_null <- function(x) {
+    .Call(`_lazyvec_trigger_dataptr_or_null`, x)
 }
 
-altrep_trigger_inspect <- function(x, pre, deep, pvec) {
-    invisible(.Call(`_lazyvec_altrep_trigger_inspect`, x, pre, deep, pvec))
+trigger_get_region <- function(x, pos, size) {
+    .Call(`_lazyvec_trigger_get_region`, x, pos, size)
 }
 
-altrep_trigger_coerce <- function(x, type) {
-    .Call(`_lazyvec_altrep_trigger_coerce`, x, type)
+trigger_unserialize_ex <- function(info, state, attr, objf, levs) {
+    .Call(`_lazyvec_trigger_unserialize_ex`, info, state, attr, objf, levs)
 }
 
-altrep_trigger_integer_Elt <- function(x, i) {
-    .Call(`_lazyvec_altrep_trigger_integer_Elt`, x, i)
+trigger_inspect <- function(x, pre, deep, pvec) {
+    invisible(.Call(`_lazyvec_trigger_inspect`, x, pre, deep, pvec))
 }
 
-altrep_trigger_integer_is_sorted <- function(x) {
-    .Call(`_lazyvec_altrep_trigger_integer_is_sorted`, x)
+trigger_coerce <- function(x, type) {
+    .Call(`_lazyvec_trigger_coerce`, x, type)
 }
 
-altrep_trigger_integer_no_na <- function(x) {
-    .Call(`_lazyvec_altrep_trigger_integer_no_na`, x)
+trigger_integer_Elt <- function(x, i) {
+    .Call(`_lazyvec_trigger_integer_Elt`, x, i)
 }
 
-altrep_trigger_integer_sum <- function(x, na_rm) {
-    .Call(`_lazyvec_altrep_trigger_integer_sum`, x, na_rm)
+trigger_integer_is_sorted <- function(x) {
+    .Call(`_lazyvec_trigger_integer_is_sorted`, x)
 }
 
-altrep_trigger_integer_min <- function(x, na_rm) {
-    .Call(`_lazyvec_altrep_trigger_integer_min`, x, na_rm)
+trigger_integer_no_na <- function(x) {
+    .Call(`_lazyvec_trigger_integer_no_na`, x)
 }
 
-altrep_trigger_integer_max <- function(x, na_rm) {
-    .Call(`_lazyvec_altrep_trigger_integer_max`, x, na_rm)
+trigger_integer_sum <- function(x, na_rm) {
+    .Call(`_lazyvec_trigger_integer_sum`, x, na_rm)
+}
+
+trigger_integer_min <- function(x, na_rm) {
+    .Call(`_lazyvec_trigger_integer_min`, x, na_rm)
+}
+
+trigger_integer_max <- function(x, na_rm) {
+    .Call(`_lazyvec_trigger_integer_max`, x, na_rm)
 }
 
 altrep_integer_wrapper <- function(data) {
