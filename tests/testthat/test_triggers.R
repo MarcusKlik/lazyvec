@@ -147,6 +147,13 @@ test_that("serialized_state trigger", {
 })
 
 
+test_that("extract_subset trigger", {
+  expect_null(lazyvec:::trigger_extract_subset(x, c(1, 3, 5)))
+
+  expect_error(lazyvec:::trigger_extract_subset(x, "incorrect index"), "Please use a numeric index")
+})
+
+
 # after this test, the vector will be in it's expanded form
 test_that("dataptr trigger", {
   res <- lazyvec:::trigger_dataptr(x)

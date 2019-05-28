@@ -192,7 +192,16 @@ SEXP trigger_extract_subset(SEXP x, SEXP indx)
 {
   test_altrep(x);
 
-  return ALTVEC_EXTRACT_SUBSET(x, indx, R_NilValue);
+  int type = TYPEOF(indx);
+  
+  if (type != INTSXP && type != REALSXP)
+  {
+    Rf_error("Please use a numeric index");
+  }
+    
+  SEXP indices = Rf_coerceVector(indx, INTSXP);
+
+  return sexp_or_null(ALTVEC_EXTRACT_SUBSET(x, indices, R_NilValue));
 }
 
 
