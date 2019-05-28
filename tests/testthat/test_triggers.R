@@ -5,9 +5,7 @@ context("triggers")
 x <- 1:100
 x_char <- as.character(x)
 x_real <- as.numeric(x)
-x_logical <- c(TRUE, FALSE, NA, TRUE, FALSE, NA)
 
-# general ALTREP methods
 
 test_that("is ALTREP vector", {
   expect_true(is_altrep(x))
@@ -43,7 +41,6 @@ test_that("get_region trigger", {
   expect_error(lazyvec:::trigger_get_region(x_real, 100, 5), "Position is outside vector boundaries")
   
   expect_error(lazyvec:::trigger_get_region(x_real, 10, 5000), "Size too large, resulting range is outside vector boundaries")
-  
 })
 
 
@@ -55,6 +52,62 @@ test_that("element trigger", {
   expect_equal(lazyvec:::trigger_element(x_char, 3), "4")
   
   expect_error(lazyvec:::trigger_element(x_char, 1000), "Position is outside vector boundaries")
+
+  expect_equal(lazyvec:::trigger_element(x_real, 3), 4)
+
+  expect_error(lazyvec:::trigger_element(x_real, 1000), "Position is outside vector boundaries")
+})
+
+
+test_that("is_sorted trigger", {
+  expect_equal(lazyvec:::trigger_is_sorted(x), 1)
+
+  expect_equal(lazyvec:::trigger_is_sorted(x_char), as.integer(NA))
+
+  expect_equal(lazyvec:::trigger_is_sorted(x_real), 1)
+})
+
+
+test_that("no_na trigger", {
+  expect_equal(lazyvec:::trigger_no_na(x), 1)
+  
+  expect_equal(lazyvec:::trigger_no_na(x_char), 1)
+  
+  expect_equal(lazyvec:::trigger_no_na(x_real), 1)
+})
+
+
+test_that("sum trigger", {
+  expect_error(lazyvec:::trigger_sum(x, 3:8), "Please set na_rm using a logical value")
+  
+  expect_equal(lazyvec:::trigger_sum(x, FALSE), 5050)
+
+  expect_error(lazyvec:::trigger_sum(x_char, FALSE), "cannot be called on a ALTREP vector of this type")
+
+  expect_equal(lazyvec:::trigger_sum(x_real, FALSE), 5050)
+
+  expect_equal(lazyvec:::trigger_sum(x, TRUE), 5050)
+
+  expect_error(lazyvec:::trigger_sum(x_char, TRUE), "cannot be called on a ALTREP vector of this type")
+
+  expect_equal(lazyvec:::trigger_sum(x_real, TRUE), 5050)
+})
+
+
+test_that("min trigger", {
+  expect_error(lazyvec:::trigger_min(x, 3:8), "Please set na_rm using a logical value")
+  
+  expect_equal(lazyvec:::trigger_min(x, FALSE), NULL)
+  
+  expect_error(lazyvec:::trigger_min(x_char, FALSE), "cannot be called on a ALTREP vector of this type")
+  
+  expect_equal(lazyvec:::trigger_min(x_real, FALSE), NULL)
+
+  expect_equal(lazyvec:::trigger_min(x, TRUE), NULL)
+
+  expect_error(lazyvec:::trigger_min(x_char, TRUE), "cannot be called on a ALTREP vector of this type")
+
+  expect_equal(lazyvec:::trigger_min(x_real, TRUE), NULL)
 })
 
 

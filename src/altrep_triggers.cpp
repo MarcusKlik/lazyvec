@@ -24,9 +24,20 @@
 #include "api_helpers.h"
 
 
+void test_altrep(SEXP x)
+{
+  if (!is_altrep_vector(x))
+  {
+    Rf_error("Object is not an ALTREP vector");
+  }
+}
+
+
 // [[Rcpp::export]]
 int trigger_length(SEXP x)
 {
+  test_altrep(x);
+
   return (int)(ALTREP_LENGTH(x));
 }
 
@@ -45,6 +56,8 @@ SEXP sexp_or_null(SEXP res)
 // [[Rcpp::export]]
 SEXP trigger_duplicate_ex(SEXP x, int deep)
 {
+  test_altrep(x);
+  
   SEXP res = ALTREP_DUPLICATE_EX(x, (Rboolean) deep);
 
   return sexp_or_null(res);
@@ -54,6 +67,8 @@ SEXP trigger_duplicate_ex(SEXP x, int deep)
 // [[Rcpp::export]]
 SEXP trigger_serialized_state(SEXP x)
 {
+  test_altrep(x);
+  
   SEXP res = ALTREP_SERIALIZED_STATE(x);
 
   return sexp_or_null(res);
@@ -63,6 +78,8 @@ SEXP trigger_serialized_state(SEXP x)
 // [[Rcpp::export]]
 SEXP trigger_dataptr_or_null(SEXP x)
 {
+  test_altrep(x);
+  
   const void* dataptr = DATAPTR_OR_NULL(x);
 
   if (dataptr == NULL)
@@ -87,6 +104,8 @@ SEXP trigger_dataptr_or_null(SEXP x)
 // [[Rcpp::export]]
 SEXP trigger_get_region(SEXP x, SEXP pos, SEXP size)
 {
+  test_altrep(x);
+  
   R_xlen_t vec_length = Rf_length(x);
   R_xlen_t vec_pos = INTEGER(Rf_coerceVector(pos, INTSXP))[0];
   R_xlen_t vec_size = INTEGER(Rf_coerceVector(size, INTSXP))[0];
@@ -104,26 +123,27 @@ SEXP trigger_get_region(SEXP x, SEXP pos, SEXP size)
   }
   
   SEXP res;
+  R_xlen_t res_length;
   
   int type = TYPEOF(x);
 
   switch (type)
   {
     case INTSXP:
-      res = PROTECT(Rf_allocVector(INTSXP, vec_size)); 
-      INTEGER_GET_REGION(x, vec_pos, vec_size, INTEGER(res));
+      res = PROTECT(Rf_allocVector(INTSXP, vec_size));
+      res_length = INTEGER_GET_REGION(x, vec_pos, vec_size, INTEGER(res));
       break;
     case LGLSXP:
       res = PROTECT(Rf_allocVector(LGLSXP, vec_size)); 
-      LOGICAL_GET_REGION(x, vec_pos, vec_size, LOGICAL(res));
+      res_length = LOGICAL_GET_REGION(x, vec_pos, vec_size, LOGICAL(res));
       break;
     case REALSXP:
       res = PROTECT(Rf_allocVector(REALSXP, vec_size)); 
-      REAL_GET_REGION(x, vec_pos, vec_size, REAL(res));
+      res_length = REAL_GET_REGION(x, vec_pos, vec_size, REAL(res));
       break;
     case RAWSXP:
       res = PROTECT(Rf_allocVector(RAWSXP, vec_size)); 
-      RAW_GET_REGION(x, vec_pos, vec_size, RAW(res));
+      res_length = RAW_GET_REGION(x, vec_pos, vec_size, RAW(res));
       break;
     default:
         Rf_error("Method get_region cannot be called on a ALTREP vector of this type");
@@ -131,6 +151,11 @@ SEXP trigger_get_region(SEXP x, SEXP pos, SEXP size)
   }
 
   UNPROTECT(1);
+
+  if (res_length == 0)
+  {
+    return R_NilValue;
+  }
   
   return res;
 }
@@ -139,6 +164,8 @@ SEXP trigger_get_region(SEXP x, SEXP pos, SEXP size)
 // [[Rcpp::export]]
 SEXP trigger_element(SEXP x, int pos)
 {
+  test_altrep(x);
+  
   R_xlen_t vec_length = Rf_length(x);
   
   if (pos < 0 || pos >= vec_length)
@@ -178,6 +205,8 @@ SEXP trigger_element(SEXP x, int pos)
 // [[Rcpp::export]]
 int trigger_is_sorted(SEXP x)
 {
+  test_altrep(x);
+  
   int type = TYPEOF(x);
   
   if (type == INTSXP)
@@ -192,6 +221,10 @@ int trigger_is_sorted(SEXP x)
   {
     return REAL_IS_SORTED(x);
   }
+  else if (type == STRSXP)
+  {
+    return STRING_IS_SORTED(x);
+  }
 
   Rf_error("Method is_sorted cannot be called on a ALTREP vector of this type");
 
@@ -202,6 +235,8 @@ int trigger_is_sorted(SEXP x)
 // [[Rcpp::export]]
 int trigger_no_na(SEXP x)
 {
+  test_altrep(x);
+  
   int type = TYPEOF(x);
 
   if (type == INTSXP)
@@ -230,6 +265,8 @@ int trigger_no_na(SEXP x)
 // [[Rcpp::export]]
 SEXP trigger_sum(SEXP x, SEXP na_rm)
 {
+  test_altrep(x);
+  
   if (TYPEOF(na_rm) != LGLSXP || Rf_length(na_rm) < 1)
   {
     Rf_error("Please set na_rm using a logical value");
@@ -261,6 +298,8 @@ SEXP trigger_sum(SEXP x, SEXP na_rm)
 // [[Rcpp::export]]
 SEXP trigger_min(SEXP x, SEXP na_rm)
 {
+  test_altrep(x);
+  
   if (TYPEOF(na_rm) != LGLSXP || Rf_length(na_rm) < 1)
   {
     Rf_error("Please set na_rm using a logical value");
@@ -272,11 +311,13 @@ SEXP trigger_min(SEXP x, SEXP na_rm)
   
   if (type == INTSXP)
   {
-    return ALTINTEGER_MIN(x, na_remove);
+    SEXP res = ALTINTEGER_MIN(x, na_remove);
+    return sexp_or_null(res);
   }
   else if (type == REALSXP)
   {
-    return ALTREAL_MIN(x, na_remove);
+    SEXP res = ALTREAL_MIN(x, na_remove);
+    return sexp_or_null(res);
   }
 
   Rf_error("Method min cannot be called on a ALTREP vector of this type");
@@ -288,6 +329,8 @@ SEXP trigger_min(SEXP x, SEXP na_rm)
 // [[Rcpp::export]]
 SEXP trigger_max(SEXP x, SEXP na_rm)
 {
+  test_altrep(x);
+  
   if (TYPEOF(na_rm) != LGLSXP || Rf_length(na_rm) < 1)
   {
     Rf_error("Please set na_rm using a logical value");
@@ -299,11 +342,13 @@ SEXP trigger_max(SEXP x, SEXP na_rm)
   
   if (type == INTSXP)
   {
-    return ALTINTEGER_MAX(x, na_remove);
+    SEXP res = ALTINTEGER_MAX(x, na_remove);
+    return sexp_or_null(res);
   }
   else if (type == REALSXP)
   {
-    return ALTREAL_MAX(x, na_remove);
+    SEXP res = ALTREAL_MAX(x, na_remove);
+    return sexp_or_null(res);
   }
   
   Rf_error("Method max cannot be called on a ALTREP vector of this type");
@@ -337,10 +382,7 @@ void inspect_subtree_helper(SEXP, int, int, int)
 // [[Rcpp::export]]
 void trigger_inspect(SEXP x, int pre, int deep, int pvec)
 {
-  if (!is_altrep_vector(x))
-  {
-    Rf_error("x is not an ALTREP vector");
-  }
+  test_altrep(x);
 
   if (deep < -1)
   {
@@ -370,6 +412,8 @@ void trigger_inspect(SEXP x, int pre, int deep, int pvec)
 // [[Rcpp::export]]
 SEXP trigger_coerce(SEXP x, int type)
 {
+  test_altrep(x);
+  
   if (!is_altrep_vector(x))
   {
     Rf_error("x is not an ALTREP vector");
