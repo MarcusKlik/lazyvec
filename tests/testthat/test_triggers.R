@@ -123,8 +123,14 @@ test_that("duplicate_ex trigger", {
 })
 
 
-test_that("coerce_method trigger", {
-  res <- lazyvec:::trigger_coerce(x, 10)  # to logical
+test_that("coerce trigger", {
+  res <- lazyvec:::trigger_coerce(x, 10)
+  expect_null(res)
+})
+
+
+test_that("dataptr_or_null trigger", {
+  res <- lazyvec:::trigger_dataptr_or_null(x)
   expect_null(res)
 })
 
@@ -138,4 +144,18 @@ test_that("inspect_method trigger", {
 test_that("serialized_state trigger", {
   res <- lazyvec:::trigger_serialized_state(x)
   expect_equal(res, c(100, 1, 1))
+})
+
+
+# must be the last test because afterwards, the vector is expanded
+test_that("dataptr trigger", {
+  res <- lazyvec:::trigger_dataptr(x)
+  expect_true(sum(res) > 0)
+})
+
+
+test_that("dataptr_or_null trigger", {
+  res <- lazyvec:::trigger_dataptr_or_null(x)
+  expect_true(sum(res) > 0)
+  expect_true(is_altrep(x))
 })

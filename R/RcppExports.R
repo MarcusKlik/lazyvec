@@ -21,6 +21,10 @@ trigger_dataptr_or_null <- function(x) {
     .Call(`_lazyvec_trigger_dataptr_or_null`, x)
 }
 
+trigger_dataptr <- function(x) {
+    .Call(`_lazyvec_trigger_dataptr`, x)
+}
+
 trigger_get_region <- function(x, pos, size) {
     .Call(`_lazyvec_trigger_get_region`, x, pos, size)
 }

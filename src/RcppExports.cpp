@@ -61,6 +61,17 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// trigger_dataptr
+SEXP trigger_dataptr(SEXP x);
+RcppExport SEXP _lazyvec_trigger_dataptr(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(trigger_dataptr(x));
+    return rcpp_result_gen;
+END_RCPP
+}
 // trigger_get_region
 SEXP trigger_get_region(SEXP x, SEXP pos, SEXP size);
 RcppExport SEXP _lazyvec_trigger_get_region(SEXP xSEXP, SEXP posSEXP, SEXP sizeSEXP) {
@@ -323,6 +334,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_lazyvec_trigger_duplicate_ex", (DL_FUNC) &_lazyvec_trigger_duplicate_ex, 2},
     {"_lazyvec_trigger_serialized_state", (DL_FUNC) &_lazyvec_trigger_serialized_state, 1},
     {"_lazyvec_trigger_dataptr_or_null", (DL_FUNC) &_lazyvec_trigger_dataptr_or_null, 1},
+    {"_lazyvec_trigger_dataptr", (DL_FUNC) &_lazyvec_trigger_dataptr, 1},
     {"_lazyvec_trigger_get_region", (DL_FUNC) &_lazyvec_trigger_get_region, 3},
     {"_lazyvec_trigger_element", (DL_FUNC) &_lazyvec_trigger_element, 2},
     {"_lazyvec_trigger_is_sorted", (DL_FUNC) &_lazyvec_trigger_is_sorted, 1},

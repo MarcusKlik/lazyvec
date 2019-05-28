@@ -92,8 +92,34 @@ SEXP trigger_dataptr_or_null(SEXP x)
   SEXP pointer = PROTECT(Rf_allocVector(INTSXP, 2));
   int* pointer_values = INTEGER(pointer);
   
-  pointer_values[0] = (int32_t) (ptr_address >> 32);
-  pointer_values[1] = ptr_address & ((1LL << 32) - 1);
+  pointer_values[0] = (int32_t) ((ptr_address >> 32) & ((1LL << 32) - 1));
+  pointer_values[1] = (int32_t) (ptr_address & ((1LL << 32) - 1));
+  
+  UNPROTECT(1);
+  
+  return pointer;
+}
+
+
+// [[Rcpp::export]]
+SEXP trigger_dataptr(SEXP x)
+{
+  test_altrep(x);
+  
+  const void* dataptr = DATAPTR(x);
+  
+  if (dataptr == NULL)
+  {
+    return R_NilValue;
+  }
+  
+  uint64_t ptr_address = (uint64_t) dataptr;
+  
+  SEXP pointer = PROTECT(Rf_allocVector(INTSXP, 2));
+  int* pointer_values = INTEGER(pointer);
+  
+  pointer_values[0] = (int32_t) ((ptr_address >> 32) & ((1LL << 32) - 1));
+  pointer_values[1] = (int32_t) (ptr_address & ((1LL << 32) - 1));
   
   UNPROTECT(1);
   
