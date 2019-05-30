@@ -20,18 +20,30 @@
 #  - lazyvec R package source repository : https://github.com/fstpackage/lazyvec
 
 
-#' @useDynLib lazyvec, .registration = TRUE
-#' @importFrom Rcpp evalCpp
-#' @importFrom crayon italic
-#' @importFrom crayon cyan
-#' @importFrom utils str
-#' @importFrom utils tail
-#' @importFrom utils packageVersion
-NULL
+.onAttach <- function(libname, pkgname) {
 
+  # executed when attached to search() path such as by library() or require()
+  if (!interactive()) return()
 
-# Return lazyvec version identifier
-# The version is calculated as: `256 * major_version + 16 * minor_version + patch_version`
-lazyvec_version <- function() {
-  17
+  v <- packageVersion("lazyvec")
+  d <- read.dcf(system.file("DESCRIPTION", package = "lazyvec"), fields = c("Packaged", "Built"))
+
+  if (is.na(d[1])) {
+    if (is.na(d[2])) {
+      return() # neither field exists
+    } else {
+      d <- unlist(strsplit(d[2], split = "; "))[3]
+    }
+  } else {
+    d <- d[1]
+  }
+
+  # version number odd => dev
+  dev <- as.integer(v[1, 3]) %% 2 == 1
+
+  packageStartupMessage("lazyvec package v", v, if (dev) paste0(" IN DEVELOPMENT built ", d))
+
+  # check for old version
+  if (dev && (Sys.Date() - as.Date(d)) > 28)
+    packageStartupMessage("\n!!! This development version of the package is rather old, please update !!!")
 }

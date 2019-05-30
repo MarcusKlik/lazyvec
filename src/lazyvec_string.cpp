@@ -1,0 +1,363 @@
+//  lazyvec - R package for creating, testing and deploying custom ALTREP vectors
+//
+//  Copyright (C) 2019-present, Mark AJ Klik
+//
+//  This file is part of the lazyvec R package.
+//
+//  The lazyvec R package is free software: you can redistribute it and/or modify it
+//  under the terms of the GNU Affero General Public License version 3 as
+//  published by the Free Software Foundation.
+//
+//  The lazyvec R package is distributed in the hope that it will be useful, but
+//  WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+//  FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License
+//  for more details.
+//
+//  You should have received a copy of the GNU Affero General Public License along
+//  with the lazyvec R package. If not, see <http://www.gnu.org/licenses/>.
+//
+//  You can contact the author at:
+//  - lazyvec R package source repository : https://github.com/fstpackage/lazyvec
+
+
+#include <Rcpp.h>
+
+#include "api_helpers.h"
+#include <stdint.h>
+
+
+// altrep integer class definition
+static R_altrep_class_t lazyvec_string_class;
+
+
+// [[Rcpp::export]]
+SEXP lazyvec_string_wrapper(SEXP data)
+{
+  return R_new_altrep(lazyvec_string_class, data, NILSXP);
+}
+
+
+//
+// On Win there is no Unserialize method exported, check with R-dev!
+//
+static SEXP lazyvec_string_Unserialize_method(SEXP lazyvec_class, SEXP state)
+{
+  Rcpp::Environment pkgs = Rcpp::Environment::namespace_env("lazyvec");
+
+  SEXP altrep_data1 = PROTECT(Rf_allocVector(VECSXP, 4));
+  SET_VECTOR_ELT(altrep_data1, 0, VECTOR_ELT(state, 0));
+  SET_VECTOR_ELT(altrep_data1, 1, VECTOR_ELT(state, 1));
+  SET_VECTOR_ELT(altrep_data1, 2, VECTOR_ELT(state, 2));
+  SET_VECTOR_ELT(altrep_data1, 3, pkgs);
+
+  // unserialize listener method
+  // SEXP unserialize_listener = PROTECT(VECTOR_ELT(VECTOR_ELT(state, 1), LAZYVEC_METHOD_UNSERIALIZE));
+  
+  // call_r_interface(unserialize_listener, state, LAZYVEC_PARENT_ENV(altrep_data1));
+
+  // UNPROTECT(2);
+  UNPROTECT(1);
+  return lazyvec_string_wrapper(altrep_data1);
+}
+
+
+//
+// ALTREP_UNSERIALIZE_EX is not linking on linux due to uncommented hidden_attribute
+// in declaration
+//
+SEXP lazyvec_string_UnserializeEX_method(SEXP info, SEXP state, SEXP attr, int objf, int levs)
+{
+  // return ALTREP_UNSERIALIZE_EX(info, state, attr, objf, levs);
+
+  Rcpp::Environment pkgs = Rcpp::Environment::namespace_env("lazyvec");
+
+  SEXP altrep_data1 = PROTECT(Rf_allocVector(VECSXP, 4));
+  SET_VECTOR_ELT(altrep_data1, 0, VECTOR_ELT(state, 0));
+  SET_VECTOR_ELT(altrep_data1, 1, VECTOR_ELT(state, 1));
+  SET_VECTOR_ELT(altrep_data1, 2, VECTOR_ELT(state, 2));
+  SET_VECTOR_ELT(altrep_data1, 3, pkgs);
+
+  // SEXP unserialize_ex_listener = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(altrep_data1),
+  //   LAZYVEC_METHOD_UNSERIALIZE_EX));
+
+  // Rf_PrintValue(state);
+  // call_r_interface(unserialize_ex_listener, state, LAZYVEC_PARENT_ENV(altrep_data1));
+  
+  // UNPROTECT(2);
+  UNPROTECT(1);
+  return lazyvec_string_wrapper(altrep_data1);
+}
+
+
+SEXP lazyvec_string_Serialized_state_method(SEXP x)
+{
+  // SEXP serialized_state_result = PROTECT(ALTREP_SERIALIZED_STATE(LAZYVEC_PAYLOAD(x)));
+
+  // length listener method
+  // SEXP serialized_state_listener = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(x), LAZYVEC_METHOD_SERIALIZED_STATE));
+
+  // create serialization state
+  SEXP serialized_state = PROTECT(Rf_allocVector(VECSXP, 3));
+  SET_VECTOR_ELT(serialized_state, 0, LAZYVEC_PAYLOAD(x));
+  SET_VECTOR_ELT(serialized_state, 1, LAZYVEC_LISTENERS(x));
+  SET_VECTOR_ELT(serialized_state, 2, LAZYVEC_METADATA(x));
+  
+  // if (serialized_state_result == NULL)
+  // {
+  //   call_r_interface(serialized_state_listener, R_NilValue, LAZYVEC_PARENT_ENV(x));
+  // }
+  // else
+  // {
+  //   call_r_interface(serialized_state_listener, serialized_state_result, LAZYVEC_PARENT_ENV(x));
+  // }
+
+  UNPROTECT(3);
+
+  return serialized_state;
+}
+
+
+Rboolean lazyvec_string_Inspect_method(SEXP x, int pre, int deep, int pvec,
+  inspect_subtree_method subtree_method)
+{
+  return FALSE;
+}
+
+
+R_xlen_t lazyvec_string_Length_method(SEXP x)
+{
+  // custom payload
+  SEXP user_data = PROTECT(LAZYVEC_USER_DATA(x));
+
+  // calling environment
+  SEXP calling_env = PROTECT(LAZYVEC_PARENT_ENV(x));
+  
+  // length listener method
+  SEXP length_listener = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(x), LAZYVEC_METHOD_LENGTH));
+
+  // call ALTREP override
+  SEXP custom_length = PROTECT(call_r_interface(length_listener, user_data, calling_env));
+
+  // type and length checking is done on R side
+  R_xlen_t res_length = (R_xlen_t)(*INTEGER(custom_length));
+  
+  UNPROTECT(4);
+
+  return res_length;
+}
+
+
+void* lazyvec_string_Dataptr_method(SEXP x, Rboolean writeable)
+{
+  // custom payload
+  SEXP user_data = PROTECT(LAZYVEC_USER_DATA(x));
+
+  // calling environment
+  SEXP calling_env = PROTECT(LAZYVEC_PARENT_ENV(x));
+
+  // length listener method
+  SEXP full_vector_listener = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(x), LAZYVEC_METHOD_DATAPTR));
+
+  SEXP stored_full_vec = LAZYVEC_FULL_VEC(x);
+
+  // return dataptr of stored vector
+  if (!Rf_isNull(stored_full_vec)) {
+    UNPROTECT(3);
+    return DATAPTR(stored_full_vec);
+  }
+
+  // retrieve full vector
+  SEXP full_vector = PROTECT(call_r_interface(full_vector_listener, user_data, calling_env));
+
+  // add vector to user data
+  LAZYVEC_SET_FULL_VEC(x, full_vector);
+
+  UNPROTECT(4);
+
+  return DATAPTR(full_vector);
+}
+
+
+const void *lazyvec_string_Dataptr_or_null_method(SEXP x)
+{
+  SEXP stored_full_vec = LAZYVEC_FULL_VEC(x);
+  
+  Rprintf("dataptr_or_null called");
+  
+  // return dataptr of stored vector
+  if (!Rf_isNull(stored_full_vec)) {
+    UNPROTECT(3);
+    return DATAPTR(stored_full_vec);
+  }
+  
+  return NULL;
+}
+
+
+SEXP lazyvec_string_Elt_method(SEXP x, R_xlen_t i)
+{
+  // custom payload
+  SEXP user_data = PROTECT(LAZYVEC_USER_DATA(x));
+  
+  // calling environment
+  SEXP calling_env = PROTECT(LAZYVEC_PARENT_ENV(x));
+  
+  // length listener method
+  SEXP elt_listener = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(x), LAZYVEC_METHOD_ELT));
+
+  // i argument
+  SEXP i_arg = PROTECT(Rf_ScalarInteger((int)(i + 1)));
+  
+  // ALTREP override
+  // should return a length 1 vector containing the element
+  SEXP custom_element = PROTECT(call_dual_r_interface(elt_listener, user_data, i_arg, calling_env));
+
+  // convert to SEXP
+  SEXP element = SEXP_TO_CHARXP(custom_element);
+
+  UNPROTECT(5);
+  
+  return element;
+}
+
+
+int lazyvec_string_Is_sorted_method(SEXP x)
+{
+  // custom payload
+  SEXP user_data = PROTECT(LAZYVEC_USER_DATA(x));
+  
+  // calling environment
+  SEXP calling_env = PROTECT(LAZYVEC_PARENT_ENV(x));
+  
+  // length listener method
+  SEXP is_sorted_listener = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(x), LAZYVEC_METHOD_IS_SORTED));
+  
+  // returns int
+  SEXP custom_is_sorted = PROTECT(call_r_interface(is_sorted_listener, user_data, calling_env));
+  
+  // type and length checking is done on R side
+  int res_is_sorted = *INTEGER(custom_is_sorted);
+  
+  UNPROTECT(4);
+  
+  return res_is_sorted;
+}
+
+
+int lazyvec_string_No_NA_method(SEXP x)
+{
+  // custom payload
+  SEXP user_data = PROTECT(LAZYVEC_USER_DATA(x));
+
+  // calling environment
+  SEXP calling_env = PROTECT(LAZYVEC_PARENT_ENV(x));
+
+  // length listener method
+  SEXP no_na_listener = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(x), LAZYVEC_METHOD_NO_NA));
+
+  // returns int
+  SEXP custom_no_na = PROTECT(call_r_interface(no_na_listener, user_data, calling_env));
+
+  // type and length checking is done on R side
+  int res_no_na = *INTEGER(custom_no_na);
+
+  UNPROTECT(4);
+
+  return res_no_na;
+}
+
+
+SEXP lazyvec_string_DuplicateEX_method(SEXP sx, Rboolean deep)
+{
+  SEXP result_duplicate_ex = PROTECT(ALTREP_DUPLICATE_EX(LAZYVEC_PAYLOAD(sx), deep));
+
+  // retrieve duplicateEX listener method
+  SEXP duplicate_ex_listener = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(sx), LAZYVEC_METHOD_DUPLICATE_EX));
+
+  if (result_duplicate_ex == NULL)
+  { 
+    // call listener with SEXP result
+    call_r_interface(duplicate_ex_listener, R_NilValue, LAZYVEC_PARENT_ENV(sx));
+    UNPROTECT(2);
+
+    return result_duplicate_ex;
+  }
+
+  // call listener with SEXP result
+  call_r_interface(duplicate_ex_listener, result_duplicate_ex, LAZYVEC_PARENT_ENV(sx));
+  UNPROTECT(2);
+
+  return result_duplicate_ex;
+}
+
+
+SEXP lazyvec_string_Coerce_method(SEXP x, int type)
+{
+  // length listener method
+  SEXP listener_coerce = VECTOR_ELT(LAZYVEC_LISTENERS(x), LAZYVEC_METHOD_COERCE);
+
+  // use default coercion
+  if (Rf_isNull(listener_coerce)) {
+    return NULL;
+  }
+
+  return  NULL;
+}
+
+
+SEXP lazyvec_string_Extract_subset_method(SEXP x, SEXP indx, SEXP call)
+{
+  // custom payload
+  SEXP user_data = PROTECT(LAZYVEC_USER_DATA(x));
+  
+  // calling environment
+  SEXP calling_env = PROTECT(LAZYVEC_PARENT_ENV(x));
+  
+  // length listener method
+  SEXP listener_extract_subset = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(x), LAZYVEC_METHOD_EXTRACT_SUBSET));
+
+  // checks are for safety, remove later
+  if (indx == NULL)
+  {
+    Rf_error("indx is_null");
+  }
+
+  if (call == NULL)
+  {
+    Rf_error("call is_null");
+  }
+
+  // should return a vector containing a subset of elements
+  SEXP custom_elements = PROTECT(call_dual_r_interface(
+    listener_extract_subset, user_data, indx, calling_env));
+
+  UNPROTECT(4);  // last PROTECT could be removed
+  
+  return custom_elements;
+}
+
+
+// [[Rcpp::init]]
+void register_lazyvec_string_class(DllInfo *dll)
+{
+  lazyvec_string_class = R_make_altstring_class("lazyvec_string", "lazyvec", dll);
+
+  /* override ALTREP methods */
+  CALL_LAZYVEC_SETTER(altrep, string, UnserializeEX);     // codeline: UnserializeEX
+  CALL_LAZYVEC_SETTER(altrep, string, Unserialize);       // codeline: Unserialize
+  CALL_LAZYVEC_SETTER(altrep, string, Serialized_state);  // codeline: Serialized_state
+  CALL_LAZYVEC_SETTER(altrep, string, DuplicateEX);       // codeline: DuplicateEx
+  CALL_LAZYVEC_SETTER(altrep, string, Coerce);            // codeline: Coerce
+  CALL_LAZYVEC_SETTER(altrep, string, Inspect);           // codeline: Inspect
+  CALL_LAZYVEC_SETTER(altrep, string, Length);            // codeline: Length
+
+  /* override ALTVEC methods */
+  CALL_LAZYVEC_SETTER(altvec, string, Dataptr);           // codeline: Dataptr
+  CALL_LAZYVEC_SETTER(altvec, string, Dataptr_or_null);   // codeline: Dataptr_or_null
+  CALL_LAZYVEC_SETTER(altvec, string, Extract_subset);    // codeline: Extract_subset
+
+  /* override specific type methods */
+  CALL_LAZYVEC_SETTER(altstring, string, Elt);           // codeline: Elt
+  CALL_LAZYVEC_SETTER(altstring, string, Is_sorted);     // codeline: Is_sorted
+  CALL_LAZYVEC_SETTER(altstring, string, No_NA);         // codeline: No_NA
+}
