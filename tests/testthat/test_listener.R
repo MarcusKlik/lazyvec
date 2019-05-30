@@ -49,7 +49,7 @@ test_that("coerce_method listener", {
 
 test_that("inspect_method listener", {
   res <- capture.output(lazyvec:::trigger_inspect(x, 1, 10, 10))
-  expect_equal(res, " 1 : 100 (compact)")
+  expect_equal(res[1], " 1 : 100 (compact)")
 })
 
 

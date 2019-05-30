@@ -137,7 +137,7 @@ test_that("dataptr_or_null trigger", {
 
 test_that("inspect_method trigger", {
   res <- capture.output(lazyvec:::trigger_inspect(x, 1, 10, 10))
-  expect_equal(res, " 1 : 100 (compact)")
+  expect_equal(res[1], " 1 : 100 (compact)")
 })
 
 

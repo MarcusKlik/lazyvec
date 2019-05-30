@@ -92,9 +92,9 @@ SEXP altwrap_raw_UnserializeEX_method(SEXP info, SEXP state, SEXP attr, int objf
   SEXP unserialize_ex_listener = PROTECT(VECTOR_ELT(listeners, ALTREP_METHOD_UNSERIALIZE_EX));
   
   SEXP altrep_info = PROTECT(Rf_allocVector(VECSXP, 5));
-  SET_VECTOR_ELT(altrep_info, 0, info);
-  SET_VECTOR_ELT(altrep_info, 1, state);
-  SET_VECTOR_ELT(altrep_info, 2, attr);
+  SET_VECTOR_ELT(altrep_info, 0, sexp_or_null(info));
+  SET_VECTOR_ELT(altrep_info, 1, sexp_or_null(state));
+  SET_VECTOR_ELT(altrep_info, 2, sexp_or_null(attr));
   SET_VECTOR_ELT(altrep_info, 3, Rf_ScalarInteger(objf));
   SET_VECTOR_ELT(altrep_info, 4, Rf_ScalarInteger(levs));
   

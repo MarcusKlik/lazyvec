@@ -21,6 +21,7 @@
 
 
 #include <Rcpp.h>
+
 #include "api_helpers.h"
 #include <stdint.h>
 
@@ -91,9 +92,9 @@ SEXP altwrap_integer_UnserializeEX_method(SEXP info, SEXP state, SEXP attr, int 
   SEXP unserialize_ex_listener = PROTECT(VECTOR_ELT(listeners, ALTREP_METHOD_UNSERIALIZE_EX));
   
   SEXP altrep_info = PROTECT(Rf_allocVector(VECSXP, 5));
-  SET_VECTOR_ELT(altrep_info, 0, info);
-  SET_VECTOR_ELT(altrep_info, 1, state);
-  SET_VECTOR_ELT(altrep_info, 2, attr);
+  SET_VECTOR_ELT(altrep_info, 0, Rf_type2rstr(TYPEOF(info)));
+  SET_VECTOR_ELT(altrep_info, 1, Rf_type2rstr(TYPEOF(state)));
+  SET_VECTOR_ELT(altrep_info, 2, sexp_or_null(attr));
   SET_VECTOR_ELT(altrep_info, 3, Rf_ScalarInteger(objf));
   SET_VECTOR_ELT(altrep_info, 4, Rf_ScalarInteger(levs));
   
@@ -105,6 +106,15 @@ SEXP altwrap_integer_UnserializeEX_method(SEXP info, SEXP state, SEXP attr, int 
 }
 
 
+// [[Rcpp::export]]
+SEXP altwrap_integer_serialize(SEXP x)
+{
+  Rcpp::Environment pkg = Rcpp::Environment::namespace_env("base");
+  Rcpp::Function f = pkg["serialize"];
+  return f(x, R_NilValue);
+}
+
+
 SEXP altwrap_integer_Serialized_state_method(SEXP x)
 {
   SEXP serialized_state_result = PROTECT(ALTREP_SERIALIZED_STATE(ALTWRAP_PAYLOAD(x)));
@@ -112,25 +122,27 @@ SEXP altwrap_integer_Serialized_state_method(SEXP x)
   // length listener method
   SEXP serialized_state_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(x), ALTREP_METHOD_SERIALIZED_STATE));
 
-  // payload does not implement serialized state
-  if (!serialized_state_result)
-  {
-    call_r_interface(serialized_state_listener, R_NilValue, ALTWRAP_PARENT_ENV(x));
-    UNPROTECT(2);
-    return NULL;
-  }
-
   // create serialization state
   SEXP serialized_state = PROTECT(Rf_allocVector(VECSXP, 5));
   SET_VECTOR_ELT(serialized_state, 0, ALTWRAP_PAYLOAD(x));
   SET_VECTOR_ELT(serialized_state, 1, ALTWRAP_LISTENERS(x));
   SET_VECTOR_ELT(serialized_state, 2, ALTWRAP_METADATA(x));
-  SET_VECTOR_ELT(serialized_state, 3, serialized_state_result);
 
-  call_r_interface(serialized_state_listener, serialized_state_result, ALTWRAP_PARENT_ENV(x));
-
+  if (!serialized_state_result)
+  {
+    SET_VECTOR_ELT(serialized_state, 3, serialized_state_result);
+    SET_VECTOR_ELT(serialized_state, 4, Rf_ScalarLogical(1));
+    call_r_interface(serialized_state_listener, R_NilValue, ALTWRAP_PARENT_ENV(x));
+  }
+  else
+  {
+    SET_VECTOR_ELT(serialized_state, 3, R_NilValue);
+    SET_VECTOR_ELT(serialized_state, 4, Rf_ScalarLogical(0));
+    call_r_interface(serialized_state_listener, serialized_state_result, ALTWRAP_PARENT_ENV(x));
+  }
+  
   UNPROTECT(3);
-
+  
   return serialized_state;
 }
 

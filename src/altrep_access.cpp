@@ -28,3 +28,15 @@
 SEXP altrep_full_class(SEXP altrep_vec) {
   return ATTRIB(ALTREP_CLASS(altrep_vec));
 }
+
+
+// [[Rcpp::export]]
+SEXP altrep_data1(SEXP altrep_vec) {
+  return R_altrep_data1(altrep_vec);
+}
+
+
+// [[Rcpp::export]]
+SEXP altrep_data2(SEXP altrep_vec) {
+  return R_altrep_data2(altrep_vec);
+}

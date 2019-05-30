@@ -5,6 +5,14 @@ altrep_full_class <- function(altrep_vec) {
     .Call(`_lazyvec_altrep_full_class`, altrep_vec)
 }
 
+altrep_data1 <- function(altrep_vec) {
+    .Call(`_lazyvec_altrep_data1`, altrep_vec)
+}
+
+altrep_data2 <- function(altrep_vec) {
+    .Call(`_lazyvec_altrep_data2`, altrep_vec)
+}
+
 trigger_length <- function(x) {
     .Call(`_lazyvec_trigger_length`, x)
 }
@@ -57,12 +65,12 @@ trigger_max <- function(x, na_rm) {
     .Call(`_lazyvec_trigger_max`, x, na_rm)
 }
 
-trigger_unserialize_ex <- function(info, state, attr, objf, levs) {
-    .Call(`_lazyvec_trigger_unserialize_ex`, info, state, attr, objf, levs)
+trigger_unserialize_ex <- function(class_info, state, attr, objf, levs) {
+    .Call(`_lazyvec_trigger_unserialize_ex`, class_info, state, attr, objf, levs)
 }
 
 trigger_inspect <- function(x, pre, deep, pvec) {
-    invisible(.Call(`_lazyvec_trigger_inspect`, x, pre, deep, pvec))
+    .Call(`_lazyvec_trigger_inspect`, x, pre, deep, pvec)
 }
 
 trigger_coerce <- function(x, type) {
@@ -71,6 +79,10 @@ trigger_coerce <- function(x, type) {
 
 altrep_integer_wrapper <- function(data) {
     .Call(`_lazyvec_altrep_integer_wrapper`, data)
+}
+
+altwrap_integer_serialize <- function(x) {
+    .Call(`_lazyvec_altwrap_integer_serialize`, x)
 }
 
 altrep_logical_wrapper <- function(data) {

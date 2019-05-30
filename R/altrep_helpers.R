@@ -38,9 +38,22 @@ is_altrep <- function(x) {
 #' @return ALTREP class descriptor
 #' @export
 altrep_class <- function(x) {
-  if (!is_altrep(x)) return(NULL)
+  altrep_check(x)
 
   as.character(altrep_full_class(x)[[1]])
+}
+
+
+#' Retireve the internal ALTREP representation
+#'
+#' @param x ALTREP vector for which to determine the ALTREP class descriptor
+#'
+#' @return internal ALTREP representation
+#' @export
+altrep_data <- function(x) {
+  altrep_check(x)
+  
+  altrep_data1(x)
 }
 
 
