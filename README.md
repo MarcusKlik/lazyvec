@@ -9,13 +9,13 @@ Status](https://travis-ci.org/fstpackage/lazyvec.svg?branch=master)](https://tra
 status](https://ci.appveyor.com/api/projects/status/bfm7amtkyjvc2rk9?svg=true)](https://ci.appveyor.com/project/fstpackage/lazyvec)
 [![License: AGPL
 v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
+[![Lifecycle:
+experimental](https://img.shields.io/badge/lifecycle-experimental-blue.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 
 > This repository is home to the `lazyvec` package. `lazyvec` depends
-> heavily on the ALTREP framework that will be rolled out with `R` 3.6.
-> Therefore, at the moment, it can only be compiled from source when you
-> are running the latest `dev` version of `R`. After the `R` 3.6
-> release, `lazyvec` will be submitted to CRAN and more readily
-> available to the user.
+> heavily on the (complete) ALTREP framework that was rolled out with
+> `R` 3.6.0. Therefore, you need at least this version of `R` to build
+> or use the package.
 
 ## Overview
 
@@ -40,20 +40,37 @@ devtools::install_github("fstpackage/lazyvec")
 
 ## Basic usage
 
-To observe the internal behaviour of ALTREP ranges, the object can be
-wrapped:
+From `R` version 3.5 onwards, several basic vectors are (internally)
+implemented as ALTREP vectors:
 
 ``` r
 library(lazyvec)
 
-x <- 1:10  # a range
+x <- 1:10  # this is an ordered sequence
 
-# ranges are implemented as ALTREP for R versions > 3.5.0
+# ordered sequences are implemented as ALTREP vectors
 is_altrep(x)
 #> [1] TRUE
 
-# wrap ALTREP vector
-y <- alt_wrap(x, "x")
+# ALTREP class
+altrep_class(x)
+#> [1] "compact_intseq"
+
+# package in which the ALTREP definition is stored
+altrep_package(x)
+#> [1] "base"
+
+# internal (compact) representation
+altrep_data(x)
+#> [1] 10  1  1
+```
+
+To study the inner workings of this ALTREP vector, we can add listeners
+to it:
+
+``` r
+# add listeners
+y <- altrep_listener(x, "x")
 ```
 
 We can already see `R` making calls to the ALTREP vector. Subsequent
@@ -63,7 +80,7 @@ operations will reveal more of these internal calls to `x`:
 # single element
 y[2]
 #> x : ALTREP length : result = integer[1] 10
-#> ALTREP element : result = integer[1] 2
+#> x : ALTREP element : result = integer[1] 2
 #> [1] 2
 
 # vector length
@@ -74,7 +91,7 @@ length(y)
 
 # sum
 sum(y)
-#> ALTREP sum called, na.rm =  logical[1] FALSE, result:  integer[1] 55
+#> ALTREP sum, na.rm =  logical[1] FALSE, result:  integer[1] 55
 #> [1] 55
 ```
 
@@ -86,9 +103,9 @@ only the internal ALTREP method for calculating the sum is called.
 min(y)
 #> x : ALTREP min : result = NULL[0] 
 #> x : ALTREP length : result = integer[1] 10
-#> x : ALTREP dataptr_or_null called, null returned:  logical[1] TRUE
+#> x : ALTREP dataptr_or_null, null returned:  logical[1] TRUE
 #> x : ALTREP length : result = integer[1] 10
-#> x : ALTREP dataptr_or_null called, null returned:  logical[1] TRUE
+#> x : ALTREP dataptr_or_null, null returned:  logical[1] TRUE
 #> x : ALTREP get_region : result = integer[1] 10, start = integer[1] 0, length = integer[1] 10
 #> [1] 1
 ```
