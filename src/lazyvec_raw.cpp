@@ -245,7 +245,7 @@ R_xlen_t lazyvec_raw_Get_region_method(SEXP sx, R_xlen_t i, R_xlen_t n, Rbyte *b
 
 SEXP lazyvec_raw_DuplicateEX_method(SEXP sx, Rboolean deep)
 {
-  SEXP result_duplicate_ex = PROTECT(ALTREP_DUPLICATE_EX(LAZYVEC_PAYLOAD(sx), deep));
+  SEXP result_duplicate_ex = PROTECT(ALTREP_DUPLICATE_EX_PROXY(LAZYVEC_PAYLOAD(sx), deep));
 
   // retrieve duplicateEX listener method
   SEXP duplicate_ex_listener = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(sx), LAZYVEC_METHOD_DUPLICATE_EX));

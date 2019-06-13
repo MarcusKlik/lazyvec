@@ -297,7 +297,7 @@ int altwrap_string_No_NA_method(SEXP sx)
 
 SEXP altwrap_string_DuplicateEX_method(SEXP sx, Rboolean deep)
 {
-  SEXP result_duplicate_ex = PROTECT(ALTREP_DUPLICATE_EX(ALTWRAP_PAYLOAD(sx), deep));
+  SEXP result_duplicate_ex = PROTECT(ALTREP_DUPLICATE_EX_PROXY(ALTWRAP_PAYLOAD(sx), deep));
 
   // retrieve duplicateEX listener method
   SEXP duplicate_ex_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(sx), ALTREP_METHOD_DUPLICATE_EX));

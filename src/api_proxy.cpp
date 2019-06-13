@@ -43,3 +43,8 @@ Rboolean ALTREP_INSPECT_PROXY(SEXP x, int pre, int deep, int pvec,
 {
   return ALTREP_DISPATCH(Inspect, x, pre, deep, pvec, inspect_subtree);
 }
+
+SEXP ALTREP_DUPLICATE_EX_PROXY(SEXP x, Rboolean deep)
+{
+  return ALTREP_DISPATCH(DuplicateEX, x, deep);
+}
