@@ -457,7 +457,7 @@ SEXP trigger_coerce(SEXP x, int type)
       "15 (CPLXSXP), 16 (STRSXP), 19 (VECSXP), 24 (RAWSXP) and 20 (EXPRSXP)");
   }
   
-  SEXP res = ALTREP_COERCE(x, type);
+  SEXP res = ALTREP_COERCE_PROXY(x, type);
 
   return sexp_or_null(res);
 }

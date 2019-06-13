@@ -32,3 +32,8 @@ SEXP ALTREP_SERIALIZED_STATE_PROXY(SEXP x)
 {
   return ALTREP_DISPATCH(Serialized_state, x);
 }
+
+SEXP ALTREP_COERCE_PROXY(SEXP x, int type)
+{
+  return ALTREP_DISPATCH(Coerce, x, type);
+}

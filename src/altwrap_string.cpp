@@ -321,7 +321,7 @@ SEXP altwrap_string_DuplicateEX_method(SEXP sx, Rboolean deep)
 
 SEXP altwrap_string_Coerce_method(SEXP sx, int type)
 {
-  SEXP result_coerce = PROTECT(ALTREP_COERCE(ALTWRAP_PAYLOAD(sx), type));
+  SEXP result_coerce = PROTECT(ALTREP_COERCE_PROXY(ALTWRAP_PAYLOAD(sx), type));
 
   SEXP arguments = PROTECT(Rf_allocVector(VECSXP, 2));
   SET_VECTOR_ELT(arguments, 1, Rf_ScalarInteger(type));

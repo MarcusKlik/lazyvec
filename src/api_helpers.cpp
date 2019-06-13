@@ -29,7 +29,7 @@ SEXP sexp_or_null(SEXP res)
   {
     return R_NilValue;
   }
-  
+
   return res;
 }
 
@@ -39,7 +39,7 @@ SEXP call_r_interface(SEXP f, SEXP x, SEXP rho) {
   SEXP call = PROTECT(LCONS(f, LCONS(x, R_NilValue)));
   SEXP val = R_forceAndCall(call, 1, rho);
   UNPROTECT(1);
-  
+
   return val;
 }
 
@@ -50,7 +50,7 @@ SEXP call_dual_r_interface(SEXP f, SEXP x1, SEXP x2, SEXP rho) {
   SEXP call = PROTECT(LCONS(f, LCONS(x1, LCONS(x2, R_NilValue))));
   SEXP val = R_forceAndCall(call, 2, rho);
   UNPROTECT(1);
-  
+
   return val;
 }
 

@@ -52,7 +52,7 @@ altrep_class <- function(x) {
 #' @export
 altrep_data <- function(x) {
   altrep_check(x)
-  
+
   altrep_data1(x)
 }
 
