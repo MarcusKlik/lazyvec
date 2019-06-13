@@ -10,6 +10,11 @@ os:
   - linux
   - osx
 
+matrix:
+  exclude:
+  - r: devel
+    os: osx
+
 r_packages:
   - covr
   - testthat
