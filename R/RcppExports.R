@@ -81,10 +81,6 @@ altrep_integer_wrapper <- function(data) {
     .Call(`_lazyvec_altrep_integer_wrapper`, data)
 }
 
-altwrap_integer_serialize <- function(x) {
-    .Call(`_lazyvec_altwrap_integer_serialize`, x)
-}
-
 altrep_logical_wrapper <- function(data) {
     .Call(`_lazyvec_altrep_logical_wrapper`, data)
 }

@@ -23,6 +23,7 @@
 #include <Rcpp.h>
 
 #include "api_helpers.h"
+
 #include <stdint.h>
 
 
@@ -508,7 +509,7 @@ SEXP altwrap_ALTREP_TYPE_Coerce_method(SEXP sx, int type)
 // generator source start: Extract_subset
 SEXP altwrap_ALTREP_TYPE_Extract_subset_method(SEXP sx, SEXP indx, SEXP call)
 {
-  SEXP result_extract_subset = PROTECT(ALTVEC_EXTRACT_SUBSET(ALTWRAP_PAYLOAD(sx), indx, call));
+  SEXP result_extract_subset = PROTECT(ALTVEC_EXTRACT_SUBSET_PROXY(ALTWRAP_PAYLOAD(sx), indx, call));
 
   SEXP arguments = PROTECT(Rf_allocVector(VECSXP, 3));
 

@@ -21,6 +21,7 @@
 
 
 #include <Rcpp.h>
+
 #include "api_helpers.h"
 
 
@@ -188,7 +189,7 @@ SEXP trigger_extract_subset(SEXP x, SEXP indx)
     Rf_error("Please use a numeric index");
   }
     
-  return sexp_or_null(ALTVEC_EXTRACT_SUBSET(x, indx, R_NilValue));
+  return sexp_or_null(ALTVEC_EXTRACT_SUBSET_PROXY(x, indx, R_NilValue));
 }
 
 

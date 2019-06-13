@@ -241,17 +241,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// altwrap_integer_serialize
-SEXP altwrap_integer_serialize(SEXP x);
-RcppExport SEXP _lazyvec_altwrap_integer_serialize(SEXP xSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(altwrap_integer_serialize(x));
-    return rcpp_result_gen;
-END_RCPP
-}
 // altrep_logical_wrapper
 SEXP altrep_logical_wrapper(SEXP data);
 RcppExport SEXP _lazyvec_altrep_logical_wrapper(SEXP dataSEXP) {
@@ -395,7 +384,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_lazyvec_trigger_inspect", (DL_FUNC) &_lazyvec_trigger_inspect, 4},
     {"_lazyvec_trigger_coerce", (DL_FUNC) &_lazyvec_trigger_coerce, 2},
     {"_lazyvec_altrep_integer_wrapper", (DL_FUNC) &_lazyvec_altrep_integer_wrapper, 1},
-    {"_lazyvec_altwrap_integer_serialize", (DL_FUNC) &_lazyvec_altwrap_integer_serialize, 1},
     {"_lazyvec_altrep_logical_wrapper", (DL_FUNC) &_lazyvec_altrep_logical_wrapper, 1},
     {"_lazyvec_altrep_raw_wrapper", (DL_FUNC) &_lazyvec_altrep_raw_wrapper, 1},
     {"_lazyvec_altrep_real_wrapper", (DL_FUNC) &_lazyvec_altrep_real_wrapper, 1},

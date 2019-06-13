@@ -23,6 +23,8 @@
 #include <Rcpp.h>
 
 #include "api_helpers.h"
+#include "api_proxy.h"
+
 #include <stdint.h>
 
 
@@ -341,7 +343,7 @@ SEXP altwrap_raw_Coerce_method(SEXP sx, int type)
 
 SEXP altwrap_raw_Extract_subset_method(SEXP sx, SEXP indx, SEXP call)
 {
-  SEXP result_extract_subset = PROTECT(ALTVEC_EXTRACT_SUBSET(ALTWRAP_PAYLOAD(sx), indx, call));
+  SEXP result_extract_subset = PROTECT(ALTVEC_EXTRACT_SUBSET_PROXY(ALTWRAP_PAYLOAD(sx), indx, call));
 
   SEXP arguments = PROTECT(Rf_allocVector(VECSXP, 3));
 
