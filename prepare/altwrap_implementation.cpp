@@ -114,7 +114,7 @@ SEXP altwrap_ALTREP_TYPE_UnserializeEX_method(SEXP info, SEXP state, SEXP attr, 
 // generator source start: Serialized_state
 SEXP altwrap_ALTREP_TYPE_Serialized_state_method(SEXP x)
 {
-  SEXP serialized_state_result = PROTECT(ALTREP_SERIALIZED_STATE(ALTWRAP_PAYLOAD(x)));
+  SEXP serialized_state_result = PROTECT(ALTREP_SERIALIZED_STATE_PROXY(ALTWRAP_PAYLOAD(x)));
   
   // length listener method
   SEXP serialized_state_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(x), ALTREP_METHOD_SERIALIZED_STATE));

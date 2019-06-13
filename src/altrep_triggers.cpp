@@ -59,7 +59,7 @@ SEXP trigger_serialized_state(SEXP x)
 {
   test_altrep(x);
   
-  SEXP res = ALTREP_SERIALIZED_STATE(x);
+  SEXP res = ALTREP_SERIALIZED_STATE_PROXY(x);
 
   return sexp_or_null(res);
 }

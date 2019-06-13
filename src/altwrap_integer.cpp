@@ -23,7 +23,6 @@
 #include <Rcpp.h>
 
 #include "api_helpers.h"
-#include "api_proxy.h"
 
 #include <stdint.h>
 
@@ -110,7 +109,7 @@ SEXP altwrap_integer_UnserializeEX_method(SEXP info, SEXP state, SEXP attr, int 
 
 SEXP altwrap_integer_Serialized_state_method(SEXP x)
 {
-  SEXP serialized_state_result = PROTECT(ALTREP_SERIALIZED_STATE(ALTWRAP_PAYLOAD(x)));
+  SEXP serialized_state_result = PROTECT(ALTREP_SERIALIZED_STATE_PROXY(ALTWRAP_PAYLOAD(x)));
   
   // length listener method
   SEXP serialized_state_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(x), ALTREP_METHOD_SERIALIZED_STATE));

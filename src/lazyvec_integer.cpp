@@ -91,7 +91,7 @@ SEXP lazyvec_integer_UnserializeEX_method(SEXP info, SEXP state, SEXP attr, int 
 
 SEXP lazyvec_integer_Serialized_state_method(SEXP x)
 {
-  // SEXP serialized_state_result = PROTECT(ALTREP_SERIALIZED_STATE(LAZYVEC_PAYLOAD(x)));
+  // SEXP serialized_state_result = PROTECT(ALTREP_SERIALIZED_STATE_PROXY(LAZYVEC_PAYLOAD(x)));
 
   // length listener method
   // SEXP serialized_state_listener = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(x), LAZYVEC_METHOD_SERIALIZED_STATE));

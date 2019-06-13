@@ -27,3 +27,8 @@ SEXP ALTVEC_EXTRACT_SUBSET_PROXY(SEXP x, SEXP indx, SEXP call)
 {
   return ALTVEC_DISPATCH(Extract_subset, x, indx, call);
 }
+
+SEXP ALTREP_SERIALIZED_STATE_PROXY(SEXP x)
+{
+  return ALTREP_DISPATCH(Serialized_state, x);
+}

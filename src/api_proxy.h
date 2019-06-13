@@ -41,6 +41,7 @@
   R_altvec_Dataptr_or_null_method_t Dataptr_or_null;	\
   R_altvec_Extract_subset_method_t Extract_subset
 
+typedef struct { ALTREP_METHODS; } altrep_methods_t;
 typedef struct { ALTVEC_METHODS; } altvec_methods_t;
 
 #define CLASS_METHODS_TABLE(type_class) STDVEC_DATAPTR(type_class)
@@ -48,6 +49,7 @@ typedef struct { ALTVEC_METHODS; } altvec_methods_t;
 #define GENERIC_METHODS_TABLE(x, type_class) \
 ((type_class##_methods_t *) CLASS_METHODS_TABLE(ALTREP_CLASS(x)))
 
+#define ALTREP_METHODS_TABLE(x) GENERIC_METHODS_TABLE(x, altrep)
 #define ALTVEC_METHODS_TABLE(x) GENERIC_METHODS_TABLE(x, altvec)
 
 #define DISPATCH_TARGET_HELPER(x, ...) x
@@ -55,10 +57,13 @@ typedef struct { ALTVEC_METHODS; } altvec_methods_t;
 #define DISPATCH_TARGET(...) DISPATCH_TARGET_HELPER(__VA_ARGS__, dummy)
 
 #define DO_DISPATCH(type, fun, ...)					\
-type##_METHODS_TABLE(DISPATCH_TARGET(__VA_ARGS__))->fun(__VA_ARGS__)
+  type##_METHODS_TABLE(DISPATCH_TARGET(__VA_ARGS__))->fun(__VA_ARGS__)
 
+#define ALTREP_DISPATCH(fun, ...) DO_DISPATCH(ALTREP, fun, __VA_ARGS__)
 #define ALTVEC_DISPATCH(fun, ...) DO_DISPATCH(ALTVEC, fun, __VA_ARGS__)
 
 SEXP ALTVEC_EXTRACT_SUBSET_PROXY(SEXP x, SEXP indx, SEXP call);
+
+SEXP ALTREP_SERIALIZED_STATE_PROXY(SEXP x);
 
 #endif  // API_PROXY_H
