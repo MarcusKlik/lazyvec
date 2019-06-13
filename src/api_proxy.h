@@ -62,5 +62,7 @@ typedef struct { ALTVEC_METHODS; } altvec_methods_t;
 SEXP ALTVEC_EXTRACT_SUBSET_PROXY(SEXP x, SEXP indx, SEXP call);
 SEXP ALTREP_SERIALIZED_STATE_PROXY(SEXP x);
 SEXP ALTREP_COERCE_PROXY(SEXP x, int type);
+Rboolean ALTREP_INSPECT_PROXY(SEXP x, int pre, int deep, int pvec,
+  void (*inspect_subtree)(SEXP, int, int, int));
 
 #endif  // API_PROXY_H

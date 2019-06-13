@@ -149,7 +149,7 @@ SEXP altwrap_ALTREP_TYPE_Serialized_state_method(SEXP x)
 Rboolean altwrap_ALTREP_TYPE_Inspect_method(SEXP x, int pre, int deep, int pvec,
   inspect_subtree_method subtree_method)
 {
-  Rboolean inspect_result = ALTREP_INSPECT(ALTWRAP_PAYLOAD(x), pre, deep, pvec, subtree_method);
+  Rboolean inspect_result = ALTREP_INSPECT_PROXY(ALTWRAP_PAYLOAD(x), pre, deep, pvec, subtree_method);
 
   SEXP arguments = PROTECT(Rf_allocVector(VECSXP, 5));
 

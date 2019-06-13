@@ -430,7 +430,7 @@ int trigger_inspect(SEXP x, int pre, int deep, int pvec)
   //   Rf_error("use a positive int for pVec");
   // }
 
-  return ALTREP_INSPECT(x, pre, deep, pvec, inspect_subtree_helper);
+  return ALTREP_INSPECT_PROXY(x, pre, deep, pvec, inspect_subtree_helper);
 }
 
 

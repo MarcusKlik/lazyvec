@@ -37,3 +37,9 @@ SEXP ALTREP_COERCE_PROXY(SEXP x, int type)
 {
   return ALTREP_DISPATCH(Coerce, x, type);
 }
+
+Rboolean ALTREP_INSPECT_PROXY(SEXP x, int pre, int deep, int pvec,
+  void (*inspect_subtree)(SEXP, int, int, int))
+{
+  return ALTREP_DISPATCH(Inspect, x, pre, deep, pvec, inspect_subtree);
+}
