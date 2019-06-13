@@ -45,8 +45,11 @@ typedef struct { ALTREP_METHODS; } altrep_methods_t;
 typedef struct { ALTVEC_METHODS; } altvec_methods_t;
 
 #define CLASS_METHODS_TABLE(type_class) STDVEC_DATAPTR(type_class)
+
 #define GENERIC_METHODS_TABLE(x, type_class) \
   ((type_class##_methods_t *) CLASS_METHODS_TABLE(ALTREP_CLASS(x)))
+
+
 #define ALTREP_METHODS_TABLE(x) GENERIC_METHODS_TABLE(x, altrep)
 #define ALTVEC_METHODS_TABLE(x) GENERIC_METHODS_TABLE(x, altvec)
 
@@ -59,11 +62,21 @@ typedef struct { ALTVEC_METHODS; } altvec_methods_t;
 #define ALTREP_DISPATCH(fun, ...) DO_DISPATCH(ALTREP, fun, __VA_ARGS__)
 #define ALTVEC_DISPATCH(fun, ...) DO_DISPATCH(ALTVEC, fun, __VA_ARGS__)
 
+#define ALTREP_SERIALIZED_CLASS_CLSSYM(x) CAR(x)
+#define ALTREP_SERIALIZED_CLASS_PKGSYM(x) CADR(x)
+#define ALTREP_SERIALIZED_CLASS_TYPE(x) INTEGER0(CADDR(x))[0]
+
+#define ALTREP_CLASS_SERIALIZED_CLASS(x) ATTRIB(x)
+
+#define ALTREP_CLASS_BASE_TYPE(x) \
+  ALTREP_SERIALIZED_CLASS_TYPE(ALTREP_CLASS_SERIALIZED_CLASS(x))
+
 SEXP ALTVEC_EXTRACT_SUBSET_PROXY(SEXP x, SEXP indx, SEXP call);
 SEXP ALTREP_SERIALIZED_STATE_PROXY(SEXP x);
 SEXP ALTREP_COERCE_PROXY(SEXP x, int type);
 Rboolean ALTREP_INSPECT_PROXY(SEXP x, int pre, int deep, int pvec,
   void (*inspect_subtree)(SEXP, int, int, int));
 SEXP ALTREP_DUPLICATE_EX_PROXY(SEXP x, Rboolean deep);
+SEXP ALTREP_UNSERIALIZE_EX_PROXY(SEXP info, SEXP state, SEXP attr, int objf, int levs);
 
 #endif  // API_PROXY_H

@@ -70,7 +70,7 @@ static SEXP lazyvec_ALTREP_TYPE_Unserialize_method(SEXP lazyvec_class, SEXP stat
 //
 SEXP lazyvec_ALTREP_TYPE_UnserializeEX_method(SEXP info, SEXP state, SEXP attr, int objf, int levs)
 {
-  // return ALTREP_UNSERIALIZE_EX(info, state, attr, objf, levs);
+  // return ALTREP_UNSERIALIZE_EX_PROXY(info, state, attr, objf, levs);
 
   Rcpp::Environment pkgs = Rcpp::Environment::namespace_env("lazyvec");
 
