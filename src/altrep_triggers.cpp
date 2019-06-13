@@ -81,12 +81,12 @@ SEXP trigger_dataptr_or_null(SEXP x)
 
   SEXP pointer = PROTECT(Rf_allocVector(INTSXP, 2));
   int* pointer_values = INTEGER(pointer);
-  
+
   pointer_values[0] = (int32_t) ((ptr_address >> 32) & ((1LL << 32) - 1));
   pointer_values[1] = (int32_t) (ptr_address & ((1LL << 32) - 1));
-  
+
   UNPROTECT(1);
-  
+
   return pointer;
 }
 

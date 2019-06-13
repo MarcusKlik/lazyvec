@@ -157,12 +157,12 @@ test_that("extract_subset trigger", {
 # after this test, the vector will be in it's expanded form
 test_that("dataptr trigger", {
   res <- lazyvec:::trigger_dataptr(x)
-  expect_true(sum(res) > 0)
+  expect_false(is.null(res))
 })
 
 
 test_that("dataptr_or_null trigger", {
   res <- lazyvec:::trigger_dataptr_or_null(x)
-  expect_true(sum(res) > 0)
+  expect_false(is.null(res))
   expect_true(is_altrep(x))
 })
