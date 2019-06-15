@@ -28,6 +28,8 @@
 #include <R_ext/Rdynload.h>
 #include "R_ext/Altrep.h"
 
+#include "api_proxy.h"
+
 // settings
 #define LAZYVEC_VERSION 17  // 0 * 256 + 1 * 16 + 1 * 16
 

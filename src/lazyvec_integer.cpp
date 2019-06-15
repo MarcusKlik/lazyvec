@@ -67,7 +67,7 @@ static SEXP lazyvec_integer_Unserialize_method(SEXP lazyvec_class, SEXP state)
 //
 SEXP lazyvec_integer_UnserializeEX_method(SEXP info, SEXP state, SEXP attr, int objf, int levs)
 {
-  // return ALTREP_UNSERIALIZE_EX(info, state, attr, objf, levs);
+  // return ALTREP_UNSERIALIZE_EX_PROXY(info, state, attr, objf, levs);
 
   Rcpp::Environment pkgs = Rcpp::Environment::namespace_env("lazyvec");
 
@@ -91,7 +91,7 @@ SEXP lazyvec_integer_UnserializeEX_method(SEXP info, SEXP state, SEXP attr, int 
 
 SEXP lazyvec_integer_Serialized_state_method(SEXP x)
 {
-  // SEXP serialized_state_result = PROTECT(ALTREP_SERIALIZED_STATE(LAZYVEC_PAYLOAD(x)));
+  // SEXP serialized_state_result = PROTECT(ALTREP_SERIALIZED_STATE_PROXY(LAZYVEC_PAYLOAD(x)));
 
   // length listener method
   // SEXP serialized_state_listener = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(x), LAZYVEC_METHOD_SERIALIZED_STATE));
@@ -363,7 +363,7 @@ SEXP lazyvec_integer_Max_method(SEXP x, Rboolean na_rm)
 
 SEXP lazyvec_integer_DuplicateEX_method(SEXP sx, Rboolean deep)
 {
-  SEXP result_duplicate_ex = PROTECT(ALTREP_DUPLICATE_EX(LAZYVEC_PAYLOAD(sx), deep));
+  SEXP result_duplicate_ex = PROTECT(ALTREP_DUPLICATE_EX_PROXY(LAZYVEC_PAYLOAD(sx), deep));
 
   // retrieve duplicateEX listener method
   SEXP duplicate_ex_listener = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(sx), LAZYVEC_METHOD_DUPLICATE_EX));

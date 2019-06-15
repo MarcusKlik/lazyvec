@@ -23,6 +23,7 @@
 #include <Rcpp.h>
 
 #include "api_helpers.h"
+
 #include <stdint.h>
 
 
@@ -108,7 +109,7 @@ SEXP altwrap_logical_UnserializeEX_method(SEXP info, SEXP state, SEXP attr, int 
 
 SEXP altwrap_logical_Serialized_state_method(SEXP x)
 {
-  SEXP serialized_state_result = PROTECT(ALTREP_SERIALIZED_STATE(ALTWRAP_PAYLOAD(x)));
+  SEXP serialized_state_result = PROTECT(ALTREP_SERIALIZED_STATE_PROXY(ALTWRAP_PAYLOAD(x)));
   
   // length listener method
   SEXP serialized_state_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(x), ALTREP_METHOD_SERIALIZED_STATE));
@@ -141,7 +142,7 @@ SEXP altwrap_logical_Serialized_state_method(SEXP x)
 Rboolean altwrap_logical_Inspect_method(SEXP x, int pre, int deep, int pvec,
   inspect_subtree_method subtree_method)
 {
-  Rboolean inspect_result = ALTREP_INSPECT(ALTWRAP_PAYLOAD(x), pre, deep, pvec, subtree_method);
+  Rboolean inspect_result = ALTREP_INSPECT_PROXY(ALTWRAP_PAYLOAD(x), pre, deep, pvec, subtree_method);
 
   SEXP arguments = PROTECT(Rf_allocVector(VECSXP, 5));
 
@@ -351,7 +352,7 @@ SEXP altwrap_logical_Sum_method(SEXP sx, Rboolean na_rm)
 
 SEXP altwrap_logical_DuplicateEX_method(SEXP sx, Rboolean deep)
 {
-  SEXP result_duplicate_ex = PROTECT(ALTREP_DUPLICATE_EX(ALTWRAP_PAYLOAD(sx), deep));
+  SEXP result_duplicate_ex = PROTECT(ALTREP_DUPLICATE_EX_PROXY(ALTWRAP_PAYLOAD(sx), deep));
 
   // retrieve duplicateEX listener method
   SEXP duplicate_ex_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(sx), ALTREP_METHOD_DUPLICATE_EX));
@@ -375,7 +376,7 @@ SEXP altwrap_logical_DuplicateEX_method(SEXP sx, Rboolean deep)
 
 SEXP altwrap_logical_Coerce_method(SEXP sx, int type)
 {
-  SEXP result_coerce = PROTECT(ALTREP_COERCE(ALTWRAP_PAYLOAD(sx), type));
+  SEXP result_coerce = PROTECT(ALTREP_COERCE_PROXY(ALTWRAP_PAYLOAD(sx), type));
 
   SEXP arguments = PROTECT(Rf_allocVector(VECSXP, 2));
   SET_VECTOR_ELT(arguments, 1, Rf_ScalarInteger(type));
@@ -406,7 +407,7 @@ SEXP altwrap_logical_Coerce_method(SEXP sx, int type)
 
 SEXP altwrap_logical_Extract_subset_method(SEXP sx, SEXP indx, SEXP call)
 {
-  SEXP result_extract_subset = PROTECT(ALTVEC_EXTRACT_SUBSET(ALTWRAP_PAYLOAD(sx), indx, call));
+  SEXP result_extract_subset = PROTECT(ALTVEC_EXTRACT_SUBSET_PROXY(ALTWRAP_PAYLOAD(sx), indx, call));
 
   SEXP arguments = PROTECT(Rf_allocVector(VECSXP, 3));
 
