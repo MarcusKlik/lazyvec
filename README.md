@@ -4,13 +4,13 @@
 <!-- <img src="logo.png" align="right" /> -->
 
 [![Linux/OSX Build
-Status](https://travis-ci.org/fstpackage/lazyvec.svg?branch=master)](https://travis-ci.org/fstpackage/lazyvec)
+Status](https://travis-ci.org/fstpackage/lazyvec.svg?branch=develop)](https://travis-ci.org/fstpackage/lazyvec)
 [![WIndows Build
 status](https://ci.appveyor.com/api/projects/status/bfm7amtkyjvc2rk9?svg=true)](https://ci.appveyor.com/project/fstpackage/lazyvec)
 [![License: AGPL
 v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 [![Lifecycle:
-experimental](https://img.shields.io/badge/lifecycle-experimental-blue.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+experimental](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 
 > This repository is home to the `lazyvec` package. `lazyvec` depends
 > heavily on the (complete) ALTREP framework that was rolled out with
@@ -34,7 +34,6 @@ made to existing or custom ALTREP vectors.
 You can install the package directly from GitHub:
 
 ``` r
-# install.packages("devtools")
 devtools::install_github("fstpackage/lazyvec")
 ```
 

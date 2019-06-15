@@ -1,11 +1,12 @@
 Package: lazyvec
 Type: Package
-Title: Native R interface to the ALTREP framework
-Version: 0.1.3
-Date: 2019-05-31
+Title: A simple R interface to the ALTREP framework
+Version: 0.1.5
+Date: 2019-06-15
 Authors@R: c(
     person("Mark", "Klik", email = "markklik@gmail.com", role = c("aut", "cre", "cph")))
-Description: Wrap a common R class as an ALTREP vector.
+Description: Provides a toolset for creating custom ALTREP vectors without any knowledge of R's
+    internal (ALTREP) C API. Includes a monitoring framework for internal ALTREP calls.
 Depends:
     R (>= 3.6.0)
 License: AGPL-3 | file LICENSE
