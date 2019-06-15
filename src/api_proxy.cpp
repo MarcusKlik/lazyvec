@@ -49,6 +49,11 @@ SEXP ALTREP_DUPLICATE_EX_PROXY(SEXP x, Rboolean deep)
   return ALTREP_DISPATCH(DuplicateEX, x, deep);
 }
 
+SEXP ALTREP_DUPLICATE_PROXY(SEXP x, Rboolean deep)
+{
+  return ALTREP_DISPATCH(Duplicate, x, deep);
+}
+
 static SEXP Registry = NULL;
 
 static SEXP LookupClassEntry(SEXP csym, SEXP psym)

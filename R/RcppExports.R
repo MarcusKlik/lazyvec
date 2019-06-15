@@ -13,32 +13,48 @@ altrep_data2 <- function(altrep_vec) {
     .Call(`_lazyvec_altrep_data2`, altrep_vec)
 }
 
-trigger_length <- function(x) {
-    .Call(`_lazyvec_trigger_length`, x)
-}
-
-trigger_duplicate_ex <- function(x, deep) {
-    .Call(`_lazyvec_trigger_duplicate_ex`, x, deep)
+trigger_unserialize_ex <- function(class_info, state, attr, objf, levs) {
+    .Call(`_lazyvec_trigger_unserialize_ex`, class_info, state, attr, objf, levs)
 }
 
 trigger_serialized_state <- function(x) {
     .Call(`_lazyvec_trigger_serialized_state`, x)
 }
 
-trigger_dataptr_or_null <- function(x) {
-    .Call(`_lazyvec_trigger_dataptr_or_null`, x)
+trigger_duplicate_ex <- function(x, deep) {
+    .Call(`_lazyvec_trigger_duplicate_ex`, x, deep)
+}
+
+trigger_duplicate <- function(x, deep) {
+    .Call(`_lazyvec_trigger_duplicate`, x, deep)
+}
+
+trigger_coerce <- function(x, type) {
+    .Call(`_lazyvec_trigger_coerce`, x, type)
+}
+
+trigger_inspect <- function(x, pre, deep, pvec) {
+    .Call(`_lazyvec_trigger_inspect`, x, pre, deep, pvec)
+}
+
+trigger_length <- function(x) {
+    .Call(`_lazyvec_trigger_length`, x)
 }
 
 trigger_dataptr <- function(x) {
     .Call(`_lazyvec_trigger_dataptr`, x)
 }
 
-trigger_get_region <- function(x, pos, size) {
-    .Call(`_lazyvec_trigger_get_region`, x, pos, size)
+trigger_dataptr_or_null <- function(x) {
+    .Call(`_lazyvec_trigger_dataptr_or_null`, x)
 }
 
 trigger_extract_subset <- function(x, indx) {
     .Call(`_lazyvec_trigger_extract_subset`, x, indx)
+}
+
+trigger_get_region <- function(x, pos, size) {
+    .Call(`_lazyvec_trigger_get_region`, x, pos, size)
 }
 
 trigger_element <- function(x, pos) {
@@ -63,18 +79,6 @@ trigger_min <- function(x, na_rm) {
 
 trigger_max <- function(x, na_rm) {
     .Call(`_lazyvec_trigger_max`, x, na_rm)
-}
-
-trigger_unserialize_ex <- function(class_info, state, attr, objf, levs) {
-    .Call(`_lazyvec_trigger_unserialize_ex`, class_info, state, attr, objf, levs)
-}
-
-trigger_inspect <- function(x, pre, deep, pvec) {
-    .Call(`_lazyvec_trigger_inspect`, x, pre, deep, pvec)
-}
-
-trigger_coerce <- function(x, type) {
-    .Call(`_lazyvec_trigger_coerce`, x, type)
 }
 
 altrep_integer_wrapper <- function(data) {

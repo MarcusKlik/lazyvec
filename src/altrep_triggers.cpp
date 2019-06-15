@@ -34,22 +34,22 @@ void test_altrep(SEXP x)
 }
 
 
+// ALTREP methods are available on all vector types
+// * UnserializeEX
+// * Unserialize        (not implemented in R core)
+// * Serialized_state
+// * DuplicateEX
+// * Duplicate
+// * Coerce
+// * Inspect
+// * Length
+
+
 // [[Rcpp::export]]
-int trigger_length(SEXP x)
+SEXP trigger_unserialize_ex(SEXP class_info, SEXP state, SEXP attr, int objf, int levs)
 {
-  test_altrep(x);
-
-  return (int)(ALTREP_LENGTH(x));
-}
-
-
-// [[Rcpp::export]]
-SEXP trigger_duplicate_ex(SEXP x, int deep)
-{
-  test_altrep(x);
+  SEXP res = ALTREP_UNSERIALIZE_EX_PROXY(class_info, state, attr, objf, levs);
   
-  SEXP res = ALTREP_DUPLICATE_EX_PROXY(x, (Rboolean) deep);
-
   return sexp_or_null(res);
 }
 
@@ -60,8 +60,133 @@ SEXP trigger_serialized_state(SEXP x)
   test_altrep(x);
   
   SEXP res = ALTREP_SERIALIZED_STATE_PROXY(x);
-
+  
   return sexp_or_null(res);
+}
+
+
+// [[Rcpp::export]]
+SEXP trigger_duplicate_ex(SEXP x, int deep)
+{
+  test_altrep(x);
+  
+  SEXP res = ALTREP_DUPLICATE_EX_PROXY(x, (Rboolean) deep);
+  
+  return sexp_or_null(res);
+}
+
+
+// [[Rcpp::export]]
+SEXP trigger_duplicate(SEXP x, int deep)
+{
+  test_altrep(x);
+
+  SEXP res = ALTREP_DUPLICATE_PROXY(x, (Rboolean) deep);
+  
+  return sexp_or_null(res);
+}
+
+
+// [[Rcpp::export]]
+SEXP trigger_coerce(SEXP x, int type)
+{
+  test_altrep(x);
+  
+  if (!is_altrep_vector(x))
+  {
+    Rf_error("x is not an ALTREP vector");
+  }
+  
+  if ((type != LGLSXP) &&
+      (type != INTSXP) &&
+      (type != REALSXP) &&
+      (type != CPLXSXP) &&
+      (type != STRSXP) &&
+      (type != VECSXP) &&
+      (type != RAWSXP) &&
+      (type != EXPRSXP))
+  {
+    Rf_error("Undefined type, valid types are 10 (LGLSXP), 13 (INTSXP), 14 (REALSXP)"
+               "15 (CPLXSXP), 16 (STRSXP), 19 (VECSXP), 24 (RAWSXP) and 20 (EXPRSXP)");
+  }
+  
+  SEXP res = ALTREP_COERCE_PROXY(x, type);
+  
+  return sexp_or_null(res);
+}
+
+
+// used as a proxy for the inspect_subtree method normally supplied by R
+void inspect_subtree_helper(SEXP, int, int, int)
+{
+}
+
+
+// Trigger ALTREP_INSPECT method
+// 
+// x is the object to inspect
+// pre is the prefix
+// deep specifies the recursion behavior (0 = no recursion, -1 = [sort of] unlimited
+//   recursion, positive numbers define the maximum recursion depth)
+// pvec is the maximum number of vector elements to show
+// [[Rcpp::export]]
+int trigger_inspect(SEXP x, int pre, int deep, int pvec)
+{
+  test_altrep(x);
+  
+  if (deep < -1)
+  {
+    Rf_error("deep specifies the recursion behavior: 0 = no recursion, -1 = [sort of] unlimited"
+               " recursion, positive numbers define the maximum recursion depth");
+  }
+  
+  // if (pvec < 0)
+  // {
+  //   Rf_error("use a positive int for pVec");
+  // }
+  
+  return ALTREP_INSPECT_PROXY(x, pre, deep, pvec, inspect_subtree_helper);
+}
+
+
+// [[Rcpp::export]]
+int trigger_length(SEXP x)
+{
+  test_altrep(x);
+
+  return (int)(ALTREP_LENGTH(x));
+}
+
+
+// ALTVEC methods are available on all vector types
+// * Dataptr
+// * Dataptr_or_null
+// * Extract_subset
+
+
+// [[Rcpp::export]]
+SEXP trigger_dataptr(SEXP x)
+{
+  test_altrep(x);
+  
+  const void* dataptr = DATAPTR(x);
+  
+  if (dataptr == NULL)
+  {
+    return R_NilValue;
+  }
+  
+  uint64_t ptr_address = (uint64_t) dataptr;
+  
+  SEXP pointer = PROTECT(Rf_allocVector(INTSXP, 2));
+  int* pointer_values = INTEGER(pointer);
+  
+  pointer_values[0] = (int32_t) ((ptr_address >> 32) & ((1LL << 32) - 1));
+  pointer_values[1] = (int32_t) (ptr_address & ((1LL << 32) - 1));
+  
+  UNPROTECT(1);
+  
+  return pointer;
 }
 
 
@@ -92,28 +217,18 @@ SEXP trigger_dataptr_or_null(SEXP x)
 
 
 // [[Rcpp::export]]
-SEXP trigger_dataptr(SEXP x)
+SEXP trigger_extract_subset(SEXP x, SEXP indx)
 {
   test_altrep(x);
   
-  const void* dataptr = DATAPTR(x);
+  int type = TYPEOF(indx);
   
-  if (dataptr == NULL)
+  if (type != INTSXP && type != REALSXP)
   {
-    return R_NilValue;
+    Rf_error("Please use a numeric index");
   }
   
-  uint64_t ptr_address = (uint64_t) dataptr;
-  
-  SEXP pointer = PROTECT(Rf_allocVector(INTSXP, 2));
-  int* pointer_values = INTEGER(pointer);
-  
-  pointer_values[0] = (int32_t) ((ptr_address >> 32) & ((1LL << 32) - 1));
-  pointer_values[1] = (int32_t) (ptr_address & ((1LL << 32) - 1));
-  
-  UNPROTECT(1);
-  
-  return pointer;
+  return sexp_or_null(ALTVEC_EXTRACT_SUBSET_PROXY(x, indx, R_NilValue));
 }
 
 
@@ -174,22 +289,6 @@ SEXP trigger_get_region(SEXP x, SEXP pos, SEXP size)
   }
   
   return res;
-}
-
-
-// [[Rcpp::export]]
-SEXP trigger_extract_subset(SEXP x, SEXP indx)
-{
-  test_altrep(x);
-
-  int type = TYPEOF(indx);
-  
-  if (type != INTSXP && type != REALSXP)
-  {
-    Rf_error("Please use a numeric index");
-  }
-    
-  return sexp_or_null(ALTVEC_EXTRACT_SUBSET_PROXY(x, indx, R_NilValue));
 }
 
 
@@ -389,75 +488,4 @@ SEXP trigger_max(SEXP x, SEXP na_rm)
   Rf_error("Method max cannot be called on a ALTREP vector of this type");
   
   return 0;
-}
-
-
-// [[Rcpp::export]]
-SEXP trigger_unserialize_ex(SEXP class_info, SEXP state, SEXP attr, int objf, int levs)
-{
-  SEXP res = ALTREP_UNSERIALIZE_EX_PROXY(class_info, state, attr, objf, levs);
-  
-  return sexp_or_null(res);
-}
-
-
-// used as a proxy for the inspect_subtree method normally supplied by R
-void inspect_subtree_helper(SEXP, int, int, int)
-{
-}
-  
-
-// Trigger ALTREP_INSPECT method
-// 
-// x is the object to inspect
-// pre is the prefix
-// deep specifies the recursion behavior (0 = no recursion, -1 = [sort of] unlimited
-//   recursion, positive numbers define the maximum recursion depth)
-// pvec is the maximum number of vector elements to show
-// [[Rcpp::export]]
-int trigger_inspect(SEXP x, int pre, int deep, int pvec)
-{
-  test_altrep(x);
-
-  if (deep < -1)
-  {
-    Rf_error("deep specifies the recursion behavior: 0 = no recursion, -1 = [sort of] unlimited"
-      " recursion, positive numbers define the maximum recursion depth");
-  }
-
-  // if (pvec < 0)
-  // {
-  //   Rf_error("use a positive int for pVec");
-  // }
-
-  return ALTREP_INSPECT_PROXY(x, pre, deep, pvec, inspect_subtree_helper);
-}
-
-
-// [[Rcpp::export]]
-SEXP trigger_coerce(SEXP x, int type)
-{
-  test_altrep(x);
-  
-  if (!is_altrep_vector(x))
-  {
-    Rf_error("x is not an ALTREP vector");
-  }
-
-  if ((type != LGLSXP) &&
-      (type != INTSXP) &&
-      (type != REALSXP) &&
-      (type != CPLXSXP) &&
-      (type != STRSXP) &&
-      (type != VECSXP) &&
-      (type != RAWSXP) &&
-      (type != EXPRSXP))
-  {
-    Rf_error("Undefined type, valid types are 10 (LGLSXP), 13 (INTSXP), 14 (REALSXP)"
-      "15 (CPLXSXP), 16 (STRSXP), 19 (VECSXP), 24 (RAWSXP) and 20 (EXPRSXP)");
-  }
-  
-  SEXP res = ALTREP_COERCE_PROXY(x, type);
-
-  return sexp_or_null(res);
 }

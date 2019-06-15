@@ -38,14 +38,29 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// trigger_length
-int trigger_length(SEXP x);
-RcppExport SEXP _lazyvec_trigger_length(SEXP xSEXP) {
+// trigger_unserialize_ex
+SEXP trigger_unserialize_ex(SEXP class_info, SEXP state, SEXP attr, int objf, int levs);
+RcppExport SEXP _lazyvec_trigger_unserialize_ex(SEXP class_infoSEXP, SEXP stateSEXP, SEXP attrSEXP, SEXP objfSEXP, SEXP levsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type class_info(class_infoSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type state(stateSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type attr(attrSEXP);
+    Rcpp::traits::input_parameter< int >::type objf(objfSEXP);
+    Rcpp::traits::input_parameter< int >::type levs(levsSEXP);
+    rcpp_result_gen = Rcpp::wrap(trigger_unserialize_ex(class_info, state, attr, objf, levs));
+    return rcpp_result_gen;
+END_RCPP
+}
+// trigger_serialized_state
+SEXP trigger_serialized_state(SEXP x);
+RcppExport SEXP _lazyvec_trigger_serialized_state(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(trigger_length(x));
+    rcpp_result_gen = Rcpp::wrap(trigger_serialized_state(x));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -61,25 +76,52 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// trigger_serialized_state
-SEXP trigger_serialized_state(SEXP x);
-RcppExport SEXP _lazyvec_trigger_serialized_state(SEXP xSEXP) {
+// trigger_duplicate
+SEXP trigger_duplicate(SEXP x, int deep);
+RcppExport SEXP _lazyvec_trigger_duplicate(SEXP xSEXP, SEXP deepSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(trigger_serialized_state(x));
+    Rcpp::traits::input_parameter< int >::type deep(deepSEXP);
+    rcpp_result_gen = Rcpp::wrap(trigger_duplicate(x, deep));
     return rcpp_result_gen;
 END_RCPP
 }
-// trigger_dataptr_or_null
-SEXP trigger_dataptr_or_null(SEXP x);
-RcppExport SEXP _lazyvec_trigger_dataptr_or_null(SEXP xSEXP) {
+// trigger_coerce
+SEXP trigger_coerce(SEXP x, int type);
+RcppExport SEXP _lazyvec_trigger_coerce(SEXP xSEXP, SEXP typeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(trigger_dataptr_or_null(x));
+    Rcpp::traits::input_parameter< int >::type type(typeSEXP);
+    rcpp_result_gen = Rcpp::wrap(trigger_coerce(x, type));
+    return rcpp_result_gen;
+END_RCPP
+}
+// trigger_inspect
+int trigger_inspect(SEXP x, int pre, int deep, int pvec);
+RcppExport SEXP _lazyvec_trigger_inspect(SEXP xSEXP, SEXP preSEXP, SEXP deepSEXP, SEXP pvecSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
+    Rcpp::traits::input_parameter< int >::type pre(preSEXP);
+    Rcpp::traits::input_parameter< int >::type deep(deepSEXP);
+    Rcpp::traits::input_parameter< int >::type pvec(pvecSEXP);
+    rcpp_result_gen = Rcpp::wrap(trigger_inspect(x, pre, deep, pvec));
+    return rcpp_result_gen;
+END_RCPP
+}
+// trigger_length
+int trigger_length(SEXP x);
+RcppExport SEXP _lazyvec_trigger_length(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(trigger_length(x));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -94,16 +136,14 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// trigger_get_region
-SEXP trigger_get_region(SEXP x, SEXP pos, SEXP size);
-RcppExport SEXP _lazyvec_trigger_get_region(SEXP xSEXP, SEXP posSEXP, SEXP sizeSEXP) {
+// trigger_dataptr_or_null
+SEXP trigger_dataptr_or_null(SEXP x);
+RcppExport SEXP _lazyvec_trigger_dataptr_or_null(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
-    Rcpp::traits::input_parameter< SEXP >::type pos(posSEXP);
-    Rcpp::traits::input_parameter< SEXP >::type size(sizeSEXP);
-    rcpp_result_gen = Rcpp::wrap(trigger_get_region(x, pos, size));
+    rcpp_result_gen = Rcpp::wrap(trigger_dataptr_or_null(x));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -116,6 +156,19 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
     Rcpp::traits::input_parameter< SEXP >::type indx(indxSEXP);
     rcpp_result_gen = Rcpp::wrap(trigger_extract_subset(x, indx));
+    return rcpp_result_gen;
+END_RCPP
+}
+// trigger_get_region
+SEXP trigger_get_region(SEXP x, SEXP pos, SEXP size);
+RcppExport SEXP _lazyvec_trigger_get_region(SEXP xSEXP, SEXP posSEXP, SEXP sizeSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type pos(posSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type size(sizeSEXP);
+    rcpp_result_gen = Rcpp::wrap(trigger_get_region(x, pos, size));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -186,47 +239,6 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
     Rcpp::traits::input_parameter< SEXP >::type na_rm(na_rmSEXP);
     rcpp_result_gen = Rcpp::wrap(trigger_max(x, na_rm));
-    return rcpp_result_gen;
-END_RCPP
-}
-// trigger_unserialize_ex
-SEXP trigger_unserialize_ex(SEXP class_info, SEXP state, SEXP attr, int objf, int levs);
-RcppExport SEXP _lazyvec_trigger_unserialize_ex(SEXP class_infoSEXP, SEXP stateSEXP, SEXP attrSEXP, SEXP objfSEXP, SEXP levsSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< SEXP >::type class_info(class_infoSEXP);
-    Rcpp::traits::input_parameter< SEXP >::type state(stateSEXP);
-    Rcpp::traits::input_parameter< SEXP >::type attr(attrSEXP);
-    Rcpp::traits::input_parameter< int >::type objf(objfSEXP);
-    Rcpp::traits::input_parameter< int >::type levs(levsSEXP);
-    rcpp_result_gen = Rcpp::wrap(trigger_unserialize_ex(class_info, state, attr, objf, levs));
-    return rcpp_result_gen;
-END_RCPP
-}
-// trigger_inspect
-int trigger_inspect(SEXP x, int pre, int deep, int pvec);
-RcppExport SEXP _lazyvec_trigger_inspect(SEXP xSEXP, SEXP preSEXP, SEXP deepSEXP, SEXP pvecSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
-    Rcpp::traits::input_parameter< int >::type pre(preSEXP);
-    Rcpp::traits::input_parameter< int >::type deep(deepSEXP);
-    Rcpp::traits::input_parameter< int >::type pvec(pvecSEXP);
-    rcpp_result_gen = Rcpp::wrap(trigger_inspect(x, pre, deep, pvec));
-    return rcpp_result_gen;
-END_RCPP
-}
-// trigger_coerce
-SEXP trigger_coerce(SEXP x, int type);
-RcppExport SEXP _lazyvec_trigger_coerce(SEXP xSEXP, SEXP typeSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
-    Rcpp::traits::input_parameter< int >::type type(typeSEXP);
-    rcpp_result_gen = Rcpp::wrap(trigger_coerce(x, type));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -367,22 +379,23 @@ static const R_CallMethodDef CallEntries[] = {
     {"_lazyvec_altrep_full_class", (DL_FUNC) &_lazyvec_altrep_full_class, 1},
     {"_lazyvec_altrep_data1", (DL_FUNC) &_lazyvec_altrep_data1, 1},
     {"_lazyvec_altrep_data2", (DL_FUNC) &_lazyvec_altrep_data2, 1},
-    {"_lazyvec_trigger_length", (DL_FUNC) &_lazyvec_trigger_length, 1},
-    {"_lazyvec_trigger_duplicate_ex", (DL_FUNC) &_lazyvec_trigger_duplicate_ex, 2},
+    {"_lazyvec_trigger_unserialize_ex", (DL_FUNC) &_lazyvec_trigger_unserialize_ex, 5},
     {"_lazyvec_trigger_serialized_state", (DL_FUNC) &_lazyvec_trigger_serialized_state, 1},
-    {"_lazyvec_trigger_dataptr_or_null", (DL_FUNC) &_lazyvec_trigger_dataptr_or_null, 1},
+    {"_lazyvec_trigger_duplicate_ex", (DL_FUNC) &_lazyvec_trigger_duplicate_ex, 2},
+    {"_lazyvec_trigger_duplicate", (DL_FUNC) &_lazyvec_trigger_duplicate, 2},
+    {"_lazyvec_trigger_coerce", (DL_FUNC) &_lazyvec_trigger_coerce, 2},
+    {"_lazyvec_trigger_inspect", (DL_FUNC) &_lazyvec_trigger_inspect, 4},
+    {"_lazyvec_trigger_length", (DL_FUNC) &_lazyvec_trigger_length, 1},
     {"_lazyvec_trigger_dataptr", (DL_FUNC) &_lazyvec_trigger_dataptr, 1},
-    {"_lazyvec_trigger_get_region", (DL_FUNC) &_lazyvec_trigger_get_region, 3},
+    {"_lazyvec_trigger_dataptr_or_null", (DL_FUNC) &_lazyvec_trigger_dataptr_or_null, 1},
     {"_lazyvec_trigger_extract_subset", (DL_FUNC) &_lazyvec_trigger_extract_subset, 2},
+    {"_lazyvec_trigger_get_region", (DL_FUNC) &_lazyvec_trigger_get_region, 3},
     {"_lazyvec_trigger_element", (DL_FUNC) &_lazyvec_trigger_element, 2},
     {"_lazyvec_trigger_is_sorted", (DL_FUNC) &_lazyvec_trigger_is_sorted, 1},
     {"_lazyvec_trigger_no_na", (DL_FUNC) &_lazyvec_trigger_no_na, 1},
     {"_lazyvec_trigger_sum", (DL_FUNC) &_lazyvec_trigger_sum, 2},
     {"_lazyvec_trigger_min", (DL_FUNC) &_lazyvec_trigger_min, 2},
     {"_lazyvec_trigger_max", (DL_FUNC) &_lazyvec_trigger_max, 2},
-    {"_lazyvec_trigger_unserialize_ex", (DL_FUNC) &_lazyvec_trigger_unserialize_ex, 5},
-    {"_lazyvec_trigger_inspect", (DL_FUNC) &_lazyvec_trigger_inspect, 4},
-    {"_lazyvec_trigger_coerce", (DL_FUNC) &_lazyvec_trigger_coerce, 2},
     {"_lazyvec_altrep_integer_wrapper", (DL_FUNC) &_lazyvec_altrep_integer_wrapper, 1},
     {"_lazyvec_altrep_logical_wrapper", (DL_FUNC) &_lazyvec_altrep_logical_wrapper, 1},
     {"_lazyvec_altrep_raw_wrapper", (DL_FUNC) &_lazyvec_altrep_raw_wrapper, 1},

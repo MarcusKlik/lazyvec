@@ -77,6 +77,7 @@ SEXP ALTREP_COERCE_PROXY(SEXP x, int type);
 Rboolean ALTREP_INSPECT_PROXY(SEXP x, int pre, int deep, int pvec,
   void (*inspect_subtree)(SEXP, int, int, int));
 SEXP ALTREP_DUPLICATE_EX_PROXY(SEXP x, Rboolean deep);
+SEXP ALTREP_DUPLICATE_PROXY(SEXP x, Rboolean deep);
 SEXP ALTREP_UNSERIALIZE_EX_PROXY(SEXP info, SEXP state, SEXP attr, int objf, int levs);
 
 #endif  // API_PROXY_H
