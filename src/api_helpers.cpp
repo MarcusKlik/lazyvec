@@ -64,15 +64,3 @@ SEXP call_tripple_r_interface(SEXP f, SEXP x1, SEXP x2, SEXP x3, SEXP rho) {
 
   return val;
 }
-
-
-// [[Rcpp::export]]
-int is_altrep_vector(SEXP vec) {
-  return ALTREP(vec);
-}
-
-
-// [[Rcpp::export]]
-SEXP altrep_class(SEXP vec) {
-  return ALTREP_CLASS(vec);
-}

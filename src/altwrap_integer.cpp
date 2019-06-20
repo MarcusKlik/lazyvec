@@ -144,21 +144,12 @@ Rboolean altwrap_integer_Inspect_method(SEXP x, int pre, int deep, int pvec,
 {
   Rboolean inspect_result = ALTREP_INSPECT_PROXY(ALTWRAP_PAYLOAD(x), pre, deep, pvec, subtree_method);
 
-  SEXP arguments = PROTECT(Rf_allocVector(VECSXP, 5));
-
-  if (x == NULL)
-  {
-    SET_VECTOR_ELT(arguments, 1, R_NilValue);
-  }
-  else
-  {
-    SET_VECTOR_ELT(arguments, 1, x);
-  }
+  SEXP arguments = PROTECT(Rf_allocVector(VECSXP, 4));
 
   SET_VECTOR_ELT(arguments, 0, Rf_ScalarInteger(inspect_result));
-  SET_VECTOR_ELT(arguments, 2, Rf_ScalarInteger(pre));
-  SET_VECTOR_ELT(arguments, 3, Rf_ScalarInteger(deep));
-  SET_VECTOR_ELT(arguments, 4, Rf_ScalarInteger(pvec));
+  SET_VECTOR_ELT(arguments, 1, Rf_ScalarInteger(pre));
+  SET_VECTOR_ELT(arguments, 2, Rf_ScalarInteger(deep));
+  SET_VECTOR_ELT(arguments, 3, Rf_ScalarInteger(pvec));
 
   // length listener method
   SEXP inspect_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(x), ALTREP_METHOD_INSPECT));

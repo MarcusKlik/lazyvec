@@ -137,7 +137,7 @@ int trigger_inspect(SEXP x, int pre, int deep, int pvec)
   if (deep < -1)
   {
     Rf_error("deep specifies the recursion behavior: 0 = no recursion, -1 = [sort of] unlimited"
-               " recursion, positive numbers define the maximum recursion depth");
+      " recursion, positive numbers define the maximum recursion depth");
   }
   
   // if (pvec < 0)

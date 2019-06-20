@@ -123,6 +123,15 @@ test_that("duplicate_ex trigger", {
 })
 
 
+test_that("duplicate trigger", {
+  res <- lazyvec:::trigger_duplicate(x, FALSE)
+  expect_false(is_altrep(res))
+
+  res <- lazyvec:::trigger_duplicate(x, TRUE)
+  expect_false(is_altrep(res))
+})
+
+
 test_that("coerce trigger", {
   res <- lazyvec:::trigger_coerce(x, 10)
   expect_null(res)
