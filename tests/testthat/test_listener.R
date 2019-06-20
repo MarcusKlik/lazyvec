@@ -23,7 +23,7 @@ y <- altrep_listener(x, "x")  # no error
 
 test_that("length listener", {
   text <- paste(capture.output(lazyvec:::trigger_length(y)), collapse = " ")
-  expect_match(text, "x : ALTREP length : result = integer[1] 100", fixed = TRUE)
+  expect_match(text, "x : ALTREP length : result = int[1] 100", fixed = TRUE)
 })
 
 

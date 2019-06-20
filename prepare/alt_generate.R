@@ -64,71 +64,71 @@ alt_generate <- function(source_path, altrep_type, cpp_type, scalar_method, type
 
 # generate int wrapper
 alt_generate(
-  source_path    = "altwrap_implementation.cpp",
-  altrep_type    = "integer",
-  cpp_type       = "int",
-  scalar_method  = "Rf_ScalarInteger",
-  type_method    = "INTEGER",
-  alt_method     = "altinteger",
-  sexp_to_cpp    = "not_needed",
-  altvec_wrapper = "altrep_integer_wrapper",
-  "../src/altwrap_integer.cpp",
-  "Duplicate_")
+  source_path     = "altwrap_implementation.cpp",
+  altrep_type     = "integer",
+  cpp_type        = "int",
+  scalar_method   = "Rf_ScalarInteger",
+  type_method     = "INTEGER",
+  alt_method      = "altinteger",
+  sexp_to_cpp     = "not_needed",
+  altvec_wrapper  = "altrep_integer_wrapper",
+  output_path     = "../src/altwrap_integer.cpp",
+  exclude_methods = "Duplicate_")
 
 # generate real wrapper
 alt_generate(
-  source_path    = "altwrap_implementation.cpp",
-  altrep_type    = "real",
-  cpp_type       = "double",
-  scalar_method  = "Rf_ScalarReal",
-  type_method    = "REAL",
-  alt_method     = "altreal",
-  sexp_to_cpp    = "not_needed",
-  altvec_wrapper = "altrep_real_wrapper",
-  "../src/altwrap_real.cpp",
-  "Duplicate_")
+  source_path     = "altwrap_implementation.cpp",
+  altrep_type     = "real",
+  cpp_type        = "double",
+  scalar_method   = "Rf_ScalarReal",
+  type_method     = "REAL",
+  alt_method      = "altreal",
+  sexp_to_cpp     = "not_needed",
+  altvec_wrapper  = "altrep_real_wrapper",
+  output_path     = "../src/altwrap_real.cpp",
+  exclude_methods = "Duplicate_")
 
 
 # generate logical wrapper
 alt_generate(
-  source_path    = "altwrap_implementation.cpp",
-  altrep_type    = "logical",
-  cpp_type       = "int",
-  scalar_method  = "Rf_ScalarLogical",
-  type_method    = "LOGICAL",
-  alt_method     = "altlogical",
-  sexp_to_cpp    = "not_needed",
-  altvec_wrapper = "altrep_logical_wrapper",
-  "../src/altwrap_logical.cpp",
-  c("Min", "Max", "Duplicate_"))
+  source_path     = "altwrap_implementation.cpp",
+  altrep_type     = "logical",
+  cpp_type        = "int",
+  scalar_method   = "Rf_ScalarLogical",
+  type_method     = "LOGICAL",
+  alt_method      = "altlogical",
+  sexp_to_cpp     = "not_needed",
+  altvec_wrapper  = "altrep_logical_wrapper",
+  output_path     = "../src/altwrap_logical.cpp",
+  exclude_methods = c("Min", "Max", "Duplicate_"))
 
 
 # generate raw wrapper
 alt_generate(
-  source_path    = "altwrap_implementation.cpp",
-  altrep_type    = "raw",
-  cpp_type       = "Rbyte",
-  scalar_method  = "Rf_ScalarRaw",
-  type_method    = "RAW",
-  alt_method     = "altraw",
-  sexp_to_cpp    = "not_needed",
-  altvec_wrapper = "altrep_raw_wrapper",
-  "../src/altwrap_raw.cpp",
-  c("Min", "Max", "Is_sorted", "No_NA", "Sum", "Duplicate_"))
+  source_path     = "altwrap_implementation.cpp",
+  altrep_type     = "raw",
+  cpp_type        = "Rbyte",
+  scalar_method   = "Rf_ScalarRaw",
+  type_method     = "RAW",
+  alt_method      = "altraw",
+  sexp_to_cpp     = "not_needed",
+  altvec_wrapper  = "altrep_raw_wrapper",
+  output_path     = "../src/altwrap_raw.cpp",
+  exclude_methods = c("Min", "Max", "Is_sorted", "No_NA", "Sum", "Duplicate_"))
 
 
 # generate string wrapper
 alt_generate(
-  source_path    = "altwrap_implementation.cpp",
-  altrep_type    = "string",
-  cpp_type       = "SEXP",
-  scalar_method  = "Rf_ScalarString",
-  type_method    = "STRING",
-  alt_method     = "altstring",
-  sexp_to_cpp    = "not_needed",
-  altvec_wrapper = "altrep_string_wrapper",
-  "../src/altwrap_string.cpp",
-  c("Min", "Max", "Sum", "Get_region", "Duplicate_"))
+  source_path     = "altwrap_implementation.cpp",
+  altrep_type     = "string",
+  cpp_type        = "SEXP",
+  scalar_method   = "Rf_ScalarString",
+  type_method     = "STRING",
+  alt_method      = "altstring",
+  sexp_to_cpp     = "not_needed",
+  altvec_wrapper  = "altrep_string_wrapper",
+  output_path     = "../src/altwrap_string.cpp",
+  exclude_methods = c("Min", "Max", "Sum", "Get_region", "Duplicate_"))
 
 
 ###################################################################################################
@@ -137,68 +137,68 @@ alt_generate(
 
 # generate int wrapper
 alt_generate(
-  source_path    = "lazyvec_implementation.cpp",
-  altrep_type    = "integer",
-  cpp_type       = "int",
-  scalar_method  = "Rf_ScalarInteger",
-  type_method    = "INTEGER",
-  alt_method     = "altinteger",
-  sexp_to_cpp    = "SEXP_TO_INT",
-  altvec_wrapper = "not_needed",
-  "../src/lazyvec_integer.cpp",
-  "Duplicate_")
+  source_path     = "lazyvec_implementation.cpp",
+  altrep_type     = "integer",
+  cpp_type        = "int",
+  scalar_method   = "Rf_ScalarInteger",
+  type_method     = "INTEGER",
+  alt_method      = "altinteger",
+  sexp_to_cpp     = "SEXP_TO_INT",
+  altvec_wrapper  = "not_needed",
+  output_path     = "../src/lazyvec_integer.cpp",
+  exclude_methods = "Duplicate_")
 
 # generate real wrapper
 alt_generate(
-  source_path    = "lazyvec_implementation.cpp",
-  altrep_type    = "real",
-  cpp_type       = "double",
-  scalar_method  = "Rf_ScalarReal",
-  type_method    = "REAL",
-  alt_method     = "altreal",
-  sexp_to_cpp    = "SEXP_TO_DOUBLE",
-  altvec_wrapper = "not_needed",
-  "../src/lazyvec_real.cpp",
-  "Duplicate_")
+  source_path     = "lazyvec_implementation.cpp",
+  altrep_type     = "real",
+  cpp_type        = "double",
+  scalar_method   = "Rf_ScalarReal",
+  type_method     = "REAL",
+  alt_method      = "altreal",
+  sexp_to_cpp     = "SEXP_TO_DOUBLE",
+  altvec_wrapper  = "not_needed",
+  output_path     = "../src/lazyvec_real.cpp",
+  exclude_methods = "Duplicate_")
 
 
 # generate logical wrapper
 alt_generate(
-  source_path    = "lazyvec_implementation.cpp",
-  altrep_type    = "logical",
-  cpp_type       = "int",
-  scalar_method  = "Rf_ScalarLogical",
-  type_method    = "LOGICAL",
-  alt_method     = "altlogical",
-  sexp_to_cpp    = "SEXP_TO_INT",
-  altvec_wrapper = "not_needed",
-  "../src/lazyvec_logical.cpp",
-  c("Min", "Max", "Duplicate_"))
+  source_path     = "lazyvec_implementation.cpp",
+  altrep_type     = "logical",
+  cpp_type        = "int",
+  scalar_method   = "Rf_ScalarLogical",
+  type_method     = "LOGICAL",
+  alt_method      = "altlogical",
+  sexp_to_cpp     = "SEXP_TO_INT",
+  altvec_wrapper  = "not_needed",
+  output_path     = "../src/lazyvec_logical.cpp",
+  exclude_methods = c("Min", "Max", "Duplicate_"))
 
 
 # generate raw wrapper
 alt_generate(
-  source_path    = "lazyvec_implementation.cpp",
-  altrep_type    = "raw",
-  cpp_type       = "Rbyte",
-  scalar_method  = "Rf_ScalarRaw",
-  type_method    = "RAW",
-  alt_method     = "altraw",
-  sexp_to_cpp    = "SEXP_TO_RBYTE",
-  altvec_wrapper = "not_needed",
-  "../src/lazyvec_raw.cpp",
-  c("Min", "Max", "Is_sorted", "No_NA", "Sum", "Duplicate_"))
+  source_path     = "lazyvec_implementation.cpp",
+  altrep_type     = "raw",
+  cpp_type        = "Rbyte",
+  scalar_method   = "Rf_ScalarRaw",
+  type_method     = "RAW",
+  alt_method      = "altraw",
+  sexp_to_cpp     = "SEXP_TO_RBYTE",
+  altvec_wrapper  = "not_needed",
+  output_path     = "../src/lazyvec_raw.cpp",
+  exclude_methods = c("Min", "Max", "Is_sorted", "No_NA", "Sum", "Duplicate_"))
 
 
 # generate string wrapper
 alt_generate(
-  source_path    = "lazyvec_implementation.cpp",
-  altrep_type    = "string",
-  cpp_type       = "SEXP",
-  scalar_method  = "Rf_ScalarString",
-  type_method    = "STRING",
-  alt_method     = "altstring",
-  sexp_to_cpp    = "SEXP_TO_CHARXP",
-  altvec_wrapper = "not_needed",
-  "../src/lazyvec_string.cpp",
-  c("Min", "Max", "Sum", "Get_region", "Duplicate_"))
+  source_path     = "lazyvec_implementation.cpp",
+  altrep_type     = "string",
+  cpp_type        = "SEXP",
+  scalar_method   = "Rf_ScalarString",
+  type_method     = "STRING",
+  alt_method      = "altstring",
+  sexp_to_cpp     = "SEXP_TO_CHARXP",
+  altvec_wrapper  = "not_needed",
+  output_path     = "../src/lazyvec_string.cpp",
+  exclude_methods = c("Min", "Max", "Sum", "Get_region", "Duplicate_"))
