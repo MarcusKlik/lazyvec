@@ -11,6 +11,7 @@ status](https://ci.appveyor.com/api/projects/status/bfm7amtkyjvc2rk9?svg=true)](
 v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+[![codecov](https://codecov.io/gh/fstpackage/lazyvec/branch/develop/graph/badge.svg)](https://codecov.io/gh/fstpackage/lazyvec)
 
 > This repository is home to the `lazyvec` package. `lazyvec` depends
 > heavily on the (complete) ALTREP framework that was rolled out with
@@ -78,19 +79,19 @@ operations will reveal more of these internal calls to `x`:
 ``` r
 # single element
 y[2]
-#> x : ALTREP length : result = integer[1] 10
-#> x : ALTREP element : result = integer[1] 2
+#> x : ALTREP length : result = int[1] 10
+#> x : ALTREP element : result = int[1] 2
 #> [1] 2
 
 # vector length
 length(y)
-#> x : ALTREP length : result = integer[1] 10
-#> x : ALTREP length : result = integer[1] 10
+#> x : ALTREP length : result = int[1] 10
+#> x : ALTREP length : result = int[1] 10
 #> [1] 10
 
 # sum
 sum(y)
-#> ALTREP sum, na.rm =  logical[1] FALSE, result:  integer[1] 55
+#> ALTREP sum: na.rm = lgl[1] FALSE, result:  int[1] 55
 #> [1] 55
 ```
 
@@ -100,11 +101,11 @@ only the internal ALTREP method for calculating the sum is called.
 ``` r
 # print vector
 min(y)
-#> x : ALTREP min : result = NULL[0] 
-#> x : ALTREP length : result = integer[1] 10
-#> x : ALTREP dataptr_or_null, null returned:  logical[1] TRUE
-#> x : ALTREP length : result = integer[1] 10
-#> x : ALTREP dataptr_or_null, null returned:  logical[1] TRUE
-#> x : ALTREP get_region : result = integer[1] 10, start = integer[1] 0, length = integer[1] 10
+#> x : ALTREP min: result = NA[0] 
+#> x : ALTREP length : result = int[1] 10
+#> x : ALTREP dataptr_or_null, null returned:  lgl[1] TRUE
+#> x : ALTREP length : result = int[1] 10
+#> x : ALTREP dataptr_or_null, null returned:  lgl[1] TRUE
+#> x : ALTREP get_region : result = int[1] 10, start = int[1] 0, length = int[1] 10
 #> [1] 1
 ```
