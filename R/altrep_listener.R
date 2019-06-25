@@ -68,10 +68,11 @@ altrep_listener <- function(altrep_vec, vec_id) {
     # identifyer, used in diagnostic output
     vec_id,
 
-    # parent environment in which to evaluate listeners
-    parent.env(environment()),
+    # lazyvec package version
+    lazyvec_version = lazyvec_version(),
 
-    lazyvec_version = lazyvec_version()
+    # parent environment in which to evaluate listeners
+    parent.env(environment())
   )
 
   if (typeof(altrep_vec) == "integer") {

@@ -86,8 +86,8 @@ typedef void (*inspect_subtree_method)(SEXP, int, int, int);
 #define ALTWRAP_PAYLOAD(x) VECTOR_ELT(R_altrep_data1(x), 0)
 #define ALTWRAP_LISTENERS(x) VECTOR_ELT(R_altrep_data1(x), 1)
 #define ALTWRAP_METADATA(x) VECTOR_ELT(R_altrep_data1(x), 2)
-#define ALTWRAP_PARENT_ENV(x) VECTOR_ELT(R_altrep_data1(x), 3)
-#define ALTWRAP_VERSION(x) VECTOR_ELT(R_altrep_data1(x), 4)
+#define ALTWRAP_VERSION(x) VECTOR_ELT(R_altrep_data1(x), 3)
+#define ALTWRAP_PARENT_ENV(x) VECTOR_ELT(R_altrep_data1(x), 4)
 
 // override default altrep methods
 #define CALL_METHOD_SETTER(CNAME, TNAME, MNAME) \

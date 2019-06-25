@@ -38,9 +38,6 @@ SEXP altrep_logical_wrapper(SEXP data)
 }
 
 
-//
-// On Win there is no Unserialize method exported, check with R-dev!
-//
 static SEXP altwrap_logical_Unserialize_method(SEXP altwrap_class, SEXP state)
 {
   Rcpp::Environment pkgs = Rcpp::Environment::namespace_env("lazyvec");
@@ -62,10 +59,6 @@ static SEXP altwrap_logical_Unserialize_method(SEXP altwrap_class, SEXP state)
 }
 
 
-//
-// ALTREP_UNSERIALIZE_EX is not linking on linux due to uncommented hidden_attribute
-// in declaration
-//
 SEXP altwrap_logical_UnserializeEX_method(SEXP info, SEXP state, SEXP attr, int objf, int levs)
 {
   Rcpp::Environment pkgs = Rcpp::Environment::namespace_env("lazyvec");
@@ -113,7 +106,7 @@ SEXP altwrap_logical_Serialized_state_method(SEXP x)
   
   // length listener method
   SEXP serialized_state_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(x), ALTREP_METHOD_SERIALIZED_STATE));
-  
+
   // create serialization state
   SEXP serialized_state = PROTECT(Rf_allocVector(VECSXP, 5));
   SET_VECTOR_ELT(serialized_state, 0, ALTWRAP_PAYLOAD(x));
