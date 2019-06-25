@@ -65,7 +65,7 @@ altrep_listener <- function(altrep_vec, vec_id) {
     # package listener methods
     altrep_listeners(),
 
-    # identifyer, used in diagnostic output
+    # identifier, used in diagnostic output
     vec_id,
 
     # lazyvec package version

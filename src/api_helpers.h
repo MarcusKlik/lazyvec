@@ -31,7 +31,7 @@
 #include "api_proxy.h"
 
 // settings
-#define LAZYVEC_VERSION 17  // 0 * 256 + 1 * 16 + 1 * 16
+#define LAZYVEC_VERSION 21  // 0 * 256 + 1 * 16 + 5
 
 // altvec listeners
 #define ALTREP_METHOD_LENGTH            0
@@ -123,5 +123,9 @@ SEXP call_dual_r_interface(SEXP f, SEXP x1, SEXP x2, SEXP rho);
 SEXP call_tripple_r_interface(SEXP f, SEXP x1, SEXP x2, SEXP x3, SEXP rho);
 
 int is_altrep_vector(SEXP vec);
-  
+
+// [[Rcpp::export]]
+int lazyvec_internal_version();
+
+
 #endif // API_HELPERS_H

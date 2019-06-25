@@ -33,6 +33,14 @@ SEXP sexp_or_null(SEXP res)
   return res;
 }
 
+
+// internal lazyvec version
+int lazyvec_internal_version()
+{
+  return LAZYVEC_VERSION;
+}
+
+
 // Call a single argument R function from the C API and evaluate in environment rho
 SEXP call_r_interface(SEXP f, SEXP x, SEXP rho) {
 

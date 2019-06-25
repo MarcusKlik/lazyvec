@@ -109,6 +109,10 @@ altrep_string_wrapper <- function(data) {
     .Call(`_lazyvec_altrep_string_wrapper`, data)
 }
 
+lazyvec_internal_version <- function() {
+    .Call(`_lazyvec_lazyvec_internal_version`)
+}
+
 lazyvec_integer_wrapper <- function(data) {
     .Call(`_lazyvec_lazyvec_integer_wrapper`, data)
 }

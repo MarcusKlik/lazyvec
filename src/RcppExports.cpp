@@ -319,6 +319,16 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// lazyvec_internal_version
+int lazyvec_internal_version();
+RcppExport SEXP _lazyvec_lazyvec_internal_version() {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    rcpp_result_gen = Rcpp::wrap(lazyvec_internal_version());
+    return rcpp_result_gen;
+END_RCPP
+}
 // lazyvec_integer_wrapper
 SEXP lazyvec_integer_wrapper(SEXP data);
 RcppExport SEXP _lazyvec_lazyvec_integer_wrapper(SEXP dataSEXP) {
@@ -403,6 +413,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_lazyvec_altrep_raw_wrapper", (DL_FUNC) &_lazyvec_altrep_raw_wrapper, 1},
     {"_lazyvec_altrep_real_wrapper", (DL_FUNC) &_lazyvec_altrep_real_wrapper, 1},
     {"_lazyvec_altrep_string_wrapper", (DL_FUNC) &_lazyvec_altrep_string_wrapper, 1},
+    {"_lazyvec_lazyvec_internal_version", (DL_FUNC) &_lazyvec_lazyvec_internal_version, 0},
     {"_lazyvec_lazyvec_integer_wrapper", (DL_FUNC) &_lazyvec_lazyvec_integer_wrapper, 1},
     {"_lazyvec_lazyvec_logical_wrapper", (DL_FUNC) &_lazyvec_lazyvec_logical_wrapper, 1},
     {"_lazyvec_lazyvec_raw_wrapper", (DL_FUNC) &_lazyvec_lazyvec_raw_wrapper, 1},
