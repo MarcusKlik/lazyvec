@@ -59,42 +59,39 @@ static SEXP altwrap_raw_Unserialize_method(SEXP altwrap_class, SEXP state)
 }
 
 
-SEXP altwrap_raw_UnserializeEX_method(SEXP info, SEXP state, SEXP attr, int objf, int levs)
+SEXP altwrap_raw_UnserializeEX_method(SEXP altwrap_class, SEXP state, SEXP attr, int objf, int levs)
 {
   Rcpp::Environment pkgs = Rcpp::Environment::namespace_env("lazyvec");
-  
+
+  // SEXP unserialize_ex_result = PROTECT(ALTREP_UNSERIALIZE_EX_PROXY(altwrap_class, state, attr, objf, levs));
+
   SEXP altrep_data1 = PROTECT(Rf_allocVector(VECSXP, 5));
   SET_VECTOR_ELT(altrep_data1, 0, VECTOR_ELT(state, 0));
   SET_VECTOR_ELT(altrep_data1, 1, VECTOR_ELT(state, 1));
   SET_VECTOR_ELT(altrep_data1, 2, VECTOR_ELT(state, 2));
-  SET_VECTOR_ELT(altrep_data1, 3, pkgs);
-  SET_VECTOR_ELT(altrep_data1, 4, Rf_ScalarInteger(LAZYVEC_VERSION));
-
+  SET_VECTOR_ELT(altrep_data1, 3, Rf_ScalarInteger(LAZYVEC_VERSION));
+  SET_VECTOR_ELT(altrep_data1, 4, pkgs);
+  
   // create a new wrapper using the current lazyvec implementation
   SEXP altwrap_integer = PROTECT(altrep_raw_wrapper(altrep_data1));
 
   // get current listeners
   SEXP listeners = PROTECT(ALTWRAP_LISTENERS(altwrap_integer));
   SET_VECTOR_ELT(altrep_data1, 1, listeners);
-  
-  
-  // update the listeners with more current version here!
-  // (the listeners could be a package global)
-  
+
   // now use the (updated) listener to display info
-  
   SEXP unserialize_ex_listener = PROTECT(VECTOR_ELT(listeners, ALTREP_METHOD_UNSERIALIZE_EX));
   
   SEXP altrep_info = PROTECT(Rf_allocVector(VECSXP, 5));
-  SET_VECTOR_ELT(altrep_info, 0, sexp_or_null(info));
+  SET_VECTOR_ELT(altrep_info, 0, sexp_or_null(altwrap_class));
   SET_VECTOR_ELT(altrep_info, 1, sexp_or_null(state));
   SET_VECTOR_ELT(altrep_info, 2, sexp_or_null(attr));
   SET_VECTOR_ELT(altrep_info, 3, Rf_ScalarInteger(objf));
   SET_VECTOR_ELT(altrep_info, 4, Rf_ScalarInteger(levs));
   
-  UNPROTECT(5);  // altrep_data1, altwrap_integer, unserialize_ex_listener, altrep_info, listeners
-  
   call_r_interface(unserialize_ex_listener, altrep_info, pkgs);
+  
+  UNPROTECT(5);  // altrep_data1, altwrap_integer, unserialize_ex_listener, altrep_info, listeners
   
   return altwrap_integer;
 }
