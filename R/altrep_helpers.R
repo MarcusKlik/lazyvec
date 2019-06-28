@@ -20,7 +20,7 @@
 #  - lazyvec R package source repository : https://github.com/fstpackage/lazyvec
 
 
-short_types <- c(integer = "int", double = "dbl", logical = "lgl", raw = "raw", character = "chr")
+short_types <- c(integer = "int", double = "dbl", logical = "lgl", raw = "raw", character = "chr", list = "list")
 
 
 #' Test if object has altrep representation

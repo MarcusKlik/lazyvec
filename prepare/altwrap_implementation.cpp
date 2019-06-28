@@ -67,6 +67,7 @@ SEXP altwrap_ALTREP_TYPE_UnserializeEX_method(SEXP altwrap_class, SEXP state, SE
   Rcpp::Environment pkgs = Rcpp::Environment::namespace_env("lazyvec");
 
   // SEXP unserialize_ex_result = PROTECT(ALTREP_UNSERIALIZE_EX_PROXY(altwrap_class, state, attr, objf, levs));
+  // SEXP info = PROTECT(ATTRIB(ALTREP_CLASS(VECTOR_ELT(state, 0))));
 
   SEXP altrep_data1 = PROTECT(Rf_allocVector(VECSXP, 5));
   SET_VECTOR_ELT(altrep_data1, 0, VECTOR_ELT(state, 0));

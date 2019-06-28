@@ -98,9 +98,11 @@ altrep_listener <- function(altrep_vec, vec_id) {
 
 
 display_parameter <- function(x) {
+  if (is.null(x)) return("NULL")
+
   paste0(" ", crayon::magenta(short_types[typeof(x)]),
-         crayon::magenta("["), crayon::magenta(length(x)),
-         crayon::magenta("] "), paste0(x, collapse = " "))
+    crayon::magenta("["), crayon::magenta(length(x)),
+    crayon::magenta("] "), paste0(x, collapse = " "))
 }
 
 
@@ -189,8 +191,17 @@ listener_serialized_state <- function(x) {
 
 
 listener_unserialize_ex <- function(x) {
-  cat(crayon::italic(crayon::cyan("ALTREP unserialize_ex: result = ")),
-    display_parameter(x), "\n", sep = "")
+  cat(crayon::italic(crayon::cyan("ALTREP unserialize_ex: result = ?")),
+  crayon::italic(crayon::cyan(", altwrap_class = ")),
+  display_parameter(x[[1]]),
+  crayon::italic(crayon::cyan(", state = ")),
+  display_parameter(x[[2]]),
+  crayon::italic(crayon::cyan(", attr = ")),
+  display_parameter(x[[3]]),
+  crayon::italic(crayon::cyan(", objf = ")),
+  display_parameter(x[[4]]),
+  crayon::italic(crayon::cyan(", levs = ")),
+  display_parameter(x[[5]]))
 }
 
 
