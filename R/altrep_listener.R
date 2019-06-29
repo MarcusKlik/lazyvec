@@ -100,7 +100,12 @@ altrep_listener <- function(altrep_vec, vec_id) {
 display_parameter <- function(x) {
   if (is.null(x)) return("NULL")
 
-  paste0(" ", crayon::magenta(short_types[typeof(x)]),
+  param_type <- short_types[typeof(x)]
+  if (is.na(param_type)) {
+    param_type <- typeof(x)
+  }
+  
+  paste0(" ", crayon::magenta(param_type),
     crayon::magenta("["), crayon::magenta(length(x)),
     crayon::magenta("] "), paste0(x, collapse = " "))
 }
