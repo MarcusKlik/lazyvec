@@ -33,6 +33,12 @@
 // settings
 #define LAZYVEC_VERSION 21  // 0 * 256 + 1 * 16 + 5
 
+// serialization
+#define SERIALIZED_PAYLOAD  0
+#define SERIALIZED_METADATA 1
+#define SERIALIZED_VERSION  2
+#define SERIALIZED_STATE    3
+
 // altvec listeners
 #define ALTREP_METHOD_LENGTH            0
 #define ALTREP_METHOD_DATAPTR_OR_NULL   1

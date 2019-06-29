@@ -63,37 +63,35 @@ SEXP altwrap_logical_UnserializeEX_method(SEXP altwrap_class, SEXP state, SEXP a
 {
   Rcpp::Environment pkgs = Rcpp::Environment::namespace_env("lazyvec");
 
-  // SEXP unserialize_ex_result = PROTECT(ALTREP_UNSERIALIZE_EX_PROXY(altwrap_class, state, attr, objf, levs));
+  int serialized_version = INTEGER(VECTOR_ELT(state, SERIALIZED_VERSION))[0];  // lazyvec used for serialization
 
-  SEXP altrep_data1 = PROTECT(Rf_allocVector(VECSXP, 5));
-  SET_VECTOR_ELT(altrep_data1, 0, VECTOR_ELT(state, 0));
-  SET_VECTOR_ELT(altrep_data1, 1, VECTOR_ELT(state, 1));
-  SET_VECTOR_ELT(altrep_data1, 2, VECTOR_ELT(state, 2));
-  SET_VECTOR_ELT(altrep_data1, 3, Rf_ScalarInteger(LAZYVEC_VERSION));
-  SET_VECTOR_ELT(altrep_data1, 4, pkgs);
+  if (serialized_version > LAZYVEC_VERSION)
+  {
+    Rf_error("Vector was serialized with a later lazyvec package version, please update lazyvec");
+  }
+
+  // Picking up Matrix() function from Matrix package
+  Rcpp::Function altrep_listener = pkgs["altrep_listener"];
   
   // create a new wrapper using the current lazyvec implementation
-  SEXP altwrap_integer = PROTECT(altrep_logical_wrapper(altrep_data1));
+  SEXP wrapped_vec = PROTECT(altrep_listener(VECTOR_ELT(state, SERIALIZED_PAYLOAD),
+    VECTOR_ELT(state, SERIALIZED_METADATA)));
 
-  // get current listeners
-  SEXP listeners = PROTECT(ALTWRAP_LISTENERS(altwrap_integer));
-  SET_VECTOR_ELT(altrep_data1, 1, listeners);
+  // get listener from newly wrapped vector (no need to protect?)
+  SEXP unserialize_ex_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(wrapped_vec), ALTREP_METHOD_UNSERIALIZE_EX));
 
-  // now use the (updated) listener to display info
-  SEXP unserialize_ex_listener = PROTECT(VECTOR_ELT(listeners, ALTREP_METHOD_UNSERIALIZE_EX));
-  
   SEXP altrep_info = PROTECT(Rf_allocVector(VECSXP, 5));
-  SET_VECTOR_ELT(altrep_info, 0, sexp_or_null(altwrap_class));
-  SET_VECTOR_ELT(altrep_info, 1, sexp_or_null(state));
+  SET_VECTOR_ELT(altrep_info, 0, sexp_or_null(ATTRIB(ALTREP_CLASS(wrapped_vec))));
+  SET_VECTOR_ELT(altrep_info, 1, sexp_or_null(VECTOR_ELT(state, SERIALIZED_STATE)));
   SET_VECTOR_ELT(altrep_info, 2, sexp_or_null(attr));
   SET_VECTOR_ELT(altrep_info, 3, Rf_ScalarInteger(objf));
   SET_VECTOR_ELT(altrep_info, 4, Rf_ScalarInteger(levs));
-  
+
   call_r_interface(unserialize_ex_listener, altrep_info, pkgs);
+
+  UNPROTECT(3);  // altrep_info, unserialize_ex_listener, wrapped_vec
   
-  UNPROTECT(5);  // altrep_data1, altwrap_integer, unserialize_ex_listener, altrep_info, listeners
-  
-  return altwrap_integer;
+  return wrapped_vec;
 }
 
 
@@ -105,20 +103,19 @@ SEXP altwrap_logical_Serialized_state_method(SEXP x)
   SEXP serialized_state_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(x), ALTREP_METHOD_SERIALIZED_STATE));
 
   // create serialization state
-  SEXP serialized_state = PROTECT(Rf_allocVector(VECSXP, 5));
-  SET_VECTOR_ELT(serialized_state, 0, ALTWRAP_PAYLOAD(x));
-  SET_VECTOR_ELT(serialized_state, 1, ALTWRAP_LISTENERS(x));
-  SET_VECTOR_ELT(serialized_state, 2, ALTWRAP_METADATA(x));
-  SET_VECTOR_ELT(serialized_state, 3, ALTWRAP_VERSION(x));
+  SEXP serialized_state = PROTECT(Rf_allocVector(VECSXP, 4));
+  SET_VECTOR_ELT(serialized_state, SERIALIZED_PAYLOAD,  ALTWRAP_PAYLOAD(x));
+  SET_VECTOR_ELT(serialized_state, SERIALIZED_METADATA, ALTWRAP_METADATA(x));
+  SET_VECTOR_ELT(serialized_state, SERIALIZED_VERSION,  ALTWRAP_VERSION(x));
   
   if (!serialized_state_result)
   {
-    SET_VECTOR_ELT(serialized_state, 4, serialized_state_result);
+    SET_VECTOR_ELT(serialized_state, SERIALIZED_STATE, serialized_state_result);
     call_r_interface(serialized_state_listener, R_NilValue, ALTWRAP_PARENT_ENV(x));
   }
   else
   {
-    SET_VECTOR_ELT(serialized_state, 4, R_NilValue);
+    SET_VECTOR_ELT(serialized_state, SERIALIZED_STATE, R_NilValue);
     call_r_interface(serialized_state_listener, serialized_state_result, ALTWRAP_PARENT_ENV(x));
   }
   
