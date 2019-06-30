@@ -25,15 +25,6 @@
 #include "api_helpers.h"
 
 
-void test_altrep(SEXP x)
-{
-  if (!is_altrep_vector(x))
-  {
-    Rf_error("Object is not an ALTREP vector");
-  }
-}
-
-
 // ALTREP methods are available on all vector types
 // * UnserializeEX
 // * Unserialize        (not implemented in R core)

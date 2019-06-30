@@ -22,15 +22,13 @@
 
 #include <Rcpp.h>
 
-
-// [[Rcpp::export]]
-int is_altrep_vector(SEXP vec) {
-  return ALTREP(vec);
-}
+#include "api_helpers.h"
 
 
 // [[Rcpp::export]]
 SEXP altrep_class(SEXP vec) {
+  test_altrep(vec);
+
   return ALTREP_CLASS(vec);
 }
 
@@ -38,6 +36,8 @@ SEXP altrep_class(SEXP vec) {
 // Get the exact ALTREP class descriptor
 // [[Rcpp::export]]
 SEXP altrep_full_class(SEXP altrep_vec) {
+  test_altrep(altrep_vec);
+
   return ATTRIB(ALTREP_CLASS(altrep_vec));
 }
 

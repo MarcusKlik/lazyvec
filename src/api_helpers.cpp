@@ -34,6 +34,21 @@ SEXP sexp_or_null(SEXP res)
 }
 
 
+int is_altrep_vector(SEXP vec) {
+  return ALTREP(vec);
+}
+
+
+// throw error if x is not an ALTREP vector
+void test_altrep(SEXP x)
+{
+  if (!is_altrep_vector(x))
+  {
+    Rf_error("Object is not an ALTREP vector");
+  }
+}
+
+
 // internal lazyvec version
 int lazyvec_internal_version()
 {

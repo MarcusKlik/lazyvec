@@ -5,17 +5,6 @@
 
 using namespace Rcpp;
 
-// is_altrep_vector
-int is_altrep_vector(SEXP vec);
-RcppExport SEXP _lazyvec_is_altrep_vector(SEXP vecSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< SEXP >::type vec(vecSEXP);
-    rcpp_result_gen = Rcpp::wrap(is_altrep_vector(vec));
-    return rcpp_result_gen;
-END_RCPP
-}
 // altrep_class
 SEXP altrep_class(SEXP vec);
 RcppExport SEXP _lazyvec_altrep_class(SEXP vecSEXP) {
@@ -319,6 +308,17 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// is_altrep_vector
+int is_altrep_vector(SEXP vec);
+RcppExport SEXP _lazyvec_is_altrep_vector(SEXP vecSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type vec(vecSEXP);
+    rcpp_result_gen = Rcpp::wrap(is_altrep_vector(vec));
+    return rcpp_result_gen;
+END_RCPP
+}
 // lazyvec_internal_version
 int lazyvec_internal_version();
 RcppExport SEXP _lazyvec_lazyvec_internal_version() {
@@ -386,7 +386,6 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_lazyvec_is_altrep_vector", (DL_FUNC) &_lazyvec_is_altrep_vector, 1},
     {"_lazyvec_altrep_class", (DL_FUNC) &_lazyvec_altrep_class, 1},
     {"_lazyvec_altrep_full_class", (DL_FUNC) &_lazyvec_altrep_full_class, 1},
     {"_lazyvec_altrep_data1", (DL_FUNC) &_lazyvec_altrep_data1, 1},
@@ -413,6 +412,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_lazyvec_altrep_raw_wrapper", (DL_FUNC) &_lazyvec_altrep_raw_wrapper, 1},
     {"_lazyvec_altrep_real_wrapper", (DL_FUNC) &_lazyvec_altrep_real_wrapper, 1},
     {"_lazyvec_altrep_string_wrapper", (DL_FUNC) &_lazyvec_altrep_string_wrapper, 1},
+    {"_lazyvec_is_altrep_vector", (DL_FUNC) &_lazyvec_is_altrep_vector, 1},
     {"_lazyvec_lazyvec_internal_version", (DL_FUNC) &_lazyvec_lazyvec_internal_version, 0},
     {"_lazyvec_lazyvec_integer_wrapper", (DL_FUNC) &_lazyvec_lazyvec_integer_wrapper, 1},
     {"_lazyvec_lazyvec_logical_wrapper", (DL_FUNC) &_lazyvec_lazyvec_logical_wrapper, 1},

@@ -128,7 +128,10 @@ SEXP call_dual_r_interface(SEXP f, SEXP x1, SEXP x2, SEXP rho);
 // call R function with three arguments from the C API
 SEXP call_tripple_r_interface(SEXP f, SEXP x1, SEXP x2, SEXP x3, SEXP rho);
 
+// [[Rcpp::export]]
 int is_altrep_vector(SEXP vec);
+
+void test_altrep(SEXP x);
 
 // [[Rcpp::export]]
 int lazyvec_internal_version();
