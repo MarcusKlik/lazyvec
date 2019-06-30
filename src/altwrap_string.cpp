@@ -110,12 +110,12 @@ SEXP altwrap_string_Serialized_state_method(SEXP x)
   
   if (!serialized_state_result)
   {
-    SET_VECTOR_ELT(serialized_state, SERIALIZED_STATE, serialized_state_result);
+    SET_VECTOR_ELT(serialized_state, SERIALIZED_STATE, R_NilValue);
     call_r_interface(serialized_state_listener, R_NilValue, ALTWRAP_PARENT_ENV(x));
   }
   else
   {
-    SET_VECTOR_ELT(serialized_state, SERIALIZED_STATE, R_NilValue);
+    SET_VECTOR_ELT(serialized_state, SERIALIZED_STATE, serialized_state_result);
     call_r_interface(serialized_state_listener, serialized_state_result, ALTWRAP_PARENT_ENV(x));
   }
   
