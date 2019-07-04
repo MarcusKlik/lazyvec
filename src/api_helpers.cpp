@@ -27,7 +27,7 @@ SEXP sexp_or_null(SEXP res)
 {
   if (!res)
   {
-    return Rf_ScalarInteger(NULL_POINTER);
+    return Rf_mkString(NULL_POINTER);
   }
 
   return res;
@@ -37,9 +37,14 @@ SEXP sexp_or_null(SEXP res)
 // Convert NULL to nullptr
 SEXP sexp_to_nullptr(SEXP res)
 {
-  if (Rf_isInteger(res) && Rf_length(res) == 1 & INTEGER(res)[0] == NULL_POINTER)
+  if (Rf_isString(res) && Rf_length(res) == 1)
   {
-    return NULL;
+    int equal = strcmp(NULL_POINTER, CHAR(STRING_ELT(res, 0)));
+    if (equal == 0)
+    {
+      Rprintf("nullptr detected !!! ");
+      return NULL;
+    }
   }
   
   return res;

@@ -100,8 +100,6 @@ altrep_listener <- function(altrep_vec, vec_id) {
 display_parameter <- function(x) {
   if (is.null(x)) return("NULL")
 
-  if (is.integer(x) & length(x) == 1 & x == 1193620192) return("nullptr")
-  
   param_type <- short_types[typeof(x)]
   if (is.na(param_type)) {
     param_type <- typeof(x)

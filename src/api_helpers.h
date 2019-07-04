@@ -40,7 +40,7 @@
 #define SERIALIZED_STATE    3
 
 // signal nullptr
-#define NULL_POINTER 1193620192
+#define NULL_POINTER "nullptr"
 
 // altvec listeners
 #define ALTREP_METHOD_LENGTH            0
