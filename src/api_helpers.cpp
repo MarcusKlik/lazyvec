@@ -27,9 +27,21 @@ SEXP sexp_or_null(SEXP res)
 {
   if (!res)
   {
-    return R_NilValue;
+    return Rf_ScalarInteger(NULL_POINTER);
   }
 
+  return res;
+}
+
+
+// Convert NULL to nullptr
+SEXP sexp_to_nullptr(SEXP res)
+{
+  if (Rf_isInteger(res) && Rf_length(res) == 1 & INTEGER(res)[0] == NULL_POINTER)
+  {
+    return NULL;
+  }
+  
   return res;
 }
 

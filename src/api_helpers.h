@@ -39,6 +39,9 @@
 #define SERIALIZED_VERSION  2
 #define SERIALIZED_STATE    3
 
+// signal nullptr
+#define NULL_POINTER 1193620192
+
 // altvec listeners
 #define ALTREP_METHOD_LENGTH            0
 #define ALTREP_METHOD_DATAPTR_OR_NULL   1
@@ -119,6 +122,9 @@ typedef void (*inspect_subtree_method)(SEXP, int, int, int);
 // convert nullptr to R_NilValue
 SEXP sexp_or_null(SEXP res);
 
+// Convert NULL to nullptr
+SEXP sexp_to_nullptr(SEXP res);
+    
 // call R function with a single argument from the C API
 SEXP call_r_interface(SEXP f, SEXP x, SEXP rho);
 

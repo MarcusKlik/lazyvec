@@ -74,14 +74,14 @@ SEXP altwrap_raw_UnserializeEX_method(SEXP altwrap_class, SEXP state, SEXP attr,
   Rcpp::Function altrep_listener = pkgs["altrep_listener"];
   
   // create a new wrapper using the current lazyvec implementation
-  SEXP wrapped_vec = PROTECT(altrep_listener(VECTOR_ELT(state, SERIALIZED_PAYLOAD),
-    VECTOR_ELT(state, SERIALIZED_METADATA)));
+  SEXP payload = PROTECT(VECTOR_ELT(state, SERIALIZED_PAYLOAD));
+  SEXP wrapped_vec = PROTECT(altrep_listener(payload, VECTOR_ELT(state, SERIALIZED_METADATA)));
 
   // get listener from newly wrapped vector (no need to protect?)
   SEXP unserialize_ex_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(wrapped_vec), ALTREP_METHOD_UNSERIALIZE_EX));
 
   SEXP altrep_info = PROTECT(Rf_allocVector(VECSXP, 5));
-  SET_VECTOR_ELT(altrep_info, 0, sexp_or_null(ATTRIB(ALTREP_CLASS(wrapped_vec))));
+  SET_VECTOR_ELT(altrep_info, 0, sexp_or_null(ATTRIB(ALTREP_CLASS(payload))));
   SET_VECTOR_ELT(altrep_info, 1, sexp_or_null(VECTOR_ELT(state, SERIALIZED_STATE)));
   SET_VECTOR_ELT(altrep_info, 2, sexp_or_null(attr));
   SET_VECTOR_ELT(altrep_info, 3, Rf_ScalarInteger(objf));
@@ -89,7 +89,7 @@ SEXP altwrap_raw_UnserializeEX_method(SEXP altwrap_class, SEXP state, SEXP attr,
 
   call_r_interface(unserialize_ex_listener, altrep_info, pkgs);
 
-  UNPROTECT(3);  // altrep_info, unserialize_ex_listener, wrapped_vec
+  UNPROTECT(4);  // altrep_info, unserialize_ex_listener, wrapped_vec, payload
   
   return wrapped_vec;
 }

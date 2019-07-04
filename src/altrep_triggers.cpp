@@ -39,7 +39,7 @@
 // [[Rcpp::export]]
 SEXP trigger_unserialize_ex(SEXP class_info, SEXP state, SEXP attr, int objf, int levs)
 {
-  SEXP res = ALTREP_UNSERIALIZE_EX_PROXY(class_info, state, attr, objf, levs);
+  SEXP res = ALTREP_UNSERIALIZE_EX_PROXY(class_info, state, sexp_to_nullptr(attr), objf, levs);
   
   return sexp_or_null(res);
 }
