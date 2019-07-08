@@ -100,17 +100,17 @@ test_that("sum trigger", {
 test_that("min trigger", {
   expect_error(lazyvec:::trigger_min(x, 3:8), "Please set na_rm using a logical value")
 
-  expect_equal(lazyvec:::trigger_min(x, FALSE), NULL)
+  expect_equal(lazyvec:::trigger_min(x, FALSE), "nullptr")
 
   expect_error(lazyvec:::trigger_min(x_char, FALSE), "cannot be called on a ALTREP vector of this type")
 
-  expect_equal(lazyvec:::trigger_min(x_real, FALSE), NULL)
+  expect_equal(lazyvec:::trigger_min(x_real, FALSE), "nullptr")
 
-  expect_equal(lazyvec:::trigger_min(x, TRUE), NULL)
+  expect_equal(lazyvec:::trigger_min(x, TRUE), "nullptr")
 
   expect_error(lazyvec:::trigger_min(x_char, TRUE), "cannot be called on a ALTREP vector of this type")
 
-  expect_equal(lazyvec:::trigger_min(x_real, TRUE), NULL)
+  expect_equal(lazyvec:::trigger_min(x_real, TRUE), "nullptr")
 })
 
 
@@ -134,7 +134,7 @@ test_that("duplicate trigger", {
 
 test_that("coerce trigger", {
   res <- lazyvec:::trigger_coerce(x, 10)
-  expect_null(res)
+  expect_equal(res, "nullptr")
 })
 
 
@@ -157,7 +157,7 @@ test_that("serialized_state trigger", {
 
 
 test_that("extract_subset trigger", {
-  expect_null(lazyvec:::trigger_extract_subset(x, c(1, 3, 5)))
+  expect_equal(lazyvec:::trigger_extract_subset(x, c(1, 3, 5)), "nullptr")
 
   expect_error(lazyvec:::trigger_extract_subset(x, "incorrect index"), "Please use a numeric index")
 })

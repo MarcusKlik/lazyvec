@@ -73,7 +73,7 @@ SEXP altwrap_ALTREP_TYPE_UnserializeEX_method(SEXP altwrap_class, SEXP state, SE
     Rf_error("Vector was serialized with a later lazyvec package version, please update lazyvec");
   }
 
-  // Picking up Matrix() function from Matrix package
+  // picking up altrep_listener from the currently installed lazyvec
   Rcpp::Function altrep_listener = pkgs["altrep_listener"];
   
   // create a new wrapper using the current lazyvec implementation

@@ -24,6 +24,8 @@ y <- altrep_listener(x, "x")  # no error
 test_that("length listener", {
   text <- paste(capture.output(lazyvec:::trigger_length(y)), collapse = " ")
   expect_match(text, "x : ALTREP length : result = int[1] 100", fixed = TRUE)
+
+  expect_equal(lazyvec:::trigger_length(y), 100)
 })
 
 
@@ -43,7 +45,7 @@ test_that("duplicate_ex listener", {
 
 test_that("coerce_method listener", {
   res <- lazyvec:::trigger_coerce(x, 10)  # to logical
-  expect_null(res)
+  expect_equal(res, "nullptr")
 })
 
 

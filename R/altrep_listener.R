@@ -104,7 +104,7 @@ display_parameter <- function(x) {
   if (is.na(param_type)) {
     param_type <- typeof(x)
   }
-  
+
   paste0(" ", crayon::magenta(param_type),
     crayon::magenta("["), crayon::magenta(length(x)),
     crayon::magenta("] "), paste0(x, collapse = " "))
@@ -119,7 +119,6 @@ listener_length <- function(x) {
 
 
 listener_dataptr_or_null <- function(x) {
-
   cat(crayon::italic(
     crayon::cyan(x[[1]], ": ALTREP dataptr_or_null, null returned: ")),
     display_parameter(x[[2]]), "\n", sep = "")
