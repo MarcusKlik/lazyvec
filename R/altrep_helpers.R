@@ -22,6 +22,9 @@
 
 short_types <- c(integer = "int", double = "dbl", logical = "lgl", raw = "raw", character = "chr", list = "list")
 
+altrep_base_types = c("10" = "lgl", "13" =  "int", "14" = "dbl", "15" = "cpl",
+  "16" = "chr", "19" = "list", "24" = "raw", "20" = "expr")
+
 
 #' Test if object has altrep representation
 #'
@@ -47,6 +50,32 @@ altrep_class <- function(x) {
 }
 
 
+#' Retrieve the package in which a ALTREP vector is defined
+#'
+#' @param x ALTREP vector for which to determine the package
+#'
+#' @return package that contains the ALTREP class definition
+#' @export
+altrep_package <- function(x) {
+  altrep_check(x)
+  
+  as.character(altrep_full_class(x)[[2]])
+}
+
+
+#' ALTREP base type
+#'
+#' @param x  ALTREP vector for which to determine the type
+#'
+#' @return ALTREP vector base type
+#' @export
+altrep_type <- function(x) {
+  altrep_check(x)
+
+  unname(altrep_base_types[as.character(altrep_full_class(x)[[3]])])
+}
+
+
 #' Retireve the internal ALTREP representation
 #'
 #' @param x ALTREP vector for which to determine the ALTREP class descriptor
@@ -57,19 +86,6 @@ altrep_data <- function(x) {
   altrep_check(x)
 
   altrep_data1(x)
-}
-
-
-#' Retrieve the package in which a ALTREP vector is defined
-#'
-#' @param x ALTREP vector for which to determine the package
-#'
-#' @return package that contains the ALTREP class definition
-#' @export
-altrep_package <- function(x) {
-  altrep_check(x)
-
-  as.character(altrep_full_class(x)[[2]])
 }
 
 

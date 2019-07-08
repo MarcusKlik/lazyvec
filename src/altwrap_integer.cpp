@@ -81,7 +81,7 @@ SEXP altwrap_integer_UnserializeEX_method(SEXP altwrap_class, SEXP state, SEXP a
   SEXP unserialize_ex_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(wrapped_vec), ALTREP_METHOD_UNSERIALIZE_EX));
 
   SEXP altrep_info = PROTECT(Rf_allocVector(VECSXP, 5));
-  SET_VECTOR_ELT(altrep_info, 0, sexp_or_null(ATTRIB(ALTREP_CLASS(payload))));
+  SET_VECTOR_ELT(altrep_info, 0, sexp_or_null(ALTREP_CLASS(payload)));
   SET_VECTOR_ELT(altrep_info, 1, sexp_or_null(VECTOR_ELT(state, SERIALIZED_STATE)));
   SET_VECTOR_ELT(altrep_info, 2, sexp_or_null(attr));
   SET_VECTOR_ELT(altrep_info, 3, Rf_ScalarInteger(objf));
