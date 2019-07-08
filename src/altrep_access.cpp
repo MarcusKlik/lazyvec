@@ -26,7 +26,7 @@
 
 
 // [[Rcpp::export]]
-SEXP altrep_class(SEXP vec) {
+SEXP altrep_class_info(SEXP vec) {
   test_altrep(vec);
 
   return ALTREP_CLASS(vec);
