@@ -42,13 +42,14 @@
 #' @param method_duplicate_ex override for the ALTREP duplicate_ex method
 #' @param method_coerce override for the ALTREP coerce method
 #' @param method_extract_subset override for the ALTREP extract_subset method
+#' @param method_init init your vector after deserialization
 #'
 #' @return object of type 'lazyvec_api' defining the set of methods to use for ALTREP calls
 #' @export
 lazyvec_methods <- function(lazyvec_init, method_length, method_dataptr_or_null, method_get_region,
   method_element, method_dataptr, method_is_sorted, method_no_na, method_sum, method_min,
   method_max, method_inspect, method_unserialize_ex, method_serialized_state,
-  method_duplicate_ex, method_coerce, method_extract_subset) {
+  method_duplicate_ex, method_coerce, method_extract_subset, method_init) {
 
   # some checks on user functions here
 
@@ -69,7 +70,7 @@ lazyvec_methods <- function(lazyvec_init, method_length, method_dataptr_or_null,
     method_duplicate_ex,
     method_coerce,
     method_extract_subset,
-    lazyvec_init
+    method_init
   )
 
   # some protection against arbitrary lists

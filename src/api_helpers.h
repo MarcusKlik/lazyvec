@@ -62,6 +62,7 @@
 #define ALTREP_METHOD_UNSERIALIZE      16
 #define ALTREP_METHOD_DUPLICATE        17
 
+
 // lazyvec user methods
 #define LAZYVEC_METHOD_LENGTH            0
 #define LAZYVEC_METHOD_DATAPTR_OR_NULL   1
@@ -79,8 +80,7 @@
 #define LAZYVEC_METHOD_DUPLICATE_EX     13
 #define LAZYVEC_METHOD_COERCE           14
 #define LAZYVEC_METHOD_EXTRACT_SUBSET   15
-#define LAZYVEC_METHOD_UNSERIALIZE      16
-#define LAZYVEC_METHOD_DUPLICATE        17
+#define LAZYVEC_METHOD_INIT             16
 
 // conversion helpers
 #define SEXP_TO_INT(x) *INTEGER(x)
