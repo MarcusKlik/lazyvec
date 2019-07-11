@@ -22,7 +22,7 @@
 
 short_types <- c(integer = "int", double = "dbl", logical = "lgl", raw = "raw", character = "chr", list = "list")
 
-altrep_base_types = c("10" = "lgl", "13" =  "int", "14" = "dbl", "15" = "cpl",
+altrep_base_types <- c("10" = "lgl", "13" =  "int", "14" = "dbl", "15" = "cpl",
   "16" = "chr", "19" = "list", "24" = "raw", "20" = "expr")
 
 
@@ -58,7 +58,7 @@ altrep_class <- function(x) {
 #' @export
 altrep_package <- function(x) {
   altrep_check(x)
-  
+
   as.character(altrep_full_class(x)[[2]])
 }
 

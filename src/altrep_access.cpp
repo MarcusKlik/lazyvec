@@ -29,7 +29,7 @@
 SEXP altrep_class_info(SEXP vec) {
   test_altrep(vec);
 
-  return ALTREP_CLASS(vec);
+  return ALTREP_SERIALIZED_CLASS(vec);
 }
 
 

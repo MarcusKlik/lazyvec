@@ -40,10 +40,9 @@
 SEXP trigger_unserialize_ex(SEXP class_info, SEXP state, SEXP attr, int objf, int levs)
 {
   // TODO: some serious argument checking here
-  
-  SEXP res = ALTREP_UNSERIALIZE_EX_PROXY(sexp_to_nullptr(class_info),
-    sexp_to_nullptr(state), sexp_to_nullptr(attr), objf, levs);
-  
+
+  SEXP res = ALTREP_UNSERIALIZE_EX_PROXY(class_info, state, attr, objf, levs);
+
   return sexp_or_null(res);
 }
 
