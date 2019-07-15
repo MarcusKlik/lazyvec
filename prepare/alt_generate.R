@@ -15,7 +15,8 @@
 #' @return a wrapper around the altrep vector which is an altrep vector itself
 #' @export
 alt_generate <- function(source_path, altrep_type, cpp_type, scalar_method, type_method,
-  alt_method, sexp_to_cpp, altvec_wrapper, output_path, exclude_methods = NULL) {
+  alt_method, sexp_to_cpp, altvec_wrapper, output_path, lazy_diagnostic = "",
+  exclude_methods = NULL) {
 
   # read default source file
   source_file <- readLines(source_path)
@@ -28,6 +29,7 @@ alt_generate <- function(source_path, altrep_type, cpp_type, scalar_method, type
   source_file <- gsub("ALT_METHOD", alt_method, source_file)
   source_file <- gsub("SEXP_TO_CPP", sexp_to_cpp, source_file)
   source_file <- gsub("ALTVEC_WRAPPER", altvec_wrapper, source_file)
+  source_file <- gsub("LAZYVEC_DIAGNOSTICS", lazy_diagnostic, source_file)
 
   for (exclude_method in exclude_methods) {
 
@@ -146,6 +148,7 @@ alt_generate(
   sexp_to_cpp     = "SEXP_TO_INT",
   altvec_wrapper  = "not_needed",
   output_path     = "../src/lazyvec_integer.cpp",
+  lazy_diagnostic = "LAZYVEC_LISTENERS",
   exclude_methods = "Duplicate_")
 
 # generate real wrapper
@@ -159,6 +162,7 @@ alt_generate(
   sexp_to_cpp     = "SEXP_TO_DOUBLE",
   altvec_wrapper  = "not_needed",
   output_path     = "../src/lazyvec_real.cpp",
+  lazy_diagnostic = "LAZYVEC_LISTENERS",
   exclude_methods = "Duplicate_")
 
 
@@ -173,6 +177,7 @@ alt_generate(
   sexp_to_cpp     = "SEXP_TO_INT",
   altvec_wrapper  = "not_needed",
   output_path     = "../src/lazyvec_logical.cpp",
+  lazy_diagnostic = "LAZYVEC_LISTENERS",
   exclude_methods = c("Min", "Max", "Duplicate_"))
 
 
@@ -187,6 +192,7 @@ alt_generate(
   sexp_to_cpp     = "SEXP_TO_RBYTE",
   altvec_wrapper  = "not_needed",
   output_path     = "../src/lazyvec_raw.cpp",
+  lazy_diagnostic = "LAZYVEC_LISTENERS",
   exclude_methods = c("Min", "Max", "Is_sorted", "No_NA", "Sum", "Duplicate_"))
 
 
@@ -201,4 +207,5 @@ alt_generate(
   sexp_to_cpp     = "SEXP_TO_CHARXP",
   altvec_wrapper  = "not_needed",
   output_path     = "../src/lazyvec_string.cpp",
+  lazy_diagnostic = "LAZYVEC_LISTENERS",
   exclude_methods = c("Min", "Max", "Sum", "Get_region", "Duplicate_"))
