@@ -38,3 +38,8 @@ test_that("ranges with different step size", {
   x <- int_range(3L, 12L, 3L)
   expect_equal(length(x), 4)
 })
+
+
+test_that("elements", {
+  x <- int_range(3L, 12L, 3L)
+})

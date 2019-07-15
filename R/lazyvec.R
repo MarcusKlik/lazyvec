@@ -29,12 +29,16 @@
 #' @param vec_type data type required for the ALTREP vector, options are 'integer', 'double',
 #' 'logical', 'raw' and 'character'. 
 #' @param altrep_methods user-defined methods used by the resulting ALTREP vector.
+#' @param diagnostics if TRUE, heavy type and boundary checks are performed before returning
+#' the results of user defined methods to R. This greatly enhances the stability of lazyvec
+#' implementation and should be set to TRUE during the development phase of new custom vectors
+#' to avoid crashes and unexpected side-effects.
 #' @param package_environment package environment in which to evaluate the user methods. Defaults
 #' to the lazyvec package.
 #'
 #' @return a user-defined ALTREP vector
 #' @export
-lazyvec <- function(metadata, vec_type, altrep_methods, package_environment = "lazyvec") {
+lazyvec <- function(metadata, vec_type, altrep_methods, diagnostics = TRUE, package_environment = "lazyvec") {
 
   if (class(altrep_methods) != "lazyvec_api") {
     stop("Please use lazyvec_methods() to define the ALTREP methods for this vector")
@@ -45,16 +49,21 @@ lazyvec <- function(metadata, vec_type, altrep_methods, package_environment = "l
   if (!is_attached) stop("Failed to attach package ", package_environment,
     ", please make sure it's installed correctly")
 
+  diagnostic_methods <- NULL
+  if (diagnostics) {
+    diagnostic_methods <- diagnostics()
+  }
+
   payload <- list(
 
     # ALTREP payload for testing (remove later)
     1:10,
 
-    # altrep API
+    # user defined API
     altrep_methods,
 
-    # identifyer, used in diagnostic output
-    "sample_range",
+    # identifier, used in diagnostic output
+    NULL,
 
     # (user) package environment in which to evaluate user defined mehods
     as.environment(paste0("package:", package_environment)),
@@ -62,7 +71,13 @@ lazyvec <- function(metadata, vec_type, altrep_methods, package_environment = "l
     # user-defined metadata
     metadata,
 
-    NULL
+    # container for expanded vector
+    NULL,
+
+    # lazyvec package environment
+    as.environment("package:lazyvec"),
+
+    diagnostic_methods
   )
 
   if (vec_type == "integer") {

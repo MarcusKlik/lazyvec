@@ -82,6 +82,7 @@
 #define LAZYVEC_METHOD_EXTRACT_SUBSET   15
 #define LAZYVEC_METHOD_INIT             16
 
+
 // conversion helpers
 #define SEXP_TO_INT(x) *INTEGER(x)
 #define SEXP_TO_DOUBLE(x) *REAL(x)
@@ -110,6 +111,8 @@ typedef void (*inspect_subtree_method)(SEXP, int, int, int);
 #define LAZYVEC_PACKAGE_ENV(x) VECTOR_ELT(R_altrep_data1(x), 3)
 #define LAZYVEC_USER_DATA(x) VECTOR_ELT(R_altrep_data1(x), 4)
 #define LAZYVEC_FULL_VEC(x) VECTOR_ELT(R_altrep_data1(x), 5)
+#define LAZYVEC_ENV(x) VECTOR_ELT(R_altrep_data1(x), 6)
+#define LAZYVEC_DIAGNOSTICS(x) VECTOR_ELT(R_altrep_data1(x), 7)
 
 // setters
 #define LAZYVEC_SET_FULL_VEC(x, y) SET_VECTOR_ELT(R_altrep_data1(x), 5, y)
