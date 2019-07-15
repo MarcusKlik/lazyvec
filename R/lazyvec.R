@@ -29,14 +29,20 @@
 #' @param vec_type data type required for the ALTREP vector, options are 'integer', 'double',
 #' 'logical', 'raw' and 'character'. 
 #' @param altrep_methods user-defined methods used by the resulting ALTREP vector.
+#' @param package_environment package environment in which to evaluate the user methods. Defaults
+#' to the lazyvec package.
 #'
 #' @return a user-defined ALTREP vector
 #' @export
-lazyvec <- function(metadata, vec_type, altrep_methods) {
+lazyvec <- function(metadata, vec_type, altrep_methods, package_environment = "lazyvec") {
 
   if (class(altrep_methods) != "lazyvec_api") {
     stop("Please use lazyvec_methods() to define the ALTREP methods for this vector")
   }
+
+  # attach package  
+  is_attached <- require(package_environment, character.only = TRUE, quietly = TRUE)
+  if (!is_attached) stop("Failed to attach package ", package_environment, ", please make sure it's installed correctly")
 
   payload <- list(
 
@@ -49,8 +55,8 @@ lazyvec <- function(metadata, vec_type, altrep_methods) {
     # identifyer, used in diagnostic output
     "sample_range",
 
-    # parent environment in which to evaluate listeners
-    parent.env(environment()),
+    # (user) package environment in which to evaluate user defined mehods
+    as.environment(paste0("package:", package_environment)),
 
     # user-defined metadata
     metadata,

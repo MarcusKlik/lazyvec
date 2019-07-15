@@ -91,7 +91,7 @@
 typedef void (*inspect_subtree_method)(SEXP, int, int, int);
 
 
-// get meta data components from the ALTREP vector
+// get meta data components from ALTREP vector
 #define ALTWRAP_PAYLOAD(x) VECTOR_ELT(R_altrep_data1(x), 0)
 #define ALTWRAP_LISTENERS(x) VECTOR_ELT(R_altrep_data1(x), 1)
 #define ALTWRAP_METADATA(x) VECTOR_ELT(R_altrep_data1(x), 2)
@@ -103,11 +103,11 @@ typedef void (*inspect_subtree_method)(SEXP, int, int, int);
   R_set_##CNAME##_##MNAME##_method(altwrap_##TNAME##_class, altwrap_##TNAME##_##MNAME##_method)
 
 
-// get meta data components from the ALTREP vector
+// get meta data components from the lazyvec
 #define LAZYVEC_PAYLOAD(x) VECTOR_ELT(R_altrep_data1(x), 0)
 #define LAZYVEC_LISTENERS(x) VECTOR_ELT(R_altrep_data1(x), 1)
 #define LAZYVEC_METADATA(x) VECTOR_ELT(R_altrep_data1(x), 2)
-#define LAZYVEC_PARENT_ENV(x) VECTOR_ELT(R_altrep_data1(x), 3)
+#define LAZYVEC_PACKAGE_ENV(x) VECTOR_ELT(R_altrep_data1(x), 3)
 #define LAZYVEC_USER_DATA(x) VECTOR_ELT(R_altrep_data1(x), 4)
 #define LAZYVEC_FULL_VEC(x) VECTOR_ELT(R_altrep_data1(x), 5)
 

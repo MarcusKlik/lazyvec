@@ -37,6 +37,25 @@ SEXP lazyvec_raw_wrapper(SEXP data)
 }
 
 
+R_xlen_t lazyvec_raw_Length_method(SEXP x)
+{
+  // custom payload
+  SEXP user_data = PROTECT(LAZYVEC_USER_DATA(x));
+
+  // length listener method
+  SEXP length_listener = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(x), LAZYVEC_METHOD_LENGTH));
+
+  SEXP custom_length = PROTECT(call_r_interface(length_listener, user_data, LAZYVEC_PACKAGE_ENV(x)));
+  
+  // type and length checking is done on R side
+  R_xlen_t res_length = (R_xlen_t)(*INTEGER(custom_length));
+  
+  UNPROTECT(3);  // custom_length, length_listener, user_data
+  
+  return res_length;
+}
+
+
 //
 // On Win there is no Unserialize method exported, check with R-dev!
 //
@@ -53,7 +72,7 @@ static SEXP lazyvec_raw_Unserialize_method(SEXP lazyvec_class, SEXP state)
   // unserialize listener method
   // SEXP unserialize_listener = PROTECT(VECTOR_ELT(VECTOR_ELT(state, 1), LAZYVEC_METHOD_UNSERIALIZE));
   
-  // call_r_interface(unserialize_listener, state, LAZYVEC_PARENT_ENV(altrep_data1));
+  // call_r_interface(unserialize_listener, state, LAZYVEC_PACKAGE_ENV(altrep_data1));
 
   // UNPROTECT(2);
   UNPROTECT(1);
@@ -81,7 +100,7 @@ SEXP lazyvec_raw_UnserializeEX_method(SEXP info, SEXP state, SEXP attr, int objf
   //   LAZYVEC_METHOD_UNSERIALIZE_EX));
 
   // Rf_PrintValue(state);
-  // call_r_interface(unserialize_ex_listener, state, LAZYVEC_PARENT_ENV(altrep_data1));
+  // call_r_interface(unserialize_ex_listener, state, LAZYVEC_PACKAGE_ENV(altrep_data1));
   
   // UNPROTECT(2);
   UNPROTECT(1);
@@ -104,11 +123,11 @@ SEXP lazyvec_raw_Serialized_state_method(SEXP x)
   
   // if (serialized_state_result == NULL)
   // {
-  //   call_r_interface(serialized_state_listener, R_NilValue, LAZYVEC_PARENT_ENV(x));
+  //   call_r_interface(serialized_state_listener, R_NilValue, LAZYVEC_PACKAGE_ENV(x));
   // }
   // else
   // {
-  //   call_r_interface(serialized_state_listener, serialized_state_result, LAZYVEC_PARENT_ENV(x));
+  //   call_r_interface(serialized_state_listener, serialized_state_result, LAZYVEC_PACKAGE_ENV(x));
   // }
 
   UNPROTECT(3);
@@ -124,36 +143,13 @@ Rboolean lazyvec_raw_Inspect_method(SEXP x, int pre, int deep, int pvec,
 }
 
 
-R_xlen_t lazyvec_raw_Length_method(SEXP x)
-{
-  // custom payload
-  SEXP user_data = PROTECT(LAZYVEC_USER_DATA(x));
-
-  // calling environment
-  SEXP calling_env = PROTECT(LAZYVEC_PARENT_ENV(x));
-  
-  // length listener method
-  SEXP length_listener = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(x), LAZYVEC_METHOD_LENGTH));
-
-  // call ALTREP override
-  SEXP custom_length = PROTECT(call_r_interface(length_listener, user_data, calling_env));
-
-  // type and length checking is done on R side
-  R_xlen_t res_length = (R_xlen_t)(*INTEGER(custom_length));
-  
-  UNPROTECT(4);
-
-  return res_length;
-}
-
-
 void* lazyvec_raw_Dataptr_method(SEXP x, Rboolean writeable)
 {
   // custom payload
   SEXP user_data = PROTECT(LAZYVEC_USER_DATA(x));
 
   // calling environment
-  SEXP calling_env = PROTECT(LAZYVEC_PARENT_ENV(x));
+  SEXP calling_env = PROTECT(LAZYVEC_PACKAGE_ENV(x));
 
   // length listener method
   SEXP full_vector_listener = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(x), LAZYVEC_METHOD_DATAPTR));
@@ -200,7 +196,7 @@ Rbyte lazyvec_raw_Elt_method(SEXP x, R_xlen_t i)
   SEXP user_data = PROTECT(LAZYVEC_USER_DATA(x));
   
   // calling environment
-  SEXP calling_env = PROTECT(LAZYVEC_PARENT_ENV(x));
+  SEXP calling_env = PROTECT(LAZYVEC_PACKAGE_ENV(x));
   
   // length listener method
   SEXP elt_listener = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(x), LAZYVEC_METHOD_ELT));
@@ -235,7 +231,7 @@ R_xlen_t lazyvec_raw_Get_region_method(SEXP sx, R_xlen_t i, R_xlen_t n, Rbyte *b
   SEXP get_region_listener = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(sx), LAZYVEC_METHOD_GET_REGION));
 
   // call listener with integer result
-  call_r_interface(get_region_listener, arguments, LAZYVEC_PARENT_ENV(sx));
+  call_r_interface(get_region_listener, arguments, LAZYVEC_PACKAGE_ENV(sx));
 
   UNPROTECT(2);
 
@@ -253,14 +249,14 @@ SEXP lazyvec_raw_DuplicateEX_method(SEXP sx, Rboolean deep)
   if (result_duplicate_ex == NULL)
   { 
     // call listener with SEXP result
-    call_r_interface(duplicate_ex_listener, R_NilValue, LAZYVEC_PARENT_ENV(sx));
+    call_r_interface(duplicate_ex_listener, R_NilValue, LAZYVEC_PACKAGE_ENV(sx));
     UNPROTECT(2);
 
     return result_duplicate_ex;
   }
 
   // call listener with SEXP result
-  call_r_interface(duplicate_ex_listener, result_duplicate_ex, LAZYVEC_PARENT_ENV(sx));
+  call_r_interface(duplicate_ex_listener, result_duplicate_ex, LAZYVEC_PACKAGE_ENV(sx));
   UNPROTECT(2);
 
   return result_duplicate_ex;
@@ -287,7 +283,7 @@ SEXP lazyvec_raw_Extract_subset_method(SEXP x, SEXP indx, SEXP call)
   SEXP user_data = PROTECT(LAZYVEC_USER_DATA(x));
   
   // calling environment
-  SEXP calling_env = PROTECT(LAZYVEC_PARENT_ENV(x));
+  SEXP calling_env = PROTECT(LAZYVEC_PACKAGE_ENV(x));
   
   // length listener method
   SEXP listener_extract_subset = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(x), LAZYVEC_METHOD_EXTRACT_SUBSET));

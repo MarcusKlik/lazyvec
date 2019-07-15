@@ -46,10 +46,24 @@
 #'
 #' @return object of type 'lazyvec_api' defining the set of methods to use for ALTREP calls
 #' @export
-lazyvec_methods <- function(lazyvec_init, method_length, method_dataptr_or_null, method_get_region,
-  method_element, method_dataptr, method_is_sorted, method_no_na, method_sum, method_min,
-  method_max, method_inspect, method_unserialize_ex, method_serialized_state,
-  method_duplicate_ex, method_coerce, method_extract_subset, method_init = NULL) {
+lazyvec_methods <- function(
+  method_length,
+  method_init = NULL,
+  method_dataptr_or_null = NULL,
+  method_get_region = NULL,
+  method_element = NULL,
+  method_dataptr = NULL,
+  method_is_sorted = NULL,
+  method_no_na = NULL,
+  method_sum = NULL,
+  method_min = NULL,
+  method_max = NULL,
+  method_inspect = NULL,
+  method_unserialize_ex = NULL,
+  method_serialized_state = NULL,
+  method_duplicate_ex = NULL,
+  method_coerce = NULL,
+  method_extract_subset = NULL) {
 
   # some checks on user functions here
 
