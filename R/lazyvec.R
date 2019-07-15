@@ -29,16 +29,16 @@
 #' @param vec_type data type required for the ALTREP vector, options are 'integer', 'double',
 #' 'logical', 'raw' and 'character'. 
 #' @param altrep_methods user-defined methods used by the resulting ALTREP vector.
+#' @param package_environment package environment in which to evaluate the user methods. Defaults
+#' to the lazyvec package.
 #' @param diagnostics if TRUE, heavy type and boundary checks are performed before returning
 #' the results of user defined methods to R. This greatly enhances the stability of lazyvec
 #' implementation and should be set to TRUE during the development phase of new custom vectors
 #' to avoid crashes and unexpected side-effects.
-#' @param package_environment package environment in which to evaluate the user methods. Defaults
-#' to the lazyvec package.
 #'
 #' @return a user-defined ALTREP vector
 #' @export
-lazyvec <- function(metadata, vec_type, altrep_methods, diagnostics = TRUE, package_environment = "lazyvec") {
+lazyvec <- function(metadata, vec_type, altrep_methods, package_environment = "lazyvec", diagnostics = TRUE) {
 
   if (class(altrep_methods) != "lazyvec_api") {
     stop("Please use lazyvec_methods() to define the ALTREP methods for this vector")
@@ -49,9 +49,13 @@ lazyvec <- function(metadata, vec_type, altrep_methods, diagnostics = TRUE, pack
   if (!is_attached) stop("Failed to attach package ", package_environment,
     ", please make sure it's installed correctly")
 
-  diagnostic_methods <- NULL
+  altrep_methods_vec <- altrep_methods
+
   if (diagnostics) {
     diagnostic_methods <- diagnostics()
+  } else {
+    diagnostic_methods <- altrep_methods
+    altrep_methods_vec <- NULL
   }
 
   payload <- list(
@@ -60,7 +64,7 @@ lazyvec <- function(metadata, vec_type, altrep_methods, diagnostics = TRUE, pack
     1:10,
 
     # user defined API
-    altrep_methods,
+    altrep_methods_vec,
 
     # identifier, used in diagnostic output
     NULL,

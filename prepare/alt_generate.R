@@ -29,7 +29,6 @@ alt_generate <- function(source_path, altrep_type, cpp_type, scalar_method, type
   source_file <- gsub("ALT_METHOD", alt_method, source_file)
   source_file <- gsub("SEXP_TO_CPP", sexp_to_cpp, source_file)
   source_file <- gsub("ALTVEC_WRAPPER", altvec_wrapper, source_file)
-  source_file <- gsub("LAZYVEC_DIAGNOSTICS", lazy_diagnostic, source_file)
 
   for (exclude_method in exclude_methods) {
 
