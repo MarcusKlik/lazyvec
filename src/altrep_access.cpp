@@ -25,14 +25,6 @@
 #include "api_helpers.h"
 
 
-// [[Rcpp::export]]
-SEXP altrep_class_info(SEXP vec) {
-  test_altrep(vec);
-
-  return ALTREP_SERIALIZED_CLASS(vec);
-}
-
-
 // Get the exact ALTREP class descriptor
 // [[Rcpp::export]]
 SEXP altrep_full_class(SEXP altrep_vec) {
