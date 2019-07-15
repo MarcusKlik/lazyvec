@@ -40,9 +40,10 @@ lazyvec <- function(metadata, vec_type, altrep_methods, package_environment = "l
     stop("Please use lazyvec_methods() to define the ALTREP methods for this vector")
   }
 
-  # attach package  
+  # attach package
   is_attached <- require(package_environment, character.only = TRUE, quietly = TRUE)
-  if (!is_attached) stop("Failed to attach package ", package_environment, ", please make sure it's installed correctly")
+  if (!is_attached) stop("Failed to attach package ", package_environment,
+    ", please make sure it's installed correctly")
 
   payload <- list(
 
