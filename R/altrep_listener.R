@@ -37,9 +37,11 @@ altrep_listeners <- function() {
     listener_serialized_state,
     listener_duplicate_ex,
     listener_coerce,
-    listener_extract_subset
+    listener_extract_subset,
+    listener_unserialize
   )
 }
+
 
 #' Add listeners to an ALTREP vector to eavesdrop on all internal ALTREP calls 
 #' 
@@ -196,15 +198,23 @@ listener_serialized_state <- function(x) {
 
 listener_unserialize_ex <- function(x) {
   cat(crayon::italic(crayon::cyan("ALTREP unserialize_ex: altwrap_class =")),
-  display_parameter(x[[1]]),
-  crayon::italic(crayon::cyan(", state =")),
-  display_parameter(x[[2]]),
-  crayon::italic(crayon::cyan(", attr =")),
-  display_parameter(x[[3]]),
-  crayon::italic(crayon::cyan(", objf =")),
-  display_parameter(x[[4]]),
-  crayon::italic(crayon::cyan(", levs =")),
-  display_parameter(x[[5]]))
+    display_parameter(x[[1]]),
+    crayon::italic(crayon::cyan(", state =")),
+    display_parameter(x[[2]]),
+    crayon::italic(crayon::cyan(", attr =")),
+    display_parameter(x[[3]]),
+    crayon::italic(crayon::cyan(", objf =")),
+    display_parameter(x[[4]]),
+    crayon::italic(crayon::cyan(", levs =")),
+    display_parameter(x[[5]]))
+}
+
+
+listener_unserialize <- function(x) {
+  cat(crayon::italic(crayon::cyan("ALTREP unserialize_ex: altwrap_class =")),
+    display_parameter(x[[1]]),
+    crayon::italic(crayon::cyan(", state =")),
+    display_parameter(x[[2]]))
 }
 
 
