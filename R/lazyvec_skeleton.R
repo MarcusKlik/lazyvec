@@ -28,7 +28,7 @@
 #' vignette.
 #' 
 #' The following sample implementations are available:
-#' * _int_range_: an integer range with a custom step size
+#' * _integer_range_: an integer range with a custom step size
 #' * _real_range_: a range of double's with a custom step size
 #' * _logical_compressed_: a compressed logical vector
 #' * _raw_ondisk_: a file based out-of-memory raw vector
@@ -49,7 +49,7 @@ lazyvec_skeleton <- function(skeleton_id, path) {
 
 # helper method to allow for alternative sample folders
 lazyvec_sample_copy <- function(skeleton_id, sample_dir, path) {
-  valid_ids <- c("int_range")
+  valid_ids <- c("integer_range")
 
   if (!(skeleton_id %in% valid_ids)) {
     stop("Invalid skeleton_id. Please select one of the following id's: '",

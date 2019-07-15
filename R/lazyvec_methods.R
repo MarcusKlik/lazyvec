@@ -49,7 +49,7 @@
 lazyvec_methods <- function(lazyvec_init, method_length, method_dataptr_or_null, method_get_region,
   method_element, method_dataptr, method_is_sorted, method_no_na, method_sum, method_min,
   method_max, method_inspect, method_unserialize_ex, method_serialized_state,
-  method_duplicate_ex, method_coerce, method_extract_subset, method_init) {
+  method_duplicate_ex, method_coerce, method_extract_subset, method_init = NULL) {
 
   # some checks on user functions here
 

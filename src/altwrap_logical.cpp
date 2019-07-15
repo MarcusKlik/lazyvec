@@ -40,22 +40,34 @@ SEXP altrep_logical_wrapper(SEXP data)
 
 static SEXP altwrap_logical_Unserialize_method(SEXP altwrap_class, SEXP state)
 {
-  Rcpp::Environment pkgs = Rcpp::Environment::namespace_env("lazyvec");
-
-  SEXP altrep_data1 = PROTECT(Rf_allocVector(VECSXP, 4));
-  SET_VECTOR_ELT(altrep_data1, 0, VECTOR_ELT(state, 0));
-  SET_VECTOR_ELT(altrep_data1, 1, VECTOR_ELT(state, 1));
-  SET_VECTOR_ELT(altrep_data1, 2, VECTOR_ELT(state, 2));
-  SET_VECTOR_ELT(altrep_data1, 3, pkgs);
-
-  // unserialize listener method
-  // SEXP unserialize_listener = PROTECT(VECTOR_ELT(VECTOR_ELT(state, 1), ALTREP_METHOD_UNSERIALIZE));
+  int serialized_version = INTEGER(VECTOR_ELT(state, SERIALIZED_VERSION))[0];  // lazyvec used for serialization
   
-  // call_r_interface(unserialize_listener, state, ALTWRAP_PARENT_ENV(altrep_data1));
+  if (serialized_version > LAZYVEC_VERSION)
+  {
+    Rf_error("Vector was serialized with a later lazyvec package version, please update lazyvec");
+  }
+  
+  Rcpp::Environment pkgs = Rcpp::Environment::namespace_env("lazyvec");
+  
+  // picking up altrep_listener from the currently installed lazyvec
+  Rcpp::Function altrep_listener = pkgs["altrep_listener"];
+  
+  // create a new wrapper using the current lazyvec implementation
+  SEXP payload = PROTECT(VECTOR_ELT(state, SERIALIZED_PAYLOAD));
+  SEXP wrapped_vec = PROTECT(altrep_listener(payload, VECTOR_ELT(state, SERIALIZED_METADATA)));
+  
+  // get listener from newly wrapped vector (no need to protect?)
+  SEXP unserialize_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(wrapped_vec), ALTREP_METHOD_UNSERIALIZE));
+  
+  SEXP altrep_info = PROTECT(Rf_allocVector(VECSXP, 2));
+  SET_VECTOR_ELT(altrep_info, 0, sexp_or_null(ALTREP_SERIALIZED_CLASS(payload)));
+  SET_VECTOR_ELT(altrep_info, 1, sexp_or_null(VECTOR_ELT(state, SERIALIZED_STATE)));
 
-  // UNPROTECT(2);
-  UNPROTECT(1);
-  return altrep_logical_wrapper(altrep_data1);
+  call_r_interface(unserialize_listener, altrep_info, pkgs);
+  
+  UNPROTECT(4);  // altrep_info, unserialize_listener, wrapped_vec, payload
+  
+  return wrapped_vec;
 }
 
 

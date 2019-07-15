@@ -7,17 +7,17 @@ unlink(sample_path, force = TRUE)
 
 test_that("arguments", {
   expect_error(lazyvec_skeleton("bla"), "Invalid skeleton_id")
-  expect_error(lazyvec_skeleton("int_range", "test_int_range.R"), "target path already exists")
-  expect_error(lazyvec_skeleton("int_range", "incorrect_folder/1.R"), "target path points to a non-existing folder")
+  expect_error(lazyvec_skeleton("integer_range", "test_int_range.R"), "target path already exists")
+  expect_error(lazyvec_skeleton("integer_range", "incorrect_folder/1.R"), "target path points to a non-existing folder")
 })
 
 
 test_that("generate", {
   # when testing interactively
   if (dir.exists("../../inst/lazyvec_samples/")) {
-    lazyvec:::lazyvec_sample_copy("int_range", "../../inst/lazyvec_samples/", sample_path)
+    lazyvec:::lazyvec_sample_copy("integer_range", "../../inst/lazyvec_samples/", sample_path)
   } else {
-    lazyvec::lazyvec_skeleton("int_range", sample_path)
+    lazyvec::lazyvec_skeleton("integer_range", sample_path)
   }
 
   expect_true(file.exists(sample_path))
