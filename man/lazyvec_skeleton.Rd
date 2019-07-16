@@ -20,7 +20,7 @@ vignette.
 \details{
 The following sample implementations are available:
 \itemize{
-\item \emph{int_range}: an integer range with a custom step size
+\item \emph{integer_range}: an integer range with a custom step size
 \item \emph{real_range}: a range of double's with a custom step size
 \item \emph{logical_compressed}: a compressed logical vector
 \item \emph{raw_ondisk}: a file based out-of-memory raw vector

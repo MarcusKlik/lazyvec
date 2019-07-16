@@ -25,7 +25,6 @@
 #' With this method a complete ALTREP interface is defined using R functions. Calls to the custom
 #' ALTREP vector will be diverted to these user functions.
 #' 
-#' @param lazyvec_init method to be called once upon deserialization (copying?) of a vector
 #' @param method_length override for the ALTREP length method
 #' @param method_dataptr_or_null  override for the ALTREP dataptr_or_null method
 #' @param method_get_region override for the ALTREP get_region method
