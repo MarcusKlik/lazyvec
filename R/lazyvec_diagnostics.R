@@ -46,10 +46,47 @@ diagnostics <- function() {
 }
 
 
+user_method_length           = 1
+user_method_dataptr_or_null  = 2
+user_method_get_region       = 3
+user_method_element          = 4
+user_method_dataptr          = 5
+user_method_is_sorted        = 6
+user_method_no_na            = 7
+user_method_sum              = 8
+user_method_min              = 9
+user_method_max              = 10
+user_method_inspect          = 11
+user_method_unserialize_ex   = 12
+user_method_serialized_state = 13
+user_method_duplicate_ex     = 14
+user_method_coerce           = 15
+user_method_extract_subset   = 16
+
+
 diagnostic_length <- function(x) {
+
+  # run user method
+  result <- tryCatch(
+    x$user_methods[[user_method_length]](x$user_data),
+    error = function(e) { e },
+    warning = function(w) { w }
+  )
+
+  if (is(result, "error")) stop("Error detected in length method: ", result$message)
+
+  if (is(result, "warning")) stop("Warning detected in length method: ", result$message)
+  
+  if (length(result) != 1) stop("Length method should return a length 1 integer vector")
+
+  if (typeof(result) != "integer") stop("Length method should return an integer vector, not a ", typeof(result))
+  
+  # report result
   cat(crayon::italic(
-    crayon::cyan(x[[1]], ": ALTREP length : result =")),
-    display_parameter(x[[2]]), "\n", sep = "")
+    crayon::cyan(x$vec_id, ": ALTREP length : result =")),
+    display_parameter(result), "\n", sep = "")
+  
+  result
 }
 
 

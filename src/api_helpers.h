@@ -105,14 +105,13 @@ typedef void (*inspect_subtree_method)(SEXP, int, int, int);
 
 
 // get meta data components from the lazyvec
-#define LAZYVEC_PAYLOAD(x) VECTOR_ELT(R_altrep_data1(x), 0)
-#define LAZYVEC_LISTENERS(x) VECTOR_ELT(R_altrep_data1(x), 1)
-#define LAZYVEC_METADATA(x) VECTOR_ELT(R_altrep_data1(x), 2)
-#define LAZYVEC_PACKAGE_ENV(x) VECTOR_ELT(R_altrep_data1(x), 3)
-#define LAZYVEC_USER_DATA(x) VECTOR_ELT(R_altrep_data1(x), 4)
-#define LAZYVEC_FULL_VEC(x) VECTOR_ELT(R_altrep_data1(x), 5)
-#define LAZYVEC_ENV(x) VECTOR_ELT(R_altrep_data1(x), 6)
-#define LAZYVEC_DIAGNOSTICS(x) VECTOR_ELT(R_altrep_data1(x), 7)
+#define LAZYVEC_PAYLOAD(x) VECTOR_ELT(R_altrep_data1(x), 2)
+
+#define LAZYVEC_DIAGNOSTICS(x) VECTOR_ELT(R_altrep_data1(x), 0)
+#define LAZYVEC_PACKAGE_ENV(x) VECTOR_ELT(R_altrep_data1(x), 1)
+#define LAZYVEC_USER_DATA(x) VECTOR_ELT(R_altrep_data1(x), 2)
+#define LAZYVEC_FULL_VEC(x) VECTOR_ELT(R_altrep_data1(x), 3)
+#define LAZYVEC_ENV(x) VECTOR_ELT(R_altrep_data1(x), 4)
 
 // setters
 #define LAZYVEC_SET_FULL_VEC(x, y) SET_VECTOR_ELT(R_altrep_data1(x), 5, y)

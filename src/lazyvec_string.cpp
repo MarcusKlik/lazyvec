@@ -43,7 +43,7 @@ R_xlen_t lazyvec_string_Length_method(SEXP x)
   SEXP user_data = PROTECT(LAZYVEC_USER_DATA(x));
 
   // length listener method
-  SEXP length_listener = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(x), LAZYVEC_METHOD_LENGTH));
+  SEXP length_listener = PROTECT(VECTOR_ELT(LAZYVEC_DIAGNOSTICS(x), LAZYVEC_METHOD_LENGTH));
 
   SEXP custom_length = PROTECT(call_r_interface(length_listener, user_data, LAZYVEC_PACKAGE_ENV(x)));
   
@@ -96,7 +96,7 @@ SEXP lazyvec_string_UnserializeEX_method(SEXP info, SEXP state, SEXP attr, int o
   SET_VECTOR_ELT(altrep_data1, 2, VECTOR_ELT(state, 2));
   SET_VECTOR_ELT(altrep_data1, 3, pkgs);
 
-  // SEXP unserialize_ex_listener = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(altrep_data1),
+  // SEXP unserialize_ex_listener = PROTECT(VECTOR_ELT(LAZYVEC_DIAGNOSTICS(altrep_data1),
   //   LAZYVEC_METHOD_UNSERIALIZE_EX));
 
   // Rf_PrintValue(state);
@@ -113,14 +113,13 @@ SEXP lazyvec_string_Serialized_state_method(SEXP x)
   // SEXP serialized_state_result = PROTECT(ALTREP_SERIALIZED_STATE_PROXY(LAZYVEC_PAYLOAD(x)));
 
   // length listener method
-  // SEXP serialized_state_listener = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(x), LAZYVEC_METHOD_SERIALIZED_STATE));
+  // SEXP serialized_state_listener = PROTECT(VECTOR_ELT(LAZYVEC_DIAGNOSTICS(x), LAZYVEC_METHOD_SERIALIZED_STATE));
 
   // create serialization state
-  SEXP serialized_state = PROTECT(Rf_allocVector(VECSXP, 3));
+  SEXP serialized_state = PROTECT(Rf_allocVector(VECSXP, 2));
   SET_VECTOR_ELT(serialized_state, 0, LAZYVEC_PAYLOAD(x));
-  SET_VECTOR_ELT(serialized_state, 1, LAZYVEC_LISTENERS(x));
-  SET_VECTOR_ELT(serialized_state, 2, LAZYVEC_METADATA(x));
-  
+  SET_VECTOR_ELT(serialized_state, 1, LAZYVEC_DIAGNOSTICS(x));
+
   // if (serialized_state_result == NULL)
   // {
   //   call_r_interface(serialized_state_listener, R_NilValue, LAZYVEC_PACKAGE_ENV(x));
@@ -152,7 +151,7 @@ void* lazyvec_string_Dataptr_method(SEXP x, Rboolean writeable)
   SEXP calling_env = PROTECT(LAZYVEC_PACKAGE_ENV(x));
 
   // length listener method
-  SEXP full_vector_listener = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(x), LAZYVEC_METHOD_DATAPTR));
+  SEXP full_vector_listener = PROTECT(VECTOR_ELT(LAZYVEC_DIAGNOSTICS(x), LAZYVEC_METHOD_DATAPTR));
 
   SEXP stored_full_vec = LAZYVEC_FULL_VEC(x);
 
@@ -199,7 +198,7 @@ SEXP lazyvec_string_Elt_method(SEXP x, R_xlen_t i)
   SEXP calling_env = PROTECT(LAZYVEC_PACKAGE_ENV(x));
   
   // length listener method
-  SEXP elt_listener = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(x), LAZYVEC_METHOD_ELT));
+  SEXP elt_listener = PROTECT(VECTOR_ELT(LAZYVEC_DIAGNOSTICS(x), LAZYVEC_METHOD_ELT));
 
   // i argument
   SEXP i_arg = PROTECT(Rf_ScalarInteger((int)(i + 1)));
@@ -226,7 +225,7 @@ int lazyvec_string_Is_sorted_method(SEXP x)
   SEXP calling_env = PROTECT(LAZYVEC_PACKAGE_ENV(x));
   
   // length listener method
-  SEXP is_sorted_listener = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(x), LAZYVEC_METHOD_IS_SORTED));
+  SEXP is_sorted_listener = PROTECT(VECTOR_ELT(LAZYVEC_DIAGNOSTICS(x), LAZYVEC_METHOD_IS_SORTED));
   
   // returns int
   SEXP custom_is_sorted = PROTECT(call_r_interface(is_sorted_listener, user_data, calling_env));
@@ -249,7 +248,7 @@ int lazyvec_string_No_NA_method(SEXP x)
   SEXP calling_env = PROTECT(LAZYVEC_PACKAGE_ENV(x));
 
   // length listener method
-  SEXP no_na_listener = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(x), LAZYVEC_METHOD_NO_NA));
+  SEXP no_na_listener = PROTECT(VECTOR_ELT(LAZYVEC_DIAGNOSTICS(x), LAZYVEC_METHOD_NO_NA));
 
   // returns int
   SEXP custom_no_na = PROTECT(call_r_interface(no_na_listener, user_data, calling_env));
@@ -268,7 +267,7 @@ SEXP lazyvec_string_DuplicateEX_method(SEXP sx, Rboolean deep)
   SEXP result_duplicate_ex = PROTECT(ALTREP_DUPLICATE_EX_PROXY(LAZYVEC_PAYLOAD(sx), deep));
 
   // retrieve duplicateEX listener method
-  SEXP duplicate_ex_listener = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(sx), LAZYVEC_METHOD_DUPLICATE_EX));
+  SEXP duplicate_ex_listener = PROTECT(VECTOR_ELT(LAZYVEC_DIAGNOSTICS(sx), LAZYVEC_METHOD_DUPLICATE_EX));
 
   if (result_duplicate_ex == NULL)
   { 
@@ -290,7 +289,7 @@ SEXP lazyvec_string_DuplicateEX_method(SEXP sx, Rboolean deep)
 SEXP lazyvec_string_Coerce_method(SEXP x, int type)
 {
   // length listener method
-  SEXP listener_coerce = VECTOR_ELT(LAZYVEC_LISTENERS(x), LAZYVEC_METHOD_COERCE);
+  SEXP listener_coerce = VECTOR_ELT(LAZYVEC_DIAGNOSTICS(x), LAZYVEC_METHOD_COERCE);
 
   // use default coercion
   if (Rf_isNull(listener_coerce)) {
@@ -310,7 +309,7 @@ SEXP lazyvec_string_Extract_subset_method(SEXP x, SEXP indx, SEXP call)
   SEXP calling_env = PROTECT(LAZYVEC_PACKAGE_ENV(x));
   
   // length listener method
-  SEXP listener_extract_subset = PROTECT(VECTOR_ELT(LAZYVEC_LISTENERS(x), LAZYVEC_METHOD_EXTRACT_SUBSET));
+  SEXP listener_extract_subset = PROTECT(VECTOR_ELT(LAZYVEC_DIAGNOSTICS(x), LAZYVEC_METHOD_EXTRACT_SUBSET));
 
   // checks are for safety, remove later
   if (indx == NULL)

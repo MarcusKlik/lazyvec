@@ -5,7 +5,8 @@
 \title{Define a custom ALTREP vector}
 \usage{
 lazyvec(metadata, vec_type, altrep_methods,
-  package_environment = "lazyvec", diagnostics = TRUE)
+  package_environment = "lazyvec", diagnostics = TRUE,
+  id = "lazyvec")
 }
 \arguments{
 \item{metadata}{custom metadata stored alongside the generated ALTREP vector.}
@@ -22,6 +23,8 @@ to the lazyvec package.}
 the results of user defined methods to R. This greatly enhances the stability of lazyvec
 implementation and should be set to TRUE during the development phase of new custom vectors
 to avoid crashes and unexpected side-effects.}
+
+\item{id}{identifier for your lazyvec, used for diagnostic output}
 }
 \value{
 a user-defined ALTREP vector

@@ -35,10 +35,12 @@
 #' the results of user defined methods to R. This greatly enhances the stability of lazyvec
 #' implementation and should be set to TRUE during the development phase of new custom vectors
 #' to avoid crashes and unexpected side-effects.
+#' @param id identifier for your lazyvec, used for diagnostic output
 #'
 #' @return a user-defined ALTREP vector
 #' @export
-lazyvec <- function(metadata, vec_type, altrep_methods, package_environment = "lazyvec", diagnostics = TRUE) {
+lazyvec <- function(metadata, vec_type, altrep_methods, package_environment = "lazyvec", diagnostics = TRUE,
+  id = "lazyvec") {
 
   if (class(altrep_methods) != "lazyvec_api") {
     stop("Please use lazyvec_methods() to define the ALTREP methods for this vector")
@@ -49,39 +51,40 @@ lazyvec <- function(metadata, vec_type, altrep_methods, package_environment = "l
   if (!is_attached) stop("Failed to attach package ", package_environment,
     ", please make sure it's installed correctly")
 
-  altrep_methods_vec <- altrep_methods
+  altrep_methods_list <- altrep_methods
 
+  # if diagnostics are active, user methods are stored in user data
   if (diagnostics) {
-    diagnostic_methods <- diagnostics()
-  } else {
-    diagnostic_methods <- altrep_methods
-    altrep_methods_vec <- NULL
+    altrep_methods_list <- diagnostics()
+    metadata = list(
+      user_data = metadata,
+      user_methods = altrep_methods,
+      vec_id = id
+    )
   }
+
+  #define LAZYVEC_DIAGNOSTICS(x) VECTOR_ELT(R_altrep_data1(x), 0)
+  #define LAZYVEC_PACKAGE_ENV(x) VECTOR_ELT(R_altrep_data1(x), 1)
+  #define LAZYVEC_USER_DATA(x) VECTOR_ELT(R_altrep_data1(x), 2)
+  #define LAZYVEC_FULL_VEC(x) VECTOR_ELT(R_altrep_data1(x), 3)
+  #define LAZYVEC_ENV(x) VECTOR_ELT(R_altrep_data1(x), 4)
 
   payload <- list(
 
-    # ALTREP payload for testing (remove later)
-    1:10,
-
-    # user defined API
-    altrep_methods_vec,
-
-    # identifier, used in diagnostic output
-    NULL,
+    # user defined or diagnostic API
+    altrep_methods_list,
 
     # (user) package environment in which to evaluate user defined mehods
     as.environment(paste0("package:", package_environment)),
 
-    # user-defined metadata
+    # user-defined metadata or diagnostic list including metadata
     metadata,
 
     # container for expanded vector
     NULL,
 
     # lazyvec package environment
-    as.environment("package:lazyvec"),
-
-    diagnostic_methods
+    as.environment("package:lazyvec")
   )
 
   if (vec_type == "integer") {

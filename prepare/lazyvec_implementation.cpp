@@ -123,11 +123,10 @@ SEXP lazyvec_ALTREP_TYPE_Serialized_state_method(SEXP x)
   // SEXP serialized_state_listener = PROTECT(VECTOR_ELT(LAZYVEC_DIAGNOSTICS(x), LAZYVEC_METHOD_SERIALIZED_STATE));
 
   // create serialization state
-  SEXP serialized_state = PROTECT(Rf_allocVector(VECSXP, 3));
+  SEXP serialized_state = PROTECT(Rf_allocVector(VECSXP, 2));
   SET_VECTOR_ELT(serialized_state, 0, LAZYVEC_PAYLOAD(x));
   SET_VECTOR_ELT(serialized_state, 1, LAZYVEC_DIAGNOSTICS(x));
-  SET_VECTOR_ELT(serialized_state, 2, LAZYVEC_METADATA(x));
-  
+
   // if (serialized_state_result == NULL)
   // {
   //   call_r_interface(serialized_state_listener, R_NilValue, LAZYVEC_PACKAGE_ENV(x));
@@ -238,11 +237,10 @@ R_xlen_t lazyvec_ALTREP_TYPE_Get_region_method(SEXP sx, R_xlen_t i, R_xlen_t n, 
 {
   R_xlen_t length = TYPE_METHOD_GET_REGION(LAZYVEC_PAYLOAD(sx), i, n, buf);
 
-  SEXP arguments = PROTECT(Rf_allocVector(VECSXP, 4));
-  SET_VECTOR_ELT(arguments, 0, LAZYVEC_METADATA(sx));
-  SET_VECTOR_ELT(arguments, 1, Rf_ScalarInteger(i));
-  SET_VECTOR_ELT(arguments, 2, Rf_ScalarInteger(n));
-  SET_VECTOR_ELT(arguments, 3, Rf_ScalarInteger(length));
+  SEXP arguments = PROTECT(Rf_allocVector(VECSXP, 3));
+  SET_VECTOR_ELT(arguments, 0, Rf_ScalarInteger(i));
+  SET_VECTOR_ELT(arguments, 1, Rf_ScalarInteger(n));
+  SET_VECTOR_ELT(arguments, 2, Rf_ScalarInteger(length));
 
   // dataptr_or_null listener method
   SEXP get_region_listener = PROTECT(VECTOR_ELT(LAZYVEC_DIAGNOSTICS(sx), LAZYVEC_METHOD_GET_REGION));

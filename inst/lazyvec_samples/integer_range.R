@@ -80,7 +80,7 @@ lazyvec_api <- lazyvec_methods(
 
 
 # constructor for an custom integer range
-int_range <- function(from, to, step, diagnostics = FALSE) {
+integer_range <- function(from, to, step, diagnostics = FALSE) {
 
   # alternative representation
   alt_pres <- list(
