@@ -219,6 +219,9 @@ listener_unserialize <- function(x) {
 
 
 listener_dataptr <- function(x) {
+  
+  print(x)
+  
   cat(crayon::italic(crayon::cyan("ALTREP dataptr: result =")),
       format(as.hexmode(x[1]), width = 8),  # high address bytes
       format(as.hexmode(x[2]), width = 8),  # low bytes of address

@@ -30,7 +30,7 @@ diagnostics <- function() {
     diagnostic_dataptr_or_null,
     diagnostic_get_region,
     diagnostic_element,
-    diagnostic_dataptr,
+    diagnostic_full_vec,
     diagnostic_is_sorted,
     diagnostic_no_na,
     diagnostic_sum,
@@ -50,7 +50,7 @@ user_method_length           = 1
 user_method_dataptr_or_null  = 2
 user_method_get_region       = 3
 user_method_element          = 4
-user_method_dataptr          = 5
+user_method_full_vec         = 5
 user_method_is_sorted        = 6
 user_method_no_na            = 7
 user_method_sum              = 8
@@ -64,19 +64,27 @@ user_method_coerce           = 15
 user_method_extract_subset   = 16
 
 
-diagnostic_length <- function(x) {
+run_user_method <- function(x, method_id) {
 
   # run user method
   result <- tryCatch(
-    x$user_methods[[user_method_length]](x$user_data),
+    x$user_methods[[method_id]](x$user_data),
     error = function(e) { e },
     warning = function(w) { w }
   )
-
-  if (is(result, "error")) stop("Error detected in length method: ", result$message)
-
-  if (is(result, "warning")) stop("Warning detected in length method: ", result$message)
   
+  if (is(result, "error")) stop("Error detected in user method: ", result$message)
+  
+  if (is(result, "warning")) stop("Warning detected in user method: ", result$message)
+
+  result  
+}
+
+
+diagnostic_length <- function(x) {
+
+  result <- run_user_method(x, user_method_length)
+
   if (length(result) != 1) stop("Length method should return a length 1 integer vector")
 
   if (typeof(result) != "integer") stop("Length method should return an integer vector, not a ", typeof(result))
@@ -87,6 +95,31 @@ diagnostic_length <- function(x) {
     display_parameter(result), "\n", sep = "")
   
   result
+}
+
+
+diagnostic_full_vec <- function(x) {
+
+  result <- run_user_method(x, user_method_full_vec)
+  
+  vec_length <- run_user_method(x, user_method_length)
+
+  cat(crayon::italic(crayon::cyan("ALTREP dataptr: result =")),
+      format(as.hexmode(x[1]), width = 8),  # high address bytes
+      format(as.hexmode(x[2]), width = 8),  # low bytes of address
+      ", writable = ", as.logical(x[3]), "\n", sep = "")
+}
+
+
+diagnostic_inspect <- function(x) {
+  cat(crayon::italic(crayon::cyan("ALTREP inspect: result =")),
+      display_parameter(x[[1]]),
+      crayon::italic(crayon::cyan(", pre =")),
+      display_parameter(x[[2]]),
+      crayon::italic(crayon::cyan(", deep =")),
+      display_parameter(x[[3]]),
+      crayon::italic(crayon::cyan(", pVec =")),
+      display_parameter(x[[4]]), "\n", sep = "")
 }
 
 
@@ -148,18 +181,6 @@ diagnostic_max <- function(x) {
 }
 
 
-diagnostic_inspect <- function(x) {
-  cat(crayon::italic(crayon::cyan("ALTREP inspect: result =")),
-      display_parameter(x[[1]]),
-      crayon::italic(crayon::cyan(", pre =")),
-      display_parameter(x[[2]]),
-      crayon::italic(crayon::cyan(", deep =")),
-      display_parameter(x[[3]]),
-      crayon::italic(crayon::cyan(", pVec =")),
-      display_parameter(x[[4]]), "\n", sep = "")
-}
-
-
 diagnostic_serialized_state <- function(x) {
   cat(crayon::italic(crayon::cyan("ALTREP serialized_state: result =")),
       display_parameter(x), "\n", sep = "")
@@ -185,14 +206,6 @@ diagnostic_unserialize <- function(x) {
       display_parameter(x[[1]]),
       crayon::italic(crayon::cyan(", state =")),
       display_parameter(x[[2]]))
-}
-
-
-diagnostic_dataptr <- function(x) {
-  cat(crayon::italic(crayon::cyan("ALTREP dataptr: result =")),
-      format(as.hexmode(x[1]), width = 8),  # high address bytes
-      format(as.hexmode(x[2]), width = 8),  # low bytes of address
-      ", writable = ", as.logical(x[3]), "\n", sep = "")
 }
 
 

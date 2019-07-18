@@ -68,7 +68,7 @@
 #define LAZYVEC_METHOD_DATAPTR_OR_NULL   1
 #define LAZYVEC_METHOD_GET_REGION        2
 #define LAZYVEC_METHOD_ELT               3
-#define LAZYVEC_METHOD_DATAPTR           4
+#define LAZYVEC_METHOD_FULL_VEC          4
 #define LAZYVEC_METHOD_IS_SORTED         5
 #define LAZYVEC_METHOD_NO_NA             6
 #define LAZYVEC_METHOD_SUM               7
@@ -114,7 +114,7 @@ typedef void (*inspect_subtree_method)(SEXP, int, int, int);
 #define LAZYVEC_ENV(x) VECTOR_ELT(R_altrep_data1(x), 4)
 
 // setters
-#define LAZYVEC_SET_FULL_VEC(x, y) SET_VECTOR_ELT(R_altrep_data1(x), 5, y)
+#define LAZYVEC_SET_FULL_VEC(x, y) SET_VECTOR_ELT(R_altrep_data1(x), 3, y)
 
 
 #define CALL_LAZYVEC_SETTER(CNAME, TNAME, MNAME) \

@@ -56,85 +56,6 @@ R_xlen_t lazyvec_logical_Length_method(SEXP x)
 }
 
 
-//
-// On Win there is no Unserialize method exported, check with R-dev!
-//
-static SEXP lazyvec_logical_Unserialize_method(SEXP lazyvec_class, SEXP state)
-{
-  Rcpp::Environment pkgs = Rcpp::Environment::namespace_env("lazyvec");
-
-  SEXP altrep_data1 = PROTECT(Rf_allocVector(VECSXP, 4));
-  SET_VECTOR_ELT(altrep_data1, 0, VECTOR_ELT(state, 0));
-  SET_VECTOR_ELT(altrep_data1, 1, VECTOR_ELT(state, 1));
-  SET_VECTOR_ELT(altrep_data1, 2, VECTOR_ELT(state, 2));
-  SET_VECTOR_ELT(altrep_data1, 3, pkgs);
-
-  // unserialize listener method
-  // SEXP unserialize_listener = PROTECT(VECTOR_ELT(VECTOR_ELT(state, 1), LAZYVEC_METHOD_UNSERIALIZE));
-  
-  // call_r_interface(unserialize_listener, state, LAZYVEC_PACKAGE_ENV(altrep_data1));
-
-  // UNPROTECT(2);
-  UNPROTECT(1);
-  return lazyvec_logical_wrapper(altrep_data1);
-}
-
-
-//
-// ALTREP_UNSERIALIZE_EX is not linking on linux due to uncommented hidden_attribute
-// in declaration
-//
-SEXP lazyvec_logical_UnserializeEX_method(SEXP info, SEXP state, SEXP attr, int objf, int levs)
-{
-  // return ALTREP_UNSERIALIZE_EX_PROXY(info, state, attr, objf, levs);
-
-  Rcpp::Environment pkgs = Rcpp::Environment::namespace_env("lazyvec");
-
-  SEXP altrep_data1 = PROTECT(Rf_allocVector(VECSXP, 4));
-  SET_VECTOR_ELT(altrep_data1, 0, VECTOR_ELT(state, 0));
-  SET_VECTOR_ELT(altrep_data1, 1, VECTOR_ELT(state, 1));
-  SET_VECTOR_ELT(altrep_data1, 2, VECTOR_ELT(state, 2));
-  SET_VECTOR_ELT(altrep_data1, 3, pkgs);
-
-  // SEXP unserialize_ex_listener = PROTECT(VECTOR_ELT(LAZYVEC_DIAGNOSTICS(altrep_data1),
-  //   LAZYVEC_METHOD_UNSERIALIZE_EX));
-
-  // Rf_PrintValue(state);
-  // call_r_interface(unserialize_ex_listener, state, LAZYVEC_PACKAGE_ENV(altrep_data1));
-  
-  // UNPROTECT(2);
-  UNPROTECT(1);
-  return lazyvec_logical_wrapper(altrep_data1);
-}
-
-
-SEXP lazyvec_logical_Serialized_state_method(SEXP x)
-{
-  // SEXP serialized_state_result = PROTECT(ALTREP_SERIALIZED_STATE_PROXY(LAZYVEC_PAYLOAD(x)));
-
-  // length listener method
-  // SEXP serialized_state_listener = PROTECT(VECTOR_ELT(LAZYVEC_DIAGNOSTICS(x), LAZYVEC_METHOD_SERIALIZED_STATE));
-
-  // create serialization state
-  SEXP serialized_state = PROTECT(Rf_allocVector(VECSXP, 2));
-  SET_VECTOR_ELT(serialized_state, 0, LAZYVEC_PAYLOAD(x));
-  SET_VECTOR_ELT(serialized_state, 1, LAZYVEC_DIAGNOSTICS(x));
-
-  // if (serialized_state_result == NULL)
-  // {
-  //   call_r_interface(serialized_state_listener, R_NilValue, LAZYVEC_PACKAGE_ENV(x));
-  // }
-  // else
-  // {
-  //   call_r_interface(serialized_state_listener, serialized_state_result, LAZYVEC_PACKAGE_ENV(x));
-  // }
-
-  UNPROTECT(3);
-
-  return serialized_state;
-}
-
-
 Rboolean lazyvec_logical_Inspect_method(SEXP x, int pre, int deep, int pvec,
   inspect_subtree_method subtree_method)
 {
@@ -151,7 +72,7 @@ void* lazyvec_logical_Dataptr_method(SEXP x, Rboolean writeable)
   SEXP calling_env = PROTECT(LAZYVEC_PACKAGE_ENV(x));
 
   // length listener method
-  SEXP full_vector_listener = PROTECT(VECTOR_ELT(LAZYVEC_DIAGNOSTICS(x), LAZYVEC_METHOD_DATAPTR));
+  SEXP full_vector_listener = PROTECT(VECTOR_ELT(LAZYVEC_DIAGNOSTICS(x), LAZYVEC_METHOD_FULL_VEC));
 
   SEXP stored_full_vec = LAZYVEC_FULL_VEC(x);
 
@@ -374,6 +295,85 @@ SEXP lazyvec_logical_Extract_subset_method(SEXP x, SEXP indx, SEXP call)
   UNPROTECT(4);  // last PROTECT could be removed
   
   return custom_elements;
+}
+
+
+//
+// On Win there is no Unserialize method exported, check with R-dev!
+//
+static SEXP lazyvec_logical_Unserialize_method(SEXP lazyvec_class, SEXP state)
+{
+  Rcpp::Environment pkgs = Rcpp::Environment::namespace_env("lazyvec");
+  
+  SEXP altrep_data1 = PROTECT(Rf_allocVector(VECSXP, 4));
+  SET_VECTOR_ELT(altrep_data1, 0, VECTOR_ELT(state, 0));
+  SET_VECTOR_ELT(altrep_data1, 1, VECTOR_ELT(state, 1));
+  SET_VECTOR_ELT(altrep_data1, 2, VECTOR_ELT(state, 2));
+  SET_VECTOR_ELT(altrep_data1, 3, pkgs);
+  
+  // unserialize listener method
+  // SEXP unserialize_listener = PROTECT(VECTOR_ELT(VECTOR_ELT(state, 1), LAZYVEC_METHOD_UNSERIALIZE));
+  
+  // call_r_interface(unserialize_listener, state, LAZYVEC_PACKAGE_ENV(altrep_data1));
+  
+  // UNPROTECT(2);
+  UNPROTECT(1);
+  return lazyvec_logical_wrapper(altrep_data1);
+}
+
+
+//
+// ALTREP_UNSERIALIZE_EX is not linking on linux due to uncommented hidden_attribute
+// in declaration
+//
+SEXP lazyvec_logical_UnserializeEX_method(SEXP info, SEXP state, SEXP attr, int objf, int levs)
+{
+  // return ALTREP_UNSERIALIZE_EX_PROXY(info, state, attr, objf, levs);
+  
+  Rcpp::Environment pkgs = Rcpp::Environment::namespace_env("lazyvec");
+  
+  SEXP altrep_data1 = PROTECT(Rf_allocVector(VECSXP, 4));
+  SET_VECTOR_ELT(altrep_data1, 0, VECTOR_ELT(state, 0));
+  SET_VECTOR_ELT(altrep_data1, 1, VECTOR_ELT(state, 1));
+  SET_VECTOR_ELT(altrep_data1, 2, VECTOR_ELT(state, 2));
+  SET_VECTOR_ELT(altrep_data1, 3, pkgs);
+  
+  // SEXP unserialize_ex_listener = PROTECT(VECTOR_ELT(LAZYVEC_DIAGNOSTICS(altrep_data1),
+  //   LAZYVEC_METHOD_UNSERIALIZE_EX));
+  
+  // Rf_PrintValue(state);
+  // call_r_interface(unserialize_ex_listener, state, LAZYVEC_PACKAGE_ENV(altrep_data1));
+  
+  // UNPROTECT(2);
+  UNPROTECT(1);
+  return lazyvec_logical_wrapper(altrep_data1);
+}
+
+
+SEXP lazyvec_logical_Serialized_state_method(SEXP x)
+{
+  // SEXP serialized_state_result = PROTECT(ALTREP_SERIALIZED_STATE_PROXY(LAZYVEC_PAYLOAD(x)));
+  
+  // length listener method
+  // SEXP serialized_state_listener = PROTECT(VECTOR_ELT(LAZYVEC_DIAGNOSTICS(x), LAZYVEC_METHOD_SERIALIZED_STATE));
+  
+  // create serialization state
+  SEXP serialized_state = PROTECT(Rf_allocVector(VECSXP, 2));
+  SET_VECTOR_ELT(serialized_state, 0, LAZYVEC_PAYLOAD(x));
+  SET_VECTOR_ELT(serialized_state, 1, LAZYVEC_DIAGNOSTICS(x));
+  
+  // if (serialized_state_result == NULL)
+  // {
+  //   call_r_interface(serialized_state_listener, R_NilValue, LAZYVEC_PACKAGE_ENV(x));
+  // }
+  // else
+  // {
+  //   call_r_interface(serialized_state_listener, serialized_state_result, LAZYVEC_PACKAGE_ENV(x));
+  // }
+  
+  UNPROTECT(3);
+  
+  return serialized_state;
 }
 
 

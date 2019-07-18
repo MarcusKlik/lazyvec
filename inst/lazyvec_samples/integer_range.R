@@ -60,21 +60,14 @@ lazyvec_extract_subset <- function(x, indx) {
 # define int_range ALTREP API
 lazyvec_api <- lazyvec_methods(
   lazyvec_length,
-  NULL,
-  NULL,
+  lazyvec_full_vector,
   lazyvec_get_region,
   lazyvec_element,
-  NULL,
   lazyvec_is_sorted,
   lazyvec_no_na,
   lazyvec_sum,
   lazyvec_min,
   lazyvec_max,
-  NULL,
-  NULL,
-  NULL,
-  NULL,
-  NULL,
   lazyvec_extract_subset
 )
 
