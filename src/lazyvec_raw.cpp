@@ -102,7 +102,6 @@ const void *lazyvec_raw_Dataptr_or_null_method(SEXP x)
   
   // return dataptr of stored vector
   if (!Rf_isNull(stored_full_vec)) {
-    UNPROTECT(3);
     return DATAPTR(stored_full_vec);
   }
   
