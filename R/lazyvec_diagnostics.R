@@ -27,7 +27,7 @@
 diagnostics <- function() {
   list(
     diagnostic_length,
-    diagnostic_dataptr_or_null,
+    NULL,  # diagnostic_dataptr_or_null
     diagnostic_get_region,
     diagnostic_element,
     diagnostic_full_vec,
@@ -81,6 +81,23 @@ run_user_method <- function(x, method_id) {
 }
 
 
+run_user_method2 <- function(x, method_id, arg2) {
+  
+  # run user method
+  result <- tryCatch(
+    x$user_methods[[method_id]](x$user_data, arg2),
+    error = function(e) { e },
+    warning = function(w) { w }
+  )
+  
+  if (is(result, "error")) stop("Error detected in user method: ", result$message)
+  
+  if (is(result, "warning")) stop("Warning detected in user method: ", result$message)
+  
+  result  
+}
+
+
 diagnostic_length <- function(x) {
 
   result <- run_user_method(x, user_method_length)
@@ -91,7 +108,7 @@ diagnostic_length <- function(x) {
   
   # report result
   cat(crayon::italic(
-    crayon::cyan(x$vec_id, ": ALTREP length : result =")),
+    crayon::cyan(x$vec_id, ": ALTREP length : result = ")),
     display_parameter(result), "\n", sep = "")
   
   result
@@ -104,7 +121,8 @@ diagnostic_full_vec <- function(x) {
   
   vec_length <- run_user_method(x, user_method_length)
 
-  cat(crayon::italic(crayon::cyan("ALTREP dataptr: result =")),
+  cat(crayon::italic(
+    crayon::cyan(x$vec_id, "ALTREP dataptr: result = ")),
       format(as.hexmode(x[1]), width = 8),  # high address bytes
       format(as.hexmode(x[2]), width = 8),  # low bytes of address
       ", writable = ", as.logical(x[3]), "\n", sep = "")
@@ -112,7 +130,9 @@ diagnostic_full_vec <- function(x) {
 
 
 diagnostic_inspect <- function(x) {
-  cat(crayon::italic(crayon::cyan("ALTREP inspect: result =")),
+  
+  cat(crayon::italic(
+    crayon::cyan(x$vec_id, "ALTREP inspect: result = ")),
       display_parameter(x[[1]]),
       crayon::italic(crayon::cyan(", pre =")),
       display_parameter(x[[2]]),
@@ -120,13 +140,6 @@ diagnostic_inspect <- function(x) {
       display_parameter(x[[3]]),
       crayon::italic(crayon::cyan(", pVec =")),
       display_parameter(x[[4]]), "\n", sep = "")
-}
-
-
-diagnostic_dataptr_or_null <- function(x) {
-  cat(crayon::italic(
-    crayon::cyan(x[[1]], ": ALTREP dataptr_or_null, null returned: ")),
-    display_parameter(x[[2]]), "\n", sep = "")
 }
 
 
@@ -141,9 +154,12 @@ diagnostic_get_region <- function(x) {
 }
 
 
-diagnostic_element <- function(x) {
+diagnostic_element <- function(x, i) {
+
+  result <- run_user_method2(x, user_method_element, i)
+  
   cat(crayon::italic(
-    crayon::cyan(x[[1]], ": ALTREP element : result =")),
+    crayon::cyan(x$vec_id, ": ALTREP element : result =")),
     display_parameter(x[[2]]), "\n", sep = "")
 }
 

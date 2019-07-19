@@ -106,8 +106,6 @@ const void *lazyvec_ALTREP_TYPE_Dataptr_or_null_method(SEXP x)
 {
   SEXP stored_full_vec = LAZYVEC_FULL_VEC(x);
   
-  Rprintf("dataptr_or_null called");
-  
   // return dataptr of stored vector
   if (!Rf_isNull(stored_full_vec)) {
     return DATAPTR(stored_full_vec);

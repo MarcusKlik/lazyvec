@@ -40,12 +40,19 @@ test_that("ranges with different step size", {
 })
 
 
+# sample integer vector
 x <- integer_range(3L, 12L, 2L)
+
+
+test_that("trigger dataptr_or_null", {
+  expect_null(lazyvec:::trigger_dataptr_or_null(x))
+})
 
 
 # test_that("inspect", {
 #   .Internal(inspect(x))
 # })
+
 
 
 test_that("elements", {
