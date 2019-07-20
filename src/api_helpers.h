@@ -68,7 +68,7 @@
 #define LAZYVEC_METHOD_DATAPTR_OR_NULL   1
 #define LAZYVEC_METHOD_GET_REGION        2
 #define LAZYVEC_METHOD_ELT               3
-#define LAZYVEC_METHOD_FULL_VEC          4
+#define LAZYVEC_METHOD_FULL_VECTOR       4
 #define LAZYVEC_METHOD_IS_SORTED         5
 #define LAZYVEC_METHOD_NO_NA             6
 #define LAZYVEC_METHOD_SUM               7

@@ -1,4 +1,6 @@
 
+require(testthat)
+
 context("integer_range")
 
 # clean generated files
@@ -49,5 +51,20 @@ test_that("trigger dataptr_or_null", {
 })
 
 
-test_that("elements", {
+test_that("element", {1
+  expect_equal(x[5], 11)
 })
+
+
+test_that("full_vector", {1
+  expect_equal(x, c(3, 5, 7, 9, 11))
+})
+
+x[5]
+
+y <- altrep_listener(x, "x")
+
+y[5]
+
+x = 1:10
+

@@ -72,7 +72,7 @@ void* lazyvec_real_Dataptr_method(SEXP x, Rboolean writeable)
   SEXP calling_env = PROTECT(LAZYVEC_PACKAGE_ENV(x));
 
   // length listener method
-  SEXP full_vector_listener = PROTECT(VECTOR_ELT(LAZYVEC_DIAGNOSTICS(x), LAZYVEC_METHOD_FULL_VEC));
+  SEXP full_vector_listener = PROTECT(VECTOR_ELT(LAZYVEC_DIAGNOSTICS(x), LAZYVEC_METHOD_FULL_VECTOR));
 
   SEXP stored_full_vec = LAZYVEC_FULL_VEC(x);
 
@@ -120,8 +120,7 @@ double lazyvec_real_Elt_method(SEXP x, R_xlen_t i)
 
   // i argument
   SEXP i_arg = PROTECT(Rf_ScalarInteger((int)(i + 1)));
-  
-  // ALTREP override
+
   // should return a length 1 vector containing the element
   SEXP custom_element = PROTECT(call_dual_r_interface(elt_listener, user_data, i_arg, calling_env));
 

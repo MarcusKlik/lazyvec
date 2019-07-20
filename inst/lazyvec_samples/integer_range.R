@@ -61,8 +61,8 @@ lazyvec_extract_subset <- function(x, indx) {
 lazyvec_api <- lazyvec_methods(
   lazyvec_length,
   lazyvec_full_vector,
-  lazyvec_get_region,
   lazyvec_element,
+  lazyvec_get_region,
   lazyvec_is_sorted,
   lazyvec_no_na,
   lazyvec_sum,

@@ -81,7 +81,7 @@ run_user_method <- function(x, method_id) {
 }
 
 
-run_user_method2 <- function(x, method_id, arg2) {
+run_user_method2 <- function(method_id, x, arg2) {
 
   # run user method
   result <- tryCatch(
@@ -98,6 +98,20 @@ run_user_method2 <- function(x, method_id, arg2) {
 }
 
 
+check_type <- function(x, result, method_name) {
+  if (typeof(result) != x$vec_type) stop("Method ", method_name, " generated a vector of type '",
+    typeof(result), "', but the lazyvec is of type '", x$vec_type, "'")
+}
+
+
+check_length <- function(x, result, method_name) {
+  vec_length <- run_user_method(x, user_method_length)
+
+  if (vec_length != length(result)) stop("Method ", method_name, " generated a result of length ",
+    length(result), " while method length() says the length should be ", vec_length)
+}
+
+
 diagnostic_length <- function(x) {
 
   result <- run_user_method(x, user_method_length)
@@ -108,7 +122,7 @@ diagnostic_length <- function(x) {
 
   # report result
   cat(crayon::italic(
-    crayon::cyan(x$vec_id, ": ALTREP length : result = ")),
+    crayon::cyan(x$vec_id, ": length : result = ")),
     display_parameter(result), "\n", sep = "")
 
   result
@@ -119,24 +133,22 @@ diagnostic_full_vec <- function(x) {
 
   result <- run_user_method(x, user_method_full_vec)
 
-  if (typeof(result) != x$vec_type) stop("Method full_vec generated a vector of type '", typeof(result),
-    "', but the lazyvec is of type '", x$vec_type, "'")
+  check_type(x, result, "full_vec")
 
-  vec_length <- run_user_method(x, user_method_length)
-
-  if (vec_length != length(result)) stop("Method full_vec generated a result of length ",
-    length(result), " while method length() says the length should be ", vec_length)
+  check_length(x, result, "full_vec")
 
   cat(crayon::italic(
     crayon::cyan(x$vec_id, "lazyvec full_vec result = ")),
     display_parameter(result), "\n", sep = "")
+
+  result
 }
 
 
 diagnostic_inspect <- function(x) {
 
   cat(crayon::italic(
-    crayon::cyan(x$vec_id, "ALTREP inspect: result = ")),
+    crayon::cyan(x$vec_id, " inspect: result = ")),
       display_parameter(x[[1]]),
       crayon::italic(crayon::cyan(", pre =")),
       display_parameter(x[[2]]),
@@ -149,7 +161,7 @@ diagnostic_inspect <- function(x) {
 
 diagnostic_get_region <- function(x) {
   cat(crayon::italic(
-    crayon::cyan(x[[1]], ": ALTREP get_region : result =")),
+    crayon::cyan(x[[1]], ": get_region : result = ")),
     display_parameter(x[[4]]),
     crayon::italic(crayon::cyan(", start =")),
     display_parameter(x[[2]]),
@@ -160,29 +172,36 @@ diagnostic_get_region <- function(x) {
 
 diagnostic_element <- function(x, i) {
 
-  if (typeof(result) != x$vec_type) stop("Method full_vec generated a vector of type '", typeof(result),
-    "', but the lazyvec is of type '", x$vec_type, "'")
+  result <- run_user_method2(user_method_element, x, i)
+
+  check_type(x, result, "full_vec")
+
+  vec_length <- run_user_method(x, user_method_length)
+
+  if (i > vec_length) warning("Method element called with index larger than length()")
 
   cat(crayon::italic(
-    crayon::cyan(x$vec_id, ": ALTREP element : result =")),
-    display_parameter(x[[2]]), "\n", sep = "")
+    crayon::cyan(x$vec_id, ": element : result = ")),
+    display_parameter(result), "\n", sep = "")
+
+  result
 }
 
 
 diagnostic_is_sorted <- function(x) {
-  cat(crayon::italic(crayon::cyan("ALTREP is_sorted: result =")),
+  cat(crayon::italic(crayon::cyan(" is_sorted: result = ")),
       display_parameter(x == 1), "\n", sep = "")
 }
 
 
 diagnostic_no_na <- function(x) {
-  cat(crayon::italic(crayon::cyan("ALTREP no_na: result =")),
+  cat(crayon::italic(crayon::cyan(" no_na: result = ")),
       display_parameter(x == 1), "\n", sep = "")
 }
 
 
 diagnostic_sum <- function(x) {
-  cat(crayon::italic(crayon::cyan("ALTREP sum: na.rm =")),
+  cat(crayon::italic(crayon::cyan(" sum: na.rm = ")),
       display_parameter(x[[2]] == 1),
       crayon::italic(crayon::cyan(", result: ")),
       display_parameter(x[[1]]), "\n", sep = "")
@@ -191,25 +210,25 @@ diagnostic_sum <- function(x) {
 
 diagnostic_min <- function(x) {
   cat(crayon::italic(
-    crayon::cyan(x[[1]], ": ALTREP min: result =")),
+    crayon::cyan(x[[1]], ": min: result = ")),
     display_parameter(x[[2]]), "\n", sep = "")
 }
 
 
 diagnostic_max <- function(x) {
-  cat(crayon::italic(crayon::cyan("ALTREP max: result =")),
+  cat(crayon::italic(crayon::cyan(" max: result = ")),
       display_parameter(x), "\n", sep = "")
 }
 
 
 diagnostic_serialized_state <- function(x) {
-  cat(crayon::italic(crayon::cyan("ALTREP serialized_state: result =")),
+  cat(crayon::italic(crayon::cyan(" serialized_state: result = ")),
       display_parameter(x), "\n", sep = "")
 }
 
 
 diagnostic_unserialize_ex <- function(x) {
-  cat(crayon::italic(crayon::cyan("ALTREP unserialize_ex: altwrap_class =")),
+  cat(crayon::italic(crayon::cyan(" unserialize_ex: altwrap_class = ")),
       display_parameter(x[[1]]),
       crayon::italic(crayon::cyan(", state =")),
       display_parameter(x[[2]]),
@@ -223,7 +242,7 @@ diagnostic_unserialize_ex <- function(x) {
 
 
 diagnostic_unserialize <- function(x) {
-  cat(crayon::italic(crayon::cyan("ALTREP unserialize_ex: altwrap_class =")),
+  cat(crayon::italic(crayon::cyan(" unserialize_ex: altwrap_class = ")),
       display_parameter(x[[1]]),
       crayon::italic(crayon::cyan(", state =")),
       display_parameter(x[[2]]))
@@ -231,7 +250,7 @@ diagnostic_unserialize <- function(x) {
 
 
 diagnostic_duplicate_ex <- function(x) {
-  cat(crayon::italic(crayon::cyan("ALTREP duplicate_ex: result = ?")),
+  cat(crayon::italic(crayon::cyan(" duplicate_ex: result = ?")),
       # crayon::italic(crayon::cyan(", altwrap_class = ")),
       # display_parameter(x[[1]]),
       # crayon::italic(crayon::cyan(", state = ")),
@@ -246,7 +265,7 @@ diagnostic_duplicate_ex <- function(x) {
 
 
 diagnostic_coerce <- function(x) {
-  cat(crayon::italic(crayon::cyan("ALTREP coerce: result =")),
+  cat(crayon::italic(crayon::cyan("coerce: result = ")),
       display_parameter(x), "\n", sep = "")
 }
 
@@ -254,7 +273,7 @@ diagnostic_coerce <- function(x) {
 diagnostic_extract_subset <- function(x) {
   subset_result <- x[[1]]
   if (is.null(subset_result)) subset_result <- "NULL"
-  cat(crayon::italic(crayon::cyan("ALTREP extract_subset:  result =")),
+  cat(crayon::italic(crayon::cyan("extract_subset:  result = ")),
       display_parameter(subset_result),
       crayon::italic(crayon::cyan(", indx =")),
       display_parameter(x[[2]]),

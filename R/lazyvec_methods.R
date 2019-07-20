@@ -26,10 +26,9 @@
 #' ALTREP vector will be diverted to these user functions.
 #' 
 #' @param method_length override for the ALTREP length method
-#' @param method_dataptr_or_null  override for the ALTREP dataptr_or_null method
+#' @param method_full_vector generates the full expanded vector
 #' @param method_get_region override for the ALTREP get_region method
 #' @param method_element override for the ALTREP element method
-#' @param method_dataptr override for the ALTREP dataptr method
 #' @param method_is_sorted override for the ALTREP is_sorted method
 #' @param method_no_na override for the ALTREP no_na method
 #' @param method_sum override for the ALTREP sum method
@@ -47,11 +46,10 @@
 #' @export
 lazyvec_methods <- function(
   method_length,
-  method_init = NULL,
-  method_dataptr_or_null = NULL,
-  method_get_region = NULL,
+  method_full_vector = NULL,
   method_element = NULL,
-  method_dataptr = NULL,
+  method_init = NULL,
+  method_get_region = NULL,
   method_is_sorted = NULL,
   method_no_na = NULL,
   method_sum = NULL,
@@ -68,10 +66,10 @@ lazyvec_methods <- function(
 
   methods <- list(
     method_length,
-    method_dataptr_or_null,
+    NULL, # method_dataptr_or_null
     method_get_region,
     method_element,
-    method_dataptr,
+    method_full_vector,
     method_is_sorted,
     method_no_na,
     method_sum,
