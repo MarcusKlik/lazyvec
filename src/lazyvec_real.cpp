@@ -133,24 +133,32 @@ double lazyvec_real_Elt_method(SEXP x, R_xlen_t i)
 }
 
 
-R_xlen_t lazyvec_real_Get_region_method(SEXP sx, R_xlen_t i, R_xlen_t n, double *buf)
+R_xlen_t lazyvec_real_Get_region_method(SEXP x, R_xlen_t i, R_xlen_t n, double *buf)
 {
-  R_xlen_t length = REAL_GET_REGION(LAZYVEC_PAYLOAD(sx), i, n, buf);
+  // custom payload
+  SEXP user_data = PROTECT(LAZYVEC_USER_DATA(x));
+  
+  // calling environment
+  SEXP calling_env = PROTECT(LAZYVEC_PACKAGE_ENV(x));
+  
+  // length listener method
+  SEXP get_region_listener = PROTECT(VECTOR_ELT(LAZYVEC_DIAGNOSTICS(x), LAZYVEC_METHOD_GET_REGION));
+  
+  // i, n argument
+  SEXP i_arg = PROTECT(Rf_ScalarInteger((int)(i + 1)));
+  SEXP n_arg = PROTECT(Rf_ScalarInteger((int)(i)));
+  
+  // should return a length n vector containing the elements
+  SEXP vec_elems = PROTECT(call_tripple_r_interface(get_region_listener, user_data, i_arg, n_arg, calling_env));
 
-  SEXP arguments = PROTECT(Rf_allocVector(VECSXP, 3));
-  SET_VECTOR_ELT(arguments, 0, Rf_ScalarInteger(i));
-  SET_VECTOR_ELT(arguments, 1, Rf_ScalarInteger(n));
-  SET_VECTOR_ELT(arguments, 2, Rf_ScalarInteger(length));
+  // convert to C_TYPE
+  double* elements = (double*)(REAL(vec_elems));
 
-  // dataptr_or_null listener method
-  SEXP get_region_listener = PROTECT(VECTOR_ELT(LAZYVEC_DIAGNOSTICS(sx), LAZYVEC_METHOD_GET_REGION));
+  memcpy(buf, elements, n * sizeof(double));
 
-  // call listener with integer result
-  call_r_interface(get_region_listener, arguments, LAZYVEC_PACKAGE_ENV(sx));
+  UNPROTECT(6);
 
-  UNPROTECT(2);
-
-  return length;
+  return LENGTH(vec_elems);
 }
 
 

@@ -98,6 +98,23 @@ run_user_method2 <- function(method_id, x, arg2) {
 }
 
 
+run_user_method3 <- function(method_id, x, arg2, arg3) {
+
+  # run user method
+  result <- tryCatch(
+    x$user_methods[[method_id]](x$user_data, arg2, arg3),
+    error = function(e) { e },  # nolint
+    warning = function(w) { w }  # nolint
+  )
+
+  if (is(result, "error")) stop("Error detected in user method: ", result$message)
+
+  if (is(result, "warning")) stop("Warning detected in user method: ", result$message)
+
+  result
+}
+
+
 check_type <- function(x, result, method_name) {
   if (typeof(result) != x$vec_type) stop("Method ", method_name, " generated a vector of type '",
     typeof(result), "', but the lazyvec is of type '", x$vec_type, "'")
@@ -159,26 +176,35 @@ diagnostic_inspect <- function(x) {
 }
 
 
-diagnostic_get_region <- function(x) {
-  cat(crayon::italic(
-    crayon::cyan(x[[1]], ": get_region : result = ")),
-    display_parameter(x[[4]]),
-    crayon::italic(crayon::cyan(", start =")),
-    display_parameter(x[[2]]),
-    crayon::italic(crayon::cyan(", length =")),
-    display_parameter(x[[3]]), "\n", sep = "")
-}
-
-
 diagnostic_element <- function(x, i) {
 
   result <- run_user_method2(user_method_element, x, i)
 
-  check_type(x, result, "full_vec")
+  check_type(x, result, "element")
 
   vec_length <- run_user_method(x, user_method_length)
 
   if (i > vec_length) warning("Method element called with index larger than length()")
+
+  cat(crayon::italic(
+    crayon::cyan(x$vec_id, ": element : result = ")),
+    display_parameter(result), "\n", sep = "")
+
+  result
+}
+
+
+diagnostic_get_region <- function(x, i, n) {
+
+  result <- run_user_method3(user_method_get_region, x, i, n)
+
+  check_type(x, result, "get_region")
+
+  vec_length <- run_user_method(x, user_method_length)
+
+  if (i > vec_length) warning("Method element called with index larger than length()")
+
+  if (i + n > vec_length) warning("Method element called with range outside the vector")
 
   cat(crayon::italic(
     crayon::cyan(x$vec_id, ": element : result = ")),
