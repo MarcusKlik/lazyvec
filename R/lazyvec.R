@@ -56,10 +56,11 @@ lazyvec <- function(metadata, vec_type, altrep_methods, package_environment = "l
   # if diagnostics are active, user methods are stored in user data
   if (diagnostics) {
     altrep_methods_list <- diagnostics()
-    metadata = list(
+    metadata <- list(
       user_data = metadata,
       user_methods = altrep_methods,
-      vec_id = id
+      vec_id = id,
+      vec_type = vec_type
     )
   }
 

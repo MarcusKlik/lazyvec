@@ -49,12 +49,5 @@ test_that("trigger dataptr_or_null", {
 })
 
 
-# test_that("inspect", {
-#   .Internal(inspect(x))
-# })
-
-
-
 test_that("elements", {
 })
-
