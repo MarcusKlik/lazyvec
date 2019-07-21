@@ -122,7 +122,7 @@ listener_length <- function(x) {
 
 listener_dataptr_or_null <- function(x) {
   cat(crayon::italic(
-    crayon::cyan(x[[1]], ": ALTREP dataptr_or_null, null returned: ")),
+    crayon::cyan(x[[1]], ": ALTREP dataptr_or_null : null returned: ")),
     display_parameter(x[[2]]), "\n", sep = "")
 }
 

@@ -207,7 +207,7 @@ diagnostic_get_region <- function(x, i, n) {
   if (i + n > vec_length) warning("Method element called with range outside the vector")
 
   cat(crayon::italic(
-    crayon::cyan(x$vec_id, ": element : result = ")),
+    crayon::cyan(x$vec_id, ": get_region : result = ")),
     display_parameter(result), "\n", sep = "")
 
   result

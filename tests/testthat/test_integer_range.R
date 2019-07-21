@@ -62,3 +62,10 @@ test_that("full_vector", {
   expect_length(dataptr, 2)
   expect_equal(lazyvec:::trigger_dataptr_or_null(x), dataptr)
 })
+
+
+test_that("get_region", {
+  expect_equal(lazyvec:::trigger_get_region(x, 2, 2), c(7, 9))
+  lazyvec:::lazyvec_deexpand(x)
+  expect_equal(lazyvec:::trigger_get_region(x, 2, 2), c(7, 9))
+})

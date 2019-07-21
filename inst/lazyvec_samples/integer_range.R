@@ -10,9 +10,7 @@ lazyvec_full_vector <- function(x) {
 
 
 lazyvec_get_region <- function(x, i, n) {
-  print(i)
-  print(n)
-  (x[[1]] + (i - 1L) * x[[3]]):(x[[1]] + (i + n - 1L) * x[[3]])
+  x[[1]] + ( (i - 1L) : (i + n - 2) ) * x[[3]]
 }
 
 

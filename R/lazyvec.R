@@ -64,12 +64,6 @@ lazyvec <- function(metadata, vec_type, altrep_methods, package_environment = "l
     )
   }
 
-  #define LAZYVEC_DIAGNOSTICS(x) VECTOR_ELT(R_altrep_data1(x), 0)
-  #define LAZYVEC_PACKAGE_ENV(x) VECTOR_ELT(R_altrep_data1(x), 1)
-  #define LAZYVEC_USER_DATA(x) VECTOR_ELT(R_altrep_data1(x), 2)
-  #define LAZYVEC_FULL_VEC(x) VECTOR_ELT(R_altrep_data1(x), 3)
-  #define LAZYVEC_ENV(x) VECTOR_ELT(R_altrep_data1(x), 4)
-
   payload <- list(
 
     # user defined or diagnostic API

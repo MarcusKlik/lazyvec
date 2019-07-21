@@ -145,36 +145,34 @@ CPP_TYPE lazyvec_ALTREP_TYPE_Elt_method(SEXP x, R_xlen_t i)
 
 // generator source end: Elt
 // generator source start: Get_region
-R_xlen_t lazyvec_ALTREP_TYPE_Get_region_method(SEXP sx, R_xlen_t i, R_xlen_t n, CPP_TYPE *buf)
+R_xlen_t lazyvec_ALTREP_TYPE_Get_region_method(SEXP x, R_xlen_t i, R_xlen_t n, CPP_TYPE *buf)
 {
-  // generator source start: Get_region
-  R_xlen_t lazyvec_ALTREP_TYPE_Get_region_method(SEXP x, R_xlen_t i, R_xlen_t n, CPP_TYPE *buf)
-  {
-    // custom payload
-    SEXP user_data = PROTECT(LAZYVEC_USER_DATA(x));
-    
-    // calling environment
-    SEXP calling_env = PROTECT(LAZYVEC_PACKAGE_ENV(x));
-    
-    // length listener method
-    SEXP get_region_listener = PROTECT(VECTOR_ELT(LAZYVEC_DIAGNOSTICS(x), LAZYVEC_METHOD_GET_REGION));
-    
-    // i, n argument
-    SEXP i_arg = PROTECT(Rf_ScalarInteger((int)(i + 1)));
-    SEXP n_arg = PROTECT(Rf_ScalarInteger((int)(i)));
-    
-    // should return a length n vector containing the elements
-    SEXP vec_elems = PROTECT(call_tripple_r_interface(get_region_listener, user_data, i_arg, n_arg, calling_env));
-    
-    // convert to C_TYPE
-    CPP_TYPE* elements = (CPP_TYPE*)(TYPE_METHOD(vec_elems));
-    
-    memcpy(buf, elements, n * sizeof(CPP_TYPE));
-    
-    UNPROTECT(6);
-    
-    return (R_xlen_t) LENGTH(vec_elems);
-  }
+  // test for expanded vector here
+
+  // custom payload
+  SEXP user_data = PROTECT(LAZYVEC_USER_DATA(x));
+
+  // calling environment
+  SEXP calling_env = PROTECT(LAZYVEC_PACKAGE_ENV(x));
+
+  // length listener method
+  SEXP get_region_listener = PROTECT(VECTOR_ELT(LAZYVEC_DIAGNOSTICS(x), LAZYVEC_METHOD_GET_REGION));
+
+  // i, n argument
+  SEXP i_arg = PROTECT(Rf_ScalarInteger((int)(i + 1)));
+  SEXP n_arg = PROTECT(Rf_ScalarInteger((int)(i)));
+
+  // should return a length n vector containing the elements
+  SEXP vec_elems = PROTECT(call_tripple_r_interface(get_region_listener, user_data, i_arg, n_arg, calling_env));
+
+  // convert to C_TYPE
+  CPP_TYPE* elements = (CPP_TYPE*)(TYPE_METHOD(vec_elems));
+
+  memcpy(buf, elements, n * sizeof(CPP_TYPE));
+
+  UNPROTECT(6);
+
+  return (R_xlen_t) LENGTH(vec_elems);
 }
 
 

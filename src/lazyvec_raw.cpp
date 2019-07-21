@@ -135,19 +135,21 @@ Rbyte lazyvec_raw_Elt_method(SEXP x, R_xlen_t i)
 
 R_xlen_t lazyvec_raw_Get_region_method(SEXP x, R_xlen_t i, R_xlen_t n, Rbyte *buf)
 {
+  // test for expanded vector here
+
   // custom payload
   SEXP user_data = PROTECT(LAZYVEC_USER_DATA(x));
-  
+
   // calling environment
   SEXP calling_env = PROTECT(LAZYVEC_PACKAGE_ENV(x));
-  
+
   // length listener method
   SEXP get_region_listener = PROTECT(VECTOR_ELT(LAZYVEC_DIAGNOSTICS(x), LAZYVEC_METHOD_GET_REGION));
-  
+
   // i, n argument
   SEXP i_arg = PROTECT(Rf_ScalarInteger((int)(i + 1)));
   SEXP n_arg = PROTECT(Rf_ScalarInteger((int)(i)));
-  
+
   // should return a length n vector containing the elements
   SEXP vec_elems = PROTECT(call_tripple_r_interface(get_region_listener, user_data, i_arg, n_arg, calling_env));
 
@@ -158,7 +160,7 @@ R_xlen_t lazyvec_raw_Get_region_method(SEXP x, R_xlen_t i, R_xlen_t n, Rbyte *bu
 
   UNPROTECT(6);
 
-  return LENGTH(vec_elems);
+  return (R_xlen_t) LENGTH(vec_elems);
 }
 
 

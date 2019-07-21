@@ -109,6 +109,10 @@ lazyvec_internal_version <- function() {
     .Call(`_lazyvec_lazyvec_internal_version`)
 }
 
+lazyvec_deexpand <- function(lazy_vec) {
+    invisible(.Call(`_lazyvec_lazyvec_deexpand`, lazy_vec))
+}
+
 lazyvec_integer_wrapper <- function(data) {
     .Call(`_lazyvec_lazyvec_integer_wrapper`, data)
 }
