@@ -131,9 +131,9 @@ listener_get_region <- function(x) {
   cat(crayon::italic(
     crayon::cyan(x[[1]], ": ALTREP get_region : result = ")),
       display_parameter(x[[4]]),
-      crayon::italic(crayon::cyan(", start =")),
+      crayon::italic(crayon::cyan(", start = ")),
       display_parameter(x[[2]]),
-      crayon::italic(crayon::cyan(", length =")),
+      crayon::italic(crayon::cyan(", length = ")),
       display_parameter(x[[3]]), "\n", sep = "")
 }
 
@@ -181,11 +181,11 @@ listener_max <- function(x) {
 listener_inspect <- function(x) {
   cat(crayon::italic(crayon::cyan("ALTREP inspect: result = ")),
     display_parameter(x[[1]]),
-    crayon::italic(crayon::cyan(", pre =")),
+    crayon::italic(crayon::cyan(", pre = ")),
     display_parameter(x[[2]]),
-    crayon::italic(crayon::cyan(", deep =")),
+    crayon::italic(crayon::cyan(", deep = ")),
     display_parameter(x[[3]]),
-    crayon::italic(crayon::cyan(", pVec =")),
+    crayon::italic(crayon::cyan(", pVec = ")),
     display_parameter(x[[4]]), "\n", sep = "")
 }
 
@@ -199,13 +199,13 @@ listener_serialized_state <- function(x) {
 listener_unserialize_ex <- function(x) {
   cat(crayon::italic(crayon::cyan("ALTREP unserialize_ex: altwrap_class = ")),
     display_parameter(x[[1]]),
-    crayon::italic(crayon::cyan(", state =")),
+    crayon::italic(crayon::cyan(", state = ")),
     display_parameter(x[[2]]),
-    crayon::italic(crayon::cyan(", attr =")),
+    crayon::italic(crayon::cyan(", attr = ")),
     display_parameter(x[[3]]),
-    crayon::italic(crayon::cyan(", objf =")),
+    crayon::italic(crayon::cyan(", objf = ")),
     display_parameter(x[[4]]),
-    crayon::italic(crayon::cyan(", levs =")),
+    crayon::italic(crayon::cyan(", levs = ")),
     display_parameter(x[[5]]))
 }
 
@@ -213,7 +213,7 @@ listener_unserialize_ex <- function(x) {
 listener_unserialize <- function(x) {
   cat(crayon::italic(crayon::cyan("ALTREP unserialize_ex: altwrap_class = ")),
     display_parameter(x[[1]]),
-    crayon::italic(crayon::cyan(", state =")),
+    crayon::italic(crayon::cyan(", state = ")),
     display_parameter(x[[2]]))
 }
 
@@ -239,7 +239,7 @@ listener_duplicate_ex <- function(x) {
     # display_parameter(x[[3]]),
     # crayon::italic(crayon::cyan(", objf = ")),
     # display_parameter(x[[4]]),
-    crayon::italic(crayon::cyan(", levs =")),
+    crayon::italic(crayon::cyan(", levs = ")),
     display_parameter(x[[5]]))
 }
 
@@ -255,9 +255,9 @@ listener_extract_subset <- function(x) {
   if (is.null(subset_result)) subset_result <- "NULL"
   cat(crayon::italic(crayon::cyan("ALTREP extract_subset:  result = ")),
     display_parameter(subset_result),
-    crayon::italic(crayon::cyan(", indx =")),
+    crayon::italic(crayon::cyan(", indx = ")),
     display_parameter(x[[2]]),
-    crayon::italic(crayon::cyan(", call =")),
+    crayon::italic(crayon::cyan(", call = ")),
     display_parameter(str(x[[3]])),
     "\n", sep = "")
 }
