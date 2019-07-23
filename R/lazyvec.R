@@ -79,7 +79,13 @@ lazyvec <- function(metadata, vec_type, altrep_methods, package_environment = "l
     NULL,
 
     # lazyvec package environment
-    as.environment("package:lazyvec")
+    as.environment("package:lazyvec"),
+
+    # data type
+    vec_type,
+
+    # package environment string
+    package_environment
   )
 
   if (vec_type == "integer") {

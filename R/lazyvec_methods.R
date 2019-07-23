@@ -34,10 +34,10 @@
 #' @param method_sum override for the ALTREP sum method
 #' @param method_min override for the ALTREP min method
 #' @param method_max override for the ALTREP max method
+#' @param method_duplicate_ex override for the ALTREP duplicate method
 #' @param method_inspect override for the ALTREP inspect method
 #' @param method_unserialize_ex override for the ALTREP unserialize_ex method
 #' @param method_serialized_state override for the ALTREP serialized_state method
-#' @param method_duplicate_ex override for the ALTREP duplicate_ex method
 #' @param method_coerce override for the ALTREP coerce method
 #' @param method_extract_subset override for the ALTREP extract_subset method
 #' @param method_init init your vector after deserialization
@@ -54,13 +54,13 @@ lazyvec_methods <- function(
   method_sum = NULL,
   method_min = NULL,
   method_max = NULL,
+  method_extract_subset = NULL,
+  method_duplicate = NULL,
   method_init = NULL,
   method_inspect = NULL,
   method_unserialize_ex = NULL,
   method_serialized_state = NULL,
-  method_duplicate_ex = NULL,
-  method_coerce = NULL,
-  method_extract_subset = NULL) {
+  method_coerce = NULL) {
 
   # some checks on user functions here
 
@@ -75,12 +75,12 @@ lazyvec_methods <- function(
     method_sum,
     method_min,
     method_max,
+    method_extract_subset,
+    method_duplicate,
     method_inspect,
     method_unserialize_ex,
     method_serialized_state,
-    method_duplicate_ex,
     method_coerce,
-    method_extract_subset,
     method_init
   )
 

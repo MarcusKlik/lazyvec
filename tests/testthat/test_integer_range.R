@@ -116,3 +116,9 @@ test_that("max", {
 
   expect_type(y, "integer")
 })
+
+
+test_that("duplicate", {
+  z <- x
+  z[1] <- 1
+})

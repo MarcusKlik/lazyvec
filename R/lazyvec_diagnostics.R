@@ -36,12 +36,12 @@ diagnostics <- function() {
     diagnostic_sum,
     diagnostic_min,
     diagnostic_max,
+    diagnostic_extract_subset,
+    diagnostic_duplicate,
     diagnostic_inspect,
     diagnostic_unserialize_ex,
     diagnostic_serialized_state,
-    diagnostic_duplicate_ex,
-    diagnostic_coerce,
-    diagnostic_extract_subset
+    diagnostic_coerce
   )
 }
 
@@ -56,12 +56,12 @@ user_method_no_na            <- 7
 user_method_sum              <- 8
 user_method_min              <- 9
 user_method_max              <- 10
-user_method_inspect          <- 11
-user_method_unserialize_ex   <- 12
-user_method_serialized_state <- 13
-user_method_duplicate_ex     <- 14
-user_method_coerce           <- 15
-user_method_extract_subset   <- 16
+user_method_extract_subset   <- 11
+user_method_duplicate        <- 12
+user_method_inspect          <- 13
+user_method_unserialize_ex   <- 14
+user_method_serialized_state <- 15
+user_method_coerce           <- 16
 
 
 run_user_method <- function(method_id, x) {
@@ -298,6 +298,20 @@ diagnostic_max <- function(x, na_rm) {
 }
 
 
+diagnostic_duplicate <- function(x, deep) {
+
+  result <- run_user_method2(user_method_duplicate, x, deep)
+
+  check_type(x, result, "duplicate")
+
+  cat(crayon::italic(
+    crayon::cyan(x$vec_id, ": duplicate : result = ")),
+    display_parameter(result), "\n", sep = "")
+
+  result
+}
+
+
 diagnostic_serialized_state <- function(x) {
   cat(crayon::italic(crayon::cyan(" serialized_state: result = ")),
       display_parameter(x), "\n", sep = "")
@@ -323,21 +337,6 @@ diagnostic_unserialize <- function(x) {
       display_parameter(x[[1]]),
       crayon::italic(crayon::cyan(", state =")),
       display_parameter(x[[2]]))
-}
-
-
-diagnostic_duplicate_ex <- function(x) {
-  cat(crayon::italic(crayon::cyan(" duplicate_ex: result = ?")),
-      # crayon::italic(crayon::cyan(", altwrap_class = ")),
-      # display_parameter(x[[1]]),
-      # crayon::italic(crayon::cyan(", state = ")),
-      # display_parameter(x[[2]]),
-      # crayon::italic(crayon::cyan(", attr = ")),
-      # display_parameter(x[[3]]),
-      # crayon::italic(crayon::cyan(", objf = ")),
-      # display_parameter(x[[4]]),
-      crayon::italic(crayon::cyan(", levs =")),
-      display_parameter(x[[5]]))
 }
 
 

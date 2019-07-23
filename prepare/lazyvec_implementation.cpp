@@ -303,55 +303,34 @@ SEXP lazyvec_ALTREP_TYPE_Max_method(SEXP x, Rboolean na_rm)
 
 // generator source end: Max
 // generator source start: Duplicate_
-SEXP lazyvec_ALTREP_TYPE_Duplicate_method(SEXP sx, Rboolean deep)
+SEXP lazyvec_ALTREP_TYPE_Duplicate_method(SEXP x, Rboolean deep)
 {
-  SEXP result_duplicate = PROTECT(ALTREP_DUPLICATE(LAZYVEC_PAYLOAD(sx), deep));
-  
-  // // retrieve duplicateEX listener method
-  // SEXP duplicate_listener = PROTECT(VECTOR_ELT(LAZYVEC_DIAGNOSTICS(sx), LAZYVEC_METHOD_DUPLICATE));
-  // 
-  // if (result_duplicate == NULL)
-  // {
-  //   // call listener with SEXP result
-  //   call_r_interface(duplicate_listener, R_NilValue, LAZYVEC_PACKAGE_ENV(sx));
-  //   UNPROTECT(2);
-  // 
-  //   return result_duplicate;
-  // }
-  // 
-  // // call listener with SEXP result
-  // call_r_interface(duplicate_listener, result_duplicate, LAZYVEC_PACKAGE_ENV(sx));
-  // UNPROTECT(2);
-
-  UNPROTECT(1);
-  
-  return result_duplicate;
+  return lazyvec_ALTREP_TYPE_DuplicateEX_method(SEXP x, deep);
 }
 
 
 // generator source end: Duplicate_
 // generator source start: DuplicateEX
-SEXP lazyvec_ALTREP_TYPE_DuplicateEX_method(SEXP sx, Rboolean deep)
+SEXP lazyvec_ALTREP_TYPE_DuplicateEX_method(SEXP x, Rboolean deep)
 {
-  SEXP result_duplicate_ex = PROTECT(ALTREP_DUPLICATE_EX_PROXY(LAZYVEC_PAYLOAD(sx), deep));
-
-  // retrieve duplicateEX listener method
-  SEXP duplicate_ex_listener = PROTECT(VECTOR_ELT(LAZYVEC_DIAGNOSTICS(sx), LAZYVEC_METHOD_DUPLICATE_EX));
-
-  if (result_duplicate_ex == NULL)
-  { 
-    // call listener with SEXP result
-    call_r_interface(duplicate_ex_listener, R_NilValue, LAZYVEC_PACKAGE_ENV(sx));
-    UNPROTECT(2);
-
-    return result_duplicate_ex;
-  }
-
-  // call listener with SEXP result
-  call_r_interface(duplicate_ex_listener, result_duplicate_ex, LAZYVEC_PACKAGE_ENV(sx));
-  UNPROTECT(2);
-
-  return result_duplicate_ex;
+  // custom payload
+  SEXP user_data = PROTECT(LAZYVEC_USER_DATA(x));
+  
+  // calling environment
+  SEXP calling_env = PROTECT(LAZYVEC_PACKAGE_ENV(x));
+  
+  // duplicate listener method
+  SEXP duplicate_listener = PROTECT(VECTOR_ELT(LAZYVEC_DIAGNOSTICS(x), LAZYVEC_METHOD_DUPLICATE));
+  
+  // na_rm argument
+  SEXP deep_arg = PROTECT(Rf_ScalarLogical(deep));
+  
+  // returns SEXP (integer or double)
+  SEXP custom_duplicate = PROTECT(call_dual_r_interface(duplicate_listener, user_data, deep_arg, calling_env));
+  
+  UNPROTECT(5);
+  
+  return custom_duplicate;
 }
 
 
