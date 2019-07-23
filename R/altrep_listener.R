@@ -230,17 +230,8 @@ listener_dataptr <- function(x) {
 
 
 listener_duplicate_ex <- function(x) {
-  cat(crayon::italic(crayon::cyan("ALTREP duplicate_ex: result = ?")),
-    # crayon::italic(crayon::cyan(", altwrap_class = ")),
-    # display_parameter(x[[1]]),
-    # crayon::italic(crayon::cyan(", state = ")),
-    # display_parameter(x[[2]]),
-    # crayon::italic(crayon::cyan(", attr = ")),
-    # display_parameter(x[[3]]),
-    # crayon::italic(crayon::cyan(", objf = ")),
-    # display_parameter(x[[4]]),
-    crayon::italic(crayon::cyan(", levs = ")),
-    display_parameter(x[[5]]))
+  cat(crayon::italic(crayon::cyan("ALTREP duplicate_ex: result = ")),
+    display_parameter(x))
 }
 
 
