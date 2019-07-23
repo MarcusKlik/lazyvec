@@ -294,7 +294,7 @@ SEXP trigger_element(SEXP x, int pos)
   
   if (pos < 0 || pos >= vec_length)
   {
-    Rf_error("Position is outside vector boundaries");
+    Rf_error("Index is outside vector boundaries");
   }
   
   int type = TYPEOF(x);

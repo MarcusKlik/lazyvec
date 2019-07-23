@@ -167,7 +167,7 @@ diagnostic_full_vec <- function(x) {
   check_length(x, result, "full_vec")
 
   cat(crayon::italic(
-    crayon::cyan(x$vec_id, "lazyvec full_vec result = ")),
+    crayon::cyan(x$vec_id, "full_vec result = ")),
     display_parameter(result), "\n", sep = "")
 
   result
@@ -235,21 +235,21 @@ diagnostic_is_sorted <- function(x) {
   cat(crayon::italic(
     crayon::cyan(x$vec_id, ": is_sorted : result = ")),
     display_parameter(result), "\n", sep = "")
-  
+
   result
 }
 
 
 diagnostic_no_na <- function(x) {
   result <- run_user_method(user_method_no_na, x)
-  
+
   check_type_logical(result, "no_na")
   check_fixed_length(result, "no_na", 1)
 
   cat(crayon::italic(
     crayon::cyan(x$vec_id, ": no_na : result = ")),
     display_parameter(result), "\n", sep = "")
-  
+
   result
 }
 

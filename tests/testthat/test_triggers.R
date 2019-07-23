@@ -30,7 +30,7 @@ test_that("length trigger", {
 test_that("get_region trigger", {
   expect_equal(lazyvec:::trigger_get_region(x, 2, 5), 3:7)
 
-  expect_error(lazyvec:::trigger_get_region(x, 100, 5), "Position is outside vector boundaries")
+  expect_error(lazyvec:::trigger_get_region(x, 100, 5), "Index is outside vector boundaries")
 
   expect_error(lazyvec:::trigger_get_region(x, 10, 5000),
     "Size too large, resulting range is outside vector boundaries")
@@ -40,7 +40,7 @@ test_that("get_region trigger", {
 
   expect_equal(lazyvec:::trigger_get_region(x_real, 2, 5), 3:7)
 
-  expect_error(lazyvec:::trigger_get_region(x_real, 100, 5), "Position is outside vector boundaries")
+  expect_error(lazyvec:::trigger_get_region(x_real, 100, 5), "Index is outside vector boundaries")
 
   expect_error(lazyvec:::trigger_get_region(x_real, 10, 5000),
     "Size too large, resulting range is outside vector boundaries")
@@ -50,15 +50,15 @@ test_that("get_region trigger", {
 test_that("element trigger", {
   expect_equal(lazyvec:::trigger_element(x, 3), 4)
 
-  expect_error(lazyvec:::trigger_element(x, 1000), "Position is outside vector boundaries")
+  expect_error(lazyvec:::trigger_element(x, 1000), "Index is outside vector boundaries")
 
   expect_equal(lazyvec:::trigger_element(x_char, 3), "4")
 
-  expect_error(lazyvec:::trigger_element(x_char, 1000), "Position is outside vector boundaries")
+  expect_error(lazyvec:::trigger_element(x_char, 1000), "Index is outside vector boundaries")
 
   expect_equal(lazyvec:::trigger_element(x_real, 3), 4)
 
-  expect_error(lazyvec:::trigger_element(x_real, 1000), "Position is outside vector boundaries")
+  expect_error(lazyvec:::trigger_element(x_real, 1000), "Index is outside vector boundaries")
 })
 
 
