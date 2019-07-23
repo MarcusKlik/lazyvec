@@ -29,11 +29,12 @@ lazyvec_no_na <- function(x) {
 }
 
 
+# result is a double to avoid integer overflows
 lazyvec_sum <- function(x, na_rm) {
   if (x$length %% 2 == 0) {
     sum_element <- (2 * x$from + (x$length - 1) * x$step) * x$length / 2
   } else {
-    half_length <- (x$length - 1) / 2
+    half_length <- (x$length - 1L) / 2L
     sum_element <- (2 * x$from + (x$length - 1) * x$step) * half_length
     sum_element <- sum_element + x$from + half_length * x$step;
   }

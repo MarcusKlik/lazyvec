@@ -68,4 +68,31 @@ test_that("get_region", {
   expect_equal(lazyvec:::trigger_get_region(x, 2, 2), c(7, 9))
   lazyvec:::lazyvec_deexpand(x)
   expect_equal(lazyvec:::trigger_get_region(x, 2, 2), c(7, 9))
+  
+  # size too large
+  expect_error(lazyvec:::trigger_get_region(x, 4, 4), "Size too large, resulting range is outside vector boundaries")
+
+  # index too large
+  expect_error(lazyvec:::trigger_get_region(x, 8, 4), "Index is outside vector boundaries")
+})
+
+
+test_that("is_sorted", {
+  expect_equal(lazyvec:::trigger_is_sorted(x), 1)
+})
+
+
+test_that("no_na", {
+  expect_equal(lazyvec:::trigger_no_na(x), 1)
+})
+
+
+test_that("sum", {
+  expect_equal(sum(x), 35)
+  
+  expect_equal(lazyvec:::trigger_sum(x, FALSE), 35)
+  y <- lazyvec:::trigger_sum(x, TRUE)
+  expect_equal(y, 35)
+
+  expect_type(y, "double")
 })

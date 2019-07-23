@@ -236,7 +236,7 @@ SEXP trigger_get_region(SEXP x, SEXP pos, SEXP size)
 
   if (vec_pos < 0 || vec_pos > (vec_length - 1))
   {
-    Rf_error("Position is outside vector boundaries");
+    Rf_error("Index is outside vector boundaries");
   }
 
   R_xlen_t end_pos = vec_pos + vec_size - 1;
@@ -280,7 +280,7 @@ SEXP trigger_get_region(SEXP x, SEXP pos, SEXP size)
   {
     return R_NilValue;
   }
-  
+
   return res;
 }
 

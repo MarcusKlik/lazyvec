@@ -160,21 +160,21 @@ int lazyvec_string_No_NA_method(SEXP x)
 {
   // custom payload
   SEXP user_data = PROTECT(LAZYVEC_USER_DATA(x));
-
+  
   // calling environment
   SEXP calling_env = PROTECT(LAZYVEC_PACKAGE_ENV(x));
-
+  
   // length listener method
   SEXP no_na_listener = PROTECT(VECTOR_ELT(LAZYVEC_DIAGNOSTICS(x), LAZYVEC_METHOD_NO_NA));
-
+  
   // returns int
   SEXP custom_no_na = PROTECT(call_r_interface(no_na_listener, user_data, calling_env));
-
+  
   // type and length checking is done on R side
   int res_no_na = *INTEGER(custom_no_na);
-
+  
   UNPROTECT(4);
-
+  
   return res_no_na;
 }
 

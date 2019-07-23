@@ -191,21 +191,21 @@ int lazyvec_integer_No_NA_method(SEXP x)
 {
   // custom payload
   SEXP user_data = PROTECT(LAZYVEC_USER_DATA(x));
-
+  
   // calling environment
   SEXP calling_env = PROTECT(LAZYVEC_PACKAGE_ENV(x));
-
+  
   // length listener method
   SEXP no_na_listener = PROTECT(VECTOR_ELT(LAZYVEC_DIAGNOSTICS(x), LAZYVEC_METHOD_NO_NA));
-
+  
   // returns int
   SEXP custom_no_na = PROTECT(call_r_interface(no_na_listener, user_data, calling_env));
-
+  
   // type and length checking is done on R side
   int res_no_na = *INTEGER(custom_no_na);
-
+  
   UNPROTECT(4);
-
+  
   return res_no_na;
 }
 
@@ -214,23 +214,22 @@ SEXP lazyvec_integer_Sum_method(SEXP x, Rboolean na_rm)
 {
   // custom payload
   SEXP user_data = PROTECT(LAZYVEC_USER_DATA(x));
-  
+
   // calling environment
   SEXP calling_env = PROTECT(LAZYVEC_PACKAGE_ENV(x));
-  
-  // length listener method
+
+  // sum listener method
   SEXP sum_listener = PROTECT(VECTOR_ELT(LAZYVEC_DIAGNOSTICS(x), LAZYVEC_METHOD_SUM));
-  
+
   // na_rm argument
-  SEXP na_rm_arg = PROTECT(Rf_ScalarInteger(na_rm));
-  
-  // ALTREP override
-  // should return a length 1 vector containing the element
-  SEXP custom_element = PROTECT(call_dual_r_interface(sum_listener, user_data, na_rm_arg, calling_env));
-  
-  UNPROTECT(5);  // last PROTECT could be removed
-  
-  return custom_element;
+  SEXP na_rm_arg = PROTECT(Rf_ScalarLogical(na_rm));
+
+  // returns SEXP (integer or double)
+  SEXP custom_sum = PROTECT(call_dual_r_interface(sum_listener, user_data, na_rm_arg, calling_env));
+
+  UNPROTECT(5);
+
+  return custom_sum;
 }
 
 

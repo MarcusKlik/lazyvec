@@ -64,7 +64,7 @@ user_method_coerce           <- 15
 user_method_extract_subset   <- 16
 
 
-run_user_method <- function(x, method_id) {
+run_user_method <- function(method_id, x) {
 
   # run user method
   result <- tryCatch(
@@ -121,8 +121,20 @@ check_type <- function(x, result, method_name) {
 }
 
 
+check_type_logical <- function(result, method_name) {
+  if (typeof(result) != "logical") stop("Method ", method_name, " generated a '",
+    typeof(result), "' result where a logical was expected")
+}
+
+
+check_fixed_length <- function(result, method_name, expected_length) {
+  if (length(result) != expected_length) stop("Method ", method_name, " generated a result of length ",
+    length(result), " where a length ", expected_length, " was expected")
+}
+
+
 check_length <- function(x, result, method_name) {
-  vec_length <- run_user_method(x, user_method_length)
+  vec_length <- run_user_method(user_method_length, x)
 
   if (vec_length != length(result)) stop("Method ", method_name, " generated a result of length ",
     length(result), " while method length() says the length should be ", vec_length)
@@ -131,7 +143,7 @@ check_length <- function(x, result, method_name) {
 
 diagnostic_length <- function(x) {
 
-  result <- run_user_method(x, user_method_length)
+  result <- run_user_method(user_method_length, x)
 
   if (length(result) != 1) stop("Length method should return a length 1 integer vector")
 
@@ -148,7 +160,7 @@ diagnostic_length <- function(x) {
 
 diagnostic_full_vec <- function(x) {
 
-  result <- run_user_method(x, user_method_full_vec)
+  result <- run_user_method(user_method_full_vec, x)
 
   check_type(x, result, "full_vec")
 
@@ -182,7 +194,7 @@ diagnostic_element <- function(x, i) {
 
   check_type(x, result, "element")
 
-  vec_length <- run_user_method(x, user_method_length)
+  vec_length <- run_user_method(user_method_length, x)
 
   if (i > vec_length) warning("Method element called with index larger than length()")
 
@@ -200,7 +212,7 @@ diagnostic_get_region <- function(x, i, n) {
 
   check_type(x, result, "get_region")
 
-  vec_length <- run_user_method(x, user_method_length)
+  vec_length <- run_user_method(user_method_length, x)
 
   if (i > vec_length) warning("Method element called with index larger than length()")
 
@@ -215,22 +227,46 @@ diagnostic_get_region <- function(x, i, n) {
 
 
 diagnostic_is_sorted <- function(x) {
-  cat(crayon::italic(crayon::cyan(" is_sorted: result = ")),
-      display_parameter(x == 1), "\n", sep = "")
+  result <- run_user_method(user_method_is_sorted, x)
+
+  check_type_logical(result, "is_sorted")
+  check_fixed_length(result, "is_sorted", 1)
+
+  cat(crayon::italic(
+    crayon::cyan(x$vec_id, ": is_sorted : result = ")),
+    display_parameter(result), "\n", sep = "")
+  
+  result
 }
 
 
 diagnostic_no_na <- function(x) {
-  cat(crayon::italic(crayon::cyan(" no_na: result = ")),
-      display_parameter(x == 1), "\n", sep = "")
+  result <- run_user_method(user_method_no_na, x)
+  
+  check_type_logical(result, "no_na")
+  check_fixed_length(result, "no_na", 1)
+
+  cat(crayon::italic(
+    crayon::cyan(x$vec_id, ": no_na : result = ")),
+    display_parameter(result), "\n", sep = "")
+  
+  result
 }
 
 
-diagnostic_sum <- function(x) {
-  cat(crayon::italic(crayon::cyan(" sum: na.rm = ")),
-      display_parameter(x[[2]] == 1),
-      crayon::italic(crayon::cyan(", result: ")),
-      display_parameter(x[[1]]), "\n", sep = "")
+diagnostic_sum <- function(x, na_rm) {
+  result <- run_user_method2(user_method_sum, x, na_rm)
+
+  if (typeof(result) != "integer" & typeof(result) != "double") stop("Method sum generated a '",
+    typeof(result), "' result where a double or integer was expected")
+
+  check_fixed_length(result, "sum", 1)
+
+  cat(crayon::italic(
+    crayon::cyan(x$vec_id, ": sum : result = ")),
+    display_parameter(result), "\n", sep = "")
+
+  result
 }
 
 
