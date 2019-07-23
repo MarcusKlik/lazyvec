@@ -167,7 +167,7 @@ diagnostic_full_vec <- function(x) {
   check_length(x, result, "full_vec")
 
   cat(crayon::italic(
-    crayon::cyan(x$vec_id, "full_vec result = ")),
+    crayon::cyan(x$vec_id, ": full_vec result = ")),
     display_parameter(result), "\n", sep = "")
 
   result
@@ -270,16 +270,31 @@ diagnostic_sum <- function(x, na_rm) {
 }
 
 
-diagnostic_min <- function(x) {
+diagnostic_min <- function(x, na_rm) {
+  result <- run_user_method2(user_method_min, x, na_rm)
+
+  check_type(x, result, "min")
+  check_fixed_length(result, "min", 1)
+
   cat(crayon::italic(
-    crayon::cyan(x[[1]], ": min: result = ")),
-    display_parameter(x[[2]]), "\n", sep = "")
+    crayon::cyan(x$vec_id, ": min : result = ")),
+    display_parameter(result), "\n", sep = "")
+
+  result
 }
 
 
-diagnostic_max <- function(x) {
-  cat(crayon::italic(crayon::cyan(" max: result = ")),
-      display_parameter(x), "\n", sep = "")
+diagnostic_max <- function(x, na_rm) {
+  result <- run_user_method2(user_method_max, x, na_rm)
+
+  check_type(x, result, "max")
+  check_fixed_length(result, "max", 1)
+
+  cat(crayon::italic(
+    crayon::cyan(x$vec_id, ": max : result = ")),
+    display_parameter(result), "\n", sep = "")
+
+  result
 }
 
 

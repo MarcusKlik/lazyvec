@@ -44,12 +44,13 @@ lazyvec_sum <- function(x, na_rm) {
 
 
 lazyvec_min <- function(x, na_rm) {
-  x$from  # from
+  x$from
 }
 
 
 lazyvec_max <- function(x, na_rm) {
-  x$to  # from
+
+  x$from + (x$length - 1L) * x$step
 }
 
 

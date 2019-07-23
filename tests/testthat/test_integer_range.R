@@ -96,3 +96,23 @@ test_that("sum", {
 
   expect_type(y, "double")
 })
+
+
+test_that("max", {
+  expect_equal(max(x), 11)
+  expect_equal(lazyvec:::trigger_max(x, FALSE), 11)
+  y <- lazyvec:::trigger_max(x, TRUE)
+  expect_equal(y, 11)
+
+  expect_type(y, "integer")
+})
+
+
+test_that("max", {
+  expect_equal(min(x), 3)
+  expect_equal(lazyvec:::trigger_min(x, FALSE), 3)
+  y <- lazyvec:::trigger_min(x, TRUE)
+  expect_equal(y, 3)
+
+  expect_type(y, "integer")
+})

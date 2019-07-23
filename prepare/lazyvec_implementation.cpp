@@ -261,19 +261,18 @@ SEXP lazyvec_ALTREP_TYPE_Min_method(SEXP x, Rboolean na_rm)
   // calling environment
   SEXP calling_env = PROTECT(LAZYVEC_PACKAGE_ENV(x));
   
-  // length listener method
+  // min listener method
   SEXP min_listener = PROTECT(VECTOR_ELT(LAZYVEC_DIAGNOSTICS(x), LAZYVEC_METHOD_MIN));
   
   // na_rm argument
-  SEXP na_rm_arg = PROTECT(Rf_ScalarInteger(na_rm));
+  SEXP na_rm_arg = PROTECT(Rf_ScalarLogical(na_rm));
   
-  // ALTREP override
-  // should return a length 1 vector containing the element
-  SEXP custom_element = PROTECT(call_dual_r_interface(min_listener, user_data, na_rm_arg, calling_env));
+  // returns SEXP (integer or double)
+  SEXP custom_min = PROTECT(call_dual_r_interface(min_listener, user_data, na_rm_arg, calling_env));
   
-  UNPROTECT(5);  // last PROTECT could be removed
+  UNPROTECT(5);
   
-  return custom_element;
+  return custom_min;
 }
 
 
@@ -287,19 +286,18 @@ SEXP lazyvec_ALTREP_TYPE_Max_method(SEXP x, Rboolean na_rm)
   // calling environment
   SEXP calling_env = PROTECT(LAZYVEC_PACKAGE_ENV(x));
   
-  // length listener method
+  // max listener method
   SEXP max_listener = PROTECT(VECTOR_ELT(LAZYVEC_DIAGNOSTICS(x), LAZYVEC_METHOD_MAX));
   
   // na_rm argument
-  SEXP na_rm_arg = PROTECT(Rf_ScalarInteger(na_rm));
+  SEXP na_rm_arg = PROTECT(Rf_ScalarLogical(na_rm));
   
-  // ALTREP override
-  // should return a length 1 vector containing the element
-  SEXP custom_element = PROTECT(call_dual_r_interface(max_listener, user_data, na_rm_arg, calling_env));
+  // returns SEXP (integer or double)
+  SEXP custom_max = PROTECT(call_dual_r_interface(max_listener, user_data, na_rm_arg, calling_env));
   
-  UNPROTECT(5);  // last PROTECT could be removed
+  UNPROTECT(5);
   
-  return custom_element;
+  return custom_max;
 }
 
 
