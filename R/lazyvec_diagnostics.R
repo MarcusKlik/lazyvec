@@ -159,7 +159,6 @@ diagnostic_length <- function(x) {
 
 
 diagnostic_full_vec <- function(x) {
-
   result <- run_user_method(user_method_full_vec, x)
 
   check_type(x, result, "full_vec")
@@ -332,14 +331,23 @@ diagnostic_coerce <- function(x) {
 }
 
 
-diagnostic_extract_subset <- function(x) {
-  subset_result <- x[[1]]
-  if (is.null(subset_result)) subset_result <- "NULL"
-  cat(crayon::italic(crayon::cyan("extract_subset:  result = ")),
-      display_parameter(subset_result),
-      crayon::italic(crayon::cyan(", indx =")),
-      display_parameter(x[[2]]),
-      crayon::italic(crayon::cyan(", call =")),
-      display_parameter(str(x[[3]])),
-      "\n", sep = "")
+diagnostic_extract_subset <- function(x, index) {
+  if (length(index > 0)) {
+    vec_length <- run_user_method(user_method_length, x)
+    if (max(index) > vec_length) {
+      warning("Method extract_subset called with index containing elements larger than the vector length")
+    }
+  }
+
+  result <- run_user_method2(user_method_extract_subset, x, index)
+
+  check_type(x, result, "full_vec")
+
+  check_fixed_length(result, "extract_subset", length(index))
+
+  cat(crayon::italic(
+    crayon::cyan(x$vec_id, ": extract_subset result = ")),
+    display_parameter(result), "\n", sep = "")
+
+  result
 }

@@ -49,13 +49,12 @@ lazyvec_min <- function(x, na_rm) {
 
 
 lazyvec_max <- function(x, na_rm) {
-
   x$from + (x$length - 1L) * x$step
 }
 
 
-lazyvec_extract_subset <- function(x, indx) {
-  x$from + (indx - 1L) * x$step
+lazyvec_extract_subset <- function(x, index) {
+  x$from + (index - 1L) * x$step
 }
 
 

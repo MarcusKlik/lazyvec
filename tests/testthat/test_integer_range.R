@@ -118,8 +118,22 @@ test_that("min", {
 })
 
 
-test_that("duplicate", {
+test_that("extract_subset", {
+  expect_false(lazyvec:::lazyvec_is_expanded(x))
 
+  expect_equal(x[c(1, 3, 5)], c(3, 7, 11))  # no copy yet
+
+  expect_equal(x[c(-2)], c(3, 7, 9, 11))  # no copy yet
+
+  expect_equal(x[c(-2, -3)], c(3, 9, 11))  # no copy yet
+
+  expect_equal(x[0], integer(0))  # no copy yet
+
+  expect_warning(x[7], "called with index containing elements larger than the vector length")
+})
+
+
+test_that("duplicate", {
   expect_false(lazyvec:::lazyvec_is_expanded(x))
 
   y <- x  # no copy yet
