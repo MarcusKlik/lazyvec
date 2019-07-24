@@ -108,7 +108,7 @@ test_that("max", {
 })
 
 
-test_that("max", {
+test_that("min", {
   expect_equal(min(x), 3)
   expect_equal(lazyvec:::trigger_min(x, FALSE), 3)
   y <- lazyvec:::trigger_min(x, TRUE)
@@ -119,6 +119,16 @@ test_that("max", {
 
 
 test_that("duplicate", {
-  z <- x
-  z[1] <- 1
+
+  expect_false(lazyvec:::lazyvec_is_expanded(x))
+
+  y <- x  # no copy yet
+
+  expect_false(lazyvec:::lazyvec_is_expanded(x))
+
+  y[1] <- 1  # expanded copy assigned to y
+
+  expect_true(is_altrep(x))
+  expect_false(is_altrep(y))
+  expect_true(lazyvec:::lazyvec_is_expanded(x))
 })

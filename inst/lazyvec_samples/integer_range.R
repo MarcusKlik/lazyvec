@@ -59,14 +59,6 @@ lazyvec_extract_subset <- function(x, indx) {
 }
 
 
-lazyvec_duplicate <- function(x, deep) {
-
-  print("r duplicate")
-
-  integer_range(x$from, x$to, x$step)
-}
-
-
 # define int_range ALTREP API
 lazyvec_api <- lazyvec_methods(
   lazyvec_length,
@@ -78,8 +70,7 @@ lazyvec_api <- lazyvec_methods(
   lazyvec_sum,
   lazyvec_min,
   lazyvec_max,
-  lazyvec_extract_subset,
-  lazyvec_duplicate
+  lazyvec_extract_subset
 )
 
 

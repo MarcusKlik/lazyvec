@@ -287,18 +287,26 @@ SEXP lazyvec_real_DuplicateEX_method(SEXP x, Rboolean deep)
   // calling environment
   SEXP calling_env = PROTECT(LAZYVEC_PACKAGE_ENV(x));
   
-  // duplicate listener method
-  SEXP duplicate_listener = PROTECT(VECTOR_ELT(LAZYVEC_DIAGNOSTICS(x), LAZYVEC_METHOD_DUPLICATE));
+  // length listener method
+  SEXP full_vector_listener = PROTECT(VECTOR_ELT(LAZYVEC_DIAGNOSTICS(x), LAZYVEC_METHOD_FULL_VECTOR));
   
-  // na_rm argument
-  SEXP deep_arg = PROTECT(Rf_ScalarLogical(deep));
+  SEXP stored_full_vec = LAZYVEC_FULL_VEC(x);
   
-  // returns SEXP (integer or double)
-  SEXP custom_duplicate = PROTECT(call_dual_r_interface(duplicate_listener, user_data, deep_arg, calling_env));
-  
-  UNPROTECT(5);
-  
-  return custom_duplicate;
+  // return dataptr of stored vector
+  if (!Rf_isNull(stored_full_vec)) {
+    UNPROTECT(3);
+    return stored_full_vec;
+  }
+
+  // retrieve full vector
+  SEXP full_vector = PROTECT(call_r_interface(full_vector_listener, user_data, calling_env));
+
+  // add vector to user data
+  LAZYVEC_SET_FULL_VEC(x, full_vector);
+
+  UNPROTECT(4);
+
+  return full_vector;
 }
 
 

@@ -30,3 +30,9 @@
 void lazyvec_deexpand(SEXP lazy_vec) {
   LAZYVEC_SET_FULL_VEC(lazy_vec, R_NilValue);
 }
+
+
+// [[Rcpp::export]]
+SEXP lazyvec_is_expanded(SEXP lazy_vec) {
+  return Rf_ScalarLogical(LAZYVEC_FULL_VEC(lazy_vec) != R_NilValue);
+}

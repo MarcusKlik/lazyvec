@@ -328,6 +328,17 @@ BEGIN_RCPP
     return R_NilValue;
 END_RCPP
 }
+// lazyvec_is_expanded
+SEXP lazyvec_is_expanded(SEXP lazy_vec);
+RcppExport SEXP _lazyvec_lazyvec_is_expanded(SEXP lazy_vecSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type lazy_vec(lazy_vecSEXP);
+    rcpp_result_gen = Rcpp::wrap(lazyvec_is_expanded(lazy_vec));
+    return rcpp_result_gen;
+END_RCPP
+}
 // lazyvec_integer_wrapper
 SEXP lazyvec_integer_wrapper(SEXP data);
 RcppExport SEXP _lazyvec_lazyvec_integer_wrapper(SEXP dataSEXP) {
@@ -413,6 +424,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_lazyvec_is_altrep_vector", (DL_FUNC) &_lazyvec_is_altrep_vector, 1},
     {"_lazyvec_lazyvec_internal_version", (DL_FUNC) &_lazyvec_lazyvec_internal_version, 0},
     {"_lazyvec_lazyvec_deexpand", (DL_FUNC) &_lazyvec_lazyvec_deexpand, 1},
+    {"_lazyvec_lazyvec_is_expanded", (DL_FUNC) &_lazyvec_lazyvec_is_expanded, 1},
     {"_lazyvec_lazyvec_integer_wrapper", (DL_FUNC) &_lazyvec_lazyvec_integer_wrapper, 1},
     {"_lazyvec_lazyvec_logical_wrapper", (DL_FUNC) &_lazyvec_lazyvec_logical_wrapper, 1},
     {"_lazyvec_lazyvec_raw_wrapper", (DL_FUNC) &_lazyvec_lazyvec_raw_wrapper, 1},
