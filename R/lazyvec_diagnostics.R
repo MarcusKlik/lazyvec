@@ -37,7 +37,7 @@ diagnostics <- function() {
     diagnostic_min,
     diagnostic_max,
     diagnostic_extract_subset,
-    diagnostic_duplicate,
+    NULL,  # diagnostic_duplicate,
     diagnostic_inspect,
     diagnostic_unserialize_ex,
     diagnostic_serialized_state,
@@ -57,7 +57,7 @@ user_method_sum              <- 8
 user_method_min              <- 9
 user_method_max              <- 10
 user_method_extract_subset   <- 11
-user_method_duplicate        <- 12
+# user_method_duplicate removed at position 12
 user_method_inspect          <- 13
 user_method_unserialize_ex   <- 14
 user_method_serialized_state <- 15
@@ -292,20 +292,6 @@ diagnostic_max <- function(x, na_rm) {
 
   cat(crayon::italic(
     crayon::cyan(x$vec_id, ": max : result = ")),
-    display_parameter(result), "\n", sep = "")
-
-  result
-}
-
-
-diagnostic_duplicate <- function(x, deep) {
-
-  result <- run_user_method2(user_method_duplicate, x, deep)
-
-  check_type(x, result, "duplicate")
-
-  cat(crayon::italic(
-    crayon::cyan(x$vec_id, ": duplicate : result = ")),
     display_parameter(result), "\n", sep = "")
 
   result
