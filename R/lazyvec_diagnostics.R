@@ -325,9 +325,23 @@ diagnostic_unserialize <- function(x) {
 }
 
 
-diagnostic_coerce <- function(x) {
-  cat(crayon::italic(crayon::cyan("coerce: result = ")),
-      display_parameter(x), "\n", sep = "")
+#' Coerce vector to a different type
+#'
+#' @param x vector
+#' @param type type to coerce to. Possible types are:
+#'
+#' @return
+diagnostic_coerce <- function(x, type) {
+  result <- run_user_method2(user_method_coerce, x, type)
+
+  check_type(x, result, "max")
+  check_fixed_length(result, "max", 1)
+
+  cat(crayon::italic(
+    crayon::cyan(x$vec_id, ": max : result = ")),
+    display_parameter(result), "\n", sep = "")
+
+  result
 }
 
 

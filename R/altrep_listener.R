@@ -109,7 +109,7 @@ display_parameter <- function(x) {
 
   paste0(crayon::magenta(param_type),
     crayon::magenta("["), crayon::magenta(length(x)),
-    crayon::magenta("] "), paste0(x, collapse = " "))
+    crayon::magenta("] "), paste0(head(x, 5), collapse = " "))
 }
 
 
@@ -173,8 +173,9 @@ listener_min <- function(x) {
 
 
 listener_max <- function(x) {
-  cat(crayon::italic(crayon::cyan("ALTREP max: result = ")),
-    display_parameter(x), "\n", sep = "")
+  cat(crayon::italic(
+    crayon::cyan(x[[1]], ": ALTREP max: result = ")),
+    display_parameter(x[[2]]), "\n", sep = "")
 }
 
 
@@ -219,9 +220,6 @@ listener_unserialize <- function(x) {
 
 
 listener_dataptr <- function(x) {
-
-  print(x)
-
   cat(crayon::italic(crayon::cyan("ALTREP dataptr: result = ")),
       format(as.hexmode(x[1]), width = 8),  # high address bytes
       format(as.hexmode(x[2]), width = 8),  # low bytes of address
@@ -230,14 +228,22 @@ listener_dataptr <- function(x) {
 
 
 listener_duplicate_ex <- function(x) {
-  cat(crayon::italic(crayon::cyan("ALTREP duplicate_ex: result = ")),
-    display_parameter(x))
+  cat(crayon::italic(
+    crayon::cyan(x[[1]], ": ALTREP duplicate_ex: result = ")),
+    display_parameter(x[[2]]),
+    crayon::italic(crayon::cyan(", deep = ")),
+    display_parameter(x[[3]]),
+    "\n", sep = "")
 }
 
 
 listener_coerce <- function(x) {
-  cat(crayon::italic(crayon::cyan("ALTREP coerce: result = ")),
-    display_parameter(x), "\n", sep = "")
+  cat(crayon::italic(
+    crayon::cyan("ALTREP coerce: result = ")),
+    display_parameter(x[[1]]),
+    crayon::italic(crayon::cyan(", type = ")),
+    display_parameter(x[[2]]),
+    "\n", sep = "")
 }
 
 

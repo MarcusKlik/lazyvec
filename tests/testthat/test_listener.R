@@ -1,4 +1,6 @@
 
+require(testthat)
+
 context("linstener")
 
 # sample ALTREP vector
@@ -31,20 +33,26 @@ test_that("length listener", {
 
 test_that("dataptr_or_null listener", {
   expect_null(lazyvec:::trigger_dataptr_or_null(y))
+
+  text <- paste(capture.output(lazyvec:::trigger_dataptr_or_null(y)), collapse = " ")
+  expect_match(text, "x : ALTREP dataptr_or_null : null returned: lgl[1] TRUE", fixed = TRUE)
 })
 
 
 test_that("duplicate_ex listener", {
-  res <- lazyvec:::trigger_duplicate_ex(x, FALSE)
+  res <- lazyvec:::trigger_duplicate_ex(y, FALSE)
   expect_false(is_altrep(res))
 
-  res <- lazyvec:::trigger_duplicate_ex(x, TRUE)
+  res <- lazyvec:::trigger_duplicate_ex(y, TRUE)
   expect_false(is_altrep(res))
+
+  text <- paste(capture.output(lazyvec:::trigger_duplicate_ex(y, FALSE)), collapse = " ")
+  expect_match(text, "x : ALTREP duplicate_ex: result = int[100] 1 2 3 4 5, deep = lgl[1] FALSE", fixed = TRUE)
 })
 
 
 test_that("coerce_method listener", {
-  res <- lazyvec:::trigger_coerce(x, 10)  # to logical
+  res <- lazyvec:::trigger_coerce(y, 10)  # to logical
   expect_equal(res, "nullptr")
 })
 
