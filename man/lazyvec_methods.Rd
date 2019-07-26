@@ -4,27 +4,22 @@
 \alias{lazyvec_methods}
 \title{Define the lazyvec interface}
 \usage{
-lazyvec_methods(method_length, method_init = NULL,
-  method_dataptr_or_null = NULL, method_get_region = NULL,
-  method_element = NULL, method_dataptr = NULL,
+lazyvec_methods(method_length, method_full_vector = NULL,
+  method_element = NULL, method_get_region = NULL,
   method_is_sorted = NULL, method_no_na = NULL, method_sum = NULL,
-  method_min = NULL, method_max = NULL, method_inspect = NULL,
+  method_min = NULL, method_max = NULL, method_extract_subset = NULL,
+  method_duplicate = NULL, method_init = NULL, method_inspect = NULL,
   method_unserialize_ex = NULL, method_serialized_state = NULL,
-  method_duplicate_ex = NULL, method_coerce = NULL,
-  method_extract_subset = NULL)
+  method_coerce = NULL)
 }
 \arguments{
 \item{method_length}{override for the ALTREP length method}
 
-\item{method_init}{init your vector after deserialization}
-
-\item{method_dataptr_or_null}{override for the ALTREP dataptr_or_null method}
-
-\item{method_get_region}{override for the ALTREP get_region method}
+\item{method_full_vector}{generates the full expanded vector}
 
 \item{method_element}{override for the ALTREP element method}
 
-\item{method_dataptr}{override for the ALTREP dataptr method}
+\item{method_get_region}{override for the ALTREP get_region method}
 
 \item{method_is_sorted}{override for the ALTREP is_sorted method}
 
@@ -36,17 +31,19 @@ lazyvec_methods(method_length, method_init = NULL,
 
 \item{method_max}{override for the ALTREP max method}
 
+\item{method_extract_subset}{override for the ALTREP extract_subset method}
+
+\item{method_duplicate}{duplicate your vector}
+
+\item{method_init}{init your vector after deserialization}
+
 \item{method_inspect}{override for the ALTREP inspect method}
 
 \item{method_unserialize_ex}{override for the ALTREP unserialize_ex method}
 
 \item{method_serialized_state}{override for the ALTREP serialized_state method}
 
-\item{method_duplicate_ex}{override for the ALTREP duplicate_ex method}
-
 \item{method_coerce}{override for the ALTREP coerce method}
-
-\item{method_extract_subset}{override for the ALTREP extract_subset method}
 }
 \value{
 object of type 'lazyvec_api' defining the set of methods to use for ALTREP calls

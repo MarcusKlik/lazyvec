@@ -287,7 +287,7 @@ SEXP lazyvec_logical_Extract_subset_method(SEXP x, SEXP indx, SEXP call)
   SEXP calling_env = PROTECT(LAZYVEC_PACKAGE_ENV(x));
   
   // length listener method
-  SEXP listener_extract_subset = PROTECT(VECTOR_ELT(LAZYVEC_DIAGNOSTICS(x), LAZYVEC_METHOD_EXTRACT_SUBSET));
+  SEXP extract_subset_listener = PROTECT(VECTOR_ELT(LAZYVEC_DIAGNOSTICS(x), LAZYVEC_METHOD_EXTRACT_SUBSET));
 
   // checks are for safety, remove later
   if (indx == NULL)
@@ -301,10 +301,10 @@ SEXP lazyvec_logical_Extract_subset_method(SEXP x, SEXP indx, SEXP call)
   }
 
   // should return a vector containing a subset of elements
-  SEXP custom_elements = PROTECT(call_dual_r_interface(
-    listener_extract_subset, user_data, indx, calling_env));
+  SEXP custom_elements = call_dual_r_interface(
+    extract_subset_listener, user_data, indx, calling_env);
 
-  UNPROTECT(4);  // last PROTECT could be removed
+  UNPROTECT(3);  // extract_subset_listener, calling_env, user_data
   
   return custom_elements;
 }

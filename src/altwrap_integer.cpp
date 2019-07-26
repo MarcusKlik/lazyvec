@@ -340,7 +340,7 @@ SEXP altwrap_integer_Min_method(SEXP sx, Rboolean na_rm)
   SET_VECTOR_ELT(arguments, 0, ALTWRAP_METADATA(sx));
   SET_VECTOR_ELT(arguments, 1, result_min == NULL ? R_NilValue : result_min);
   
-  // retrieve sum listener method
+  // retrieve min listener method
   SEXP min_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(sx), ALTREP_METHOD_MIN));
 
   // call listener with SEXP result
@@ -355,45 +355,35 @@ SEXP altwrap_integer_Max_method(SEXP sx, Rboolean na_rm)
 {
   SEXP result_max = PROTECT(ALTINTEGER_MAX(ALTWRAP_PAYLOAD(sx), na_rm));
 
-  // retrieve sum listener method
+  SEXP arguments = PROTECT(Rf_allocVector(VECSXP, 2));
+  SET_VECTOR_ELT(arguments, 0, ALTWRAP_METADATA(sx));
+  SET_VECTOR_ELT(arguments, 1, result_max == NULL ? R_NilValue : result_max);
+  
+  // retrieve max listener method
   SEXP max_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(sx), ALTREP_METHOD_MAX));
 
-  if (result_max == NULL)
-  { 
-    // call listener with SEXP result
-    call_r_interface(max_listener, R_NilValue, ALTWRAP_PARENT_ENV(sx));
-    UNPROTECT(2);
-
-    return result_max;
-  }
-
   // call listener with SEXP result
-  call_r_interface(max_listener, result_max, ALTWRAP_PARENT_ENV(sx));
-  UNPROTECT(2);
-
+  call_r_interface(max_listener, arguments, ALTWRAP_PARENT_ENV(sx));
+  UNPROTECT(3);
+  
   return result_max;
 }
 
 
-SEXP altwrap_integer_DuplicateEX_method(SEXP sx, Rboolean deep)
+SEXP altwrap_integer_DuplicateEX_method(SEXP x, Rboolean deep)
 {
-  SEXP result_duplicate_ex = PROTECT(ALTREP_DUPLICATE_EX_PROXY(ALTWRAP_PAYLOAD(sx), deep));
+  SEXP result_duplicate_ex = PROTECT(ALTREP_DUPLICATE_EX_PROXY(ALTWRAP_PAYLOAD(x), deep));
+
+  SEXP arguments = PROTECT(Rf_allocVector(VECSXP, 3));
+  SET_VECTOR_ELT(arguments, 0, ALTWRAP_METADATA(x));
+  SET_VECTOR_ELT(arguments, 1, result_duplicate_ex == NULL ? R_NilValue : result_duplicate_ex);
+  SET_VECTOR_ELT(arguments, 2, Rf_ScalarLogical(deep));
 
   // retrieve duplicateEX listener method
-  SEXP duplicate_ex_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(sx), ALTREP_METHOD_DUPLICATE));
+  SEXP duplicate_ex_listener = PROTECT(VECTOR_ELT(ALTWRAP_LISTENERS(x), ALTREP_METHOD_DUPLICATE_EX));
 
-  if (result_duplicate_ex == NULL)
-  { 
-    // call listener with SEXP result
-    call_r_interface(duplicate_ex_listener, R_NilValue, ALTWRAP_PARENT_ENV(sx));
-    UNPROTECT(2);
-
-    return result_duplicate_ex;
-  }
-
-  // call listener with SEXP result
-  call_r_interface(duplicate_ex_listener, result_duplicate_ex, ALTWRAP_PARENT_ENV(sx));
-  UNPROTECT(2);
+  call_r_interface(duplicate_ex_listener, arguments, ALTWRAP_PARENT_ENV(x));
+  UNPROTECT(3);
 
   return result_duplicate_ex;
 }

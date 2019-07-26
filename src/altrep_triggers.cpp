@@ -62,9 +62,9 @@ SEXP trigger_serialized_state(SEXP x)
 SEXP trigger_duplicate_ex(SEXP x, int deep)
 {
   test_altrep(x);
-  
+
   SEXP res = ALTREP_DUPLICATE_EX_PROXY(x, (Rboolean) deep);
-  
+
   return sexp_or_null(res);
 }
 
