@@ -111,11 +111,6 @@ lazyvec_full_vector <- function(x) {
 }
 
 
-lazyvec_get_region <- function(x, i, n) {
-  numbers_to_words(x[[1]][i:(i + n - 1)])
-}
-
-
 lazyvec_element <- function(x, i) {
   number_to_words(x[[1]][i])
 }
@@ -141,12 +136,8 @@ lazyvec_api <- lazyvec_methods(
   lazyvec_length,
   lazyvec_full_vector,
   lazyvec_element,
-  lazyvec_get_region,
   lazyvec_is_sorted,
   lazyvec_no_na,
-  lazyvec_sum,
-  lazyvec_min,
-  lazyvec_max,
   lazyvec_extract_subset
 )
 
