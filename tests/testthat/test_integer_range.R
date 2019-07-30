@@ -146,3 +146,8 @@ test_that("duplicate", {
   expect_false(is_altrep(y))
   expect_true(lazyvec:::lazyvec_is_expanded(x))
 })
+
+
+test_that("coerce", {
+  lazyvec:::lazyvec_deexpand(x)
+})
