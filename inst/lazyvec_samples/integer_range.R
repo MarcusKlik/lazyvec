@@ -59,7 +59,7 @@ lazyvec_extract_subset <- function(x, index) {
 
 
 # define int_range ALTREP API
-lazyvec_api <- lazyvec_methods(
+integer_range_api <- lazyvec_methods(
   lazyvec_length,
   lazyvec_full_vector,
   lazyvec_element,
@@ -85,5 +85,5 @@ integer_range <- function(from, to, step) {
   )
 
   # return custom ALTREP vector
-  lazyvec(alt_pres, "integer", lazyvec_api)
+  lazyvec(alt_pres, "integer", integer_range_api)
 }

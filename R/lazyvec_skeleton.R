@@ -49,7 +49,7 @@ lazyvec_skeleton <- function(skeleton_id, path) {
 
 # helper method to allow for alternative sample folders
 lazyvec_sample_copy <- function(skeleton_id, sample_dir, path) {
-  valid_ids <- c("integer_range")
+  valid_ids <- c("integer_range", "character_range")
 
   if (!(skeleton_id %in% valid_ids)) {
     stop("Invalid skeleton_id. Please select one of the following id's: '",
