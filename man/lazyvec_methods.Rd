@@ -5,12 +5,12 @@
 \title{Define the lazyvec interface}
 \usage{
 lazyvec_methods(method_length, method_full_vector = NULL,
-  method_element = NULL, method_get_region = NULL,
-  method_is_sorted = NULL, method_no_na = NULL, method_sum = NULL,
-  method_min = NULL, method_max = NULL, method_extract_subset = NULL,
-  method_duplicate = NULL, method_init = NULL, method_inspect = NULL,
-  method_unserialize_ex = NULL, method_serialized_state = NULL,
-  method_coerce = NULL)
+  method_element = NULL, method_is_sorted = NULL,
+  method_no_na = NULL, method_extract_subset = NULL,
+  method_get_region = NULL, method_sum = NULL, method_min = NULL,
+  method_max = NULL, method_duplicate = NULL, method_init = NULL,
+  method_inspect = NULL, method_unserialize_ex = NULL,
+  method_serialized_state = NULL, method_coerce = NULL)
 }
 \arguments{
 \item{method_length}{override for the ALTREP length method}
@@ -19,21 +19,19 @@ lazyvec_methods(method_length, method_full_vector = NULL,
 
 \item{method_element}{override for the ALTREP element method}
 
-\item{method_get_region}{override for the ALTREP get_region method}
-
 \item{method_is_sorted}{override for the ALTREP is_sorted method}
 
 \item{method_no_na}{override for the ALTREP no_na method}
+
+\item{method_extract_subset}{override for the ALTREP extract_subset method}
+
+\item{method_get_region}{override for the ALTREP get_region method}
 
 \item{method_sum}{override for the ALTREP sum method}
 
 \item{method_min}{override for the ALTREP min method}
 
 \item{method_max}{override for the ALTREP max method}
-
-\item{method_extract_subset}{override for the ALTREP extract_subset method}
-
-\item{method_duplicate}{duplicate your vector}
 
 \item{method_init}{init your vector after deserialization}
 
@@ -44,6 +42,8 @@ lazyvec_methods(method_length, method_full_vector = NULL,
 \item{method_serialized_state}{override for the ALTREP serialized_state method}
 
 \item{method_coerce}{override for the ALTREP coerce method}
+
+\item{method_duplicate_ex}{override for the ALTREP duplicate method}
 }
 \value{
 object of type 'lazyvec_api' defining the set of methods to use for ALTREP calls

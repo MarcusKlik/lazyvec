@@ -153,30 +153,49 @@ test_that("extract_subset", {
   expect_equal(y[c(1, 3, 5)], as.character(c(3, 7, 11)))  # no copy yet
 
   expect_equal(x[c(-2)], c(3, 7, 9, 11))  # no copy yet
+  expect_equal(y[c(-2)], as.character(c(3, 7, 9, 11)))  # no copy yet
 
   expect_equal(x[c(-2, -3)], c(3, 9, 11))  # no copy yet
+  expect_equal(y[c(-2, -3)], as.character(c(3, 9, 11)))  # no copy yet
 
   expect_equal(x[0], integer(0))  # no copy yet
+  expect_equal(y[0], character(0))  # no copy yet
 
   expect_warning(x[7], "called with index containing elements larger than the vector length")
+  expect_warning(y[7], "called with index containing elements larger than the vector length")
 })
 
 
 test_that("duplicate", {
   expect_false(lazyvec:::lazyvec_is_expanded(x))
+  expect_false(lazyvec:::lazyvec_is_expanded(y))
 
-  y <- x  # no copy yet
+  z1 <- x  # no copy yet
+  z2 <- y  # no copy yet
 
   expect_false(lazyvec:::lazyvec_is_expanded(x))
+  expect_false(lazyvec:::lazyvec_is_expanded(y))
 
-  y[1] <- 1  # expanded copy assigned to y
+  z1[1] <- 1  # expanded copy assigned to z
+  z2[1] <- 1  # expanded copy assigned to z
 
   expect_true(is_altrep(x))
-  expect_false(is_altrep(y))
+  expect_false(is_altrep(z1))
   expect_true(lazyvec:::lazyvec_is_expanded(x))
+
+  expect_true(is_altrep(y))
+  expect_false(is_altrep(z2))
+  expect_true(lazyvec:::lazyvec_is_expanded(y))
 })
 
 
 test_that("coerce", {
   lazyvec:::lazyvec_deexpand(x)
+  lazyvec:::lazyvec_deexpand(y)
+
+  as.character(x)  # coercion per element
+  as.integer(y)
+
+  expect_false(lazyvec:::lazyvec_is_expanded(x))
+  expect_false(lazyvec:::lazyvec_is_expanded(y))
 })

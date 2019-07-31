@@ -12,7 +12,7 @@ diagnostic_coerce(x, type)
 \item{type}{type to coerce to. Possible types are:}
 }
 \value{
-coerced vector or NULL
+coerced vector (which can  be an ALTREP)
 }
 \description{
 Coerce vector to a different type

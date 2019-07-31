@@ -84,12 +84,12 @@ SEXP trigger_duplicate(SEXP x, int deep)
 SEXP trigger_coerce(SEXP x, int type)
 {
   test_altrep(x);
-  
+
   if (!is_altrep_vector(x))
   {
     Rf_error("x is not an ALTREP vector");
   }
-  
+
   if ((type != LGLSXP) &&
       (type != INTSXP) &&
       (type != REALSXP) &&
@@ -100,9 +100,9 @@ SEXP trigger_coerce(SEXP x, int type)
       (type != EXPRSXP))
   {
     Rf_error("Undefined type, valid types are 10 (LGLSXP), 13 (INTSXP), 14 (REALSXP)"
-               "15 (CPLXSXP), 16 (STRSXP), 19 (VECSXP), 24 (RAWSXP) and 20 (EXPRSXP)");
+      "15 (CPLXSXP), 16 (STRSXP), 19 (VECSXP), 24 (RAWSXP) and 20 (EXPRSXP)");
   }
-  
+
   SEXP res = ALTREP_COERCE_PROXY(x, type);
   
   return sexp_or_null(res);

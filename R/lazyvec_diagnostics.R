@@ -330,7 +330,7 @@ diagnostic_unserialize <- function(x) {
 #' @param x vector
 #' @param type type to coerce to. Possible types are:
 #'
-#' @return
+#' @return coerced vector (which can  be an ALTREP)
 diagnostic_coerce <- function(x, type) {
   result <- run_user_method2(user_method_coerce, x, type)
 
