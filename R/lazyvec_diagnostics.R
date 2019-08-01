@@ -336,11 +336,13 @@ diagnostic_coerce <- function(x, type) {
   result <- run_user_method2(user_method_coerce, x, type)
 
   # check result type
-  if (typeof(result) != type) stop("Method coerce generated a '",
-    typeof(result), "' result where a '", type, "' was expected")
+  if (!is.null(result)) {
+    if (typeof(result) != type) stop("Method coerce generated a '",
+      typeof(result), "' result where a '", type, "' was expected")
 
-  # check result length
-  check_length(x, result, "coerce")
+    # check result length
+    check_length(x, result, "coerce")
+  }
 
   # diagnostic message
   cat(crayon::italic(

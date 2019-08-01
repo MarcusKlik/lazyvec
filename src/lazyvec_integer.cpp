@@ -359,6 +359,9 @@ SEXP lazyvec_integer_Coerce_method(SEXP x, int type)
 
   UNPROTECT(4);  // type_descriptor, user_data, calling_env, coerce_method
 
+  // use default conversion with vector expansion
+  if (Rf_isNull(coerced_vec)) return NULL;
+
   return coerced_vec;
 }
 

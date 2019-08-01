@@ -201,4 +201,12 @@ test_that("coerce", {
 
   expect_true(is_altrep(z1))
   expect_true(is_altrep(z2))
+
+  w1 <- as.double(x)
+  expect_type(w1, "double")
+  expect_false(is_altrep(w1))
+
+  w2 <- as.double(y)
+  expect_type(w2, "double")
+  expect_false(is_altrep(w2))
 })
