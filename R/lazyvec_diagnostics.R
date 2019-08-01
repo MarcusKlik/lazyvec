@@ -38,9 +38,9 @@ diagnostics <- function() {
     diagnostic_max,
     diagnostic_extract_subset,
     NULL,  # diagnostic_duplicate,
-    diagnostic_inspect,
+    NULL,  # diagnostic_inspect,
     diagnostic_unserialize_ex,
-    diagnostic_serialized_state,
+    diagnostic_serialize,
     diagnostic_coerce
   )
 }
@@ -60,7 +60,7 @@ user_method_extract_subset   <- 11
 # user_method_duplicate removed at position 12
 user_method_inspect          <- 13
 user_method_unserialize_ex   <- 14
-user_method_serialized_state <- 15
+user_method_serialize        <- 15
 user_method_coerce           <- 16
 
 
@@ -297,9 +297,17 @@ diagnostic_max <- function(x, na_rm) {
 }
 
 
-diagnostic_serialized_state <- function(x) {
-  cat(crayon::italic(crayon::cyan(" serialized_state: result = ")),
-      display_parameter(x), "\n", sep = "")
+diagnostic_serialize <- function(x) {
+  result <- run_user_method(user_method_serialize, x)
+
+  # result can be anything, so no checks
+
+  cat(crayon::italic(
+    crayon::cyan(x$vec_id, ": serialize : result = ")),
+    display_parameter(result), "\n", sep = "")
+
+  # NULL will trigger the default serialization
+  result
 }
 
 

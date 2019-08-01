@@ -65,7 +65,7 @@
 
 // lazyvec user methods
 #define LAZYVEC_METHOD_LENGTH            0
-#define LAZYVEC_METHOD_DATAPTR_OR_NULL   1
+// #define LAZYVEC_METHOD_DATAPTR_OR_NULL   1
 #define LAZYVEC_METHOD_GET_REGION        2
 #define LAZYVEC_METHOD_ELT               3
 #define LAZYVEC_METHOD_FULL_VECTOR       4
@@ -76,9 +76,9 @@
 #define LAZYVEC_METHOD_MAX               9
 #define LAZYVEC_METHOD_EXTRACT_SUBSET   10
 // #define LAZYVEC_METHOD_DUPLICATE        11
-#define LAZYVEC_METHOD_INSPECT          12
+// #define LAZYVEC_METHOD_INSPECT          12
 #define LAZYVEC_METHOD_UNSERIALIZE_EX   13
-#define LAZYVEC_METHOD_SERIALIZED_STATE 14
+#define LAZYVEC_METHOD_SERIALIZE        14
 #define LAZYVEC_METHOD_COERCE           15
 #define LAZYVEC_METHOD_INIT             16
 

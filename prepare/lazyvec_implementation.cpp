@@ -493,27 +493,23 @@ SEXP lazyvec_ALTREP_TYPE_UnserializeEX_method(SEXP info, SEXP state, SEXP attr, 
 // generator source start: Serialized_state
 SEXP lazyvec_ALTREP_TYPE_Serialized_state_method(SEXP x)
 {
-  // SEXP serialized_state_result = PROTECT(ALTREP_SERIALIZED_STATE_PROXY(LAZYVEC_PAYLOAD(x)));
+  // custom payload
+  SEXP user_data = PROTECT(LAZYVEC_USER_DATA(x));
   
-  // length listener method
-  // SEXP serialized_state_listener = PROTECT(VECTOR_ELT(LAZYVEC_DIAGNOSTICS(x), LAZYVEC_METHOD_SERIALIZED_STATE));
+  // calling environment
+  SEXP calling_env = PROTECT(LAZYVEC_PACKAGE_ENV(x));
   
-  // create serialization state
-  SEXP serialized_state = PROTECT(Rf_allocVector(VECSXP, 2));
-  SET_VECTOR_ELT(serialized_state, 0, LAZYVEC_PAYLOAD(x));
-  SET_VECTOR_ELT(serialized_state, 1, LAZYVEC_DIAGNOSTICS(x));
-  
-  // if (serialized_state_result == NULL)
-  // {
-  //   call_r_interface(serialized_state_listener, R_NilValue, LAZYVEC_PACKAGE_ENV(x));
-  // }
-  // else
-  // {
-  //   call_r_interface(serialized_state_listener, serialized_state_result, LAZYVEC_PACKAGE_ENV(x));
-  // }
-  
-  UNPROTECT(3);
-  
+  // serialize user method
+  SEXP serialize_method = PROTECT(VECTOR_ELT(LAZYVEC_DIAGNOSTICS(x), LAZYVEC_METHOD_SERIALIZE));
+
+  // can return any vector but NULL is reserved for default serialization
+  SEXP serialized_state = call_r_interface(
+    serialize_method, user_data, calling_env);
+
+  UNPROTECT(3);  // serialize_method, calling_env, user_data
+
+  // replace user_data for serialized_state
+    
   return serialized_state;
 }
 
