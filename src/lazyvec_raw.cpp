@@ -197,15 +197,54 @@ SEXP lazyvec_raw_DuplicateEX_method(SEXP x, Rboolean deep)
 
 SEXP lazyvec_raw_Coerce_method(SEXP x, int type)
 {
-  // length listener method
-  SEXP listener_coerce = VECTOR_ELT(LAZYVEC_DIAGNOSTICS(x), LAZYVEC_METHOD_COERCE);
+  SEXP type_descriptor;
 
-  // use default coercion
-  if (Rf_isNull(listener_coerce)) {
-    return NULL;
+  switch (type)
+  {
+    case 10:  // LGLSXP
+      type_descriptor = PROTECT(Rf_mkString("logical"));
+      break;
+    case 13:  // INTSXP
+      type_descriptor = PROTECT(Rf_mkString("integer"));
+      break;
+    case 14:  // REALSXP
+      type_descriptor = PROTECT(Rf_mkString("double"));
+      break;
+    case 15:  // CPLXSXP
+      type_descriptor = PROTECT(Rf_mkString("complex"));
+      break;
+    case 16: // STRSXP
+      type_descriptor = PROTECT(Rf_mkString("character"));
+      break;
+    case 19: // VECSXP
+      type_descriptor = PROTECT(Rf_mkString("list"));
+      break;
+    case 24:  // RAWSXP
+      type_descriptor = PROTECT(Rf_mkString("raw"));
+      break;
+    case 20:  // EXPRSXP
+      type_descriptor = PROTECT(Rf_mkString("expression"));
+      break;
+    default:
+      Rf_error("Undefined type requested from R");
   }
 
-  return  NULL;
+  // custom payload
+  SEXP user_data = PROTECT(LAZYVEC_USER_DATA(x));
+
+  // calling environment
+  SEXP calling_env = PROTECT(LAZYVEC_PACKAGE_ENV(x));
+  
+  // coerce user method
+  SEXP coerce_method = PROTECT(VECTOR_ELT(LAZYVEC_DIAGNOSTICS(x), LAZYVEC_METHOD_COERCE));
+
+  // should return a coerced vector
+  SEXP coerced_vec = call_dual_r_interface(
+    coerce_method, user_data, type_descriptor, calling_env);
+
+  UNPROTECT(4);  // type_descriptor, user_data, calling_env, coerce_method
+
+  return coerced_vec;
 }
 
 
@@ -217,7 +256,7 @@ SEXP lazyvec_raw_Extract_subset_method(SEXP x, SEXP indx, SEXP call)
   // calling environment
   SEXP calling_env = PROTECT(LAZYVEC_PACKAGE_ENV(x));
   
-  // length listener method
+  // extract_subset user method
   SEXP extract_subset_listener = PROTECT(VECTOR_ELT(LAZYVEC_DIAGNOSTICS(x), LAZYVEC_METHOD_EXTRACT_SUBSET));
 
   // checks are for safety, remove later

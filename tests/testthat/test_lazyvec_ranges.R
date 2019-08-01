@@ -193,9 +193,12 @@ test_that("coerce", {
   lazyvec:::lazyvec_deexpand(x)
   lazyvec:::lazyvec_deexpand(y)
 
-  as.character(x)  # coercion per element
-  as.integer(y)
+  z1 <- as.character(x)  # coercion per element
+  z2 <- as.integer(y)
 
-  expect_false(lazyvec:::lazyvec_is_expanded(x))
-  expect_false(lazyvec:::lazyvec_is_expanded(y))
+  expect_type(z1, "character")
+  expect_type(z2, "integer")
+
+  expect_true(is_altrep(z1))
+  expect_true(is_altrep(z2))
 })

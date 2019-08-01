@@ -9,7 +9,8 @@ diagnostic_coerce(x, type)
 \arguments{
 \item{x}{vector}
 
-\item{type}{type to coerce to. Possible types are:}
+\item{type}{type to coerce to. Possible types are: 'logical', 'integer', 'double', 
+'complex', 'character', 'list', 'raw' and 'expression'}
 }
 \value{
 coerced vector (which can  be an ALTREP)

@@ -51,6 +51,7 @@ lazyvec_methods <- function(
   method_is_sorted = NULL,
   method_no_na = NULL,
   method_extract_subset = NULL,
+  method_coerce = NULL,
   method_get_region = NULL,
   method_sum = NULL,
   method_min = NULL,
@@ -59,8 +60,7 @@ lazyvec_methods <- function(
   method_init = NULL,
   method_inspect = NULL,
   method_unserialize_ex = NULL,
-  method_serialized_state = NULL,
-  method_coerce = NULL) {
+  method_serialized_state = NULL) {
 
   # some checks on user functions here
 

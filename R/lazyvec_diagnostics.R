@@ -123,7 +123,7 @@ check_type <- function(x, result, method_name) {
 
 check_type_logical <- function(result, method_name) {
   if (typeof(result) != "logical") stop("Method ", method_name, " generated a '",
-    typeof(result), "' result where a logical was expected")
+    typeof(result), "' result where a 'logical' was expected")
 }
 
 
@@ -328,17 +328,23 @@ diagnostic_unserialize <- function(x) {
 #' Coerce vector to a different type
 #'
 #' @param x vector
-#' @param type type to coerce to. Possible types are:
+#' @param type type to coerce to. Possible types are: 'logical', 'integer', 'double', 
+#' 'complex', 'character', 'list', 'raw' and 'expression'
 #'
 #' @return coerced vector (which can  be an ALTREP)
 diagnostic_coerce <- function(x, type) {
   result <- run_user_method2(user_method_coerce, x, type)
 
-  check_type(x, result, "max")
-  check_fixed_length(result, "max", 1)
+  # check result type
+  if (typeof(result) != type) stop("Method coerce generated a '",
+    typeof(result), "' result where a '", type, "' was expected")
 
+  # check result length
+  check_length(x, result, "coerce")
+
+  # diagnostic message
   cat(crayon::italic(
-    crayon::cyan(x$vec_id, ": max : result = ")),
+    crayon::cyan(x$vec_id, ": coerce : result = ")),
     display_parameter(result), "\n", sep = "")
 
   result

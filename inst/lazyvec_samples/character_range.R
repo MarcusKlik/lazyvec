@@ -29,6 +29,13 @@ lazyvec_extract_subset <- function(x, index) {
 }
 
 
+lazyvec_coerce <- function(x, type) {
+  if (type != "integer") return(NULL);
+
+  integer_range(x$from, x$to, x$step)
+}
+
+
 # define int_range ALTREP API
 character_range_api <- lazyvec_methods(
   lazyvec_length,
@@ -36,7 +43,8 @@ character_range_api <- lazyvec_methods(
   lazyvec_element,
   lazyvec_is_sorted,
   lazyvec_no_na,
-  lazyvec_extract_subset
+  lazyvec_extract_subset,
+  lazyvec_coerce
 )
 
 

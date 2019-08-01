@@ -7,10 +7,10 @@
 lazyvec_methods(method_length, method_full_vector = NULL,
   method_element = NULL, method_is_sorted = NULL,
   method_no_na = NULL, method_extract_subset = NULL,
-  method_get_region = NULL, method_sum = NULL, method_min = NULL,
-  method_max = NULL, method_duplicate = NULL, method_init = NULL,
-  method_inspect = NULL, method_unserialize_ex = NULL,
-  method_serialized_state = NULL, method_coerce = NULL)
+  method_coerce = NULL, method_get_region = NULL, method_sum = NULL,
+  method_min = NULL, method_max = NULL, method_duplicate = NULL,
+  method_init = NULL, method_inspect = NULL,
+  method_unserialize_ex = NULL, method_serialized_state = NULL)
 }
 \arguments{
 \item{method_length}{override for the ALTREP length method}
@@ -24,6 +24,8 @@ lazyvec_methods(method_length, method_full_vector = NULL,
 \item{method_no_na}{override for the ALTREP no_na method}
 
 \item{method_extract_subset}{override for the ALTREP extract_subset method}
+
+\item{method_coerce}{override for the ALTREP coerce method}
 
 \item{method_get_region}{override for the ALTREP get_region method}
 
@@ -40,8 +42,6 @@ lazyvec_methods(method_length, method_full_vector = NULL,
 \item{method_unserialize_ex}{override for the ALTREP unserialize_ex method}
 
 \item{method_serialized_state}{override for the ALTREP serialized_state method}
-
-\item{method_coerce}{override for the ALTREP coerce method}
 
 \item{method_duplicate_ex}{override for the ALTREP duplicate method}
 }
