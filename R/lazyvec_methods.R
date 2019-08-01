@@ -66,7 +66,7 @@ lazyvec_methods <- function(
 
   methods <- list(
     method_length,
-    NULL, # method_dataptr_or_null
+    NULL,  # method_dataptr_or_null
     method_get_region,
     method_element,
     method_full_vector,
@@ -76,8 +76,8 @@ lazyvec_methods <- function(
     method_min,
     method_max,
     method_extract_subset,
-    method_duplicate,
-    method_inspect,
+    NULL,  # method_duplicate,
+    NULL,  # method_inspect,
     method_unserialize_ex,
     method_serialized_state,
     method_coerce,
